@@ -5,50 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mon Espace Accompagnement - CPS</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body { background-color: #f0f2f5; font-family: 'Inter', sans-serif; }
-        .hero-section { background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); color: white; padding: 2rem 1rem; border-bottom-left-radius: 2rem; border-bottom-right-radius: 2rem; }
-        .card-stats { border: none; border-radius: 1.5rem; transition: transform 0.2s; }
+        .hero-section { 
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); 
+            color: white; 
+            padding: 2rem 1rem; 
+            border-bottom-left-radius: 2rem; 
+            border-bottom-right-radius: 2rem; 
+            margin-bottom: -2rem; /* Chevauchement */
+            padding-bottom: 4rem;
+        }
+        .card-stats { 
+            border: none; 
+            border-radius: 1.5rem; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            background: white;
+        }
+        .card-action {
+            border: none;
+            border-radius: 1rem;
+            background: white;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+        .card-action:active { transform: scale(0.98); }
+        
         #access-denied { display: none; }
         #dashboard-content { display: none; }
+        
+        /* Style pour le mode sombre/ado plus tard */
+        .badge-code { background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); padding: 0.5rem 1rem; border-radius: 20px; }
     </style>
 </head>
 <body>
 
-<div id="loader" class="text-center mt-5">
+<div id="loader" class="text-center mt-5 pt-5">
     <div class="spinner-border text-primary" role="status"></div>
-    <p class="mt-2">Vérification de tes accès...</p>
+    <p class="mt-2 text-muted">Connexion à ton espace...</p>
 </div>
 
 <div id="access-denied" class="container mt-5 pt-5 text-center">
-    <div class="card p-4 shadow-sm">
-        <h3>Bonjour !</h3>
-        <p class="text-muted mt-3">Cet espace est accessible dans le cadre d’un accompagnement personnalisé.</p>
-        <p>Si tu es concerné, ton enseignant te précisera comment activer ton accès.</p>
-        <a href="index.html" class="btn btn-outline-primary mt-3">Retour à l'accueil</a>
+    <div class="card p-5 shadow-sm border-0 rounded-4">
+        <h3>🔒 Accès Restreint</h3>
+        <p class="text-muted mt-3">Cet espace est réservé aux élèves en accompagnement personnalisé.</p>
+        <p>Demande à ton enseignant d'activer ton code.</p>
+        <a href="index.html" class="btn btn-primary rounded-pill px-4 mt-3">Retour</a>
     </div>
 </div>
 
 <div id="dashboard-content">
+    
     <div class="hero-section text-center shadow">
-        <h1 class="h3">Mon Parcours CPS</h1>
-        <p id="student-code" class="badge bg-light text-primary">Code : --</p>
+        <h1 class="fw-bold">Mon Parcours CPS</h1>
+        <div class="mt-2">
+            <span id="code-eleve-display" class="badge-code">Chargement...</span>
+        </div>
     </div>
 
-    <div class="container mt-4">
-        <div class="row g-3">
-            <div class="col-12">
-                <div class="card card-stats shadow-sm p-3 text-center">
-                    <h5 class="mb-3">Mes Dimensions</h5>
+    <div class="container mt-0"> <div class="row g-3 justify-content-center">
+            
+            <div class="col-md-8 col-lg-6">
+                <div class="card card-stats p-3 text-center mb-4">
+                    <h5 class="fw-bold text-secondary mb-3">Mes Dimensions</h5>
                     <canvas id="radarChart" style="max-height: 300px;"></canvas>
                 </div>
             </div>
-            <div id="last-validations" class="col-12 mt-3">
-                <h5>Dernières réussites</h5>
-                <div id="timeline" class="list-group shadow-sm">
-                    </div>
+
+            <div class="col-md-8 col-lg-6">
+                <div id="actions-container" class="pb-5">
+                    <div class="text-center text-muted py-4">Chargement des compétences...</div>
+                </div>
             </div>
+
         </div>
     </div>
 </div>
@@ -56,11 +87,45 @@
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 <script src="js/firebase-config.js"></script>
+
 <script>
     if (typeof firebaseConfig !== 'undefined') {
         firebase.initializeApp(firebaseConfig);
     }
 </script>
-    <script src="js/app-logic.js"></script>
+
+<script>
+    // On prépare le graphique vide pour que le logic puisse le remplir
+    const ctx = document.getElementById('radarChart').getContext('2d');
+    window.myRadarChart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: ['Cognitif', 'Social', 'Émotionnel'],
+            datasets: [{
+                label: 'Niveau',
+                data: [0, 0, 0],
+                backgroundColor: 'rgba(37, 117, 252, 0.2)',
+                borderColor: '#2575fc',
+                pointBackgroundColor: '#6a11cb',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            scales: {
+                r: {
+                    angleLines: { display: false },
+                    suggestedMin: 0,
+                    suggestedMax: 100
+                }
+            },
+            plugins: {
+                legend: { display: false }
+            }
+        }
+    });
+</script>
+
+<script src="js/app-logic.js"></script>
+
 </body>
 </html>
