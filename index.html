@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion CPS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg-dark: #0f172a; --neon-blue: #38bdf8; --neon-purple: #c084fc; }
+        body { background-color: var(--bg-dark); color: white; font-family: 'Outfit', sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        .login-card { background: #1e293b; border: 1px solid rgba(255,255,255,0.1); padding: 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 100%; max-width: 400px; text-align: center; }
+        .form-control { background: #0f172a; border: 1px solid #334155; color: white; text-align: center; font-size: 1.5rem; letter-spacing: 2px; text-transform: uppercase; }
+        .form-control:focus { background: #0f172a; color: white; border-color: var(--neon-purple); box-shadow: 0 0 15px rgba(192, 132, 252, 0.3); }
+        .btn-neon { background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple)); border: none; color: white; font-weight: bold; padding: 12px; border-radius: 50px; width: 100%; margin-top: 1rem; transition: transform 0.2s; }
+        .btn-neon:active { transform: scale(0.98); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="login-card mx-auto">
+        <h1 class="h3 mb-4 fw-bold">🚀 Espace <span style="color:var(--neon-purple)">CPS</span></h1>
+        <p class="text-white-50 small mb-4">Entre ton code personnel pour accéder à ton tableau de bord.</p>
+        
+        <form id="loginForm">
+            <div class="mb-3">
+                <input type="text" id="code-input" class="form-control" placeholder="KA47" required>
+            </div>
+            <button type="submit" class="btn btn-neon">DÉCOLLAGE 🚀</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const code = document.getElementById('code-input').value.trim().toUpperCase();
+        if(code.length > 1) {
+            // Redirection vers l'application principale avec le code
+            window.location.href = `app.html?id=${code}`;
+        }
+    });
+</script>
+
+</body>
+</html>
