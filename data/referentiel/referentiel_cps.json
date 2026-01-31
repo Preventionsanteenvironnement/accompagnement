@@ -1,1 +1,153 @@
-{}
+{
+  "projet": "Accompagnement CPS",
+  "source": "Santé publique France 2025 - Tome 1",
+  "derniere_maj": "2026-01-31",
+  "axes": [
+    {
+      "id": "COG",
+      "nom": "Compétences Cognitives",
+      "couleur": "#3498db",
+      "phases": [
+        {
+          "id": 1,
+          "nom": "Phase 1 : Renforcer sa conscience de soi",
+          "competences_generales": [
+            {
+              "id": "C1",
+              "nom": "Conscience de soi",
+              "competences_specifiques": [
+                {
+                  "id": "C1.1",
+                  "nom": "Accroître sa connaissance de soi",
+                  "indicateurs": [
+                    "Connaître les dimensions du Soi (externe, image, interne, sujet)",
+                    "Connaître le rôle et les limites de l’image de soi",
+                    "Observer et accueillir son Soi interne (pensées, émotions, besoins)"
+                  ]
+                },
+                {
+                  "id": "C1.2",
+                  "nom": "Savoir penser de façon critique",
+                  "indicateurs": [
+                    "Questionner l’image de soi pour ne pas la confondre avec la réalité",
+                    "Utiliser la défusion cognitive (ne pas prendre ses idées pour des faits)"
+                  ]
+                },
+                {
+                  "id": "C1.3",
+                  "nom": "Connaître ses valeurs, besoins et buts personnels",
+                  "indicateurs": [
+                    "Identifier ses besoins psychologiques fondamentaux",
+                    "Identifier ses valeurs personnelles (boussoles de vie)"
+                  ]
+                },
+                {
+                  "id": "C1.4",
+                  "nom": "Prendre des décisions constructives",
+                  "indicateurs": [
+                    "Choisir des buts personnels authentiques et concordants"
+                  ]
+                },
+                {
+                  "id": "C1.5",
+                  "nom": "S’auto-évaluer positivement",
+                  "indicateurs": [
+                    "Reconnaître ses qualités, forces et compétences",
+                    "Développer une relation bienveillante avec soi-même"
+                  ]
+                },
+                {
+                  "id": "C1.6",
+                  "nom": "Renforcer sa pleine attention (à soi)",
+                  "indicateurs": [
+                    "Diriger volontairement son attention sur l'instant présent",
+                    "Accueillir l’expérience sensible sans jugement"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "EMO",
+      "nom": "Compétences Émotionnelles",
+      "couleur": "#e74c3c",
+      "phases": [
+        {
+          "id": 1,
+          "nom": "Phase 1 : Renforcer sa conscience des émotions",
+          "competences_generales": [
+            {
+              "id": "E1",
+              "nom": "Conscience des émotions",
+              "competences_specifiques": [
+                {
+                  "id": "E1.1",
+                  "nom": "Comprendre les émotions",
+                  "indicateurs": [
+                    "Connaître la nature et les composantes des émotions",
+                    "Comprendre la fonction d'information des émotions (messagers)"
+                  ]
+                },
+                {
+                  "id": "E1.2",
+                  "nom": "Identifier ses émotions",
+                  "indicateurs": [
+                    "Percevoir l’expérience émotionnelle présente",
+                    "Nommer l’émotion avec un vocabulaire adapté"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "SOC",
+      "nom": "Compétences Sociales",
+      "couleur": "#2ecc71",
+      "phases": [
+        {
+          "id": 1,
+          "nom": "Phase 1 : Développer des relations constructives",
+          "competences_generales": [
+            {
+              "id": "S1",
+              "nom": "Relations constructives",
+              "competences_specifiques": [
+                {
+                  "id": "S1.1",
+                  "nom": "Communiquer de façon efficace et positive",
+                  "indicateurs": [
+                    "Identifier et réduire les obstacles à la communication",
+                    "Développer des attitudes soutenantes et valorisantes",
+                    "Formuler des demandes claires et ajustées"
+                  ]
+                },
+                {
+                  "id": "S1.2",
+                  "nom": "Communiquer de façon empathique",
+                  "indicateurs": [
+                    "Écouter de façon empathique (silence et compréhension)",
+                    "Parler de façon empathique (reformulation et écoute active)"
+                  ]
+                },
+                {
+                  "id": "S1.3",
+                  "nom": "Développer des liens et comportements prosociaux",
+                  "indicateurs": [
+                    "Savoir entrer en relation et maintenir des liens de qualité",
+                    "Agir pour le bien d’autrui et exprimer de la gratitude"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
