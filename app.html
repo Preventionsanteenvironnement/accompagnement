@@ -8,75 +8,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        :root {
-            --bg-dark: #0f172a;
-            --card-dark: #1e293b;
-            --neon-blue: #38bdf8;
-            --neon-purple: #c084fc;
-            --neon-green: #4ade80;
-            --text-light: #f1f5f9;
-        }
-        body { 
-            background-color: var(--bg-dark); 
-            color: var(--text-light); 
-            font-family: 'Outfit', sans-serif; 
-            padding-bottom: 80px;
-        }
-
-        /* En-tête avec effet Glow */
-        .hero-section { 
-            background: radial-gradient(circle at top right, rgba(192, 132, 252, 0.15), transparent 40%),
-                        radial-gradient(circle at top left, rgba(56, 189, 248, 0.15), transparent 40%);
-            padding: 2rem 1.5rem; 
-            text-align: center;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        
-        .badge-code { 
-            background: rgba(255,255,255,0.1); 
-            border: 1px solid rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px); 
-            padding: 0.5rem 1.2rem; 
-            border-radius: 50px; 
-            font-weight: 700;
-            letter-spacing: 1px;
-            color: var(--neon-blue);
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
-        }
-
-        /* Cartes sombres */
-        .card-stats, .card { 
-            background: var(--card-dark); 
-            border: 1px solid rgba(255,255,255,0.05); 
-            border-radius: 20px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            color: white;
-        }
-
-        /* Titres de sections */
-        h3, h5 { font-weight: 700; letter-spacing: -0.5px; }
-        .text-neon { color: var(--neon-purple); text-shadow: 0 0 10px rgba(192, 132, 252, 0.4); }
-
-        /* Switch moderne */
-        .form-check-input {
-            background-color: #334155;
-            border-color: #475569;
-            height: 1.5em; width: 3em;
-        }
-        .form-check-input:checked {
-            background-color: var(--neon-green);
-            border-color: var(--neon-green);
-            box-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
-        }
-
-        /* Loader */
-        #loader { color: var(--neon-blue); }
-        
-        /* Message accès refusé */
+        :root { --bg-dark: #0f172a; --card-dark: #1e293b; --neon-blue: #38bdf8; --neon-purple: #c084fc; --neon-green: #4ade80; }
+        body { background-color: var(--bg-dark); color: #f1f5f9; font-family: 'Outfit', sans-serif; padding-bottom: 80px; }
+        .hero-section { background: radial-gradient(circle at top right, rgba(192, 132, 252, 0.15), transparent 40%), radial-gradient(circle at top left, rgba(56, 189, 248, 0.15), transparent 40%); padding: 2rem 1.5rem; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .badge-code { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(10px); padding: 0.5rem 1.2rem; border-radius: 50px; font-weight: 700; color: var(--neon-blue); box-shadow: 0 0 15px rgba(56, 189, 248, 0.3); }
+        .card-stats, .card { background: var(--card-dark); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); color: white; }
+        .form-check-input { background-color: #334155; border-color: #475569; height: 1.5em; width: 3em; }
+        .form-check-input:checked { background-color: var(--neon-green); border-color: var(--neon-green); box-shadow: 0 0 10px rgba(74, 222, 128, 0.5); }
         #access-denied .card { border: 1px solid rgba(239, 68, 68, 0.3); }
         #access-denied h3 { color: #f87171; }
-
-        /* Animation d'apparition */
         .fade-in { animation: fadeIn 0.8s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -84,24 +24,116 @@
 <body>
 
 <div id="loader" class="text-center mt-5 pt-5">
-    <div class="spinner-border" role="status" style="width: 3rem; height: 3rem;"></div>
-    <p class="mt-3 opacity-75">Chargement de ton profil...</p>
+    <div class="spinner-border text-info" role="status" style="width: 3rem; height: 3rem;"></div>
+    <p class="mt-3 opacity-75">Synchronisation...</p>
 </div>
 
-<div id="access-denied" class="container mt-5 pt-5 text-center">
+<div id="access-denied" class="container mt-5 pt-5 text-center" style="display:none;">
     <div class="card p-5">
         <h3 class="mb-3">⛔ Accès Restreint</h3>
-        <p class="text-white-50">Ton profil n'est pas encore activé.</p>
-        <p class="small text-white-50">Vois avec ton prof pour débloquer l'accès.</p>
-        <a href="index.html" class="btn btn-outline-light rounded-pill px-4 mt-3">Retour</a>
+        <p class="text-white-50">Ton profil n'est pas activé.</p>
+        <p class="small text-white-50">Demande à ton professeur d'activer ton code.</p>
     </div>
 </div>
 
 <div id="dashboard-content" style="display:none;" class="fade-in">
-    
     <div class="hero-section">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <span style="font-size: 1.2rem;">👋 Hello !</span>
             <span id="code-eleve-display" class="badge-code">--</span>
         </div>
-        <h1 class="
+        <h1 class="display-6 fw-bold mb-0">Mon Parcours <span style="color:var(--neon-purple)">CPS</span></h1>
+    </div>
+    <div class="container mt-4">
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card-stats p-3 text-center">
+                    <h5 class="mb-4 text-white-50 text-start ps-2">🔥 Mes Stats</h5>
+                    <div style="position: relative; height: 300px;"><canvas id="radarChart"></canvas></div>
+                </div>
+            </div>
+            <div class="col-md-8 col-lg-6">
+                <h5 class="mb-3 ps-2 text-white-50">🚀 Mes Objectifs</h5>
+                <div id="actions-container" class="pb-5"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+
+<script>
+    // 1. Initialisation
+    if (typeof firebaseConfig !== 'undefined') firebase.initializeApp(firebaseConfig);
+    const userCode = new URLSearchParams(window.location.search).get("id");
+    
+    // Données fixes
+    const REFERENTIEL_DATA = { "axes": [ { "id": "COG", "nom": "Compétences Cognitives", "phases": [ { "id": 1, "competences_generales": [ { "id": "C1", "nom": "Conscience de soi", "competences_specifiques": [ { "id": "C1.1", "nom": "Accroître sa connaissance de soi" }, { "id": "C1.2", "nom": "Savoir penser de façon critique" }, { "id": "C1.3", "nom": "Connaître ses valeurs et besoins" }, { "id": "C1.4", "nom": "Prendre des décisions constructives" }, { "id": "C1.5", "nom": "S’auto-évaluer positivement" }, { "id": "C1.6", "nom": "Renforcer sa pleine attention" } ] } ] } ] }, { "id": "EMO", "nom": "Compétences Émotionnelles", "phases": [ { "id": 1, "competences_generales": [ { "id": "E1", "nom": "Conscience des émotions", "competences_specifiques": [ { "id": "E1.1", "nom": "Comprendre les émotions" }, { "id": "E1.2", "nom": "Identifier ses émotions" } ] } ] } ] }, { "id": "SOC", "nom": "Compétences Sociales", "phases": [ { "id": 1, "competences_generales": [ { "id": "S1", "nom": "Relations constructives", "competences_specifiques": [ { "id": "S1.1", "nom": "Communiquer de façon efficace" }, { "id": "S1.2", "nom": "Communiquer de façon empathique" }, { "id": "S1.3", "nom": "Développer des liens prosociaux" } ] } ] } ] } ] };
+    let userData = { competences_validees: {} };
+
+    // 2. Setup Graphique
+    Chart.defaults.color = '#94a3b8'; Chart.defaults.borderColor = 'rgba(255,255,255,0.1)';
+    const ctx = document.getElementById('radarChart').getContext('2d');
+    let gradient = ctx.createLinearGradient(0, 0, 0, 400); gradient.addColorStop(0, 'rgba(192, 132, 252, 0.5)'); gradient.addColorStop(1, 'rgba(56, 189, 248, 0.1)');
+    window.myRadarChart = new Chart(ctx, { type: 'radar', data: { labels: ['Cognitif', 'Social', 'Émotionnel'], datasets: [{ label: 'Score', data: [0, 0, 0], backgroundColor: gradient, borderColor: '#c084fc', pointBackgroundColor: '#fff', borderWidth: 3 }] }, options: { scales: { r: { angleLines: { color: 'rgba(255,255,255,0.1)' }, grid: { color: 'rgba(255,255,255,0.05)' }, pointLabels: { font: { size: 14, family: "'Outfit', sans-serif" }, color: '#f1f5f9' }, suggestedMin: 0, suggestedMax: 100, ticks: { display: false } } }, plugins: { legend: { display: false } }, maintainAspectRatio: false } });
+
+    // 3. Logique Principale
+    function initApp() {
+        if (!userCode) { document.body.innerHTML = "<h3 class='text-center text-white mt-5'>Erreur: Aucun code élève</h3>"; return; }
+        document.getElementById('code-eleve-display').innerText = userCode;
+
+        // Écouteur en temps réel sur l'autorisation
+        firebase.database().ref(`accompagnement/autorisations/${userCode}`).on('value', (snapshot) => {
+            const data = snapshot.val();
+            const estAutorise = (data && data.autorise === true);
+            
+            // Gestion affichage immédiate
+            document.getElementById('loader').style.display = 'none';
+            if (estAutorise) {
+                document.getElementById('access-denied').style.display = 'none';
+                document.getElementById('dashboard-content').style.display = 'block';
+                chargerDonneesEleve(); // On charge les données seulement si autorisé
+            } else {
+                document.getElementById('dashboard-content').style.display = 'none';
+                document.getElementById('access-denied').style.display = 'block';
+            }
+        });
+    }
+
+    function chargerDonneesEleve() {
+        firebase.database().ref(`accompagnement/eleves/${userCode}`).on('value', (snapshot) => {
+            const val = snapshot.val();
+            if (val) { userData = val; if (!userData.competences_validees) userData.competences_validees = {}; }
+            updateUI();
+        });
+    }
+
+    function updateUI() {
+        // Calcul Scores
+        const scores = { "COG": 0, "EMO": 0, "SOC": 0 }; const totals = { "COG": 0, "EMO": 0, "SOC": 0 };
+        REFERENTIEL_DATA.axes.forEach(axe => { axe.phases.forEach(phase => { phase.competences_generales.forEach(cg => { cg.competences_specifiques.forEach(cs => { totals[axe.id]++; if (userData.competences_validees && userData.competences_validees[cs.id]) scores[axe.id]++; }); }); }); });
+        window.myRadarChart.data.datasets[0].data = [ totals["COG"]?Math.round((scores["COG"]/totals["COG"])*100):0, totals["SOC"]?Math.round((scores["SOC"]/totals["SOC"])*100):0, totals["EMO"]?Math.round((scores["EMO"]/totals["EMO"])*100):0 ];
+        window.myRadarChart.update();
+
+        // Génération Cartes
+        const container = document.getElementById('actions-container'); container.innerHTML = '';
+        REFERENTIEL_DATA.axes.forEach(axe => { axe.phases.forEach(phase => { phase.competences_generales.forEach(cg => { cg.competences_specifiques.forEach(cs => {
+            const estValide = userData.competences_validees && userData.competences_validees[cs.id];
+            const card = document.createElement('div');
+            card.className = `card mb-3 p-3 ${estValide ? 'border-success' : ''}`; card.style.cursor = 'pointer'; card.style.background = '#1e293b'; card.style.borderColor = estValide ? '#4ade80' : 'rgba(255,255,255,0.1)';
+            card.innerHTML = `<div class="d-flex justify-content-between align-items-center text-white"><div><strong style="font-size: 1.1em;">${cs.nom}</strong><br><small style="color: #94a3b8;">${cg.nom}</small></div><div class="form-check form-switch"><input class="form-check-input" type="checkbox" ${estValide ? 'checked' : ''} disabled></div></div>`;
+            card.onclick = () => {
+                const newState = !estValide;
+                userData.competences_validees[cs.id] = newState; // Optimiste
+                firebase.database().ref(`accompagnement/eleves/${userCode}/competences_validees/${cs.id}`).set(newState);
+            };
+            container.appendChild(card);
+        }); }); }); });
+    }
+
+    window.onload = initApp;
+</script>
+</body>
+</html>
