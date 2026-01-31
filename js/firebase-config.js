@@ -1,11 +1,10 @@
-// Configuration Firebase – projet devoirs-pse
+// Firebase configuration - projet devoirs-pse
 const firebaseConfig = {
-  apiKey: "AIzaSyAWdCMv0iAJJn3eT9LIAQD3RWJUD01QcLI",
+  apiKey: "TA_API_KEY",
   authDomain: "devoirs-pse.firebaseapp.com",
-  databaseURL: "https://devoirs-pse-default-rtdb.firebaseio.com",
+  databaseURL: "https://devoirs-pse-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "devoirs-pse",
   storageBucket: "devoirs-pse.appspot.com",
   messagingSenderId: "614730413904",
-  appId: "1:614730413904:web:a5dd478af5de30f6bede55",
-  measurementId: "G-7R9N0JL6GG"
+  appId: "TON_APP_ID"
 };
