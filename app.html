@@ -21,7 +21,7 @@
         .form-control, .form-select { background-color: #0f172a; border: 1px solid #334155; color: white; border-radius: 10px; }
         .form-control:focus { background-color: #0f172a; color: white; border-color: var(--neon-purple); box-shadow: 0 0 0 0.25rem rgba(192, 132, 252, 0.25); }
         .fade-in { animation: fadeIn 0.8s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        #school-closed .icon-closed { font-size: 4rem; margin-bottom: 1rem; }
     </style>
 </head>
 <body>
@@ -34,7 +34,19 @@
 <div id="access-denied" class="container mt-5 pt-5 text-center" style="display:none;">
     <div class="card p-5">
         <h3 class="mb-3 text-danger">⛔ Accès Restreint</h3>
-        <p class="text-white-50">Ton profil n'est pas activé.</p>
+        <p class="text-white-50">Ton profil n'est pas activé par ton professeur.</p>
+    </div>
+</div>
+
+<div id="school-closed" class="container mt-5 pt-5 text-center" style="display:none;">
+    <div class="card p-5 border-warning">
+        <div class="icon-closed">🌙</div>
+        <h3 class="mb-3 text-warning">Espace Fermé</h3>
+        <p class="text-white-50">L'application est accessible uniquement<br>pendant les heures scolaires.</p>
+        <div class="badge bg-dark mt-3 p-3">
+            Lundi - Vendredi<br>
+            08:00 - 18:00
+        </div>
     </div>
 </div>
 
@@ -100,30 +112,91 @@
     if (typeof firebaseConfig !== 'undefined') firebase.initializeApp(firebaseConfig);
     const userCode = new URLSearchParams(window.location.search).get("id");
     
-    // Données fixes (Référentiel)
-    const REFERENTIEL_DATA = { "axes": [ { "id": "COG", "nom": "Compétences Cognitives", "phases": [ { "id": 1, "competences_generales": [ { "id": "C1", "nom": "Conscience de soi", "competences_specifiques": [ { "id": "C1.1", "nom": "Accroître sa connaissance de soi" }, { "id": "C1.2", "nom": "Savoir penser de façon critique" }, { "id": "C1.3", "nom": "Connaître ses valeurs et besoins" }, { "id": "C1.4", "nom": "Prendre des décisions constructives" }, { "id": "C1.5", "nom": "S’auto-évaluer positivement" }, { "id": "C1.6", "nom": "Renforcer sa pleine attention" } ] } ] } ] }, { "id": "EMO", "nom": "Compétences Émotionnelles", "phases": [ { "id": 1, "competences_generales": [ { "id": "E1", "nom": "Conscience des émotions", "competences_specifiques": [ { "id": "E1.1", "nom": "Comprendre les émotions" }, { "id": "E1.2", "nom": "Identifier ses émotions" } ] } ] } ] }, { "id": "SOC", "nom": "Compétences Sociales", "phases": [ { "id": 1, "competences_generales": [ { "id": "S1", "nom": "Relations constructives", "competences_specifiques": [ { "id": "S1.1", "nom": "Communiquer de façon efficace" }, { "id": "S1.2", "nom": "Communiquer de façon empathique" }, { "id": "S1.3", "nom": "Développer des liens prosociaux" } ] } ] } ] } ] };
+    // --- CONFIGURATION HORAIRES ---
+    const HEURE_OUVERTURE = 8;
+    const HEURE_FERMETURE = 18;
+    const JOURS_OUVERTS = [1, 2, 3, 4, 5];
+
+    // --- LE DICTIONNAIRE TRADUIT (Simplifié pour l'élève) ---
+    const REFERENTIEL_DATA = { 
+      "axes": [
+        { 
+          "id": "COG", "nom": "Mes Pensées", "phases": [ 
+            { "id": 1, "competences_generales": [ 
+              { "id": "C1", "nom": "Savoir qui je suis", "competences_specifiques": [ 
+                  { "id": "C1.1", "nom": "Savoir ce que je vaux et qui je suis" }, 
+                  { "id": "C1.2", "nom": "Prendre du recul / Ne pas juger trop vite" }, 
+                  { "id": "C1.3", "nom": "Identifier ce qui est important pour moi" }, 
+                  { "id": "C1.4", "nom": "Faire des choix réfléchis" }, 
+                  { "id": "C1.5", "nom": "Reconnaître mes réussites" }, 
+                  { "id": "C1.6", "nom": "Rester concentré sur l'instant" } 
+              ] } 
+            ] } 
+          ] 
+        },
+        { 
+          "id": "EMO", "nom": "Mes Émotions", "phases": [ 
+            { "id": 1, "competences_generales": [ 
+              { "id": "E1", "nom": "Gérer mes émotions", "competences_specifiques": [ 
+                  { "id": "E1.1", "nom": "Comprendre pourquoi je réagis comme ça" }, 
+                  { "id": "E1.2", "nom": "Mettre un nom sur ce que je ressens" } 
+              ] } 
+            ] } 
+          ] 
+        },
+        { 
+          "id": "SOC", "nom": "Mes Relations", "phases": [ 
+            { "id": 1, "competences_generales": [ 
+              { "id": "S1", "nom": "Avoir de bonnes relations", "competences_specifiques": [ 
+                  { "id": "S1.1", "nom": "M'exprimer calmement et clairement" }, 
+                  { "id": "S1.2", "nom": "Écouter et comprendre les autres" }, 
+                  { "id": "S1.3", "nom": "Être solidaire et respectueux" } 
+              ] } 
+            ] } 
+          ] 
+        }
+      ]
+    };
     
     let userData = { competences_validees: {} };
     let currentCompId = null;
     let proofModal = null;
 
-    // Fonction Helper : Remplace les points par des tirets pour Firebase
     const sanitize = (id) => id.replace(/\./g, '_');
 
     Chart.defaults.color = '#94a3b8'; Chart.defaults.borderColor = 'rgba(255,255,255,0.1)';
     const ctx = document.getElementById('radarChart').getContext('2d');
     let gradient = ctx.createLinearGradient(0, 0, 0, 400); gradient.addColorStop(0, 'rgba(192, 132, 252, 0.5)'); gradient.addColorStop(1, 'rgba(56, 189, 248, 0.1)');
-    window.myRadarChart = new Chart(ctx, { type: 'radar', data: { labels: ['Cognitif', 'Social', 'Émotionnel'], datasets: [{ label: 'Score', data: [0, 0, 0], backgroundColor: gradient, borderColor: '#c084fc', pointBackgroundColor: '#fff', borderWidth: 3 }] }, options: { scales: { r: { angleLines: { color: 'rgba(255,255,255,0.1)' }, grid: { color: 'rgba(255,255,255,0.05)' }, pointLabels: { font: { size: 14, family: "'Outfit', sans-serif" }, color: '#f1f5f9' }, suggestedMin: 0, suggestedMax: 100, ticks: { display: false } } }, plugins: { legend: { display: false } }, maintainAspectRatio: false } });
+    window.myRadarChart = new Chart(ctx, { type: 'radar', data: { labels: ['Pensées', 'Relations', 'Émotions'], datasets: [{ label: 'Score', data: [0, 0, 0], backgroundColor: gradient, borderColor: '#c084fc', pointBackgroundColor: '#fff', borderWidth: 3 }] }, options: { scales: { r: { angleLines: { color: 'rgba(255,255,255,0.1)' }, grid: { color: 'rgba(255,255,255,0.05)' }, pointLabels: { font: { size: 14, family: "'Outfit', sans-serif" }, color: '#f1f5f9' }, suggestedMin: 0, suggestedMax: 100, ticks: { display: false } } }, plugins: { legend: { display: false } }, maintainAspectRatio: false } });
+
+    function estDansLesHoraires() {
+        const now = new Date();
+        const jour = now.getDay(); 
+        const heure = now.getHours();
+        if (!JOURS_OUVERTS.includes(jour) || heure < HEURE_OUVERTURE || heure >= HEURE_FERMETURE) {
+            return false;
+        }
+        return true;
+    }
 
     window.onload = function() {
         if (!userCode) return;
         document.getElementById('code-eleve-display').innerText = userCode;
         proofModal = new bootstrap.Modal(document.getElementById('proofModal'));
 
+        // Vérification Horaire
+        if (!estDansLesHoraires()) {
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('school-closed').style.display = 'block';
+            return; 
+        }
+
+        // Vérification Firebase
         firebase.database().ref(`accompagnement/autorisations/${userCode}`).on('value', (snapshot) => {
             const data = snapshot.val();
             const estAutorise = (data && data.autorise === true);
             document.getElementById('loader').style.display = 'none';
+            
             if (estAutorise) {
                 document.getElementById('access-denied').style.display = 'none';
                 document.getElementById('dashboard-content').style.display = 'block';
@@ -147,7 +220,6 @@
         const scores = { "COG": 0, "EMO": 0, "SOC": 0 }; const totals = { "COG": 0, "EMO": 0, "SOC": 0 };
         REFERENTIEL_DATA.axes.forEach(axe => { axe.phases.forEach(phase => { phase.competences_generales.forEach(cg => { cg.competences_specifiques.forEach(cs => { 
             totals[axe.id]++; 
-            // CORRECTION ICI : On utilise sanitize(cs.id) pour lire la donnée
             const safeId = sanitize(cs.id);
             if (userData.competences_validees && userData.competences_validees[safeId] && userData.competences_validees[safeId].valide) {
                 scores[axe.id]++; 
@@ -171,6 +243,7 @@
                 detailsHtml = `<div class="mt-2 small text-muted border-top border-secondary pt-2"><span class="text-warning">${etoiles}</span> <br> <em>"${infoComp.preuve || ''}"</em></div>`;
             }
 
+            // Ici on affiche cs.nom qui contient maintenant la phrase simple (ex: Savoir ce que je vaux)
             card.innerHTML = `<div class="d-flex justify-content-between align-items-center text-white"><div style="width: 100%"><strong style="font-size: 1.1em;">${cs.nom}</strong><br><small style="color: #94a3b8;">${cg.nom}</small>${detailsHtml}</div><div class="form-check form-switch ms-2"><input class="form-check-input" type="checkbox" ${estValide ? 'checked' : ''} disabled></div></div>`;
             card.onclick = () => ouvrirModalePreuve(cs.id, cs.nom, estValide, safeId);
             container.appendChild(card);
@@ -178,7 +251,7 @@
     }
 
     function ouvrirModalePreuve(id, nom, estDejaValide, safeId) {
-        currentCompId = safeId; // On stocke la version sans points (ex: C1_1)
+        currentCompId = safeId;
         document.getElementById('modal-comp-title').innerText = nom;
         document.getElementById('input-preuve').value = "";
         document.getElementById('input-niveau').value = "1";
@@ -198,8 +271,6 @@
         if(preuve.length < 3) { alert("Merci d'écrire une phrase !"); return; }
 
         const dataToSave = { valide: true, niveau: niveau, preuve: preuve, date: new Date().toISOString() };
-        
-        // C'est ICI que l'erreur se produisait : maintenant currentCompId est déjà nettoyé (C1_1)
         firebase.database().ref(`accompagnement/eleves/${userCode}/competences_validees/${currentCompId}`).set(dataToSave);
         proofModal.hide();
     }
