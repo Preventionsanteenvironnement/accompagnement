@@ -1,31 +1,104 @@
-// app-logic.js - Cerveau de l'application Élève
-// Version : Connectée au Référentiel CPS
+// app-logic.js - Version "Autonome" (Sans chargement externe)
 
 const userCode = new URLSearchParams(window.location.search).get("id");
 
-// État global de l'application
-let referentiel = null;
-let userData = {
-    competences_validees: {} // Stocke les ID validés (ex: "C1.1": true)
+// --- DONNÉES INTÉGRÉES (Pour éviter l'erreur 404) ---
+const REFERENTIEL_DATA = {
+  "projet": "Accompagnement CPS",
+  "axes": [
+    {
+      "id": "COG",
+      "nom": "Compétences Cognitives",
+      "couleur": "#3498db",
+      "phases": [
+        {
+          "id": 1,
+          "nom": "Phase 1 : Renforcer sa conscience de soi",
+          "competences_generales": [
+            {
+              "id": "C1",
+              "nom": "Conscience de soi",
+              "competences_specifiques": [
+                { "id": "C1.1", "nom": "Accroître sa connaissance de soi" },
+                { "id": "C1.2", "nom": "Savoir penser de façon critique" },
+                { "id": "C1.3", "nom": "Connaître ses valeurs et besoins" },
+                { "id": "C1.4", "nom": "Prendre des décisions constructives" },
+                { "id": "C1.5", "nom": "S’auto-évaluer positivement" },
+                { "id": "C1.6", "nom": "Renforcer sa pleine attention" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "EMO",
+      "nom": "Compétences Émotionnelles",
+      "couleur": "#e74c3c",
+      "phases": [
+        {
+          "id": 1,
+          "nom": "Phase 1 : Renforcer sa conscience des émotions",
+          "competences_generales": [
+            {
+              "id": "E1",
+              "nom": "Conscience des émotions",
+              "competences_specifiques": [
+                { "id": "E1.1", "nom": "Comprendre les émotions" },
+                { "id": "E1.2", "nom": "Identifier ses émotions" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "SOC",
+      "nom": "Compétences Sociales",
+      "couleur": "#2ecc71",
+      "phases": [
+        {
+          "id": 1,
+          "nom": "Phase 1 : Développer des relations constructives",
+          "competences_generales": [
+            {
+              "id": "S1",
+              "nom": "Relations constructives",
+              "competences_specifiques": [
+                { "id": "S1.1", "nom": "Communiquer de façon efficace" },
+                { "id": "S1.2", "nom": "Communiquer de façon empathique" },
+                { "id": "S1.3", "nom": "Développer des liens prosociaux" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
 };
 
+// État global
+let userData = { competences_validees: {} };
+
 // 1. Démarrage
-async function initApp() {
+function initApp() {
     if (!userCode) {
         window.location.href = "index.html";
         return;
     }
-    document.getElementById('code-eleve-display').innerText = `Code : ${userCode}`;
     
-    try {
-        // A. On charge le référentiel (les définitions)
-        // ATTENTION : Ce fichier doit exister dans le dossier data du Cockpit
-        // On va le chercher sur le site du cockpit car c'est la source unique
-        const refResponse = await fetch('https://preventionsanteenvironnement.github.io/cockpit-accompagnement/data/referentiel/referentiel_cps.json');
-        if (!refResponse.ok) throw new Error("Référentiel introuvable");
-        referentiel = await refResponse.json();
+    // Affichage du code
+    const displayElement = document.getElementById('code-eleve-display');
+    if(displayElement) displayElement.innerText = `Code : ${userCode}`;
+    
+    // On masque le loader tout de suite car on a déjà les données
+    const loader = document.getElementById('loader');
+    const content = document.getElementById('dashboard-content');
+    if(loader) loader.style.display = 'none';
+    if(content) content.style.display = 'block';
 
-        // B. On charge les données de l'élève depuis Firebase
+    // Connexion Firebase
+    try {
         const dbRef = firebase.database().ref(`accompagnement/eleves/${userCode}`);
         dbRef.on('value', (snapshot) => {
             const val = snapshot.val();
@@ -33,71 +106,64 @@ async function initApp() {
                 userData = val;
                 if (!userData.competences_validees) userData.competences_validees = {};
             }
-            updateUI(); // Mettre à jour l'affichage quand les données changent
+            // On met à jour l'affichage avec les données Firebase + Notre référentiel local
+            updateUI(); 
         });
-
     } catch (error) {
-        console.error("Erreur init:", error);
-        alert("Impossible de charger le programme. " + error.message);
+        console.error("Erreur Firebase:", error);
+        alert("Erreur de connexion. Vérifiez internet.");
     }
 }
 
-// 2. Mise à jour de l'interface (Graphique + Cartes)
+// 2. Mise à jour de l'interface
 function updateUI() {
     calculerScores();
     genererCartesActions();
 }
 
-// 3. Calcul des scores pour le graphique radar
+// 3. Calcul des scores
 function calculerScores() {
-    if (!referentiel) return;
-
-    // On prépare les scores pour les 3 axes (Cognitif, Émotionnel, Social)
-    // Structure du graph : labels et data
     const scores = { "COG": 0, "EMO": 0, "SOC": 0 };
     const totals = { "COG": 0, "EMO": 0, "SOC": 0 };
 
-    referentiel.axes.forEach(axe => {
+    REFERENTIEL_DATA.axes.forEach(axe => {
         axe.phases.forEach(phase => {
             phase.competences_generales.forEach(cg => {
                 cg.competences_specifiques.forEach(cs => {
-                    totals[axe.id]++; // Une compétence de plus possible
-                    if (userData.competences_validees[cs.id]) {
-                        scores[axe.id]++; // Une compétence validée
+                    totals[axe.id]++;
+                    if (userData.competences_validees && userData.competences_validees[cs.id]) {
+                        scores[axe.id]++;
                     }
                 });
             });
         });
     });
 
-    // Conversion en pourcentage pour le graph (0 à 100)
     const dataPercent = [
         totals["COG"] ? Math.round((scores["COG"] / totals["COG"]) * 100) : 0,
         totals["SOC"] ? Math.round((scores["SOC"] / totals["SOC"]) * 100) : 0,
         totals["EMO"] ? Math.round((scores["EMO"] / totals["EMO"]) * 100) : 0
     ];
 
-    // Mise à jour du graphique Chart.js
     if (window.myRadarChart) {
         window.myRadarChart.data.datasets[0].data = dataPercent;
         window.myRadarChart.update();
     }
 }
 
-// 4. Génération des cartes (La liste des choses à faire)
+// 4. Génération des cartes
 function genererCartesActions() {
-    const container = document.getElementById('actions-container'); // On suppose qu'on créera ce conteneur
-    if (!container) return; // Si l'élément n'existe pas encore dans le HTML, on sort
+    const container = document.getElementById('actions-container');
+    if (!container) return;
     
     container.innerHTML = '<h3>🎯 Mes Objectifs</h3>';
 
-    referentiel.axes.forEach(axe => {
+    REFERENTIEL_DATA.axes.forEach(axe => {
         axe.phases.forEach(phase => {
             phase.competences_generales.forEach(cg => {
                 cg.competences_specifiques.forEach(cs => {
-                    const estValide = userData.competences_validees[cs.id];
+                    const estValide = userData.competences_validees && userData.competences_validees[cs.id];
                     
-                    // On crée une "carte" pour chaque compétence
                     const card = document.createElement('div');
                     card.className = `card mb-2 p-3 ${estValide ? 'border-success' : ''}`;
                     card.style.cursor = 'pointer';
@@ -114,10 +180,7 @@ function genererCartesActions() {
                             </div>
                         </div>
                     `;
-
-                    // Clic sur la carte = Valider/Dévalider
                     card.onclick = () => toggleCompetence(cs.id, !estValide);
-                    
                     container.appendChild(card);
                 });
             });
@@ -125,15 +188,12 @@ function genererCartesActions() {
     });
 }
 
-// 5. Action : Valider une compétence
+// 5. Action clic
 function toggleCompetence(idComp, nouvelEtat) {
-    // Mise à jour locale (optimiste)
+    if(!userData.competences_validees) userData.competences_validees = {};
     userData.competences_validees[idComp] = nouvelEtat;
     
-    // Envoi Firebase
     firebase.database().ref(`accompagnement/eleves/${userCode}/competences_validees/${idComp}`).set(nouvelEtat);
-    
-    // Le graphique se mettra à jour automatiquement grâce au dbRef.on('value')
 }
 
 // Lancement
