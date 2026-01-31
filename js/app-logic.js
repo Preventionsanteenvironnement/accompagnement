@@ -1,77 +1,24 @@
-// app-logic.js - Version "Autonome" (Sans chargement externe)
+// app-logic.js - Version FINALE & CONNECTÉE
+// Ce script écoute le bouton du prof en temps réel.
 
 const userCode = new URLSearchParams(window.location.search).get("id");
 
-// --- DONNÉES INTÉGRÉES (Pour éviter l'erreur 404) ---
+// --- DONNÉES RÉFÉRENTIEL (Intégrées pour éviter tout bug de chargement) ---
 const REFERENTIEL_DATA = {
-  "projet": "Accompagnement CPS",
   "axes": [
     {
-      "id": "COG",
-      "nom": "Compétences Cognitives",
-      "couleur": "#3498db",
-      "phases": [
-        {
-          "id": 1,
-          "nom": "Phase 1 : Renforcer sa conscience de soi",
-          "competences_generales": [
-            {
-              "id": "C1",
-              "nom": "Conscience de soi",
-              "competences_specifiques": [
-                { "id": "C1.1", "nom": "Accroître sa connaissance de soi" },
-                { "id": "C1.2", "nom": "Savoir penser de façon critique" },
-                { "id": "C1.3", "nom": "Connaître ses valeurs et besoins" },
-                { "id": "C1.4", "nom": "Prendre des décisions constructives" },
-                { "id": "C1.5", "nom": "S’auto-évaluer positivement" },
-                { "id": "C1.6", "nom": "Renforcer sa pleine attention" }
-              ]
-            }
-          ]
-        }
+      "id": "COG", "nom": "Compétences Cognitives", "phases": [
+        { "id": 1, "competences_generales": [ { "id": "C1", "nom": "Conscience de soi", "competences_specifiques": [ { "id": "C1.1", "nom": "Accroître sa connaissance de soi" }, { "id": "C1.2", "nom": "Savoir penser de façon critique" }, { "id": "C1.3", "nom": "Connaître ses valeurs et besoins" }, { "id": "C1.4", "nom": "Prendre des décisions constructives" }, { "id": "C1.5", "nom": "S’auto-évaluer positivement" }, { "id": "C1.6", "nom": "Renforcer sa pleine attention" } ] } ] }
       ]
     },
     {
-      "id": "EMO",
-      "nom": "Compétences Émotionnelles",
-      "couleur": "#e74c3c",
-      "phases": [
-        {
-          "id": 1,
-          "nom": "Phase 1 : Renforcer sa conscience des émotions",
-          "competences_generales": [
-            {
-              "id": "E1",
-              "nom": "Conscience des émotions",
-              "competences_specifiques": [
-                { "id": "E1.1", "nom": "Comprendre les émotions" },
-                { "id": "E1.2", "nom": "Identifier ses émotions" }
-              ]
-            }
-          ]
-        }
+      "id": "EMO", "nom": "Compétences Émotionnelles", "phases": [
+        { "id": 1, "competences_generales": [ { "id": "E1", "nom": "Conscience des émotions", "competences_specifiques": [ { "id": "E1.1", "nom": "Comprendre les émotions" }, { "id": "E1.2", "nom": "Identifier ses émotions" } ] } ] }
       ]
     },
     {
-      "id": "SOC",
-      "nom": "Compétences Sociales",
-      "couleur": "#2ecc71",
-      "phases": [
-        {
-          "id": 1,
-          "nom": "Phase 1 : Développer des relations constructives",
-          "competences_generales": [
-            {
-              "id": "S1",
-              "nom": "Relations constructives",
-              "competences_specifiques": [
-                { "id": "S1.1", "nom": "Communiquer de façon efficace" },
-                { "id": "S1.2", "nom": "Communiquer de façon empathique" },
-                { "id": "S1.3", "nom": "Développer des liens prosociaux" }
-              ]
-            }
-          ]
-        }
+      "id": "SOC", "nom": "Compétences Sociales", "phases": [
+        { "id": 1, "competences_generales": [ { "id": "S1", "nom": "Relations constructives", "competences_specifiques": [ { "id": "S1.1", "nom": "Communiquer de façon efficace" }, { "id": "S1.2", "nom": "Communiquer de façon empathique" }, { "id": "S1.3", "nom": "Développer des liens prosociaux" } ] } ] }
       ]
     }
   ]
@@ -82,46 +29,73 @@ let userData = { competences_validees: {} };
 
 // 1. Démarrage
 function initApp() {
-    if (!userCode) {
-        window.location.href = "index.html";
-        return;
-    }
+    if (!userCode) { window.location.href = "index.html"; return; }
     
-    // Affichage du code
+    // Affichage du code en haut
     const displayElement = document.getElementById('code-eleve-display');
     if(displayElement) displayElement.innerText = `Code : ${userCode}`;
-    
-    // On masque le loader tout de suite car on a déjà les données
-    const loader = document.getElementById('loader');
-    const content = document.getElementById('dashboard-content');
-    if(loader) loader.style.display = 'none';
-    if(content) content.style.display = 'block';
 
-    // Connexion Firebase
-    try {
-        const dbRef = firebase.database().ref(`accompagnement/eleves/${userCode}`);
-        dbRef.on('value', (snapshot) => {
-            const val = snapshot.val();
-            if (val) {
-                userData = val;
-                if (!userData.competences_validees) userData.competences_validees = {};
-            }
-            // On met à jour l'affichage avec les données Firebase + Notre référentiel local
-            updateUI(); 
-        });
-    } catch (error) {
-        console.error("Erreur Firebase:", error);
-        alert("Erreur de connexion. Vérifiez internet.");
+    // ÉCOUTEUR PRINCIPAL : On surveille l'autorisation donnée par le prof
+    const authRef = firebase.database().ref(`accompagnement/autorisations/${userCode}`);
+    
+    authRef.on('value', (snapshot) => {
+        const data = snapshot.val();
+        // Si data existe ET autorise == true, alors c'est bon
+        const estAutorise = (data && data.autorise === true);
+        
+        gererAffichage(estAutorise);
+        
+        if (estAutorise) {
+            // Si autorisé, on charge les compétences
+            chargerCompetences();
+        }
+    });
+}
+
+// 2. Gestion de l'écran (Switch entre "Accès Refusé" et "Dashboard")
+function gererAffichage(estAutorise) {
+    const loader = document.getElementById('loader');
+    const accessDenied = document.getElementById('access-denied');
+    const dashboard = document.getElementById('dashboard-content');
+
+    if (loader) loader.style.display = 'none'; // On vire le chargement
+
+    if (estAutorise) {
+        // C'est VERT : On affiche le dashboard
+        if(accessDenied) accessDenied.style.display = 'none';
+        if(dashboard) {
+            dashboard.style.display = 'block';
+            dashboard.classList.add('fade-in'); // Petite animation
+        }
+    } else {
+        // C'est ROUGE : On affiche "Accès Restreint"
+        if(dashboard) dashboard.style.display = 'none';
+        if(accessDenied) {
+            accessDenied.style.display = 'block';
+            accessDenied.classList.add('fade-in');
+        }
     }
 }
 
-// 2. Mise à jour de l'interface
+// 3. Chargement des données de l'élève (Graphique)
+function chargerCompetences() {
+    const dbRef = firebase.database().ref(`accompagnement/eleves/${userCode}`);
+    dbRef.on('value', (snapshot) => {
+        const val = snapshot.val();
+        if (val) {
+            userData = val;
+            if (!userData.competences_validees) userData.competences_validees = {};
+        }
+        updateUI(); 
+    });
+}
+
+// 4. Mise à jour Graphique + Liste
 function updateUI() {
     calculerScores();
     genererCartesActions();
 }
 
-// 3. Calcul des scores
 function calculerScores() {
     const scores = { "COG": 0, "EMO": 0, "SOC": 0 };
     const totals = { "COG": 0, "EMO": 0, "SOC": 0 };
@@ -151,12 +125,11 @@ function calculerScores() {
     }
 }
 
-// 4. Génération des cartes
 function genererCartesActions() {
     const container = document.getElementById('actions-container');
     if (!container) return;
     
-    container.innerHTML = '<h3>🎯 Mes Objectifs</h3>';
+    container.innerHTML = ''; // On vide avant de remplir
 
     REFERENTIEL_DATA.axes.forEach(axe => {
         axe.phases.forEach(phase => {
@@ -165,14 +138,17 @@ function genererCartesActions() {
                     const estValide = userData.competences_validees && userData.competences_validees[cs.id];
                     
                     const card = document.createElement('div');
-                    card.className = `card mb-2 p-3 ${estValide ? 'border-success' : ''}`;
+                    card.className = `card mb-3 p-3 ${estValide ? 'border-success' : ''}`;
                     card.style.cursor = 'pointer';
+                    // Style sombre pour les cartes
+                    card.style.background = '#1e293b'; 
+                    card.style.borderColor = estValide ? '#4ade80' : 'rgba(255,255,255,0.1)';
                     
                     card.innerHTML = `
-                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center text-white">
                             <div>
-                                <strong>${cs.nom}</strong>
-                                <br><small class="text-muted">${cg.nom}</small>
+                                <strong style="font-size: 1.1em;">${cs.nom}</strong>
+                                <br><small style="color: #94a3b8;">${cg.nom}</small>
                             </div>
                             <div class="form-check form-switch">
                                 <input class="form-check-input" type="checkbox" 
@@ -188,13 +164,10 @@ function genererCartesActions() {
     });
 }
 
-// 5. Action clic
 function toggleCompetence(idComp, nouvelEtat) {
     if(!userData.competences_validees) userData.competences_validees = {};
     userData.competences_validees[idComp] = nouvelEtat;
-    
     firebase.database().ref(`accompagnement/eleves/${userCode}/competences_validees/${idComp}`).set(nouvelEtat);
 }
 
-// Lancement
 window.onload = initApp;
