@@ -71,4 +71,185 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">✨ Valider une réussite</h5>
-                <button type="button" class="btn-close btn-close-white"
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h6 id="modal-comp-title" class="text-info mb-3">--</h6>
+                
+                <label class="form-label small text-muted">Mon niveau d'autonomie :</label>
+                <div class="mb-3">
+                    <select id="input-niveau" class="form-select">
+                        <option value="1">⭐ J'ai découvert (Niveau 1)</option>
+                        <option value="2">⭐⭐ J'ai appliqué (Niveau 2)</option>
+                        <option value="3">⭐⭐⭐ Je maîtrise (Niveau 3)</option>
+                        <option value="4">⭐⭐⭐⭐ Je peux transmettre (Expert)</option>
+                    </select>
+                </div>
+
+                <label class="form-label small text-muted">Ma preuve (Où ? Quand ? Comment ?) :</label>
+                <textarea id="input-preuve" class="form-control" rows="3" placeholder="Ex: J'ai réussi à gérer mon stress pendant l'oral de stage..."></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-primary rounded-pill" onclick="sauvegarderPreuve()">✅ Valider</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+
+<script>
+    if (typeof firebaseConfig !== 'undefined') firebase.initializeApp(firebaseConfig);
+    const userCode = new URLSearchParams(window.location.search).get("id");
+    
+    // Données fixes
+    const REFERENTIEL_DATA = { "axes": [ { "id": "COG", "nom": "Compétences Cognitives", "phases": [ { "id": 1, "competences_generales": [ { "id": "C1", "nom": "Conscience de soi", "competences_specifiques": [ { "id": "C1.1", "nom": "Accroître sa connaissance de soi" }, { "id": "C1.2", "nom": "Savoir penser de façon critique" }, { "id": "C1.3", "nom": "Connaître ses valeurs et besoins" }, { "id": "C1.4", "nom": "Prendre des décisions constructives" }, { "id": "C1.5", "nom": "S’auto-évaluer positivement" }, { "id": "C1.6", "nom": "Renforcer sa pleine attention" } ] } ] } ] }, { "id": "EMO", "nom": "Compétences Émotionnelles", "phases": [ { "id": 1, "competences_generales": [ { "id": "E1", "nom": "Conscience des émotions", "competences_specifiques": [ { "id": "E1.1", "nom": "Comprendre les émotions" }, { "id": "E1.2", "nom": "Identifier ses émotions" } ] } ] } ] }, { "id": "SOC", "nom": "Compétences Sociales", "phases": [ { "id": 1, "competences_generales": [ { "id": "S1", "nom": "Relations constructives", "competences_specifiques": [ { "id": "S1.1", "nom": "Communiquer de façon efficace" }, { "id": "S1.2", "nom": "Communiquer de façon empathique" }, { "id": "S1.3", "nom": "Développer des liens prosociaux" } ] } ] } ] } ] };
+    
+    let userData = { competences_validees: {} };
+    let currentCompId = null; // Pour savoir quelle compétence on est en train de valider
+    let proofModal = null; // Instance de la modale
+
+    // Setup Graphique
+    Chart.defaults.color = '#94a3b8'; Chart.defaults.borderColor = 'rgba(255,255,255,0.1)';
+    const ctx = document.getElementById('radarChart').getContext('2d');
+    let gradient = ctx.createLinearGradient(0, 0, 0, 400); gradient.addColorStop(0, 'rgba(192, 132, 252, 0.5)'); gradient.addColorStop(1, 'rgba(56, 189, 248, 0.1)');
+    window.myRadarChart = new Chart(ctx, { type: 'radar', data: { labels: ['Cognitif', 'Social', 'Émotionnel'], datasets: [{ label: 'Score', data: [0, 0, 0], backgroundColor: gradient, borderColor: '#c084fc', pointBackgroundColor: '#fff', borderWidth: 3 }] }, options: { scales: { r: { angleLines: { color: 'rgba(255,255,255,0.1)' }, grid: { color: 'rgba(255,255,255,0.05)' }, pointLabels: { font: { size: 14, family: "'Outfit', sans-serif" }, color: '#f1f5f9' }, suggestedMin: 0, suggestedMax: 100, ticks: { display: false } } }, plugins: { legend: { display: false } }, maintainAspectRatio: false } });
+
+    // Démarrage
+    window.onload = function() {
+        if (!userCode) return;
+        document.getElementById('code-eleve-display').innerText = userCode;
+        proofModal = new bootstrap.Modal(document.getElementById('proofModal'));
+
+        firebase.database().ref(`accompagnement/autorisations/${userCode}`).on('value', (snapshot) => {
+            const data = snapshot.val();
+            const estAutorise = (data && data.autorise === true);
+            document.getElementById('loader').style.display = 'none';
+            if (estAutorise) {
+                document.getElementById('access-denied').style.display = 'none';
+                document.getElementById('dashboard-content').style.display = 'block';
+                chargerDonneesEleve();
+            } else {
+                document.getElementById('dashboard-content').style.display = 'none';
+                document.getElementById('access-denied').style.display = 'block';
+            }
+        });
+    };
+
+    function chargerDonneesEleve() {
+        firebase.database().ref(`accompagnement/eleves/${userCode}`).on('value', (snapshot) => {
+            const val = snapshot.val();
+            if (val) { userData = val; if (!userData.competences_validees) userData.competences_validees = {}; }
+            updateUI();
+        });
+    }
+
+    function updateUI() {
+        // 1. Calcul Graphique
+        const scores = { "COG": 0, "EMO": 0, "SOC": 0 }; const totals = { "COG": 0, "EMO": 0, "SOC": 0 };
+        REFERENTIEL_DATA.axes.forEach(axe => { axe.phases.forEach(phase => { phase.competences_generales.forEach(cg => { cg.competences_specifiques.forEach(cs => { 
+            totals[axe.id]++; 
+            // On vérifie si l'objet existe et s'il est validé
+            if (userData.competences_validees && userData.competences_validees[cs.id] && userData.competences_validees[cs.id].valide) {
+                scores[axe.id]++; 
+            }
+        }); }); }); });
+        window.myRadarChart.data.datasets[0].data = [ totals["COG"]?Math.round((scores["COG"]/totals["COG"])*100):0, totals["SOC"]?Math.round((scores["SOC"]/totals["SOC"])*100):0, totals["EMO"]?Math.round((scores["EMO"]/totals["EMO"])*100):0 ];
+        window.myRadarChart.update();
+
+        // 2. Génération Liste
+        const container = document.getElementById('actions-container'); container.innerHTML = '';
+        REFERENTIEL_DATA.axes.forEach(axe => { axe.phases.forEach(phase => { phase.competences_generales.forEach(cg => { cg.competences_specifiques.forEach(cs => {
+            
+            // On récupère les infos détaillées (ou null)
+            const infoComp = (userData.competences_validees && userData.competences_validees[cs.id]) ? userData.competences_validees[cs.id] : null;
+            const estValide = infoComp && infoComp.valide;
+            
+            const card = document.createElement('div');
+            card.className = `card mb-3 p-3 ${estValide ? 'border-success' : ''}`; card.style.cursor = 'pointer'; card.style.background = '#1e293b'; card.style.borderColor = estValide ? '#4ade80' : 'rgba(255,255,255,0.1)';
+            
+            // On affiche le commentaire si validé
+            let detailsHtml = '';
+            if(estValide) {
+                const etoiles = "⭐".repeat(infoComp.niveau || 1);
+                detailsHtml = `<div class="mt-2 small text-muted border-top border-secondary pt-2">
+                    <span class="text-warning">${etoiles}</span> <br> 
+                    <em>"${infoComp.preuve || 'Aucun commentaire'}"</em>
+                </div>`;
+            }
+
+            card.innerHTML = `
+                <div class="d-flex justify-content-between align-items-center text-white">
+                    <div style="width: 100%">
+                        <strong style="font-size: 1.1em;">${cs.nom}</strong>
+                        <br><small style="color: #94a3b8;">${cg.nom}</small>
+                        ${detailsHtml}
+                    </div>
+                    <div class="form-check form-switch ms-2">
+                        <input class="form-check-input" type="checkbox" ${estValide ? 'checked' : ''} disabled>
+                    </div>
+                </div>`;
+            
+            // Au clic : On ouvre la modale au lieu de valider direct
+            card.onclick = () => ouvrirModalePreuve(cs.id, cs.nom, estValide);
+            
+            container.appendChild(card);
+        }); }); }); });
+    }
+
+    // --- NOUVELLE LOGIQUE : MODALE ---
+    
+    function ouvrirModalePreuve(id, nom, estDejaValide) {
+        if(estDejaValide) {
+            // Si déjà validé, pour l'instant on ne fait rien (ou on pourrait proposer de modifier)
+            // Pour simplifier l'exercice : on propose de DÉ-VALIDER ou MODIFIER ?
+            // Disons qu'on réouvre pour modifier
+        }
+        
+        currentCompId = id;
+        document.getElementById('modal-comp-title').innerText = nom;
+        
+        // Reset du formulaire
+        document.getElementById('input-preuve').value = "";
+        document.getElementById('input-niveau').value = "1";
+
+        // Si déjà des données, on les remet
+        if (userData.competences_validees && userData.competences_validees[id]) {
+            document.getElementById('input-preuve').value = userData.competences_validees[id].preuve || "";
+            document.getElementById('input-niveau').value = userData.competences_validees[id].niveau || "1";
+        }
+
+        proofModal.show();
+    }
+
+    function sauvegarderPreuve() {
+        if(!currentCompId) return;
+
+        const niveau = parseInt(document.getElementById('input-niveau').value);
+        const preuve = document.getElementById('input-preuve').value;
+
+        if(preuve.length < 3) {
+            alert("Merci d'écrire une petite phrase pour expliquer ta réussite !");
+            return;
+        }
+
+        // On construit l'objet de preuve
+        const dataToSave = {
+            valide: true,
+            niveau: niveau,
+            preuve: preuve,
+            date: new Date().toISOString()
+        };
+
+        // Envoi Firebase
+        firebase.database().ref(`accompagnement/eleves/${userCode}/competences_validees/${currentCompId}`).set(dataToSave);
+        
+        proofModal.hide();
+    }
+</script>
+</body>
+</html>
