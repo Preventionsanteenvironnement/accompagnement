@@ -43,10 +43,7 @@
         <div class="icon-closed">🌙</div>
         <h3 class="mb-3 text-warning">Espace Fermé</h3>
         <p class="text-white-50">L'application est accessible uniquement<br>pendant les heures scolaires.</p>
-        <div class="badge bg-dark mt-3 p-3">
-            Lundi - Vendredi<br>
-            08:00 - 18:00
-        </div>
+        <div id="horaires-display" class="badge bg-dark mt-3 p-3">--</div>
     </div>
 </div>
 
@@ -112,56 +109,21 @@
     if (typeof firebaseConfig !== 'undefined') firebase.initializeApp(firebaseConfig);
     const userCode = new URLSearchParams(window.location.search).get("id");
     
-    // --- CONFIGURATION HORAIRES ---
-    const HEURE_OUVERTURE = 8;
-    const HEURE_FERMETURE = 18;
-    const JOURS_OUVERTS = [1, 2, 3, 4, 5];
+    // Config par défaut (si jamais Firebase ne répond pas)
+    let CONFIG_ECOLE = { ouverture: 8, fermeture: 18, jours: [1,2,3,4,5], maintenance: false };
 
-    // --- LE DICTIONNAIRE TRADUIT (Simplifié pour l'élève) ---
+    // --- DICTIONNAIRE SIMPLIFIÉ ---
     const REFERENTIEL_DATA = { 
       "axes": [
-        { 
-          "id": "COG", "nom": "Mes Pensées", "phases": [ 
-            { "id": 1, "competences_generales": [ 
-              { "id": "C1", "nom": "Savoir qui je suis", "competences_specifiques": [ 
-                  { "id": "C1.1", "nom": "Savoir ce que je vaux et qui je suis" }, 
-                  { "id": "C1.2", "nom": "Prendre du recul / Ne pas juger trop vite" }, 
-                  { "id": "C1.3", "nom": "Identifier ce qui est important pour moi" }, 
-                  { "id": "C1.4", "nom": "Faire des choix réfléchis" }, 
-                  { "id": "C1.5", "nom": "Reconnaître mes réussites" }, 
-                  { "id": "C1.6", "nom": "Rester concentré sur l'instant" } 
-              ] } 
-            ] } 
-          ] 
-        },
-        { 
-          "id": "EMO", "nom": "Mes Émotions", "phases": [ 
-            { "id": 1, "competences_generales": [ 
-              { "id": "E1", "nom": "Gérer mes émotions", "competences_specifiques": [ 
-                  { "id": "E1.1", "nom": "Comprendre pourquoi je réagis comme ça" }, 
-                  { "id": "E1.2", "nom": "Mettre un nom sur ce que je ressens" } 
-              ] } 
-            ] } 
-          ] 
-        },
-        { 
-          "id": "SOC", "nom": "Mes Relations", "phases": [ 
-            { "id": 1, "competences_generales": [ 
-              { "id": "S1", "nom": "Avoir de bonnes relations", "competences_specifiques": [ 
-                  { "id": "S1.1", "nom": "M'exprimer calmement et clairement" }, 
-                  { "id": "S1.2", "nom": "Écouter et comprendre les autres" }, 
-                  { "id": "S1.3", "nom": "Être solidaire et respectueux" } 
-              ] } 
-            ] } 
-          ] 
-        }
+        { "id": "COG", "nom": "Mes Pensées", "phases": [ { "id": 1, "competences_generales": [ { "id": "C1", "nom": "Savoir qui je suis", "competences_specifiques": [ { "id": "C1.1", "nom": "Savoir ce que je vaux et qui je suis" }, { "id": "C1.2", "nom": "Prendre du recul / Ne pas juger trop vite" }, { "id": "C1.3", "nom": "Identifier ce qui est important pour moi" }, { "id": "C1.4", "nom": "Faire des choix réfléchis" }, { "id": "C1.5", "nom": "Reconnaître mes réussites" }, { "id": "C1.6", "nom": "Rester concentré sur l'instant" } ] } ] } ] },
+        { "id": "EMO", "nom": "Mes Émotions", "phases": [ { "id": 1, "competences_generales": [ { "id": "E1", "nom": "Gérer mes émotions", "competences_specifiques": [ { "id": "E1.1", "nom": "Comprendre pourquoi je réagis comme ça" }, { "id": "E1.2", "nom": "Mettre un nom sur ce que je ressens" } ] } ] } ] },
+        { "id": "SOC", "nom": "Mes Relations", "phases": [ { "id": 1, "competences_generales": [ { "id": "S1", "nom": "Avoir de bonnes relations", "competences_specifiques": [ { "id": "S1.1", "nom": "M'exprimer calmement et clairement" }, { "id": "S1.2", "nom": "Écouter et comprendre les autres" }, { "id": "S1.3", "nom": "Être solidaire et respectueux" } ] } ] } ] }
       ]
     };
     
     let userData = { competences_validees: {} };
     let currentCompId = null;
     let proofModal = null;
-
     const sanitize = (id) => id.replace(/\./g, '_');
 
     Chart.defaults.color = '#94a3b8'; Chart.defaults.borderColor = 'rgba(255,255,255,0.1)';
@@ -169,33 +131,30 @@
     let gradient = ctx.createLinearGradient(0, 0, 0, 400); gradient.addColorStop(0, 'rgba(192, 132, 252, 0.5)'); gradient.addColorStop(1, 'rgba(56, 189, 248, 0.1)');
     window.myRadarChart = new Chart(ctx, { type: 'radar', data: { labels: ['Pensées', 'Relations', 'Émotions'], datasets: [{ label: 'Score', data: [0, 0, 0], backgroundColor: gradient, borderColor: '#c084fc', pointBackgroundColor: '#fff', borderWidth: 3 }] }, options: { scales: { r: { angleLines: { color: 'rgba(255,255,255,0.1)' }, grid: { color: 'rgba(255,255,255,0.05)' }, pointLabels: { font: { size: 14, family: "'Outfit', sans-serif" }, color: '#f1f5f9' }, suggestedMin: 0, suggestedMax: 100, ticks: { display: false } } }, plugins: { legend: { display: false } }, maintainAspectRatio: false } });
 
-    function estDansLesHoraires() {
+    function verifierHorairesEtLancer() {
         const now = new Date();
         const jour = now.getDay(); 
         const heure = now.getHours();
-        if (!JOURS_OUVERTS.includes(jour) || heure < HEURE_OUVERTURE || heure >= HEURE_FERMETURE) {
-            return false;
-        }
-        return true;
-    }
 
-    window.onload = function() {
-        if (!userCode) return;
-        document.getElementById('code-eleve-display').innerText = userCode;
-        proofModal = new bootstrap.Modal(document.getElementById('proofModal'));
+        // Affichage des horaires sur l'écran fermé
+        document.getElementById('horaires-display').innerHTML = `Ouvert de ${CONFIG_ECOLE.ouverture}h à ${CONFIG_ECOLE.fermeture}h`;
 
-        // Vérification Horaire
-        if (!estDansLesHoraires()) {
+        if (CONFIG_ECOLE.maintenance || !CONFIG_ECOLE.jours.includes(jour) || heure < CONFIG_ECOLE.ouverture || heure >= CONFIG_ECOLE.fermeture) {
             document.getElementById('loader').style.display = 'none';
             document.getElementById('school-closed').style.display = 'block';
-            return; 
+            document.getElementById('dashboard-content').style.display = 'none';
+        } else {
+            // C'est ouvert -> On vérifie l'autorisation de l'élève
+            verifierAutorisationEleve();
         }
+    }
 
-        // Vérification Firebase
+    function verifierAutorisationEleve() {
         firebase.database().ref(`accompagnement/autorisations/${userCode}`).on('value', (snapshot) => {
             const data = snapshot.val();
             const estAutorise = (data && data.autorise === true);
             document.getElementById('loader').style.display = 'none';
+            document.getElementById('school-closed').style.display = 'none';
             
             if (estAutorise) {
                 document.getElementById('access-denied').style.display = 'none';
@@ -205,6 +164,21 @@
                 document.getElementById('dashboard-content').style.display = 'none';
                 document.getElementById('access-denied').style.display = 'block';
             }
+        });
+    }
+
+    window.onload = function() {
+        if (!userCode) return;
+        document.getElementById('code-eleve-display').innerText = userCode;
+        proofModal = new bootstrap.Modal(document.getElementById('proofModal'));
+
+        // 1. On récupère la CONFIG ECOLE depuis Firebase
+        firebase.database().ref('accompagnement/config/horaires').on('value', (snap) => {
+            const val = snap.val();
+            if(val) CONFIG_ECOLE = val; // On met à jour la config locale avec celle du prof
+            
+            // 2. On vérifie si ça passe
+            verifierHorairesEtLancer();
         });
     };
 
@@ -233,17 +207,13 @@
             const safeId = sanitize(cs.id);
             const infoComp = (userData.competences_validees && userData.competences_validees[safeId]) ? userData.competences_validees[safeId] : null;
             const estValide = infoComp && infoComp.valide;
-            
             const card = document.createElement('div');
             card.className = `card mb-3 p-3 ${estValide ? 'border-success' : ''}`; card.style.cursor = 'pointer'; card.style.background = '#1e293b'; card.style.borderColor = estValide ? '#4ade80' : 'rgba(255,255,255,0.1)';
-            
             let detailsHtml = '';
             if(estValide) {
                 const etoiles = "⭐".repeat(infoComp.niveau || 1);
                 detailsHtml = `<div class="mt-2 small text-muted border-top border-secondary pt-2"><span class="text-warning">${etoiles}</span> <br> <em>"${infoComp.preuve || ''}"</em></div>`;
             }
-
-            // Ici on affiche cs.nom qui contient maintenant la phrase simple (ex: Savoir ce que je vaux)
             card.innerHTML = `<div class="d-flex justify-content-between align-items-center text-white"><div style="width: 100%"><strong style="font-size: 1.1em;">${cs.nom}</strong><br><small style="color: #94a3b8;">${cg.nom}</small>${detailsHtml}</div><div class="form-check form-switch ms-2"><input class="form-check-input" type="checkbox" ${estValide ? 'checked' : ''} disabled></div></div>`;
             card.onclick = () => ouvrirModalePreuve(cs.id, cs.nom, estValide, safeId);
             container.appendChild(card);
@@ -255,7 +225,6 @@
         document.getElementById('modal-comp-title').innerText = nom;
         document.getElementById('input-preuve').value = "";
         document.getElementById('input-niveau').value = "1";
-
         if (userData.competences_validees && userData.competences_validees[safeId]) {
             document.getElementById('input-preuve').value = userData.competences_validees[safeId].preuve || "";
             document.getElementById('input-niveau').value = userData.competences_validees[safeId].niveau || "1";
@@ -267,9 +236,7 @@
         if(!currentCompId) return;
         const niveau = parseInt(document.getElementById('input-niveau').value);
         const preuve = document.getElementById('input-preuve').value;
-
         if(preuve.length < 3) { alert("Merci d'écrire une phrase !"); return; }
-
         const dataToSave = { valide: true, niveau: niveau, preuve: preuve, date: new Date().toISOString() };
         firebase.database().ref(`accompagnement/eleves/${userCode}/competences_validees/${currentCompId}`).set(dataToSave);
         proofModal.hide();
