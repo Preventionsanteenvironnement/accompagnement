@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Espace Accompagnement - CPS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { background-color: #f0f2f5; font-family: 'Inter', sans-serif; }
+        .hero-section { background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); color: white; padding: 2rem 1rem; border-bottom-left-radius: 2rem; border-bottom-right-radius: 2rem; }
+        .card-stats { border: none; border-radius: 1.5rem; transition: transform 0.2s; }
+        #access-denied { display: none; }
+        #dashboard-content { display: none; }
+    </style>
+</head>
+<body>
+
+<div id="loader" class="text-center mt-5">
+    <div class="spinner-border text-primary" role="status"></div>
+    <p class="mt-2">Vérification de tes accès...</p>
+</div>
+
+<div id="access-denied" class="container mt-5 pt-5 text-center">
+    <div class="card p-4 shadow-sm">
+        <h3>Bonjour !</h3>
+        <p class="text-muted mt-3">Cet espace est accessible dans le cadre d’un accompagnement personnalisé.</p>
+        <p>Si tu es concerné, ton enseignant te précisera comment activer ton accès.</p>
+        <a href="index.html" class="btn btn-outline-primary mt-3">Retour à l'accueil</a>
+    </div>
+</div>
+
+<div id="dashboard-content">
+    <div class="hero-section text-center shadow">
+        <h1 class="h3">Mon Parcours CPS</h1>
+        <p id="student-code" class="badge bg-light text-primary">Code : --</p>
+    </div>
+
+    <div class="container mt-4">
+        <div class="row g-3">
+            <div class="col-12">
+                <div class="card card-stats shadow-sm p-3 text-center">
+                    <h5 class="mb-3">Mes Dimensions</h5>
+                    <canvas id="radarChart" style="max-height: 300px;"></canvas>
+                </div>
+            </div>
+            <div id="last-validations" class="col-12 mt-3">
+                <h5>Dernières réussites</h5>
+                <div id="timeline" class="list-group shadow-sm">
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script>
+    if (typeof firebaseConfig !== 'undefined') {
+        firebase.initializeApp(firebaseConfig);
+    }
+</script>
+</body>
+</html>
