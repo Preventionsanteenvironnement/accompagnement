@@ -19,7 +19,6 @@
         }
         body { background-color: var(--bg-app); color: var(--text-main); font-family: 'Outfit', sans-serif; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
         
-        /* HEADER SOBRE (G) */
         .app-header { background: var(--surface); padding: 1rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; z-index: 20; }
         .student-id { font-weight: 700; color: var(--text-main); font-size: 0.9rem; letter-spacing: 0.5px; text-transform: uppercase; }
         .btn-header { background: none; border: 1px solid #cbd5e1; color: var(--neu-color); padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; text-decoration: none; }
@@ -27,16 +26,13 @@
         .app-content { flex: 1; overflow-y: auto; padding: 1rem; padding-bottom: 100px; display: none; }
         .app-content.active { display: block; }
 
-        /* METEO */
         .mood-box { background: white; padding: 15px; border-radius: var(--radius); border: 1px solid #e2e8f0; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
         
-        /* CERCLES */
         .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 1.5rem; }
         .kpi-item { background: white; border-radius: var(--radius); padding: 10px 5px; text-align: center; border: 1px solid #e2e8f0; cursor: pointer; }
         .chart-mini { position: relative; height: 50px; width: 50px; margin: 0 auto 5px auto; }
         .kpi-title { font-weight: 700; font-size: 0.7rem; text-transform: uppercase; color: var(--neu-color); }
 
-        /* LISTE OBJECTIFS (B) */
         .obj-card { background: white; border-radius: var(--radius); padding: 12px; margin-bottom: 8px; border: 1px solid #e2e8f0; border-left-width: 4px; display: flex; align-items: center; cursor: pointer; }
         .obj-card.cog { border-left-color: var(--cog-color); }
         .obj-card.emo { border-left-color: var(--emo-color); }
@@ -50,16 +46,13 @@
         .obj-time { font-weight: 600; margin-left: auto; }
         .obj-time.urgent { color: #dc2626; }
 
-        /* BOUTONS ACTIONS */
         .btn-main { display: block; width: 100%; background: white; border: 1px solid #e2e8f0; padding: 12px; margin-bottom: 10px; border-radius: var(--radius); text-align: left; font-weight: 600; color: var(--primary); }
         .btn-add { background: var(--primary); color: white; text-align: center; border: none; }
 
-        /* NAV BAS */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: white; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-around; padding: 12px 0; z-index: 30; }
         .nav-btn { background: none; border: none; color: #94a3b8; font-size: 0.75rem; font-weight: 600; }
         .nav-btn.active { color: var(--primary); }
 
-        /* OVERLAYS */
         .overlay-full { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #f8fafc; z-index: 100; display: none; flex-direction: column; overflow-y: auto; }
         .overlay-header { padding: 1rem; background: white; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; }
         .step-content { padding: 1.5rem; flex: 1; }
@@ -67,7 +60,6 @@
         .list-btn { width: 100%; text-align: left; padding: 12px; margin-bottom: 8px; background: white; border: 1px solid #e2e8f0; border-radius: var(--radius); font-weight: 500; color: var(--text-main); }
         .list-btn:active, .list-btn.selected { background: #e0e7ff; border-color: var(--primary); color: var(--primary); font-weight: 700; }
 
-        /* FORMULAIRES */
         .form-label { font-size: 0.75rem; font-weight: 700; color: var(--neu-color); text-transform: uppercase; margin-bottom: 5px; display: block; }
         .form-control, .form-select { border-radius: 6px; border: 1px solid #cbd5e1; padding: 10px; width: 100%; margin-bottom: 15px; font-size: 0.9rem; }
 
@@ -87,7 +79,6 @@
 </header>
 
 <main class="app-content active" id="view-dashboard">
-    
     <div class="mood-box" id="mood-box" style="display:none;">
         <div>
             <div style="font-size:0.75rem; color:#64748b; font-weight:600;">HUMEUR DU JOUR</div>
