@@ -65,6 +65,22 @@
 
         .hidden { display: none !important; }
         #qrcode-container { display: flex; justify-content: center; margin: 20px 0; padding: 10px; background: white; border-radius: 8px; }
+
+        .breath-circle {
+            width: 220px;
+            height: 220px;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            border: 3px solid #e2e8f0;
+            background: white;
+            margin: 0 auto;
+            transition: transform 5s linear;
+        }
+        .breath-circle.inhale { transform: scale(1.15); }
+        .breath-circle.exhale { transform: scale(0.95); }
     </style>
 </head>
 <body>
@@ -145,9 +161,24 @@
 
         <hr style="margin: 20px 0; border-color:#e2e8f0;">
 
-        <button class="btn-main" style="border-color:#4f46e5; color:#4f46e5;" onclick="showQRForGoal()">Demander validation adulte</button>
+        <button class="btn-main" style="border-color:#4f46e5; color:#4f46e5;" onclick="showQRForGoal()">Faire valider par un prof</button>
+        <div id="qr-feedback" style="text-align:center; font-size:0.75rem; color:#64748b; margin-top:5px;"></div>
         
         <button class="btn-header w-100 mt-3" style="color:#dc2626; border-color:#fca5a5;" onclick="deleteGoal()">Supprimer</button>
+    </div>
+</div>
+
+<div id="reco-overlay" class="overlay-full">
+    <div class="overlay-header">
+        <h5 style="margin:0; font-weight:700;">Reconnaissance</h5>
+        <button class="btn-header" onclick="closeReco()">Fermer</button>
+    </div>
+    <div class="step-content" style="text-align:center;">
+        <h6 class="form-label mb-4" style="text-align:center;">QUEL TYPE DE RÉUSSITE ?</h6>
+        <button class="btn-main" style="border-left:5px solid var(--cog-color);" onclick="generateRecoQR('COG')">Cognitif</button>
+        <button class="btn-main" style="border-left:5px solid var(--emo-color);" onclick="generateRecoQR('EMO')">Émotionnel</button>
+        <button class="btn-main" style="border-left:5px solid var(--soc-color);" onclick="generateRecoQR('SOC')">Social</button>
+        <button class="btn-main" style="border-left:5px solid var(--neu-color);" onclick="generateRecoQR('AUTRE')">Autre</button>
     </div>
 </div>
 
@@ -181,16 +212,25 @@
     </div>
 </div>
 
+<div id="breath-overlay" class="overlay-full" style="justify-content:center;">
+    <div class="text-center" style="padding:24px;">
+        <div id="breath-circle" class="breath-circle">Prêt</div>
+        <button class="btn-header mt-4" onclick="stopBreathing()">Fermer</button>
+    </div>
+</div>
+
 <script>
-    // --- CONFIG & SECU ---
     if (typeof firebaseConfig !== 'undefined') firebase.initializeApp(firebaseConfig);
     let userCode = new URLSearchParams(window.location.search).get("id");
-    
-    // Fallback Secu
+
     window.addEventListener('load', () => {
         setTimeout(() => {
             document.getElementById('loader').style.display = 'none';
-            if(!userCode) { userCode = "KA47"; document.getElementById('display-code').innerText = "KA47 (TEST)"; loadData(); }
+            if(!userCode) {
+                userCode = "KA47";
+                document.getElementById('display-code').innerText = "KA47 (TEST)";
+            }
+            loadData();
         }, 2000);
     });
 
@@ -198,8 +238,8 @@
     let draft = {};
     let currentEditId = null;
     let charts = {};
+    let breathInterval = null;
 
-    // --- DATA ---
     const GOAL_LIB = {
         "Scolaire": {
             "COG": ["Se concentrer", "Comprendre consigne", "Organiser matériel", "Planifier travail", "Appliquer méthode", "Vérifier travail"],
@@ -219,7 +259,7 @@
     };
     const MATIERES = ["Français","Maths","Anglais","Espagnol","Hist-Géo","Eco-Droit","Ens. Pro","PSE","Arts","EPS","Autre"];
     const EMOTIONS = {
-        "Joie": ["Satisfait","Fier","Enthousiaste"], "Tristesse": ["Déçu","Découragé"], "Colère": ["Agacé","Frustré"], 
+        "Joie": ["Satisfait","Fier","Enthousiaste"], "Tristesse": ["Déçu","Découragé"], "Colère": ["Agacé","Frustré"],
         "Peur": ["Inquiet","Stressé"], "Dégoût": ["Gêné"], "Surprise": ["Étonné"]
     };
 
@@ -234,7 +274,6 @@
         });
     }
 
-    // --- DASHBOARD (F) ---
     function renderDashboard() {
         const list = document.getElementById('goals-list'); list.innerHTML = '';
         const hist = document.getElementById('history-list'); hist.innerHTML = '';
@@ -242,7 +281,6 @@
         const keys = Object.keys(goals);
         let counts = {COG:0, EMO:0, SOC:0};
 
-        // Tri (F) : Date proche d'abord
         keys.sort((a,b) => {
             const da = new Date(goals[a].date_cible || '2099-01-01');
             const db = new Date(goals[b].date_cible || '2099-01-01');
@@ -251,35 +289,52 @@
 
         keys.forEach(k => {
             const g = goals[k];
-            const type = (g.type || 'NEU').toLowerCase();
-            const badge = g.context || 'Autre';
-            
-            // Calcul J-x (E)
+
+            let rawType = (g.type || 'AUTRE').toUpperCase();
+            let typeClass = 'neu';
+            if(rawType.includes('COG')) typeClass = 'cog';
+            else if(rawType.includes('EMO')) typeClass = 'emo';
+            else if(rawType.includes('SOC')) typeClass = 'soc';
+
             let timeStr = "Date à définir";
-            let urgent = false;
+            let urgentClass = "";
             if(g.date_cible) {
                 const today = new Date(); today.setHours(0,0,0,0);
                 const target = new Date(g.date_cible); target.setHours(0,0,0,0);
                 const diff = Math.ceil((target - today) / (86400000));
                 if(!isNaN(diff)) {
-                    timeStr = diff === 0 ? "Aujourd'hui" : (diff < 0 ? "Dépassé" : `J-${diff}`);
-                    if(diff < 0) urgent = true;
+                    if(diff < 0) { timeStr = "Dépassé"; urgentClass = "urgent"; }
+                    else if(diff === 0) { timeStr = "Aujourd'hui"; }
+                    else { timeStr = `J-${diff}`; }
                 }
             }
 
             if(g.done) {
-                if(counts[g.type]) counts[g.type]++;
-                hist.innerHTML += `<div class="obj-card ${type}" style="opacity:0.6"><div class="obj-content"><div class="obj-title">${g.titre}</div><div class="obj-meta">Validé</div></div></div>`;
+                if(rawType.includes('COG')) counts.COG++;
+                else if(rawType.includes('EMO')) counts.EMO++;
+                else if(rawType.includes('SOC')) counts.SOC++;
+
+                hist.innerHTML += `
+                <div class="obj-card ${typeClass}" style="opacity:0.6; cursor:default;">
+                    <div class="obj-content">
+                        <div class="obj-title" style="text-decoration:line-through;">${g.titre || ''}</div>
+                        <div class="obj-meta">Validé le ${new Date(g.date_done || Date.now()).toLocaleDateString()}</div>
+                    </div>
+                </div>`;
             } else {
                 list.innerHTML += `
-                <div class="obj-card ${type}" onclick="openDetail('${k}')">
-                    <input type="checkbox" onclick="event.stopPropagation(); toggleGoal('${k}', true)" style="width:20px;height:20px;">
-                    <div class="obj-content">
-                        <div class="obj-title">${g.titre}</div>
-                        <div class="obj-meta">
-                            <span class="obj-badge">${badge}</span>
+                <div class="obj-card ${typeClass}" onclick="openDetail('${k}')">
+                    <div style="display:flex; align-items:center; margin-right:12px;">
+                        <input type="checkbox" onclick="event.stopPropagation(); toggleGoal('${k}', true)" style="width:22px;height:22px; cursor:pointer;">
+                    </div>
+                    <div class="obj-content" style="flex:1;">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                            <span class="obj-title">${g.titre || ''}</span>
+                            <span class="obj-badge">${(g.context || 'Autre')}</span>
+                        </div>
+                        <div class="obj-meta" style="display:flex; justify-content:space-between; margin-top:6px;">
                             <span>${g.detail || ''}</span>
-                            <span class="obj-time ${urgent?'urgent':''}">${timeStr}</span>
+                            <span class="obj-time ${urgentClass}">${timeStr}</span>
                         </div>
                     </div>
                 </div>`;
@@ -288,10 +343,16 @@
 
         if(list.innerHTML === '') list.innerHTML = '<div style="text-align:center; color:#94a3b8; font-style:italic; padding:20px;">Aucun objectif en cours.</div>';
 
-        // Charts
         ['Cog','Emo','Soc'].forEach(t => {
-            const ctx = document.getElementById('chart'+t);
-            if(ctx) new Chart(ctx, { type:'doughnut', data:{datasets:[{data:[counts[t.toUpperCase()], 10], backgroundColor:['#4f46e5','#f1f5f9'], borderWidth:0}]}, options:{cutout:'75%', events:[], plugins:{tooltip:false}} });
+            const id = 'chart' + t;
+            const canvas = document.getElementById(id);
+            if(!canvas) return;
+            if(charts[id]) charts[id].destroy();
+            charts[id] = new Chart(canvas, {
+                type:'doughnut',
+                data:{datasets:[{data:[counts[t.toUpperCase()], 10], backgroundColor:['#4f46e5','#f1f5f9'], borderWidth:0}]},
+                options:{cutout:'75%', events:[], plugins:{tooltip:false}}
+            });
         });
     }
 
@@ -299,56 +360,56 @@
         if(confirm("As-tu atteint cet objectif ?")) {
             firebase.database().ref(`accompagnement/eleves/${userCode}/objectifs/${k}`).update({done: status, date_done: new Date().toISOString()});
         } else {
-            renderDashboard(); // Reset checkbox
+            renderDashboard();
         }
     }
 
-    // --- WIZARD 6 ETAPES (A) ---
     window.startGoalWizard = function() { draft = {}; document.getElementById('wizard-overlay').style.display='flex'; wizStep(1); }
     
     function wizStep(s) {
         const c = document.getElementById('wizard-content'); c.innerHTML = '';
-        if(s===1) { // CADRE
+        if(s===1) {
             c.innerHTML = `<h5>1. Dans quel cadre ?</h5>
             <button class="list-btn" onclick="draft.context='Scolaire'; wizStep(2)">Scolaire</button>
             <button class="list-btn" onclick="draft.context='PFMP'; wizStep(2)">PFMP / Stage</button>
             <button class="list-btn" onclick="draft.context='Recherche'; wizStep(2)">Recherche de stage</button>
             <button class="list-btn" onclick="draft.context='Autre'; wizStep(2)">Autre (Libre)</button>`;
-        } else if(s===2) { // TYPE
+        } else if(s===2) {
             c.innerHTML = `<h5>2. Quel type de progrès ?</h5>
-            <button class="list-btn" onclick="draft.type='COG'; wizStep(3)">Cognitif (Tête)</button>
-            <button class="list-btn" onclick="draft.type='EMO'; wizStep(3)">Émotionnel (Cœur)</button>
-            <button class="list-btn" onclick="draft.type='SOC'; wizStep(3)">Social (Lien)</button>
+            <button class="list-btn" onclick="draft.type='COG'; wizStep(3)">Cognitif</button>
+            <button class="list-btn" onclick="draft.type='EMO'; wizStep(3)">Émotionnel</button>
+            <button class="list-btn" onclick="draft.type='SOC'; wizStep(3)">Social</button>
             <button class="list-btn" onclick="draft.type='AUTRE'; wizStep(3)">Autre</button>`;
-        } else if(s===3) { // BUT
+        } else if(s===3) {
             const list = GOAL_LIB[draft.context]?.[draft.type] || [];
             let h = `<h5>3. Choisis ton but</h5>`;
             list.forEach(g => h+=`<button class="list-btn" onclick="draft.titre='${g}'; wizStep(4)">${g}</button>`);
             h+=`<button class="list-btn" onclick="draft.titre=prompt('Ton objectif ?'); if(draft.titre) wizStep(4)">Autre (Écrire)...</button>`;
             c.innerHTML = h;
-        } else if(s===4) { // DATE
+        } else if(s===4) {
             c.innerHTML = `<h5>4. Pour quand ?</h5>
             <input type="date" id="w-date" class="form-control" value="${new Date().toISOString().split('T')[0]}">
             <button class="btn-main btn-add" onclick="draft.date=document.getElementById('w-date').value; wizStep(5)">Continuer</button>`;
-        } else if(s===5) { // MATIERE/LIEU
+        } else if(s===5) {
             let inputHtml = `<input type="text" id="w-det" class="form-control" placeholder="Précise...">`;
             if(draft.context === 'Scolaire') {
                 inputHtml = `<select id="w-det" class="form-select">${MATIERES.map(m=>`<option value="${m}">${m}</option>`).join('')}</select>`;
             }
             c.innerHTML = `<h5>5. Matière / Lieu</h5>${inputHtml}
             <button class="btn-main btn-add" onclick="draft.detail=document.getElementById('w-det').value; wizStep(6)">Continuer</button>`;
-        } else if(s===6) { // VALIDATION
+        } else if(s===6) {
             c.innerHTML = `<h5>6. Récapitulatif</h5>
             <div class="card p-3 mb-3 bg-light">
-                <strong>${draft.titre}</strong><br>
-                ${draft.context} • ${draft.type}<br>
-                ${draft.detail} • ${draft.date}
+                <strong>${draft.titre || ''}</strong><br>
+                ${draft.context || ''} • ${draft.type || ''}<br>
+                ${draft.detail || ''} • ${draft.date || ''}
             </div>
             <button class="btn-main btn-add" onclick="saveWizard()">Valider l'objectif</button>`;
         }
     }
+
     window.saveWizard = function() {
-        if(!draft.date) draft.date = new Date().toISOString().split('T')[0]; // Fallback date
+        if(!draft.date) draft.date = new Date().toISOString().split('T')[0];
         firebase.database().ref(`accompagnement/eleves/${userCode}/objectifs`).push({
             context: draft.context, type: draft.type, titre: draft.titre,
             date_cible: draft.date, detail: draft.detail || 'Non précisé',
@@ -356,23 +417,29 @@
         });
         document.getElementById('wizard-overlay').style.display='none';
     }
+
     window.closeWizard = function(){document.getElementById('wizard-overlay').style.display='none';}
 
-    // --- DETAIL OBJECTIF & QR (C) ---
     window.openDetail = function(k) {
         currentEditId = k;
-        const g = userData.objectifs[k];
-        document.getElementById('detail-overlay').style.display='flex';
-        document.getElementById('det-badge').innerText = g.context || 'AUTRE';
-        document.getElementById('det-title').value = g.titre;
+        const g = userData.objectifs?.[k];
+        if(!g) return;
+
+        document.getElementById('det-badge').innerText = (g.context || 'AUTRE').toUpperCase();
+        document.getElementById('det-title').value = g.titre || '';
         document.getElementById('det-date').value = g.date_cible || '';
         document.getElementById('det-context').value = g.detail || '';
-        
-        // Verrouillage titre si liste (E)
+
         const isFree = (g.context === 'Autre' || g.type === 'AUTRE');
         document.getElementById('det-title').disabled = !isFree;
         document.getElementById('det-help').style.display = isFree ? 'none' : 'block';
+
+        const feedback = document.getElementById('qr-feedback');
+        if(feedback) feedback.innerText = '';
+
+        document.getElementById('detail-overlay').style.display='flex';
     }
+
     window.saveDetail = function() {
         const d = document.getElementById('det-date').value;
         const c = document.getElementById('det-context').value;
@@ -382,33 +449,57 @@
         firebase.database().ref(`accompagnement/eleves/${userCode}/objectifs/${currentEditId}`).update(up);
         document.getElementById('detail-overlay').style.display='none';
     }
+
     window.deleteGoal = function() {
         if(confirm("Supprimer ?")) {
             firebase.database().ref(`accompagnement/eleves/${userCode}/objectifs/${currentEditId}`).remove();
             document.getElementById('detail-overlay').style.display='none';
         }
     }
+
     window.closeDetail = function(){document.getElementById('detail-overlay').style.display='none';}
 
     window.showQRForGoal = function() {
+        if(!currentEditId || !userData.objectifs || !userData.objectifs[currentEditId]) {
+            const feedback = document.getElementById('qr-feedback');
+            if(feedback) feedback.innerText = "Erreur : objectif introuvable";
+            return;
+        }
         const g = userData.objectifs[currentEditId];
-        const p = { eleve: userCode, objectif: currentEditId, competence: g.type, timestamp: Date.now(), cadre: g.context };
+        const p = {
+            eleve: userCode,
+            objectif: currentEditId,
+            competence: g.type || 'AUTRE',
+            timestamp: Date.now(),
+            cadre: g.context || 'Autre',
+            flux: 1,
+            ref_id_officiel: ""
+        };
         generateQR(JSON.stringify(p));
     }
-    window.openRecoModal = function() {
-        const type = prompt("Type ? (COG, EMO, SOC)"); // Simplifié pour code, à remplacer par boutons si besoin
-        if(type) {
-            const p = { eleve: userCode, type_reconnaissance: type.toUpperCase(), competence: type.toUpperCase(), timestamp: Date.now() };
-            generateQR(JSON.stringify(p));
-        }
+
+    window.openRecoModal = function() { document.getElementById('reco-overlay').style.display='flex'; }
+    window.closeReco = function() { document.getElementById('reco-overlay').style.display='none'; }
+    window.generateRecoQR = function(type) {
+        const p = {
+            eleve: userCode,
+            type_reconnaissance: type,
+            competence: type,
+            flux: 2,
+            timestamp: Date.now(),
+            cadre: "Autre",
+            ref_id_officiel: ""
+        };
+        generateQR(JSON.stringify(p));
+        closeReco();
     }
+
     function generateQR(txt) {
         document.getElementById('qrcode-container').innerHTML = '';
         new QRCode(document.getElementById('qrcode-container'), { text: txt, width: 200, height: 200 });
         document.getElementById('qr-overlay').style.display='flex';
     }
 
-    // --- METEO (2 Niveaux) ---
     function checkMood() {
         const today = new Date().toISOString().split('T')[0];
         const m = (userData.meteo && userData.meteo[today]);
@@ -419,46 +510,74 @@
             openMoodModal();
         }
     }
+
     window.openMoodModal = function() {
         document.getElementById('mood-overlay').style.display='flex';
         let h = `<h5>1. Émotion principale</h5>`;
         Object.keys(EMOTIONS).forEach(k => h+=`<button class="list-btn" onclick="moodStep2('${k}')">${k}</button>`);
         document.getElementById('mood-content').innerHTML = h;
     }
+
     window.moodStep2 = function(p) {
         let h = `<h5>2. Précisons (${p})</h5>`;
         EMOTIONS[p].forEach(s => h+=`<button class="list-btn" onclick="saveMood('${p}','${s}')">${s}</button>`);
         document.getElementById('mood-content').innerHTML = h;
     }
+
     window.saveMood = function(p, s) {
         const today = new Date().toISOString().split('T')[0];
         firebase.database().ref(`accompagnement/eleves/${userCode}/meteo/${today}`).set({primary:p, secondary:s});
         document.getElementById('mood-overlay').style.display='none';
     }
 
-    // --- CERCLES & ATTESTATION ---
     window.openCircleDetail = function(t) {
         document.getElementById('circle-title').innerText = t;
-        // Ici on afficherait l'historique complet filtré par type (omis pour brièveté code V24)
         document.getElementById('circle-overlay').style.display='flex';
         document.getElementById('circle-content').innerHTML = "<p class='text-muted'>Historique complet ici...</p>";
     }
+
     window.closeCircle = function(){document.getElementById('circle-overlay').style.display='none';}
-    
+
     window.openAttestation = function() { document.getElementById('attestation-overlay').style.display='flex'; }
+
     window.renderAttestation = function() {
         document.getElementById('syn-cog').innerText = "Analyse des objectifs cognitifs...";
         document.getElementById('syn-emo').innerText = "Analyse des objectifs émotionnels...";
         document.getElementById('syn-soc').innerText = "Analyse des objectifs sociaux...";
     }
 
-    // --- NAV ---
     window.switchView = function(v) {
         document.querySelectorAll('.app-content').forEach(e => e.classList.remove('active'));
         document.getElementById('view-'+v).classList.add('active');
     }
+
     window.toggleHistory = function() {
-        const h = document.getElementById('history-list'); h.style.display = h.style.display==='none'?'block':'none';
+        const h = document.getElementById('history-list');
+        h.style.display = h.style.display==='none' ? 'block' : 'none';
+    }
+
+    window.startBreathing = function() {
+        document.getElementById('breath-overlay').style.display='flex';
+        const circle = document.getElementById('breath-circle');
+        if(breathInterval) clearInterval(breathInterval);
+
+        function cycle() {
+            circle.innerText = "Inspirer 5s";
+            circle.className = "breath-circle inhale";
+            setTimeout(() => {
+                circle.innerText = "Expirer 6s";
+                circle.className = "breath-circle exhale";
+            }, 5000);
+        }
+
+        cycle();
+        breathInterval = setInterval(cycle, 11000);
+    }
+
+    window.stopBreathing = function() {
+        document.getElementById('breath-overlay').style.display = 'none';
+        if(breathInterval) clearInterval(breathInterval);
+        breathInterval = null;
     }
 </script>
 </body>
