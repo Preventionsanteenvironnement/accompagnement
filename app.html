@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mon Espace Réussite</title>
+    <title>Espace Réussite</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -13,76 +13,71 @@
             --surface: #ffffff; 
             --text-main: #1e293b; 
             --primary: #4f46e5; 
-            --radius: 20px;
-            /* NOUVELLES COULEURS CPS */
+            --radius: 12px;
+            /* COULEURS CPS */
             --cog-color: #3b82f6; /* Bleu */
             --emo-color: #ec4899; /* Rose */
-            --soc-color: #8b5cf6; /* Violet/Mauve */
-            --neu-color: #64748b; /* Gris Neutre */
+            --soc-color: #8b5cf6; /* Violet */
+            --neu-color: #64748b; /* Gris */
         }
         body { background-color: var(--bg-app); color: var(--text-main); font-family: 'Outfit', sans-serif; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
         
-        /* HEADER */
-        .app-header { background: var(--surface); padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.03); z-index: 20; border-bottom-left-radius: 25px; border-bottom-right-radius: 25px; }
-        .btn-breath { background: #eff6ff; color: var(--cog-color); border: none; width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(59, 130, 246, 0.1); transition: transform 0.2s; }
-        .btn-breath:active { transform: scale(0.9); }
+        /* HEADER SOBRE (8 bis) */
+        .app-header { background: var(--surface); padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; z-index: 20; }
+        .student-id { font-weight: 700; color: var(--text-main); font-size: 1rem; letter-spacing: 0.5px; }
+        .btn-breath { background: none; border: 1px solid #e2e8f0; color: var(--neu-color); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
 
         /* CONTENU */
-        .app-content { flex: 1; overflow-y: auto; padding: 1.5rem; padding-bottom: 120px; display: none; }
-        .app-content.active { display: block; animation: slideUp 0.4s ease-out; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .app-content { flex: 1; overflow-y: auto; padding: 1.5rem; padding-bottom: 100px; display: none; }
+        .app-content.active { display: block; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* METEO DU JOUR */
+        .mood-summary { background: white; padding: 12px; border-radius: var(--radius); border: 1px solid #e2e8f0; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .mood-tag { font-weight: 700; color: var(--primary); }
 
         /* KPI CERCLES */
-        .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 2rem; }
-        .kpi-item { background: white; border-radius: 16px; padding: 15px 5px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.03); cursor: pointer; transition: transform 0.2s; position: relative; overflow: hidden; }
-        .kpi-item:active { transform: scale(0.95); }
-        .kpi-item::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; }
+        .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 2rem; }
+        .kpi-item { background: white; border-radius: var(--radius); padding: 15px 5px; text-align: center; border: 1px solid #f1f5f9; box-shadow: 0 2px 4px rgba(0,0,0,0.02); cursor: pointer; }
+        .kpi-item:active { background: #f8fafc; }
         .chart-mini { position: relative; height: 60px; width: 60px; margin: 0 auto 8px auto; }
-        .kpi-title { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .kpi-title { font-weight: 700; font-size: 0.75rem; text-transform: uppercase; color: var(--neu-color); }
 
         /* OBJECTIFS LISTE */
-        .obj-card { background: white; border-radius: 16px; padding: 15px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); position: relative; overflow: hidden; display: flex; align-items: center; border-left: 5px solid var(--neu-color); transition: all 0.3s; }
+        .obj-card { background: white; border-radius: var(--radius); padding: 15px; margin-bottom: 10px; border: 1px solid #e2e8f0; position: relative; border-left-width: 5px; cursor: pointer; }
         .obj-card.cog { border-left-color: var(--cog-color); }
         .obj-card.emo { border-left-color: var(--emo-color); }
         .obj-card.soc { border-left-color: var(--soc-color); }
-        .obj-card.done { opacity: 0.6; background: #f1f5f9; border-left-color: #cbd5e1; }
+        .obj-card.neu { border-left-color: var(--neu-color); }
         
-        .obj-badge { font-size: 0.65rem; padding: 3px 8px; border-radius: 6px; font-weight: 700; text-transform: uppercase; margin-left: 8px; }
-        .badge-scolaire { background: #e0f2fe; color: #0369a1; }
-        .badge-stage { background: #fef3c7; color: #b45309; }
-        .badge-recherche { background: #dcfce7; color: #15803d; }
-        
-        .countdown { font-size: 0.7rem; font-weight: 700; color: #64748b; margin-top: 4px; }
+        .obj-badge { font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; font-weight: 700; text-transform: uppercase; background: #f1f5f9; color: #475569; margin-left: 8px; }
+        .countdown { font-size: 0.75rem; font-weight: 600; color: #64748b; margin-top: 4px; display: block; }
         .countdown.urgent { color: #ef4444; }
 
-        /* METEO */
-        .meteo-box { background: white; padding: 15px; border-radius: 16px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); text-align: center; }
-
         /* NAV BAS */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: white; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-around; padding: 12px 0; z-index: 30; border-top-left-radius: 25px; border-top-right-radius: 25px; box-shadow: 0 -4px 20px rgba(0,0,0,0.02); }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: white; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-around; padding: 12px 0; z-index: 30; }
         .nav-btn { background: none; border: none; color: #94a3b8; font-size: 0.75rem; display: flex; flex-direction: column; align-items: center; font-weight: 500; }
         .nav-btn.active { color: var(--primary); font-weight: 700; }
-        .nav-btn i { font-size: 1.4rem; margin-bottom: 4px; }
-
-        /* BOUTON ACTION FLOTTANT */
-        .fab-main { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--primary), #8b5cf6); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; box-shadow: 0 10px 25px rgba(79, 70, 229, 0.4); border: 4px solid white; z-index: 35; }
+        .nav-btn i { font-size: 1.2rem; margin-bottom: 4px; }
 
         /* OVERLAYS */
         .overlay-full { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #f8fafc; z-index: 100; display: none; flex-direction: column; overflow-y: auto; }
-        .overlay-header { padding: 1.5rem; background: white; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; }
+        .overlay-header { padding: 1.5rem; background: white; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; }
         .step-content { padding: 1.5rem; flex: 1; }
 
-        /* BOUTONS LISTE */
-        .list-btn { width: 100%; text-align: left; padding: 15px; margin-bottom: 10px; background: white; border: 1px solid #e2e8f0; border-radius: 12px; transition: all 0.2s; display: flex; align-items: center; }
-        .list-btn:active { transform: scale(0.98); background: #f8fafc; border-color: var(--primary); }
-        .list-dot { width: 12px; height: 12px; border-radius: 50%; margin-right: 15px; flex-shrink: 0; }
-
+        /* BOUTONS LISTE (Wizard & Mood) */
+        .list-btn { width: 100%; text-align: left; padding: 15px; margin-bottom: 8px; background: white; border: 1px solid #e2e8f0; border-radius: 8px; font-weight: 600; color: var(--text-main); }
+        .list-btn:active { background: #e0e7ff; border-color: var(--primary); }
+        
         /* RESPIRATION */
-        .breath-circle { width: 200px; height: 200px; background: #e0e7ff; border-radius: 50%; margin: auto; display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 1.5rem; font-weight: bold; transition: all 5s ease-in-out; }
+        .breath-circle { width: 200px; height: 200px; background: #e0e7ff; border-radius: 50%; margin: auto; display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 1.2rem; font-weight: bold; transition: all 5s ease-in-out; }
         .inhale { transform: scale(1.5); background-color: #c7d2fe; }
         .exhale { transform: scale(1.0); background-color: #e0e7ff; }
 
-        #school-closed { display:none; height:100vh; align-items:center; justify-content:center; flex-direction:column; background: #1e293b; color: white; }
+        .hidden { display: none !important; }
+        
+        /* EDIT MODAL SPECIFIC */
+        .edit-label { font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 5px; display: block; }
     </style>
 </head>
 <body>
@@ -92,65 +87,98 @@
 </div>
 
 <header class="app-header">
-    <div>
-        <h5 class="mb-0 fw-bold">Bonjour <span id="display-code">...</span> 👋</h5>
-        <small class="text-muted" id="mood-header-text">Comment ça va ?</small>
-    </div>
-    <button class="btn-breath" onclick="startBreathing()" title="Respiration">
-        <i class="fas fa-wind"></i>
-    </button>
+    <div class="student-id"><span id="display-code">--</span></div>
+    <button class="btn-breath" onclick="startBreathing()">Respiration</button>
 </header>
 
 <main class="app-content active" id="view-dashboard">
     
+    <div class="mood-summary" id="mood-summary-box" style="display:none;">
+        <div>
+            <div class="small text-muted">Humeur du jour</div>
+            <div class="mood-tag" id="mood-display-val">--</div>
+        </div>
+        <button class="btn btn-sm btn-outline-secondary rounded-pill" onclick="openMoodModal()">Changer</button>
+    </div>
+
     <div class="kpi-grid">
         <div class="kpi-item" onclick="openCircleDetail('COG')">
             <div class="chart-mini"><canvas id="chartCog"></canvas></div>
-            <div class="kpi-title" style="color:var(--cog-color)">Cognitif</div>
+            <div class="kpi-title">Cognitif</div>
         </div>
         <div class="kpi-item" onclick="openCircleDetail('EMO')">
             <div class="chart-mini"><canvas id="chartEmo"></canvas></div>
-            <div class="kpi-title" style="color:var(--emo-color)">Émotionnel</div>
+            <div class="kpi-title">Émotionnel</div>
         </div>
         <div class="kpi-item" onclick="openCircleDetail('SOC')">
             <div class="chart-mini"><canvas id="chartSoc"></canvas></div>
-            <div class="kpi-title" style="color:var(--soc-color)">Social</div>
+            <div class="kpi-title">Social</div>
         </div>
     </div>
 
-    <div class="d-flex justify-content-between align-items-center mb-3 px-1">
-        <h6 class="fw-bold mb-0 text-dark">🎯 Objectifs à atteindre</h6>
-        <button class="btn btn-sm btn-outline-primary rounded-pill fw-bold" onclick="startGoalWizard()">+ Fixer un but</button>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h6 class="fw-bold mb-0 text-dark">Objectifs à atteindre</h6>
+        <button class="btn btn-sm btn-primary rounded-pill px-3" onclick="startGoalWizard()">+ Ajouter</button>
     </div>
     
     <div id="active-goals-list"></div>
 
-    <div class="mt-4">
-        <div class="d-flex justify-content-between align-items-center p-2 rounded" style="background:#f1f5f9; cursor:pointer;" onclick="toggleHistory()">
-            <span class="small fw-bold text-muted">📂 Historique des réussites</span>
-            <i class="fas fa-chevron-down text-muted" id="hist-icon"></i>
+    <div class="mt-4 border-top pt-3">
+        <div class="d-flex justify-content-between align-items-center mb-2" onclick="toggleHistory()" style="cursor:pointer">
+            <span class="small fw-bold text-muted">Objectifs atteints / Historique</span>
+            <i class="fas fa-chevron-down text-muted"></i>
         </div>
-        <div id="history-goals-list" style="display:none; margin-top:10px;"></div>
+        <div id="history-goals-list" style="display:none;"></div>
     </div>
 
 </main>
 
+<main class="app-content" id="view-library">
+    <h4 class="fw-bold mb-3">Ressources</h4>
+    <div id="library-list"></div>
+</main>
+
 <div class="bottom-nav">
     <button class="nav-btn active" onclick="switchView('dashboard')"><i class="fas fa-home"></i>Accueil</button>
-    <div style="width: 60px;"></div> <button class="nav-btn" onclick="startMoodCheck()"><i class="fas fa-smile"></i>Humeur</button>
+    <button class="nav-btn" onclick="switchView('library')"><i class="fas fa-book-open"></i>Savoir</button>
 </div>
-
-<button class="fab-main" onclick="startGoalWizard()">
-    <i class="fas fa-plus"></i>
-</button>
 
 <div id="wizard-overlay" class="overlay-full">
     <div class="overlay-header">
-        <h5 class="fw-bold mb-0">Nouveau But 🎯</h5>
+        <h5 class="fw-bold mb-0">Nouvel Objectif</h5>
         <button class="btn-close" onclick="closeWizard()"></button>
     </div>
-    <div class="step-content" id="wizard-steps">
+    <div class="step-content" id="wizard-steps"></div>
+</div>
+
+<div id="edit-goal-overlay" class="overlay-full">
+    <div class="overlay-header">
+        <h5 class="fw-bold mb-0">Modifier l'objectif</h5>
+        <button class="btn-close" onclick="closeEditGoal()"></button>
+    </div>
+    <div class="step-content">
+        <div class="mb-4">
+            <label class="edit-label">Objectif</label>
+            <input type="text" id="edit-goal-title" class="form-control fw-bold" disabled>
+            <div class="form-text small" id="edit-goal-help">Texte non modifiable (issu de la liste).</div>
         </div>
+
+        <div class="mb-4">
+            <label class="edit-label">Pour quand ?</label>
+            <input type="date" id="edit-goal-date" class="form-control">
+        </div>
+
+        <div class="mb-4">
+            <label class="edit-label">Matière / Lieu</label>
+            <input type="text" id="edit-goal-context" class="form-control">
+        </div>
+
+        <button class="btn btn-primary w-100 rounded-pill py-3 fw-bold" onclick="saveEditedGoal()">Enregistrer les modifications</button>
+        
+        <div class="text-center mt-4">
+            <button class="btn btn-outline-danger btn-sm" onclick="deleteGoal()">Supprimer cet objectif</button>
+        </div>
+    </div>
 </div>
 
 <div id="circle-overlay" class="overlay-full">
@@ -159,35 +187,58 @@
         <button class="btn-close" onclick="closeCircle()"></button>
     </div>
     <div class="step-content">
-        <div class="card p-3 mb-3 border-0 shadow-sm" style="background:#f8fafc;">
-            <strong class="text-muted small">C'EST QUOI ?</strong>
-            <p class="mb-0 mt-1" id="circle-def">--</p>
+        <ul class="nav nav-pills mb-3 nav-fill" id="pills-tab" role="tablist">
+            <li class="nav-item"><button class="nav-link active btn-sm" onclick="switchCircleTab('suivi')">Suivi</button></li>
+            <li class="nav-item"><button class="nav-link btn-sm" onclick="switchCircleTab('comprendre')">Comprendre</button></li>
+            <li class="nav-item"><button class="nav-link btn-sm" onclick="switchCircleTab('pratique')">Pratique</button></li>
+        </ul>
+
+        <div id="tab-suivi">
+            <h6 class="text-muted small fw-bold mb-2">À VENIR / EN COURS</h6>
+            <div id="circle-active-list" class="mb-4"></div>
+            <h6 class="text-muted small fw-bold mb-2">ATTEINTS</h6>
+            <div id="circle-done-list"></div>
         </div>
-        <h6 class="fw-bold mb-3">Mes réussites dans ce domaine</h6>
-        <div id="circle-history-list"></div>
+
+        <div id="tab-comprendre" class="hidden">
+            <div class="card p-3 mb-3 border-0 bg-light">
+                <strong class="d-block mb-2">C'est quoi ?</strong>
+                <p class="mb-0 small" id="circle-def">--</p>
+            </div>
+            <div class="card p-3 mb-3 border-0 bg-light">
+                <strong class="d-block mb-2">Pourquoi au lycée/stage ?</strong>
+                <p class="mb-0 small" id="circle-exp">--</p>
+            </div>
+            <h6 class="fw-bold mt-4 mb-2">Dictionnaire</h6>
+            <div id="circle-dict-list" class="list-group list-group-flush small"></div>
+        </div>
+
+        <div id="tab-pratique" class="hidden">
+            <h6 class="fw-bold mb-3">Exercices d'entraînement</h6>
+            <div id="circle-ex-list" class="list-group list-group-flush"></div>
+        </div>
     </div>
 </div>
 
-<div id="mood-overlay" class="overlay-full" style="justify-content:center; align-items:center; background:rgba(255,255,255,0.95);">
-    <div class="text-center w-100 px-4">
-        <h3 class="fw-bold mb-4">Météo du jour 🌤️</h3>
-        <select id="mood-select" class="form-select form-select-lg mb-3 shadow-sm">
-            <option value="">Comment te sens-tu ?</option>
-        </select>
-        <button class="btn btn-primary rounded-pill w-100 py-3 fw-bold" onclick="saveMood()">Valider</button>
-        <button class="btn btn-link mt-3 text-muted" onclick="document.getElementById('mood-overlay').style.display='none'">Fermer</button>
+<div id="mood-overlay" class="overlay-full">
+    <div class="overlay-header">
+        <h5 class="fw-bold mb-0">Météo du jour</h5>
+        <button class="btn-close" id="mood-close-btn" onclick="document.getElementById('mood-overlay').style.display='none'"></button>
     </div>
+    <div class="step-content" id="mood-step-container">
+        </div>
 </div>
 
-<div id="breath-overlay" class="overlay-full" style="justify-content:center; background:#eef2ff;">
+<div id="breath-overlay" class="overlay-full" style="justify-content:center; background:#f8fafc;">
     <div class="text-center">
         <div id="breath-circle" class="breath-circle">Prêt ?</div>
-        <p class="mt-5 text-primary fw-bold" id="breath-text">Relâche la pression...</p>
-        <button class="btn btn-outline-dark rounded-pill mt-4 px-5" onclick="stopBreathing()">Fermer</button>
+        <button class="btn btn-outline-dark rounded-pill mt-5 px-5" onclick="stopBreathing()">Fermer</button>
     </div>
 </div>
 
-<div id="school-closed"><i class="fas fa-moon mb-3" style="font-size:4rem; color:#fbbf24;"></i><h3 class="fw-bold">Pause</h3><p class="text-white-50 px-4 text-center">Disponible sur temps scolaire.</p></div>
+<div id="school-closed" style="display:none; height:100vh; align-items:center; justify-content:center; flex-direction:column; background: #1e293b; color: white;">
+    <h3 class="fw-bold">Pause</h3><p class="text-white-50 px-4 text-center">Disponible sur temps scolaire.</p>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -200,62 +251,58 @@
     const userCode = new URLSearchParams(window.location.search).get("id");
     let CONFIG_ECOLE = { ouverture: 6, fermeture: 23, jours: [0,1,2,3,4,5,6], maintenance: false };
     
-    // --- BIBLIOTHÈQUE COMPLETE (V18) ---
+    // --- DONNÉES STATIQUES ---
+    const EMOTIONS_V2 = {
+        "Joie": ["Satisfait", "Fier", "Soulagé", "Enthousiaste", "Serein"],
+        "Tristesse": ["Déçu", "Découragé", "Nostalgique", "Seul", "Abattu"],
+        "Colère": ["Agacé", "Frustré", "Énervé", "Irrité", "Révolté"],
+        "Peur": ["Anxieux", "Inquiet", "Stressé", "Paniqué", "Méfiant"],
+        "Dégoût": ["Gêné", "Écœuré", "Mal à l'aise", "Repoussé"],
+        "Surprise": ["Étonné", "Choqué", "Impressionné", "Perplexe"]
+    };
+
+    const DICTIONNAIRE = {
+        "Cognitif": "Ce qui concerne la pensée, la mémoire, l'attention et le raisonnement.",
+        "Émotionnel": "Ce qui concerne ce que l'on ressent (sentiments, humeur).",
+        "Social": "Ce qui concerne les relations avec les autres.",
+        "Empathie": "Savoir se mettre à la place de l'autre pour comprendre ce qu'il ressent.",
+        "Estime de soi": "La valeur que l'on se donne à soi-même."
+    };
+
+    const EXERCICES = {
+        "COG": ["Lister 3 choses apprises aujourd'hui", "Faire une to-do list pour demain", "Relire une consigne 2 fois"],
+        "EMO": ["Nommer l'émotion ressentie maintenant", "Respiration 5s/6s", "Écrire ce qui me stresse"],
+        "SOC": ["Dire bonjour en regardant les yeux", "Écouter un camarade sans couper la parole", "Reformuler ce que l'autre a dit"]
+    };
+
+    const EXPLICATIONS = {
+        "COG": "Au lycée et en stage, cela t'aide à comprendre les consignes, à t'organiser et à résoudre des problèmes techniques.",
+        "EMO": "Cela t'aide à ne pas te laisser déborder par le stress ou la colère, et à rester professionnel même quand c'est difficile.",
+        "SOC": "Indispensable pour travailler en équipe, respecter la hiérarchie et bien s'entendre avec les clients ou collègues."
+    };
+
     const GOAL_LIBRARY = {
         "Scolaire": {
-            "EMO": [
-                "Identifier ses émotions avant le cours", "Exprimer calmement un ressenti", "Réguler son stress avant l'oral", 
-                "Prendre confiance pour intervenir", "Gérer la peur de se tromper", "Accepter une correction", 
-                "Se recentrer après une frustration", "Maintenir une attitude calme", "Oser demander de l'aide", "Reconnaître une réussite"
-            ],
-            "COG": [
-                "Se concentrer jusqu'au bout", "Comprendre une consigne avant d'agir", "Reformuler une consigne", 
-                "Organiser son matériel", "Planifier les étapes", "Appliquer une méthode", "Vérifier son travail", 
-                "Analyser une erreur", "Mémoriser une notion", "S'autoévaluer"
-            ],
-            "SOC": [
-                "Participer oralement", "Lever la main", "Parler de façon claire", "Adapter son vocabulaire", 
-                "Regarder l'interlocuteur", "Écouter sans interrompre", "Respecter les tours de parole", 
-                "Adopter une posture attentive", "Contrôler ses gestes", "Exprimer un désaccord calmement", "Collaborer en groupe"
-            ]
+            "EMO": ["Identifier ses émotions avant le cours", "Exprimer calmement un ressenti", "Réguler son stress", "Prendre confiance"],
+            "COG": ["Se concentrer sur une tâche", "Comprendre une consigne", "Organiser son matériel", "Planifier le travail"],
+            "SOC": ["Participer oralement", "Lever la main", "Écouter sans interrompre", "Travailler en groupe"]
         },
         "PFMP": {
-            "EMO": [
-                "Gérer son stress tâche nouvelle", "Rester calme remarque pro", "Accepter correction", "Prendre confiance rôle",
-                "Gérer la fatigue", "Se recentrer après erreur", "Rester motivé malgré difficulté", "Canaliser stress corporel"
-            ],
-            "COG": [
-                "Comprendre consigne pro", "Reformuler consigne", "Observer avant d'agir", "Appliquer procédure", 
-                "Organiser poste de travail", "Anticiper étapes", "Gérer temps de travail", "Respecter sécurité"
-            ],
-            "SOC": [
-                "Saluer en arrivant/partant", "Se présenter clairement", "Parler poliment", "Adapter vocabulaire pro", 
-                "Regarder interlocuteur", "Posture professionnelle", "Contrôler gestes", "Écouter consignes", "Collaborer équipe"
-            ]
+            "EMO": ["Gérer son stress tâche nouvelle", "Accepter une remarque", "Gérer la fatigue", "Rester motivé"],
+            "COG": ["Appliquer une procédure", "Organiser poste de travail", "Gérer temps de travail", "Respecter sécurité"],
+            "SOC": ["Saluer l'équipe", "Adapter vocabulaire pro", "Adopter posture pro", "Respecter hiérarchie"]
         },
         "Recherche": {
-            "EMO": ["Gérer stress recherche", "Oser contacter entreprise", "Gérer peur du refus", "Persévérer démarches"],
-            "COG": ["Identifier entreprises", "Préparer CV", "Adapter candidature", "Planifier actions", "Préparer entretien"],
-            "SOC": ["Se présenter oral", "Parler pro téléphone", "Exprimer motivation", "Remercier interlocuteur", "Posture entretien"]
+            "EMO": ["Gérer peur du refus", "Oser contacter entreprise", "Persévérer"],
+            "COG": ["Identifier entreprises", "Préparer CV", "Planifier démarches"],
+            "SOC": ["Se présenter au téléphone", "Se présenter en entretien", "Remercier"]
         }
-    };
-
-    const CONTEXT_FIELDS = {
-        "Scolaire": { label: "MATIÈRE", type: "select", opts: ["Français","Maths","Anglais","Espagnol","Hist-Géo","Eco-Droit","Ens. Pro","PSE","Arts","EPS","Soutien","Autre"] },
-        "PFMP": { label: "LIEU DE STAGE", type: "text" },
-        "Recherche": { label: "LIEU / ACTION", type: "text" },
-        "Autre": { label: "DÉTAIL", type: "text" }
-    };
-
-    const DEFINITIONS = {
-        "COG": "C'est ta TÊTE 🧠. Ta capacité à réfléchir, t'organiser, te concentrer et apprendre.",
-        "EMO": "C'est ton CŒUR ❤️. Ta capacité à comprendre ce que tu ressens et à gérer ton stress.",
-        "SOC": "C'est le LIEN 🤝. Ta capacité à communiquer, écouter et travailler avec les autres."
     };
 
     // --- VARIABLES ---
     let userData = {};
     let draftGoal = {};
+    let editGoalId = null;
     let charts = {};
     let breathInterval;
 
@@ -264,12 +311,6 @@
         if (!userCode) return;
         document.getElementById('display-code').innerText = userCode;
         
-        // Init Météo List
-        const moodSel = document.getElementById('mood-select');
-        ["Satisfait", "Joyeux", "Enthousiaste", "Calme", "Fatigué", "Stressé", "Inquiet", "Énervé", "Triste", "Démotivé"].forEach(m => {
-            moodSel.appendChild(new Option(m, m));
-        });
-
         firebase.database().ref('accompagnement/config/horaires').on('value', (snap) => {
             if(snap.val()) CONFIG_ECOLE = snap.val(); checkAccess();
         });
@@ -283,7 +324,7 @@
 
         firebase.database().ref(`accompagnement/autorisations/${userCode}`).on('value', (snap) => {
             const val = snap.val(); document.getElementById('loader').style.display='none';
-            if(val && val.autorise) loadData();
+            if(val && val.autorise) loadData(); 
         });
     }
 
@@ -303,217 +344,267 @@
         
         let counts = { COG: 0, EMO: 0, SOC: 0 };
         const goals = userData.objectifs || {};
-        const keys = Object.keys(goals).sort((a,b) => new Date(goals[a].date_cible) - new Date(goals[b].date_cible)); // Tri par date
-
-        let hasActive = false;
+        // Trier : Non faits d'abord, puis par date
+        const keys = Object.keys(goals).sort((a,b) => {
+            if (goals[a].done === goals[b].done) return new Date(goals[a].date_cible) - new Date(goals[b].date_cible);
+            return goals[a].done ? 1 : -1;
+        });
 
         keys.forEach(key => {
             const g = goals[key];
-            const typeClass = g.type === 'COG' ? 'cog' : (g.type === 'EMO' ? 'emo' : (g.type === 'SOC' ? 'soc' : 'neu'));
+            const type = g.type || 'AUTRE';
+            const typeClass = type === 'COG' ? 'cog' : (type === 'EMO' ? 'emo' : (type === 'SOC' ? 'soc' : 'neu'));
             
-            // Calcul Compte à rebours
-            const target = new Date(g.date_cible);
-            const today = new Date(); today.setHours(0,0,0,0); target.setHours(0,0,0,0);
-            const diff = Math.ceil((target - today) / (1000 * 60 * 60 * 24));
-            let timeStr = diff === 0 ? "Aujourd'hui" : (diff < 0 ? "En retard" : `J-${diff}`);
-            if(g.done) timeStr = "Atteint le " + new Date(g.date_done).toLocaleDateString();
-
-            // Badge Cadre
-            let badgeClass = "badge-scolaire";
-            if(g.context === 'PFMP') badgeClass = "badge-stage";
-            if(g.context === 'Recherche') badgeClass = "badge-recherche";
+            // Calcul Date (Correction Bug J-NaN)
+            let timeStr = "Date à définir";
+            let isUrgent = false;
+            if(g.date_cible) {
+                const target = new Date(g.date_cible);
+                const today = new Date(); today.setHours(0,0,0,0); target.setHours(0,0,0,0);
+                const diff = Math.ceil((target - today) / (1000 * 60 * 60 * 24));
+                if (!isNaN(diff)) {
+                    timeStr = diff === 0 ? "Aujourd'hui" : (diff < 0 ? "Dépassé" : `J-${diff}`);
+                    if(diff < 0) isUrgent = true;
+                }
+            }
 
             if(g.done) {
-                // Historique et Stats
-                if(g.type && counts[g.type] !== undefined) counts[g.type]++;
+                if(counts[type] !== undefined) counts[type]++;
                 historyList.innerHTML += `
                 <div class="obj-card done ${typeClass}">
-                    <i class="fas fa-check-circle text-success fs-4 me-3"></i>
-                    <div>
-                        <div class="fw-bold">${g.titre}</div>
-                        <div class="small text-muted">${g.context} • ${g.detail || ''}</div>
-                    </div>
+                    <div style="font-size:0.8rem; font-weight:bold; color:#10b981;">ATTEINT</div>
+                    <div class="fw-bold">${g.titre}</div>
+                    <div class="small text-muted">${g.context}</div>
                 </div>`;
             } else {
-                // Actif
-                hasActive = true;
                 activeList.innerHTML += `
-                <div class="obj-card ${typeClass}">
-                    <input type="checkbox" class="form-check-input me-3" style="width:25px;height:25px;border-color:#ccc;" onchange="validateGoal('${key}')">
-                    <div class="w-100">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <span class="fw-bold lh-sm">${g.titre}</span>
-                            <span class="obj-badge ${badgeClass}">${g.context}</span>
-                        </div>
-                        <div class="d-flex justify-content-between mt-2">
-                            <small class="text-muted">${g.detail || ''}</small>
-                            <small class="countdown ${diff<0?'urgent':''}">${timeStr}</small>
+                <div class="obj-card ${typeClass}" onclick="openEditGoal('${key}')">
+                    <div class="d-flex align-items-center w-100">
+                        <input type="checkbox" class="form-check-input me-3" style="width:24px;height:24px;" onclick="event.stopPropagation(); validateGoal('${key}')">
+                        <div class="w-100">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <span class="fw-bold lh-sm">${g.titre}</span>
+                                <span class="obj-badge">${g.context}</span>
+                            </div>
+                            <div class="d-flex justify-content-between mt-2">
+                                <small class="text-muted">${g.detail || 'À compléter'}</small>
+                                <small class="countdown ${isUrgent?'urgent':''}">${timeStr}</small>
+                            </div>
                         </div>
                     </div>
                 </div>`;
             }
         });
 
-        if(!hasActive) activeList.innerHTML = `<div class="text-center py-4 text-muted fst-italic">Aucun objectif en cours.<br>Clique sur + pour démarrer !</div>`;
+        if(activeList.innerHTML === '') activeList.innerHTML = `<div class="text-center py-4 text-muted small">Aucun objectif en cours.</div>`;
 
-        // Update Charts
         renderDonut('chartCog', counts.COG, '#3b82f6');
         renderDonut('chartEmo', counts.EMO, '#ec4899');
         renderDonut('chartSoc', counts.SOC, '#8b5cf6');
     }
 
     function validateGoal(key) {
-        if(confirm("Bravo ! Objectif atteint ? 🏆")) {
+        if(confirm("Confirmer la réussite de cet objectif ?")) {
             firebase.database().ref(`accompagnement/eleves/${userCode}/objectifs/${key}`).update({
                 done: true,
                 date_done: new Date().toISOString()
             });
         } else {
-            updateDashboard(); // Reset checkbox
+            updateDashboard(); // Refresh pour décocher
         }
     }
 
-    // --- WIZARD CREATION OBJECTIF (Le Cœur V18) ---
-    function startGoalWizard() {
-        draftGoal = {};
-        document.getElementById('wizard-overlay').style.display = 'flex';
-        renderWizardStep(1);
+    // --- ÉDITION OBJECTIF ---
+    window.openEditGoal = function(key) {
+        const g = userData.objectifs[key];
+        if(!g) return;
+        editGoalId = key;
+        
+        document.getElementById('edit-goal-title').value = g.titre;
+        document.getElementById('edit-goal-date').value = g.date_cible || '';
+        document.getElementById('edit-goal-context').value = g.detail || '';
+        
+        // Logique : Titre modifiable SEULEMENT si type AUTRE
+        const isFree = (g.type === 'AUTRE' || g.context === 'Autre');
+        document.getElementById('edit-goal-title').disabled = !isFree;
+        document.getElementById('edit-goal-help').style.display = isFree ? 'none' : 'block';
+
+        document.getElementById('edit-goal-overlay').style.display = 'flex';
     }
 
+    window.saveEditedGoal = function() {
+        if(!editGoalId) return;
+        const date = document.getElementById('edit-goal-date').value;
+        const detail = document.getElementById('edit-goal-context').value;
+        const titre = document.getElementById('edit-goal-title').value;
+
+        let updates = { date_cible: date, detail: detail };
+        if(!document.getElementById('edit-goal-title').disabled) updates.titre = titre;
+
+        firebase.database().ref(`accompagnement/eleves/${userCode}/objectifs/${editGoalId}`).update(updates);
+        closeEditGoal();
+    }
+
+    window.deleteGoal = function() {
+        if(confirm("Supprimer définitivement cet objectif ?")) {
+            firebase.database().ref(`accompagnement/eleves/${userCode}/objectifs/${editGoalId}`).remove();
+            closeEditGoal();
+        }
+    }
+    window.closeEditGoal = function() { document.getElementById('edit-goal-overlay').style.display = 'none'; }
+
+    // --- WIZARD CREATION (Pas de changements majeurs, juste sécurisation) ---
+    window.startGoalWizard = function() { draftGoal = {}; document.getElementById('wizard-overlay').style.display = 'flex'; renderWizardStep(1); }
     function renderWizardStep(step) {
-        const cont = document.getElementById('wizard-steps');
-        cont.innerHTML = '';
-
-        if(step === 1) { // CHOIX CADRE
-            cont.innerHTML = `
-                <h4 class="fw-bold mb-4">Dans quel cadre ?</h4>
-                <button class="list-btn" onclick="draftGoal.context='Scolaire'; renderWizardStep(2)"><div class="list-dot bg-primary"></div>🏫 Scolaire</button>
-                <button class="list-btn" onclick="draftGoal.context='PFMP'; renderWizardStep(2)"><div class="list-dot bg-warning"></div>💼 PFMP / Stage</button>
-                <button class="list-btn" onclick="draftGoal.context='Recherche'; renderWizardStep(2)"><div class="list-dot bg-success"></div>🔎 Recherche de Stage</button>
-                <button class="list-btn" onclick="draftGoal.context='Autre'; renderWizardStep(4)"><div class="list-dot bg-secondary"></div>✨ Autre (Libre)</button>
-            `;
-        }
-        else if(step === 2) { // CHOIX COMPÉTENCE
-            cont.innerHTML = `
-                <button class="btn btn-light btn-sm mb-3" onclick="renderWizardStep(1)">← Retour</button>
-                <h4 class="fw-bold mb-4">Quel type de progrès ?</h4>
-                <button class="list-btn" onclick="draftGoal.type='COG'; renderWizardStep(3)"><div class="list-dot" style="background:var(--cog-color)"></div>🧠 Cognitif (Tête)</button>
-                <button class="list-btn" onclick="draftGoal.type='EMO'; renderWizardStep(3)"><div class="list-dot" style="background:var(--emo-color)"></div>❤️ Émotionnel (Cœur)</button>
-                <button class="list-btn" onclick="draftGoal.type='SOC'; renderWizardStep(3)"><div class="list-dot" style="background:var(--soc-color)"></div>🤝 Social (Lien)</button>
-                <button class="list-btn" onclick="draftGoal.type='AUTRE'; renderWizardStep(4)"><div class="list-dot bg-secondary"></div>⚪ Autre</button>
-            `;
-        }
-        else if(step === 3) { // LISTE DÉROULANTE
+        const cont = document.getElementById('wizard-steps'); cont.innerHTML = '';
+        if(step===1) {
+            cont.innerHTML = `<h5 class="mb-4 fw-bold">1. Choisis le cadre</h5>
+                <button class="list-btn" onclick="draftGoal.context='Scolaire'; renderWizardStep(2)">🏫 Scolaire</button>
+                <button class="list-btn" onclick="draftGoal.context='PFMP'; renderWizardStep(2)">💼 PFMP / Stage</button>
+                <button class="list-btn" onclick="draftGoal.context='Recherche'; renderWizardStep(2)">🔎 Recherche Stage</button>
+                <button class="list-btn" onclick="draftGoal.context='Autre'; renderWizardStep(4)">✨ Autre (Libre)</button>`;
+        } else if(step===2) {
+            cont.innerHTML = `<button class="btn btn-sm btn-light mb-3" onclick="renderWizardStep(1)">Retour</button><h5 class="mb-4 fw-bold">2. Quel domaine ?</h5>
+                <button class="list-btn" onclick="draftGoal.type='COG'; renderWizardStep(3)" style="color:var(--cog-color)">Cognitif (Tête)</button>
+                <button class="list-btn" onclick="draftGoal.type='EMO'; renderWizardStep(3)" style="color:var(--emo-color)">Émotionnel (Cœur)</button>
+                <button class="list-btn" onclick="draftGoal.type='SOC'; renderWizardStep(3)" style="color:var(--soc-color)">Social (Lien)</button>
+                <button class="list-btn" onclick="draftGoal.type='AUTRE'; renderWizardStep(4)">Autre</button>`;
+        } else if(step===3) {
             const list = GOAL_LIBRARY[draftGoal.context]?.[draftGoal.type] || [];
-            let html = `<button class="btn btn-light btn-sm mb-3" onclick="renderWizardStep(2)">← Retour</button><h4 class="fw-bold mb-3">Choisis ton but :</h4><div class="list-group">`;
-            list.forEach(goal => {
-                html += `<button class="list-group-item list-group-item-action py-3" onclick="draftGoal.titre='${goal}'; renderWizardStep(4)">${goal}</button>`;
-            });
-            html += `<button class="list-group-item list-group-item-action py-3 fst-italic text-muted" onclick="draftGoal.titre=prompt('Ton objectif :'); if(draftGoal.titre) renderWizardStep(4)">🖊️ Autre (Écrire)...</button></div>`;
-            cont.innerHTML = html;
-        }
-        else if(step === 4) { // DÉTAILS
-            const fieldConfig = CONTEXT_FIELDS[draftGoal.context] || CONTEXT_FIELDS['Autre'];
-            let detailInput = `<input type="text" id="wiz-detail" class="form-control mb-3" placeholder="...">`;
-            
-            if(fieldConfig.type === 'select') {
-                let opts = fieldConfig.opts.map(o => `<option value="${o}">${o}</option>`).join('');
-                detailInput = `<select id="wiz-detail" class="form-select mb-3">${opts}</select>`;
-            }
-
-            cont.innerHTML = `
-                <button class="btn btn-light btn-sm mb-3" onclick="renderWizardStep(1)">← Recommencer</button>
-                <h4 class="fw-bold mb-4">Concrètement 📅</h4>
-                
-                <label class="small fw-bold text-muted">POUR QUAND ?</label>
-                <input type="date" id="wiz-date" class="form-control mb-4" value="${new Date().toISOString().split('T')[0]}">
-                
-                <label class="small fw-bold text-muted">${fieldConfig.label}</label>
-                ${detailInput}
-
-                <div class="card p-3 mb-4 bg-light border-0">
-                    <strong>${draftGoal.titre || 'Objectif Libre'}</strong>
-                </div>
-
-                <button class="btn btn-primary w-100 rounded-pill py-3 fw-bold" onclick="saveWizardGoal()">✅ VALIDER L'OBJECTIF</button>
-            `;
+            let h = `<button class="btn btn-sm btn-light mb-3" onclick="renderWizardStep(2)">Retour</button><h5 class="mb-4 fw-bold">3. Choisis ton objectif</h5><div class="list-group">`;
+            list.forEach(g => h+=`<button class="list-group-item list-group-item-action" onclick="draftGoal.titre='${g}'; renderWizardStep(4)">${g}</button>`);
+            h+=`</div>`; cont.innerHTML = h;
+        } else if(step===4) {
+            cont.innerHTML = `<button class="btn btn-sm btn-light mb-3" onclick="renderWizardStep(1)">Recommencer</button>
+                <h5 class="mb-3 fw-bold">4. Détails</h5>
+                <label class="edit-label">Pour quand ?</label><input type="date" id="wiz-date" class="form-control mb-3" value="${new Date().toISOString().split('T')[0]}">
+                <label class="edit-label">Matière / Lieu</label><input type="text" id="wiz-det" class="form-control mb-3">
+                <div class="alert alert-light mt-3"><strong>${draftGoal.titre || 'Libre'}</strong></div>
+                <button class="btn btn-primary w-100 rounded-pill py-3 fw-bold" onclick="saveWizard()">Valider</button>`;
         }
     }
-
-    function saveWizardGoal() {
-        const date = document.getElementById('wiz-date').value;
-        const detail = document.getElementById('wiz-detail').value;
-        if(!date) return alert("Date requise");
-
+    window.saveWizard = function() {
+        const d = document.getElementById('wiz-date').value;
+        const det = document.getElementById('wiz-det').value;
+        if(!d) return alert("Date obligatoire");
         firebase.database().ref(`accompagnement/eleves/${userCode}/objectifs`).push({
-            context: draftGoal.context,
-            type: draftGoal.type || 'AUTRE',
-            titre: draftGoal.titre || "Objectif Libre",
-            date_cible: date,
-            detail: detail,
-            done: false,
-            created: new Date().toISOString()
+            context: draftGoal.context, type: draftGoal.type||'AUTRE', titre: draftGoal.titre||'Objectif Libre',
+            date_cible: d, detail: det, done: false, created: new Date().toISOString()
         });
-        closeWizard();
+        document.getElementById('wizard-overlay').style.display='none';
     }
-    function closeWizard() { document.getElementById('wizard-overlay').style.display = 'none'; }
+    window.closeWizard = function(){document.getElementById('wizard-overlay').style.display='none';}
 
-    // --- CERCLES DÉTAILS ---
+    // --- CERCLES COMPLETS (V19) ---
     window.openCircleDetail = function(type) {
-        const title = type === 'COG' ? 'Cognitif' : (type === 'EMO' ? 'Émotionnel' : 'Social');
-        const color = type === 'COG' ? 'var(--cog-color)' : (type === 'EMO' ? 'var(--emo-color)' : 'var(--soc-color)');
+        const colors = {COG:'var(--cog-color)', EMO:'var(--emo-color)', SOC:'var(--soc-color)'};
+        const titles = {COG:'Cognitif', EMO:'Émotionnel', SOC:'Social'};
+        document.getElementById('circle-title').innerText = titles[type];
+        document.getElementById('circle-title').style.color = colors[type];
         
-        document.getElementById('circle-title').innerText = title;
-        document.getElementById('circle-title').style.color = color;
-        document.getElementById('circle-def').innerText = DEFINITIONS[type];
-        
-        const list = document.getElementById('circle-history-list'); list.innerHTML = '';
+        // Remplir Listes
         const goals = userData.objectifs || {};
-        
-        let found = false;
+        let htmlActive = ''; let htmlDone = '';
         Object.values(goals).forEach(g => {
-            if(g.type === type && g.done) {
-                found = true;
-                list.innerHTML += `<div class="p-2 mb-2 border-bottom"><i class="fas fa-check text-success me-2"></i>${g.titre}</div>`;
+            if(g.type === type) {
+                if(g.done) htmlDone += `<div class="mb-2"><i class="fas fa-check text-success me-2"></i>${g.titre}</div>`;
+                else htmlActive += `<div class="mb-2 text-dark">• ${g.titre}</div>`;
             }
         });
-        if(!found) list.innerHTML = '<div class="text-muted fst-italic">Pas encore de réussite validée ici.</div>';
+        document.getElementById('circle-active-list').innerHTML = htmlActive || '<i class="text-muted small">Aucun</i>';
+        document.getElementById('circle-done-list').innerHTML = htmlDone || '<i class="text-muted small">Aucun</i>';
 
+        // Remplir Defs
+        document.getElementById('circle-def').innerText = DICTIONNAIRE[titles[type]];
+        document.getElementById('circle-exp').innerText = EXPLICATIONS[type];
+
+        // Remplir Dico & Exos
+        let htmlDico = ''; Object.keys(DICTIONNAIRE).forEach(k => htmlDico += `<div class="list-group-item"><strong>${k}:</strong> ${DICTIONNAIRE[k]}</div>`);
+        document.getElementById('circle-dict-list').innerHTML = htmlDico;
+
+        let htmlExo = ''; (EXERCICES[type]||[]).forEach(e => htmlExo += `<div class="list-group-item">${e}</div>`);
+        document.getElementById('circle-ex-list').innerHTML = htmlExo;
+
+        switchCircleTab('suivi'); // Reset tab
         document.getElementById('circle-overlay').style.display = 'flex';
     }
-    function closeCircle() { document.getElementById('circle-overlay').style.display = 'none'; }
+    window.closeCircle = function(){document.getElementById('circle-overlay').style.display='none';}
+    window.switchCircleTab = function(tab) {
+        document.querySelectorAll('#circle-overlay .nav-link').forEach(b => b.classList.remove('active'));
+        event.target.classList.add('active');
+        ['suivi','comprendre','pratique'].forEach(t => document.getElementById('tab-'+t).classList.add('hidden'));
+        document.getElementById('tab-'+tab).classList.remove('hidden');
+    }
 
-    // --- CHART UTILS ---
+    // --- MÉTÉO V19 (2 NIVEAUX) ---
+    function checkMoodToday() {
+        const today = new Date().toISOString().split('T')[0];
+        const m = (userData.meteo && userData.meteo[today]);
+        if(m) {
+            document.getElementById('mood-summary-box').style.display='flex';
+            document.getElementById('mood-display-val').innerText = m.secondary + " (" + m.primary + ")";
+        } else {
+            openMoodModal(); // Ouvre auto si vide
+        }
+    }
+    window.openMoodModal = function() {
+        document.getElementById('mood-overlay').style.display = 'flex';
+        // Afficher Etape 1 (Primaire)
+        let h = `<h5 class="mb-4 fw-bold text-center">Étape 1 : L'émotion principale</h5>`;
+        Object.keys(EMOTIONS_V2).forEach(k => {
+            h += `<button class="list-btn" onclick="renderMoodStep2('${k}')">${k}</button>`;
+        });
+        document.getElementById('mood-step-container').innerHTML = h;
+    }
+    window.renderMoodStep2 = function(prim) {
+        let h = `<button class="btn btn-sm btn-light mb-3" onclick="openMoodModal()">Retour</button>
+                 <h5 class="mb-4 fw-bold text-center">Étape 2 : Précisons (${prim})</h5>`;
+        EMOTIONS_V2[prim].forEach(sec => {
+            h += `<button class="list-btn" onclick="saveMoodFinal('${prim}', '${sec}')">${sec}</button>`;
+        });
+        document.getElementById('mood-step-container').innerHTML = h;
+    }
+    window.saveMoodFinal = function(p, s) {
+        const today = new Date().toISOString().split('T')[0];
+        firebase.database().ref(`accompagnement/eleves/${userCode}/meteo/${today}`).set({primary: p, secondary: s});
+        document.getElementById('mood-overlay').style.display = 'none';
+    }
+
+    // --- CHART TOOL ---
     function renderDonut(id, val, col) {
         const ctx = document.getElementById(id); if(!ctx) return;
         if(charts[id]) charts[id].destroy();
         charts[id] = new Chart(ctx.getContext('2d'), {
-            type: 'doughnut',
-            data: { datasets: [{ data: val>0?[val, 10]:[0,1], backgroundColor: val>0?[col, '#e2e8f0']:['transparent','#e2e8f0'], borderWidth:0 }] },
-            options: { cutout: '75%', responsive:true, maintainAspectRatio:false, events:[], plugins:{tooltip:{enabled:false}} }
+            type: 'doughnut', 
+            data: { datasets: [{ data: val>0?[val, 10]:[0,1], backgroundColor: val>0?[col, '#f1f5f9']:['transparent','#f1f5f9'], borderWidth: 0 }] },
+            options: { cutout: '75%', responsive: true, maintainAspectRatio: false, events: [], plugins:{tooltip:{enabled:false}} }
         });
     }
 
-    // --- EXTRAS ---
-    window.toggleHistory = function() { const h = document.getElementById('history-goals-list'); h.style.display = h.style.display==='none'?'block':'none'; }
-    window.startMoodCheck = function() { document.getElementById('mood-overlay').style.display = 'flex'; }
-    window.saveMood = function() {
-        const m = document.getElementById('mood-select').value; if(!m) return;
-        document.getElementById('mood-header-text').innerText = "Humeur : " + m;
-        document.getElementById('mood-overlay').style.display = 'none';
-    }
-    function checkMoodToday() { /* Optionnel: check si déjà rempli */ }
-
+    // --- RESPIRATION ---
     window.startBreathing = function() {
         document.getElementById('breath-overlay').style.display = 'flex';
-        const c = document.getElementById('breath-circle'); const t = document.getElementById('breath-text');
-        breathInterval = setInterval(() => {
-            c.innerText = "Inspirer"; c.className = "breath-circle inhale"; t.innerText = "Gonfle tes poumons...";
-            setTimeout(() => { c.innerText = "Expirer"; c.className = "breath-circle exhale"; t.innerText = "Relâche tout..."; }, 5000);
-        }, 11000);
+        const circle = document.getElementById('breath-circle');
+        function cycle() {
+            circle.innerText = "Inspirer (5s)"; circle.className = "breath-circle inhale";
+            setTimeout(() => { circle.innerText = "Expirer (6s)"; circle.className = "breath-circle exhale"; }, 5000);
+        }
+        cycle(); breathInterval = setInterval(cycle, 11000);
     }
-    window.stopBreathing = function() { document.getElementById('breath-overlay').style.display='none'; clearInterval(breathInterval); }
-
+    window.stopBreathing = function() {
+        document.getElementById('breath-overlay').style.display = 'none'; clearInterval(breathInterval);
+    }
+    
+    // --- NAV ---
+    window.switchView = function(view) {
+        document.querySelectorAll('.app-content').forEach(e => e.classList.remove('active'));
+        document.getElementById('view-'+view).classList.add('active');
+        document.querySelectorAll('.nav-btn').forEach(e => e.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+    }
+    window.toggleHistory = function() {
+        const h = document.getElementById('history-goals-list'); h.style.display = h.style.display==='none'?'block':'none';
+    }
 </script>
 </body>
 </html>
