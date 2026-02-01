@@ -3,243 +3,357 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>My CPS Space</title>
+    <title>Mon Rituel CPS</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root { --bg-dark: #0f172a; --card-dark: #1e293b; --neon-blue: #38bdf8; --neon-purple: #c084fc; --neon-green: #4ade80; }
-        body { background-color: var(--bg-dark); color: #f1f5f9; font-family: 'Outfit', sans-serif; padding-bottom: 80px; }
-        .hero-section { background: radial-gradient(circle at top right, rgba(192, 132, 252, 0.15), transparent 40%), radial-gradient(circle at top left, rgba(56, 189, 248, 0.15), transparent 40%); padding: 2rem 1.5rem; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .badge-code { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(10px); padding: 0.5rem 1.2rem; border-radius: 50px; font-weight: 700; color: var(--neon-blue); box-shadow: 0 0 15px rgba(56, 189, 248, 0.3); }
-        .card-stats, .card { background: var(--card-dark); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); color: white; }
-        .form-check-input { background-color: #334155; border-color: #475569; height: 1.5em; width: 3em; }
-        .form-check-input:checked { background-color: var(--neon-green); border-color: var(--neon-green); box-shadow: 0 0 10px rgba(74, 222, 128, 0.5); }
-        #access-denied .card { border: 1px solid rgba(239, 68, 68, 0.3); }
-        .modal-content { background-color: #1e293b; border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 20px; }
-        .modal-header, .modal-footer { border-color: rgba(255,255,255,0.05); }
-        .form-control, .form-select { background-color: #0f172a; border: 1px solid #334155; color: white; border-radius: 10px; }
-        .form-control:focus { background-color: #0f172a; color: white; border-color: var(--neon-purple); box-shadow: 0 0 0 0.25rem rgba(192, 132, 252, 0.25); }
-        .fade-in { animation: fadeIn 0.8s ease-out; }
-        #school-closed .icon-closed { font-size: 4rem; margin-bottom: 1rem; }
+        body { background-color: var(--bg-dark); color: #f1f5f9; font-family: 'Outfit', sans-serif; height: 100vh; overflow: hidden; }
+        
+        /* Structure du Wizard (Étapes) */
+        .step-container { display: none; height: 100%; flex-direction: column; justify-content: center; align-items: center; padding: 20px; text-align: center; animation: fadeIn 0.5s ease; }
+        .step-active { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Boutons Géants */
+        .btn-big-choice { background: var(--card-dark); border: 2px solid rgba(255,255,255,0.1); color: white; width: 100%; padding: 1.5rem; margin-bottom: 1rem; border-radius: 20px; transition: all 0.2s; text-align: left; display: flex; align-items: center; justify-content: space-between; }
+        .btn-big-choice:active { transform: scale(0.98); border-color: var(--neon-blue); background: rgba(56, 189, 248, 0.1); }
+        .btn-big-choice h5 { margin: 0; font-weight: 700; }
+        .btn-big-choice small { color: #94a3b8; }
+        .btn-icon { font-size: 2rem; margin-right: 15px; }
+
+        /* Indicateur de progression */
+        .progress-dots { position: fixed; top: 20px; left: 0; width: 100%; text-align: center; z-index: 100; }
+        .dot { height: 8px; width: 8px; background-color: rgba(255,255,255,0.2); border-radius: 50%; display: inline-block; margin: 0 5px; transition: all 0.3s; }
+        .dot.active { background-color: var(--neon-blue); transform: scale(1.5); }
+
+        /* Emojis Ressenti */
+        .emoji-btn { font-size: 3rem; background: transparent; border: none; transition: transform 0.2s; margin: 0 10px; cursor: pointer; opacity: 0.6; }
+        .emoji-btn.selected { transform: scale(1.3); opacity: 1; filter: drop-shadow(0 0 10px var(--neon-purple)); }
+        
+        /* Espace Fermé */
+        #school-closed { display:none; height:100vh; align-items:center; justify-content:center; flex-direction:column; }
+        .closed-icon { font-size: 5rem; margin-bottom: 20px; opacity: 0.5; }
     </style>
 </head>
 <body>
 
-<div id="loader" class="text-center mt-5 pt-5">
-    <div class="spinner-border text-info" role="status" style="width: 3rem; height: 3rem;"></div>
-    <p class="mt-3 opacity-75">Chargement...</p>
+<div id="loader" class="text-center mt-5 pt-5"><div class="spinner-border text-info" role="status"></div></div>
+
+<div id="progress-bar" class="progress-dots" style="display:none;">
+    <span class="dot active" id="dot-1"></span>
+    <span class="dot" id="dot-2"></span>
+    <span class="dot" id="dot-3"></span>
+    <span class="dot" id="dot-4"></span>
 </div>
 
-<div id="access-denied" class="container mt-5 pt-5 text-center" style="display:none;">
-    <div class="card p-5">
-        <h3 class="mb-3 text-danger">⛔ Accès Restreint</h3>
-        <p class="text-white-50">Ton profil n'est pas activé par ton professeur.</p>
+<div id="step-0" class="step-container">
+    <h1 class="fw-bold mb-4">Hello <span class="text-info" id="display-code">--</span> ! 👋</h1>
+    <div class="card p-3 mb-4" style="background: rgba(255,255,255,0.05); border-radius: 15px; width: 100%; max-width: 400px;">
+        <h6 class="text-white-50">Ma Progression</h6>
+        <canvas id="miniRadar" style="max-height: 200px;"></canvas>
     </div>
+    <button class="btn btn-lg btn-primary rounded-pill w-100 py-3 fw-bold" style="max-width: 400px; background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple)); border:none;" onclick="goToStep(1)">
+        ✨ Faire mon point du jour
+    </button>
 </div>
 
-<div id="school-closed" class="container mt-5 pt-5 text-center" style="display:none;">
-    <div class="card p-5 border-warning">
-        <div class="icon-closed">🌙</div>
-        <h3 class="mb-3 text-warning">Espace Fermé</h3>
-        <p class="text-white-50">L'application est accessible uniquement<br>pendant les heures scolaires.</p>
-        <div id="horaires-display" class="badge bg-dark mt-3 p-3">--</div>
-    </div>
-</div>
-
-<div id="dashboard-content" style="display:none;" class="fade-in">
-    <div class="hero-section">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <span style="font-size: 1.2rem;">👋 Hello !</span>
-            <span id="code-eleve-display" class="badge-code">--</span>
+<div id="step-1" class="step-container">
+    <h2 class="mb-2">C'était où ? 🏫</h2>
+    <p class="text-white-50 mb-4">Sélectionne le moment clé de ta journée.</p>
+    
+    <div id="context-suggestions" style="width: 100%; max-width: 400px;">
         </div>
-        <h1 class="display-6 fw-bold mb-0">Mon Parcours <span style="color:var(--neon-purple)">CPS</span></h1>
-    </div>
-    <div class="container mt-4">
-        <div class="row g-4 justify-content-center">
-            <div class="col-md-8 col-lg-6">
-                <div class="card-stats p-3 text-center">
-                    <h5 class="mb-4 text-white-50 text-start ps-2">🔥 Mes Stats</h5>
-                    <div style="position: relative; height: 300px;"><canvas id="radarChart"></canvas></div>
-                </div>
-            </div>
-            <div class="col-md-8 col-lg-6">
-                <h5 class="mb-3 ps-2 text-white-50">🚀 Mes Objectifs</h5>
-                <div id="actions-container" class="pb-5"></div>
-            </div>
-        </div>
-    </div>
+
+    <button class="btn btn-outline-secondary rounded-pill mt-3" onclick="goToStep(0)">Annuler</button>
 </div>
 
-<div class="modal fade" id="proofModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">✨ Valider une réussite</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <h6 id="modal-comp-title" class="text-info mb-3">--</h6>
-                <label class="form-label small text-muted">Mon niveau d'autonomie :</label>
-                <div class="mb-3">
-                    <select id="input-niveau" class="form-select">
-                        <option value="1">⭐ J'ai découvert (Niveau 1)</option>
-                        <option value="2">⭐⭐ J'ai appliqué (Niveau 2)</option>
-                        <option value="3">⭐⭐⭐ Je maîtrise (Niveau 3)</option>
-                        <option value="4">⭐⭐⭐⭐ Je peux transmettre (Expert)</option>
-                    </select>
-                </div>
-                <label class="form-label small text-muted">Ma preuve (Où ? Quand ? Comment ?) :</label>
-                <textarea id="input-preuve" class="form-control" rows="3" placeholder="Ex: J'ai réussi à gérer mon stress..."></textarea>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-primary rounded-pill" onclick="sauvegarderPreuve()">✅ Valider</button>
-            </div>
+<div id="step-2" class="step-container">
+    <h2 class="mb-2">Ta réussite 🚀</h2>
+    <p class="text-white-50 mb-4">Qu'as-tu réussi à faire dans ce contexte ?</p>
+    
+    <div id="competence-list" style="width: 100%; max-width: 400px; overflow-y: auto; max-height: 60vh;">
         </div>
+    <button class="btn btn-outline-secondary rounded-pill mt-3" onclick="goToStep(1)">Retour</button>
+</div>
+
+<div id="step-3" class="step-container">
+    <h2 class="mb-3 text-info" id="selected-comp-title">...</h2>
+    
+    <div style="width: 100%; max-width: 400px;">
+        <label class="small text-muted mb-2">Mon niveau d'autonomie :</label>
+        <select id="input-niveau" class="form-select form-select-lg mb-4 bg-dark text-white border-secondary">
+            <option value="1">⭐ J'ai découvert (Niveau 1)</option>
+            <option value="2">⭐⭐ J'ai appliqué (Niveau 2)</option>
+            <option value="3">⭐⭐⭐ Je maîtrise (Niveau 3)</option>
+            <option value="4">⭐⭐⭐⭐ Je transmets (Expert)</option>
+        </select>
+
+        <label class="small text-muted mb-2">Raconte ce moment (Preuve) :</label>
+        <textarea id="input-preuve" class="form-control bg-dark text-white border-secondary mb-4" rows="4" placeholder="Ex: Pendant l'exercice de maths, j'ai..."></textarea>
+        
+        <button class="btn btn-primary btn-lg w-100 rounded-pill" onclick="goToStep(4)">Continuer ➡</button>
     </div>
+    <button class="btn btn-link text-white-50 mt-2" onclick="goToStep(2)">Retour</button>
+</div>
+
+<div id="step-4" class="step-container">
+    <h2 class="mb-4">Comment tu te sens ? 🌤️</h2>
+    
+    <div class="d-flex justify-content-center flex-wrap mb-5">
+        <button class="emoji-btn" onclick="selectFeeling('fier', this)">😎<div class="fs-6 mt-2">Fier(e)</div></button>
+        <button class="emoji-btn" onclick="selectFeeling('bien', this)">🙂<div class="fs-6 mt-2">Bien</div></button>
+        <button class="emoji-btn" onclick="selectFeeling('mitige', this)">😐<div class="fs-6 mt-2">Mitigé(e)</div></button>
+        <button class="emoji-btn" onclick="selectFeeling('stresse', this)">🤯<div class="fs-6 mt-2">Stressé(e)</div></button>
+        <button class="emoji-btn" onclick="selectFeeling('fatigue', this)">😴<div class="fs-6 mt-2">Fatigué(e)</div></button>
+    </div>
+
+    <button id="btn-save-final" class="btn btn-success btn-lg rounded-pill w-100 py-3 fw-bold" style="max-width: 400px; display:none;" onclick="finaliserSauvegarde()">
+        ✅ Valider ma journée
+    </button>
+</div>
+
+<div id="school-closed">
+    <div class="closed-icon">🌙</div>
+    <h3 class="text-warning">Espace en pause</h3>
+    <p class="text-white-50 text-center px-4">L'application est accessible uniquement<br>pendant les heures scolaires.</p>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 <script src="js/firebase-config.js"></script>
 
 <script>
+    // --- 1. CONFIGURATION MODIFIABLE ---
+    const CONFIG_ECOLE = { ouverture: 7, fermeture: 22, jours: [1,2,3,4,5,6], maintenance: false }; // Large pour tests
+
+    // --- EMPLOI DU TEMPS INTELLIGENT (A/B) ---
+    // Vous pouvez modifier les matières ici. Si une case est vide, on propose "Cours".
+    const EMPLOI_DU_TEMPS = {
+        "A": {
+            1: ["Francais", "Maths", "Anglais", "Atelier Pro"], // Lundi (1)
+            2: ["Histoire", "Eco-Gestion", "EPS", "Vie de Classe"], // Mardi (2)
+            3: ["Anglais", "Maths", "Soutien"], // Mercredi (3)
+            4: ["Atelier Pro", "Atelier Pro", "PSE", "Espagnol"], // Jeudi (4)
+            5: ["Chef d'Oeuvre", "Co-Intervention", "Français", "Arts"] // Vendredi (5)
+        },
+        "B": {
+            // Copiez la structure de A si c'est pareil, ou changez pour B
+            1: ["Francais", "Maths", "Anglais", "Atelier Pro"],
+            2: ["Histoire", "Eco-Gestion", "EPS", "Vie de Classe"],
+            3: ["Anglais", "Maths", "Soutien"],
+            4: ["Atelier Pro", "Atelier Pro", "PSE", "Espagnol"],
+            5: ["Chef d'Oeuvre", "Co-Intervention", "Français", "Arts"]
+        }
+    };
+
+    // --- DICTIONNAIRE TRADUIT ---
+    const REF_SIMPLE = [
+        { id: "C1.1", text: "Savoir ce que je vaux", axe: "COG" },
+        { id: "C1.2", text: "Ne pas juger trop vite", axe: "COG" },
+        { id: "C1.4", text: "Faire des choix réfléchis", axe: "COG" },
+        { id: "C1.6", text: "Rester concentré", axe: "COG" },
+        { id: "E1.1", text: "Comprendre ma réaction", axe: "EMO" },
+        { id: "E1.2", text: "Nommer mon émotion", axe: "EMO" },
+        { id: "S1.1", text: "Parler calmement", axe: "SOC" },
+        { id: "S1.2", text: "Écouter les autres", axe: "SOC" },
+        { id: "S1.3", text: "Aider ou encourager", axe: "SOC" }
+    ];
+
+    // --- VARIABLES ---
     if (typeof firebaseConfig !== 'undefined') firebase.initializeApp(firebaseConfig);
     const userCode = new URLSearchParams(window.location.search).get("id");
-    
-    // Config par défaut (si jamais Firebase ne répond pas)
-    let CONFIG_ECOLE = { ouverture: 8, fermeture: 18, jours: [1,2,3,4,5], maintenance: false };
+    let currentData = { contexte: "", competenceId: "", niveau: 1, preuve: "", feeling: "" };
+    let userData = {};
 
-    // --- DICTIONNAIRE SIMPLIFIÉ ---
-    const REFERENTIEL_DATA = { 
-      "axes": [
-        { "id": "COG", "nom": "Mes Pensées", "phases": [ { "id": 1, "competences_generales": [ { "id": "C1", "nom": "Savoir qui je suis", "competences_specifiques": [ { "id": "C1.1", "nom": "Savoir ce que je vaux et qui je suis" }, { "id": "C1.2", "nom": "Prendre du recul / Ne pas juger trop vite" }, { "id": "C1.3", "nom": "Identifier ce qui est important pour moi" }, { "id": "C1.4", "nom": "Faire des choix réfléchis" }, { "id": "C1.5", "nom": "Reconnaître mes réussites" }, { "id": "C1.6", "nom": "Rester concentré sur l'instant" } ] } ] } ] },
-        { "id": "EMO", "nom": "Mes Émotions", "phases": [ { "id": 1, "competences_generales": [ { "id": "E1", "nom": "Gérer mes émotions", "competences_specifiques": [ { "id": "E1.1", "nom": "Comprendre pourquoi je réagis comme ça" }, { "id": "E1.2", "nom": "Mettre un nom sur ce que je ressens" } ] } ] } ] },
-        { "id": "SOC", "nom": "Mes Relations", "phases": [ { "id": 1, "competences_generales": [ { "id": "S1", "nom": "Avoir de bonnes relations", "competences_specifiques": [ { "id": "S1.1", "nom": "M'exprimer calmement et clairement" }, { "id": "S1.2", "nom": "Écouter et comprendre les autres" }, { "id": "S1.3", "nom": "Être solidaire et respectueux" } ] } ] } ] }
-      ]
-    };
-    
-    let userData = { competences_validees: {} };
-    let currentCompId = null;
-    let proofModal = null;
-    const sanitize = (id) => id.replace(/\./g, '_');
-
-    Chart.defaults.color = '#94a3b8'; Chart.defaults.borderColor = 'rgba(255,255,255,0.1)';
-    const ctx = document.getElementById('radarChart').getContext('2d');
-    let gradient = ctx.createLinearGradient(0, 0, 0, 400); gradient.addColorStop(0, 'rgba(192, 132, 252, 0.5)'); gradient.addColorStop(1, 'rgba(56, 189, 248, 0.1)');
-    window.myRadarChart = new Chart(ctx, { type: 'radar', data: { labels: ['Pensées', 'Relations', 'Émotions'], datasets: [{ label: 'Score', data: [0, 0, 0], backgroundColor: gradient, borderColor: '#c084fc', pointBackgroundColor: '#fff', borderWidth: 3 }] }, options: { scales: { r: { angleLines: { color: 'rgba(255,255,255,0.1)' }, grid: { color: 'rgba(255,255,255,0.05)' }, pointLabels: { font: { size: 14, family: "'Outfit', sans-serif" }, color: '#f1f5f9' }, suggestedMin: 0, suggestedMax: 100, ticks: { display: false } } }, plugins: { legend: { display: false } }, maintainAspectRatio: false } });
-
-    function verifierHorairesEtLancer() {
-        const now = new Date();
-        const jour = now.getDay(); 
-        const heure = now.getHours();
-
-        // Affichage des horaires sur l'écran fermé
-        document.getElementById('horaires-display').innerHTML = `Ouvert de ${CONFIG_ECOLE.ouverture}h à ${CONFIG_ECOLE.fermeture}h`;
-
-        if (CONFIG_ECOLE.maintenance || !CONFIG_ECOLE.jours.includes(jour) || heure < CONFIG_ECOLE.ouverture || heure >= CONFIG_ECOLE.fermeture) {
-            document.getElementById('loader').style.display = 'none';
-            document.getElementById('school-closed').style.display = 'block';
-            document.getElementById('dashboard-content').style.display = 'none';
-        } else {
-            // C'est ouvert -> On vérifie l'autorisation de l'élève
-            verifierAutorisationEleve();
-        }
-    }
-
-    function verifierAutorisationEleve() {
-        firebase.database().ref(`accompagnement/autorisations/${userCode}`).on('value', (snapshot) => {
-            const data = snapshot.val();
-            const estAutorise = (data && data.autorise === true);
-            document.getElementById('loader').style.display = 'none';
-            document.getElementById('school-closed').style.display = 'none';
-            
-            if (estAutorise) {
-                document.getElementById('access-denied').style.display = 'none';
-                document.getElementById('dashboard-content').style.display = 'block';
-                chargerDonneesEleve();
-            } else {
-                document.getElementById('dashboard-content').style.display = 'none';
-                document.getElementById('access-denied').style.display = 'block';
-            }
-        });
-    }
-
+    // --- INITIALISATION ---
     window.onload = function() {
         if (!userCode) return;
-        document.getElementById('code-eleve-display').innerText = userCode;
-        proofModal = new bootstrap.Modal(document.getElementById('proofModal'));
+        document.getElementById('display-code').innerText = userCode;
 
-        // 1. On récupère la CONFIG ECOLE depuis Firebase
-        firebase.database().ref('accompagnement/config/horaires').on('value', (snap) => {
+        // Vérif Horaires
+        if(!checkHoraires()) return;
+
+        // Firebase Auth
+        firebase.database().ref(`accompagnement/autorisations/${userCode}`).on('value', (snap) => {
             const val = snap.val();
-            if(val) CONFIG_ECOLE = val; // On met à jour la config locale avec celle du prof
-            
-            // 2. On vérifie si ça passe
-            verifierHorairesEtLancer();
+            document.getElementById('loader').style.display = 'none';
+            if(val && val.autorise) {
+                document.querySelector('.step-container').classList.add('step-active');
+                loadUserData();
+            } else {
+                alert("Accès non activé par le professeur.");
+            }
         });
     };
 
-    function chargerDonneesEleve() {
-        firebase.database().ref(`accompagnement/eleves/${userCode}`).on('value', (snapshot) => {
-            const val = snapshot.val();
-            if (val) { userData = val; if (!userData.competences_validees) userData.competences_validees = {}; }
-            updateUI();
+    function checkHoraires() {
+        const now = new Date();
+        const jour = now.getDay();
+        const heure = now.getHours();
+        if (CONFIG_ECOLE.maintenance || !CONFIG_ECOLE.jours.includes(jour) || heure < CONFIG_ECOLE.ouverture || heure >= CONFIG_ECOLE.fermeture) {
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('school-closed').style.display = 'flex';
+            return false;
+        }
+        return true;
+    }
+
+    function loadUserData() {
+        firebase.database().ref(`accompagnement/eleves/${userCode}`).once('value', (snap) => {
+            userData = snap.val() || { competences_validees: {} };
+            initMiniChart();
         });
     }
 
-    function updateUI() {
-        const scores = { "COG": 0, "EMO": 0, "SOC": 0 }; const totals = { "COG": 0, "EMO": 0, "SOC": 0 };
-        REFERENTIEL_DATA.axes.forEach(axe => { axe.phases.forEach(phase => { phase.competences_generales.forEach(cg => { cg.competences_specifiques.forEach(cs => { 
-            totals[axe.id]++; 
-            const safeId = sanitize(cs.id);
-            if (userData.competences_validees && userData.competences_validees[safeId] && userData.competences_validees[safeId].valide) {
-                scores[axe.id]++; 
-            }
-        }); }); }); });
-        window.myRadarChart.data.datasets[0].data = [ totals["COG"]?Math.round((scores["COG"]/totals["COG"])*100):0, totals["SOC"]?Math.round((scores["SOC"]/totals["SOC"])*100):0, totals["EMO"]?Math.round((scores["EMO"]/totals["EMO"])*100):0 ];
-        window.myRadarChart.update();
-
-        const container = document.getElementById('actions-container'); container.innerHTML = '';
-        REFERENTIEL_DATA.axes.forEach(axe => { axe.phases.forEach(phase => { phase.competences_generales.forEach(cg => { cg.competences_specifiques.forEach(cs => {
-            const safeId = sanitize(cs.id);
-            const infoComp = (userData.competences_validees && userData.competences_validees[safeId]) ? userData.competences_validees[safeId] : null;
-            const estValide = infoComp && infoComp.valide;
-            const card = document.createElement('div');
-            card.className = `card mb-3 p-3 ${estValide ? 'border-success' : ''}`; card.style.cursor = 'pointer'; card.style.background = '#1e293b'; card.style.borderColor = estValide ? '#4ade80' : 'rgba(255,255,255,0.1)';
-            let detailsHtml = '';
-            if(estValide) {
-                const etoiles = "⭐".repeat(infoComp.niveau || 1);
-                detailsHtml = `<div class="mt-2 small text-muted border-top border-secondary pt-2"><span class="text-warning">${etoiles}</span> <br> <em>"${infoComp.preuve || ''}"</em></div>`;
-            }
-            card.innerHTML = `<div class="d-flex justify-content-between align-items-center text-white"><div style="width: 100%"><strong style="font-size: 1.1em;">${cs.nom}</strong><br><small style="color: #94a3b8;">${cg.nom}</small>${detailsHtml}</div><div class="form-check form-switch ms-2"><input class="form-check-input" type="checkbox" ${estValide ? 'checked' : ''} disabled></div></div>`;
-            card.onclick = () => ouvrirModalePreuve(cs.id, cs.nom, estValide, safeId);
-            container.appendChild(card);
-        }); }); }); });
-    }
-
-    function ouvrirModalePreuve(id, nom, estDejaValide, safeId) {
-        currentCompId = safeId;
-        document.getElementById('modal-comp-title').innerText = nom;
-        document.getElementById('input-preuve').value = "";
-        document.getElementById('input-niveau').value = "1";
-        if (userData.competences_validees && userData.competences_validees[safeId]) {
-            document.getElementById('input-preuve').value = userData.competences_validees[safeId].preuve || "";
-            document.getElementById('input-niveau').value = userData.competences_validees[safeId].niveau || "1";
+    // --- NAVIGATION WIZARD ---
+    window.goToStep = function(stepNum) {
+        // Masquer toutes les étapes
+        document.querySelectorAll('.step-container').forEach(el => el.classList.remove('step-active'));
+        
+        // Afficher la bonne
+        document.getElementById(`step-${stepNum}`).classList.add('step-active');
+        
+        // Gérer la barre de progression
+        const dots = document.getElementById('progress-bar');
+        if(stepNum > 0) {
+            dots.style.display = 'block';
+            document.querySelectorAll('.dot').forEach((d, i) => {
+                d.classList.toggle('active', i < stepNum);
+            });
+        } else {
+            dots.style.display = 'none';
         }
-        proofModal.show();
+
+        // Logique spécifique par étape
+        if(stepNum === 1) generateContextSuggestions();
+        if(stepNum === 2) generateCompetenceList();
+    };
+
+    // --- ÉTAPE 1 : CONTEXTE INTELLIGENT ---
+    function generateContextSuggestions() {
+        const container = document.getElementById('context-suggestions');
+        container.innerHTML = '';
+
+        // 1. Déterminer Semaine A ou B (Simple simulation basée sur le numéro de semaine)
+        const now = new Date();
+        const weekNum = getWeekNumber(now);
+        const typeSemaine = (weekNum % 2 === 0) ? "B" : "A"; // Impair=A, Pair=B (modifiable)
+        const jourSemaine = now.getDay(); // 1 = Lundi
+        
+        let suggestions = [];
+
+        // 2. Chercher dans l'emploi du temps
+        if(EMPLOI_DU_TEMPS[typeSemaine] && EMPLOI_DU_TEMPS[typeSemaine][jourSemaine]) {
+            const matieres = EMPLOI_DU_TEMPS[typeSemaine][jourSemaine];
+            // On prend tout pour l'instant (ou on pourrait filtrer matin/aprem)
+            matieres.forEach(m => suggestions.push({ type: 'COURS', label: m, icon: '📚' }));
+        }
+
+        // 3. Ajouter les options fixes
+        suggestions.push({ type: 'ATELIER', label: 'En Atelier', icon: '🛠️' });
+        suggestions.push({ type: 'STAGE', label: 'En Stage / PFMP', icon: '💼' });
+        suggestions.push({ type: 'AUTRE', label: 'Autre / Vie Scolaire', icon: '🏠' });
+
+        // 4. Générer les boutons
+        suggestions.forEach(sugg => {
+            const btn = document.createElement('button');
+            btn.className = 'btn-big-choice';
+            btn.innerHTML = `<span class="btn-icon">${sugg.icon}</span> <div><h5>${sugg.label}</h5><small>${sugg.type === 'COURS' ? 'Suggéré par l\'emploi du temps' : 'Contexte général'}</small></div>`;
+            btn.onclick = () => selectContexte(sugg.label, sugg.type);
+            container.appendChild(btn);
+        });
     }
 
-    function sauvegarderPreuve() {
-        if(!currentCompId) return;
-        const niveau = parseInt(document.getElementById('input-niveau').value);
-        const preuve = document.getElementById('input-preuve').value;
-        if(preuve.length < 3) { alert("Merci d'écrire une phrase !"); return; }
-        const dataToSave = { valide: true, niveau: niveau, preuve: preuve, date: new Date().toISOString() };
-        firebase.database().ref(`accompagnement/eleves/${userCode}/competences_validees/${currentCompId}`).set(dataToSave);
-        proofModal.hide();
+    function selectContexte(label, type) {
+        currentData.contexte = label; // On garde le nom précis (ex: Maths)
+        goToStep(2);
+    }
+
+    // --- ÉTAPE 2 : LISTE COMPÉTENCES ---
+    function generateCompetenceList() {
+        const container = document.getElementById('competence-list');
+        container.innerHTML = '';
+        
+        REF_SIMPLE.forEach(comp => {
+            const btn = document.createElement('button');
+            btn.className = 'btn-big-choice p-3 mb-2';
+            // Couleur selon l'axe
+            let color = comp.axe === 'COG' ? '#38bdf8' : (comp.axe === 'EMO' ? '#f87171' : '#4ade80');
+            
+            btn.style.borderLeft = `5px solid ${color}`;
+            btn.innerHTML = `<div><h6 class="mb-0">${comp.text}</h6></div><span style="color:${color}">➜</span>`;
+            
+            btn.onclick = () => {
+                currentData.competenceId = comp.id;
+                document.getElementById('selected-comp-title').innerText = comp.text;
+                goToStep(3);
+            };
+            container.appendChild(btn);
+        });
+    }
+
+    // --- ÉTAPE 4 : RESSENTI & SAVE ---
+    window.selectFeeling = function(feel, btnElement) {
+        currentData.feeling = feel;
+        document.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('selected'));
+        btnElement.classList.add('selected');
+        document.getElementById('btn-save-final').style.display = 'block';
+    }
+
+    window.finaliserSauvegarde = function() {
+        // Récupération des données formulaire Étape 3
+        currentData.niveau = parseInt(document.getElementById('input-niveau').value);
+        currentData.preuve = document.getElementById('input-preuve').value;
+        
+        if(currentData.preuve.length < 3) { alert("N'oublie pas de raconter ta preuve !"); return; }
+
+        // Sauvegarde Firebase
+        const safeId = currentData.competenceId.replace(/\./g, '_');
+        const dataToSave = {
+            valide: true,
+            niveau: currentData.niveau,
+            preuve: currentData.preuve,
+            contexte: currentData.contexte, // Ex: "Maths" ou "Stage"
+            feeling: currentData.feeling,
+            date: new Date().toISOString()
+        };
+
+        firebase.database().ref(`accompagnement/eleves/${userCode}/competences_validees/${safeId}`).set(dataToSave)
+        .then(() => {
+            alert("✅ C'est noté ! Bravo pour cette relecture.");
+            window.location.reload(); // On recharge pour revenir à l'accueil
+        });
+    }
+
+    // --- UTILS ---
+    function getWeekNumber(d) {
+        d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+        d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
+        var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+        var weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
+        return weekNo;
+    }
+
+    function initMiniChart() {
+        // Mini graphique simplifié pour l'accueil
+        const ctx = document.getElementById('miniRadar').getContext('2d');
+        new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['Tête', 'Cœur', 'Social'],
+                datasets: [{
+                    data: [50, 60, 40], // Valeurs fictives pour l'instant (à connecter aux vrais calculs si besoin)
+                    backgroundColor: 'rgba(56, 189, 248, 0.2)',
+                    borderColor: '#38bdf8',
+                    borderWidth: 2,
+                    pointRadius: 0
+                }]
+            },
+            options: { scales: { r: { ticks: { display: false }, pointLabels: { color: 'white' } } }, plugins: { legend: { display: false } } }
+        });
     }
 </script>
 </body>
