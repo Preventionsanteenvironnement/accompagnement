@@ -3,50 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mon Espace CPS</title>
+    <title>Mon Espace Réussite</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --bg-app: #f8fafc; --surface: #ffffff; --text-main: #1e293b; --primary: #6366f1; --radius: 16px; }
-        body { background-color: var(--bg-app); color: var(--text-main); font-family: 'Inter', sans-serif; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+        :root { 
+            --bg-app: #f8fafc; 
+            --surface: #ffffff; 
+            --text-main: #1e293b; 
+            --primary: #4f46e5; 
+            --radius: 20px;
+            /* NOUVELLES COULEURS CPS */
+            --cog-color: #3b82f6; /* Bleu */
+            --emo-color: #ec4899; /* Rose */
+            --soc-color: #8b5cf6; /* Violet/Mauve */
+            --neu-color: #64748b; /* Gris Neutre */
+        }
+        body { background-color: var(--bg-app); color: var(--text-main); font-family: 'Outfit', sans-serif; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
         
         /* HEADER */
-        .app-header { background: var(--surface); padding: 1rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); z-index: 20; }
-        .btn-breath { background: #e0e7ff; color: var(--primary); border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; animation: pulse 3s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        .app-header { background: var(--surface); padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.03); z-index: 20; border-bottom-left-radius: 25px; border-bottom-right-radius: 25px; }
+        .btn-breath { background: #eff6ff; color: var(--cog-color); border: none; width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(59, 130, 246, 0.1); transition: transform 0.2s; }
+        .btn-breath:active { transform: scale(0.9); }
 
-        /* CONTENT - Padding augmenté en bas pour le scroll */
-        .app-content { flex: 1; overflow-y: auto; padding: 1rem; padding-bottom: 120px; display: none; }
-        .app-content.active { display: block; animation: fadeEffect 0.3s; }
-        @keyframes fadeEffect { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* CONTENU */
+        .app-content { flex: 1; overflow-y: auto; padding: 1.5rem; padding-bottom: 120px; display: none; }
+        .app-content.active { display: block; animation: slideUp 0.4s ease-out; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* CARDS */
-        .card-box { background: var(--surface); border-radius: var(--radius); padding: 1.2rem; margin-bottom: 1rem; box-shadow: 0 2px 5px rgba(0,0,0,0.03); border: 1px solid #f1f5f9; }
-        
-        /* GRAPHIQUES */
-        .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 1rem; }
-        .kpi-item { background: white; border-radius: 12px; padding: 10px 5px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.02); display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: transform 0.1s; }
+        /* KPI CERCLES */
+        .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 2rem; }
+        .kpi-item { background: white; border-radius: 16px; padding: 15px 5px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.03); cursor: pointer; transition: transform 0.2s; position: relative; overflow: hidden; }
         .kpi-item:active { transform: scale(0.95); }
-        .chart-mini { position: relative; height: 55px; width: 55px; }
+        .kpi-item::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; }
+        .chart-mini { position: relative; height: 60px; width: 60px; margin: 0 auto 8px auto; }
+        .kpi-title { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; }
 
-        /* OBJECTIFS */
-        .obj-item { background: #fff; border-left: 4px solid #cbd5e1; padding: 10px; margin-bottom: 8px; border-radius: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-        .obj-item.active { border-left-color: #f59e0b; background: #fffbeb; }
-        .obj-item.done { border-left-color: #10b981; opacity: 0.7; background: #f0fdf4; }
+        /* OBJECTIFS LISTE */
+        .obj-card { background: white; border-radius: 16px; padding: 15px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); position: relative; overflow: hidden; display: flex; align-items: center; border-left: 5px solid var(--neu-color); transition: all 0.3s; }
+        .obj-card.cog { border-left-color: var(--cog-color); }
+        .obj-card.emo { border-left-color: var(--emo-color); }
+        .obj-card.soc { border-left-color: var(--soc-color); }
+        .obj-card.done { opacity: 0.6; background: #f1f5f9; border-left-color: #cbd5e1; }
+        
+        .obj-badge { font-size: 0.65rem; padding: 3px 8px; border-radius: 6px; font-weight: 700; text-transform: uppercase; margin-left: 8px; }
+        .badge-scolaire { background: #e0f2fe; color: #0369a1; }
+        .badge-stage { background: #fef3c7; color: #b45309; }
+        .badge-recherche { background: #dcfce7; color: #15803d; }
+        
+        .countdown { font-size: 0.7rem; font-weight: 700; color: #64748b; margin-top: 4px; }
+        .countdown.urgent { color: #ef4444; }
+
+        /* METEO */
+        .meteo-box { background: white; padding: 15px; border-radius: 16px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); text-align: center; }
 
         /* NAV BAS */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: white; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-around; padding: 10px 0; z-index: 30; }
-        .nav-btn { background: none; border: none; color: #94a3b8; font-size: 0.75rem; display: flex; flex-direction: column; align-items: center; }
-        .nav-btn.active { color: var(--primary); }
-        .nav-btn i { font-size: 1.4rem; margin-bottom: 2px; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: white; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-around; padding: 12px 0; z-index: 30; border-top-left-radius: 25px; border-top-right-radius: 25px; box-shadow: 0 -4px 20px rgba(0,0,0,0.02); }
+        .nav-btn { background: none; border: none; color: #94a3b8; font-size: 0.75rem; display: flex; flex-direction: column; align-items: center; font-weight: 500; }
+        .nav-btn.active { color: var(--primary); font-weight: 700; }
+        .nav-btn i { font-size: 1.4rem; margin-bottom: 4px; }
 
-        /* RESPIRATION ANIMATION */
-        .overlay-full { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 100; display: none; flex-direction: column; }
-        .breath-circle { width: 180px; height: 180px; background: #a5b4fc; border-radius: 50%; margin: auto; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; font-weight: bold; text-align: center; transition: all 5s ease-in-out; }
-        /* Classes pilotées par JS pour timing précis */
-        .inhale { transform: scale(1.8); background-color: #818cf8; transition: all 5s ease-in-out; }
-        .exhale { transform: scale(1.0); background-color: #c7d2fe; transition: all 6s ease-in-out; }
+        /* BOUTON ACTION FLOTTANT */
+        .fab-main { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--primary), #8b5cf6); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; box-shadow: 0 10px 25px rgba(79, 70, 229, 0.4); border: 4px solid white; z-index: 35; }
+
+        /* OVERLAYS */
+        .overlay-full { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #f8fafc; z-index: 100; display: none; flex-direction: column; overflow-y: auto; }
+        .overlay-header { padding: 1.5rem; background: white; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; }
+        .step-content { padding: 1.5rem; flex: 1; }
+
+        /* BOUTONS LISTE */
+        .list-btn { width: 100%; text-align: left; padding: 15px; margin-bottom: 10px; background: white; border: 1px solid #e2e8f0; border-radius: 12px; transition: all 0.2s; display: flex; align-items: center; }
+        .list-btn:active { transform: scale(0.98); background: #f8fafc; border-color: var(--primary); }
+        .list-dot { width: 12px; height: 12px; border-radius: 50%; margin-right: 15px; flex-shrink: 0; }
+
+        /* RESPIRATION */
+        .breath-circle { width: 200px; height: 200px; background: #e0e7ff; border-radius: 50%; margin: auto; display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 1.5rem; font-weight: bold; transition: all 5s ease-in-out; }
+        .inhale { transform: scale(1.5); background-color: #c7d2fe; }
+        .exhale { transform: scale(1.0); background-color: #e0e7ff; }
 
         #school-closed { display:none; height:100vh; align-items:center; justify-content:center; flex-direction:column; background: #1e293b; color: white; }
     </style>
@@ -60,156 +94,99 @@
 <header class="app-header">
     <div>
         <h5 class="mb-0 fw-bold">Bonjour <span id="display-code">...</span> 👋</h5>
+        <small class="text-muted" id="mood-header-text">Comment ça va ?</small>
     </div>
-    <button class="btn-breath" onclick="startBreathing()" title="Respirer">
+    <button class="btn-breath" onclick="startBreathing()" title="Respiration">
         <i class="fas fa-wind"></i>
     </button>
 </header>
 
 <main class="app-content active" id="view-dashboard">
     
-    <div class="card-box" id="mood-container">
-        <div id="mood-form">
-            <h6 class="fw-bold mb-3">Quelle émotion ressens-tu ?</h6>
-            <select id="mood-select-primary" class="form-select mb-3" onchange="updateMoodAdjectives()">
-                <option value="">Choisis...</option>
-                </select>
-            <select id="mood-select-adj" class="form-select mb-3" style="display:none;">
-                <option value="">Précise...</option>
-            </select>
-            <button class="btn btn-primary w-100 rounded-pill" onclick="saveMood()">Valider ma météo</button>
-        </div>
-        
-        <div id="mood-display" style="display:none; text-align:center;">
-            <h6 class="text-muted small fw-bold uppercase mb-2">MA MÉTÉO DU JOUR</h6>
-            <div class="d-flex justify-content-center align-items-center gap-2">
-                <span style="font-size: 2rem;">🌤️</span>
-                <div class="text-start">
-                    <h4 class="fw-bold mb-0 text-primary" id="mood-display-title">--</h4>
-                    <small class="text-muted" id="mood-display-desc">--</small>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="d-flex justify-content-between align-items-end mb-2 px-1">
-        <h6 class="fw-bold mb-0">Mes Compétences</h6>
-    </div>
     <div class="kpi-grid">
-        <div class="kpi-item" onclick="switchView('library')">
+        <div class="kpi-item" onclick="openCircleDetail('COG')">
             <div class="chart-mini"><canvas id="chartCog"></canvas></div>
-            <small class="fw-bold text-dark mt-1" style="font-size:0.75rem">Cognitif</small>
+            <div class="kpi-title" style="color:var(--cog-color)">Cognitif</div>
         </div>
-        <div class="kpi-item" onclick="switchView('library')">
+        <div class="kpi-item" onclick="openCircleDetail('EMO')">
             <div class="chart-mini"><canvas id="chartEmo"></canvas></div>
-            <small class="fw-bold text-dark mt-1" style="font-size:0.75rem">Émotionnel</small>
+            <div class="kpi-title" style="color:var(--emo-color)">Émotionnel</div>
         </div>
-        <div class="kpi-item" onclick="switchView('library')">
+        <div class="kpi-item" onclick="openCircleDetail('SOC')">
             <div class="chart-mini"><canvas id="chartSoc"></canvas></div>
-            <small class="fw-bold text-dark mt-1" style="font-size:0.75rem">Social</small>
+            <div class="kpi-title" style="color:var(--soc-color)">Social</div>
         </div>
     </div>
 
-    <div class="card-box">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h6 class="fw-bold mb-0">🎯 Objectifs à atteindre</h6>
-            <button class="btn btn-sm btn-outline-primary rounded-pill fw-bold" onclick="openNewObjectiveModal()">+ Ajouter</button>
+    <div class="d-flex justify-content-between align-items-center mb-3 px-1">
+        <h6 class="fw-bold mb-0 text-dark">🎯 Objectifs à atteindre</h6>
+        <button class="btn btn-sm btn-outline-primary rounded-pill fw-bold" onclick="startGoalWizard()">+ Fixer un but</button>
+    </div>
+    
+    <div id="active-goals-list"></div>
+
+    <div class="mt-4">
+        <div class="d-flex justify-content-between align-items-center p-2 rounded" style="background:#f1f5f9; cursor:pointer;" onclick="toggleHistory()">
+            <span class="small fw-bold text-muted">📂 Historique des réussites</span>
+            <i class="fas fa-chevron-down text-muted" id="hist-icon"></i>
         </div>
-        
-        <div id="objectives-active-list"></div>
-        
-        <div class="mt-3 pt-2 border-top">
-            <small class="text-muted fw-bold" onclick="toggleHistory()" style="cursor:pointer; display:block; padding:5px;">
-                📂 Voir les objectifs atteints ▼
-            </small>
-            <div id="objectives-history-list" style="display:none; margin-top:10px;"></div>
-        </div>
+        <div id="history-goals-list" style="display:none; margin-top:10px;"></div>
     </div>
 
-    <h6 class="ms-1 mb-2 small fw-bold text-muted mt-4">DERNIÈRES RÉUSSITES</h6>
-    <div id="recent-list"></div>
-
 </main>
 
-<main class="app-content" id="view-library">
-    <h4 class="fw-bold mb-3">📚 Comprendre</h4>
-    <div id="library-list"></div>
-</main>
-
-<div class="fixed-bottom mb-4 pb-2 text-center" style="z-index: 35; pointer-events: none;">
-    <button onclick="lancerRituel()" class="btn btn-primary rounded-pill shadow-lg py-3 px-4 fw-bold" 
-            style="pointer-events: auto; background: linear-gradient(135deg, #6366f1, #8b5cf6); border:none;">
-        ✨ Faire le point
-    </button>
+<div class="bottom-nav">
+    <button class="nav-btn active" onclick="switchView('dashboard')"><i class="fas fa-home"></i>Accueil</button>
+    <div style="width: 60px;"></div> <button class="nav-btn" onclick="startMoodCheck()"><i class="fas fa-smile"></i>Humeur</button>
 </div>
 
-<nav class="bottom-nav">
-    <button class="nav-btn active" onclick="switchView('dashboard')"><i class="fas fa-home"></i>Accueil</button>
-    <div style="width: 60px;"></div> <button class="nav-btn" onclick="switchView('library')"><i class="fas fa-book-open"></i>Savoir</button>
-</nav>
+<button class="fab-main" onclick="startGoalWizard()">
+    <i class="fas fa-plus"></i>
+</button>
 
-<div id="breathing-overlay" class="overlay-full" style="background:#eef2ff; justify-content:center;">
+<div id="wizard-overlay" class="overlay-full">
+    <div class="overlay-header">
+        <h5 class="fw-bold mb-0">Nouveau But 🎯</h5>
+        <button class="btn-close" onclick="closeWizard()"></button>
+    </div>
+    <div class="step-content" id="wizard-steps">
+        </div>
+</div>
+
+<div id="circle-overlay" class="overlay-full">
+    <div class="overlay-header">
+        <h5 class="fw-bold mb-0" id="circle-title">--</h5>
+        <button class="btn-close" onclick="closeCircle()"></button>
+    </div>
+    <div class="step-content">
+        <div class="card p-3 mb-3 border-0 shadow-sm" style="background:#f8fafc;">
+            <strong class="text-muted small">C'EST QUOI ?</strong>
+            <p class="mb-0 mt-1" id="circle-def">--</p>
+        </div>
+        <h6 class="fw-bold mb-3">Mes réussites dans ce domaine</h6>
+        <div id="circle-history-list"></div>
+    </div>
+</div>
+
+<div id="mood-overlay" class="overlay-full" style="justify-content:center; align-items:center; background:rgba(255,255,255,0.95);">
+    <div class="text-center w-100 px-4">
+        <h3 class="fw-bold mb-4">Météo du jour 🌤️</h3>
+        <select id="mood-select" class="form-select form-select-lg mb-3 shadow-sm">
+            <option value="">Comment te sens-tu ?</option>
+        </select>
+        <button class="btn btn-primary rounded-pill w-100 py-3 fw-bold" onclick="saveMood()">Valider</button>
+        <button class="btn btn-link mt-3 text-muted" onclick="document.getElementById('mood-overlay').style.display='none'">Fermer</button>
+    </div>
+</div>
+
+<div id="breath-overlay" class="overlay-full" style="justify-content:center; background:#eef2ff;">
     <div class="text-center">
         <div id="breath-circle" class="breath-circle">Prêt ?</div>
-        <button class="btn btn-outline-dark rounded-pill mt-5 px-5" onclick="stopBreathing()">Fermer</button>
+        <p class="mt-5 text-primary fw-bold" id="breath-text">Relâche la pression...</p>
+        <button class="btn btn-outline-dark rounded-pill mt-4 px-5" onclick="stopBreathing()">Fermer</button>
     </div>
 </div>
 
-<div id="new-obj-overlay" class="overlay-full p-4" style="background:#f8fafc;">
-    <div class="d-flex justify-content-between mb-4">
-        <h4 class="fw-bold">🎯 Nouvel Objectif</h4>
-        <button class="btn-close" onclick="closeNewObjectiveModal()"></button>
-    </div>
-
-    <label class="form-label small fw-bold text-muted">CADRE</label>
-    <select id="new-obj-type" class="form-select mb-3 text-uppercase fw-bold" style="font-size:0.9rem;">
-        <option value="Scolaire">🎓 Scolaire</option>
-        <option value="PFMP">💼 Stage / PFMP</option>
-    </select>
-
-    <label class="form-label small fw-bold text-muted">QUOI ? (Ton but)</label>
-    <div class="input-group mb-3">
-        <input type="text" id="new-obj-title" class="form-control" list="obj-suggestions" placeholder="Ex: Participer...">
-        <datalist id="obj-suggestions">
-            <option value="Participation orale">
-            <option value="Demander de l'aide">
-            <option value="Rester concentré">
-            <option value="Gérer mon matériel">
-            <option value="Arriver à l'heure">
-        </datalist>
-    </div>
-    
-    <label class="form-label small fw-bold text-muted">POUR QUAND ?</label>
-    <select id="new-obj-date" class="form-select mb-3">
-        <option value="">-- Choisis un jour --</option>
-        <option value="Lundi">Lundi</option>
-        <option value="Mardi">Mardi</option>
-        <option value="Mercredi">Mercredi</option>
-        <option value="Jeudi">Jeudi</option>
-        <option value="Vendredi">Vendredi</option>
-        <option value="Semaine prochaine">Semaine prochaine</option>
-    </select>
-    
-    <label class="form-label small fw-bold text-muted">MATIÈRE / LIEU</label>
-    <div class="input-group mb-4">
-        <select id="new-obj-context-select" class="form-select" onchange="checkOtherSubject(this)">
-            <option value="Français">Français</option>
-            <option value="Maths">Maths</option>
-            <option value="Anglais">Anglais</option>
-            <option value="Histoire-Géo">Histoire-Géo</option>
-            <option value="Enseignement Pro">Ens. Pro</option>
-            <option value="Atelier">Atelier</option>
-            <option value="EPS">EPS</option>
-            <option value="Autre">Autre (préciser)...</option>
-        </select>
-        <input type="text" id="new-obj-context-input" class="form-control" style="display:none;" placeholder="Précise...">
-    </div>
-
-    <button class="btn btn-primary w-100 rounded-pill py-3 fw-bold shadow-sm" onclick="saveNewObjective()">Valider mon objectif</button>
-</div>
-
-<div id="wizard-overlay" class="overlay-full"></div>
-<div id="knowledge-overlay" class="overlay-full"></div>
 <div id="school-closed"><i class="fas fa-moon mb-3" style="font-size:4rem; color:#fbbf24;"></i><h3 class="fw-bold">Pause</h3><p class="text-white-50 px-4 text-center">Disponible sur temps scolaire.</p></div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -223,62 +200,78 @@
     const userCode = new URLSearchParams(window.location.search).get("id");
     let CONFIG_ECOLE = { ouverture: 6, fermeture: 23, jours: [0,1,2,3,4,5,6], maintenance: false };
     
-    // DONNÉES ÉMOTIONS
-    const EMOTIONS_DATA = {
-        "Joie": ["Satisfait", "Content", "Joyeux", "Heureux", "Gai", "Enthousiaste"],
-        "Amour": ["Passionné", "Fanatique"],
-        "Peur": ["Inquiet", "Stressé", "Angoissé", "Nerveux"],
-        "Colère": ["Énervé", "Fâché", "Irrité", "Furieux"],
-        "Tristesse": ["Peiné", "Déprimé", "Abattu"],
-        "Dégoût": ["Écœuré", "Lassé"],
-        "Surprise": ["Étonné", "Épaté"]
+    // --- BIBLIOTHÈQUE COMPLETE (V18) ---
+    const GOAL_LIBRARY = {
+        "Scolaire": {
+            "EMO": [
+                "Identifier ses émotions avant le cours", "Exprimer calmement un ressenti", "Réguler son stress avant l'oral", 
+                "Prendre confiance pour intervenir", "Gérer la peur de se tromper", "Accepter une correction", 
+                "Se recentrer après une frustration", "Maintenir une attitude calme", "Oser demander de l'aide", "Reconnaître une réussite"
+            ],
+            "COG": [
+                "Se concentrer jusqu'au bout", "Comprendre une consigne avant d'agir", "Reformuler une consigne", 
+                "Organiser son matériel", "Planifier les étapes", "Appliquer une méthode", "Vérifier son travail", 
+                "Analyser une erreur", "Mémoriser une notion", "S'autoévaluer"
+            ],
+            "SOC": [
+                "Participer oralement", "Lever la main", "Parler de façon claire", "Adapter son vocabulaire", 
+                "Regarder l'interlocuteur", "Écouter sans interrompre", "Respecter les tours de parole", 
+                "Adopter une posture attentive", "Contrôler ses gestes", "Exprimer un désaccord calmement", "Collaborer en groupe"
+            ]
+        },
+        "PFMP": {
+            "EMO": [
+                "Gérer son stress tâche nouvelle", "Rester calme remarque pro", "Accepter correction", "Prendre confiance rôle",
+                "Gérer la fatigue", "Se recentrer après erreur", "Rester motivé malgré difficulté", "Canaliser stress corporel"
+            ],
+            "COG": [
+                "Comprendre consigne pro", "Reformuler consigne", "Observer avant d'agir", "Appliquer procédure", 
+                "Organiser poste de travail", "Anticiper étapes", "Gérer temps de travail", "Respecter sécurité"
+            ],
+            "SOC": [
+                "Saluer en arrivant/partant", "Se présenter clairement", "Parler poliment", "Adapter vocabulaire pro", 
+                "Regarder interlocuteur", "Posture professionnelle", "Contrôler gestes", "Écouter consignes", "Collaborer équipe"
+            ]
+        },
+        "Recherche": {
+            "EMO": ["Gérer stress recherche", "Oser contacter entreprise", "Gérer peur du refus", "Persévérer démarches"],
+            "COG": ["Identifier entreprises", "Préparer CV", "Adapter candidature", "Planifier actions", "Préparer entretien"],
+            "SOC": ["Se présenter oral", "Parler pro téléphone", "Exprimer motivation", "Remercier interlocuteur", "Posture entretien"]
+        }
     };
 
-    // STRUCTURE COMPLÈTE
-    const REF_STRUCT = [
-        { id: "C1.1", default:"Connaissance de soi", axe: "COG", color: "#3b82f6" },
-        { id: "C1.2", default:"Pensée critique", axe: "COG", color: "#3b82f6" },
-        { id: "C1.3", default:"Valeurs et besoins", axe: "COG", color: "#3b82f6" },
-        { id: "C1.4", default:"Décisions constructives", axe: "COG", color: "#3b82f6" },
-        { id: "C1.5", default:"Auto-évaluation", axe: "COG", color: "#3b82f6" },
-        { id: "C1.6", default:"Pleine attention", axe: "COG", color: "#3b82f6" },
-        { id: "C2.1", default:"Atteindre ses buts", axe: "COG", color: "#3b82f6" },
-        { id: "C2.2", default:"Gérer impulsions", axe: "COG", color: "#3b82f6" },
-        { id: "C2.3", default:"Résoudre problèmes", axe: "COG", color: "#3b82f6" },
-        { id: "C2.4", default:"Demander de l'aide", axe: "COG", color: "#3b82f6" },
-        { id: "E1.1", default:"Comprendre émotions", axe: "EMO", color: "#ef4444" },
-        { id: "E1.2", default:"Identifier émotions", axe: "EMO", color: "#ef4444" },
-        { id: "E2.2", default:"Exprimer émotions", axe: "EMO", color: "#ef4444" },
-        { id: "E2.3", default:"Gérer stress", axe: "EMO", color: "#ef4444" },
-        { id: "S1.1", default:"Com. positive", axe: "SOC", color: "#10b981" },
-        { id: "S1.2", default:"Empathie", axe: "SOC", color: "#10b981" },
-        { id: "S1.3", default:"Liens prosociaux", axe: "SOC", color: "#10b981" },
-        { id: "S2.1", default:"S'affirmer", axe: "SOC", color: "#10b981" },
-        { id: "S2.2", default:"Résoudre conflits", axe: "SOC", color: "#10b981" }
-    ];
+    const CONTEXT_FIELDS = {
+        "Scolaire": { label: "MATIÈRE", type: "select", opts: ["Français","Maths","Anglais","Espagnol","Hist-Géo","Eco-Droit","Ens. Pro","PSE","Arts","EPS","Soutien","Autre"] },
+        "PFMP": { label: "LIEU DE STAGE", type: "text" },
+        "Recherche": { label: "LIEU / ACTION", type: "text" },
+        "Autre": { label: "DÉTAIL", type: "text" }
+    };
 
+    const DEFINITIONS = {
+        "COG": "C'est ta TÊTE 🧠. Ta capacité à réfléchir, t'organiser, te concentrer et apprendre.",
+        "EMO": "C'est ton CŒUR ❤️. Ta capacité à comprendre ce que tu ressens et à gérer ton stress.",
+        "SOC": "C'est le LIEN 🤝. Ta capacité à communiquer, écouter et travailler avec les autres."
+    };
+
+    // --- VARIABLES ---
     let userData = {};
-    let libraryData = {};
+    let draftGoal = {};
     let charts = {};
-    let wizardData = {};
-    let breathInterval = null;
+    let breathInterval;
 
+    // --- INIT ---
     window.onload = function() {
         if (!userCode) return;
         document.getElementById('display-code').innerText = userCode;
         
-        // Init Météo
-        const moodSel = document.getElementById('mood-select-primary');
-        Object.keys(EMOTIONS_DATA).forEach(em => {
-            const opt = document.createElement('option'); opt.value=em; opt.innerText=em; moodSel.appendChild(opt);
+        // Init Météo List
+        const moodSel = document.getElementById('mood-select');
+        ["Satisfait", "Joyeux", "Enthousiaste", "Calme", "Fatigué", "Stressé", "Inquiet", "Énervé", "Triste", "Démotivé"].forEach(m => {
+            moodSel.appendChild(new Option(m, m));
         });
 
-        // Auth & Data
         firebase.database().ref('accompagnement/config/horaires').on('value', (snap) => {
             if(snap.val()) CONFIG_ECOLE = snap.val(); checkAccess();
-        });
-        firebase.database().ref('accompagnement/contenu_pedagogique').on('value', (snap) => {
-            libraryData = snap.val() || {}; renderLibraryList();
         });
     };
 
@@ -289,233 +282,237 @@
         } else { document.getElementById('school-closed').style.display='none'; }
 
         firebase.database().ref(`accompagnement/autorisations/${userCode}`).on('value', (snap) => {
-            const val = snap.val(); 
-            document.getElementById('loader').style.display='none';
-            // On laisse passer si pas de data pour éviter blocage test, sinon if(val && val.autorise)
-            loadData(); 
+            const val = snap.val(); document.getElementById('loader').style.display='none';
+            if(val && val.autorise) loadData();
         });
     }
 
     function loadData() {
         firebase.database().ref(`accompagnement/eleves/${userCode}`).on('value', (snap) => {
-            userData = snap.val() || { competences_validees: {}, objectifs: {}, meteo: {} };
+            userData = snap.val() || { objectifs: {}, meteo: {} };
             updateDashboard();
-            renderObjectives(userData.objectifs);
-            checkTodayMood();
+            checkMoodToday();
         });
     }
 
-    // --- DASHBOARD GRAPHS ---
+    // --- DASHBOARD ---
     function updateDashboard() {
-        let counts = { COG: 0, EMO: 0, SOC: 0 };
-        let recent = [];
-        Object.keys(userData.competences_validees || {}).forEach(key => {
-            const item = userData.competences_validees[key];
-            if(item.valide) {
-                const refItem = REF_STRUCT.find(r => r.id === key.replace('_', '.'));
-                if(refItem) counts[refItem.axe]++;
-                recent.push({...item, text: refItem?refItem.default:"Compétence", color: refItem?refItem.color:"#ccc"});
-            }
-        });
-
-        renderDonut('chartCog', counts.COG, '#3b82f6');
-        renderDonut('chartEmo', counts.EMO, '#ef4444');
-        renderDonut('chartSoc', counts.SOC, '#10b981');
-
-        const recContainer = document.getElementById('recent-list'); recContainer.innerHTML = '';
-        recent.sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,3).forEach(i => {
-            recContainer.innerHTML += `<div class="card-box p-2 mb-2 d-flex align-items-center"><div style="width:10px; height:10px; border-radius:50%; background:${i.color}; margin-right:10px;"></div><div><div class="fw-bold small">${i.text}</div><div class="text-muted" style="font-size:0.7rem">${i.contexte || ''}</div></div></div>`;
-        });
-    }
-
-    function renderDonut(id, val, col) {
-        const cvs = document.getElementById(id);
-        if(!cvs) return;
-        if(charts[id]) charts[id].destroy();
-        charts[id] = new Chart(cvs.getContext('2d'), {
-            type: 'doughnut', 
-            data: { datasets: [{ data: val>0?[val, 10-val]:[0,1], backgroundColor: val>0?[col, '#e2e8f0']:['transparent','#e2e8f0'], borderWidth: 0 }] },
-            options: { cutout: '70%', responsive: true, maintainAspectRatio: false, events: [], plugins:{tooltip:{enabled:false}} }
-        });
-    }
-
-    // --- RESPIRATION (5s / 6s) ---
-    window.startBreathing = function() {
-        document.getElementById('breathing-overlay').style.display = 'flex';
-        const circle = document.getElementById('breath-circle');
-        
-        function cycle() {
-            circle.innerText = "Inspirer";
-            circle.className = "breath-circle inhale"; // 5s
-            
-            setTimeout(() => {
-                circle.innerText = "Expirer";
-                circle.className = "breath-circle exhale"; // 6s
-            }, 5000); // Au bout de 5s, on expire
-        }
-        
-        cycle(); // Premier cycle
-        breathInterval = setInterval(cycle, 11000); // 5+6 = 11s total
-    }
-    window.stopBreathing = function() {
-        document.getElementById('breathing-overlay').style.display = 'none';
-        clearInterval(breathInterval);
-        document.getElementById('breath-circle').className = "breath-circle";
-    }
-
-    // --- METEO ---
-    window.updateMoodAdjectives = function() {
-        const prim = document.getElementById('mood-select-primary').value;
-        const adjSel = document.getElementById('mood-select-adj');
-        adjSel.innerHTML = '<option value="">Précise...</option>';
-        if(prim && EMOTIONS_DATA[prim]) {
-            adjSel.style.display = 'block';
-            EMOTIONS_DATA[prim].forEach(adj => {
-                const opt = document.createElement('option'); opt.value=adj; opt.innerText=adj; adjSel.appendChild(opt);
-            });
-        } else { adjSel.style.display = 'none'; }
-    }
-    window.saveMood = function() {
-        const p = document.getElementById('mood-select-primary').value;
-        const a = document.getElementById('mood-select-adj').value;
-        if(!p) return;
-        const today = new Date().toISOString().split('T')[0];
-        firebase.database().ref(`accompagnement/eleves/${userCode}/meteo/${today}`).set({emotion: p, detail: a || p});
-    }
-    function checkTodayMood() {
-        const today = new Date().toISOString().split('T')[0];
-        const m = (userData.meteo && userData.meteo[today]);
-        if(m) {
-            document.getElementById('mood-form').style.display = 'none';
-            document.getElementById('mood-display').style.display = 'block';
-            document.getElementById('mood-display-title').innerText = m.emotion;
-            document.getElementById('mood-display-desc').innerText = m.detail;
-        } else {
-            document.getElementById('mood-form').style.display = 'block';
-            document.getElementById('mood-display').style.display = 'none';
-        }
-    }
-
-    // --- OBJECTIFS (Menus Déroulants) ---
-    function renderObjectives(objData) {
-        const activeList = document.getElementById('objectives-active-list');
-        const historyList = document.getElementById('objectives-history-list');
+        const activeList = document.getElementById('active-goals-list');
+        const historyList = document.getElementById('history-goals-list');
         activeList.innerHTML = ''; historyList.innerHTML = '';
         
-        if(!objData) { activeList.innerHTML = '<div class="text-muted small fst-italic">Aucun objectif.</div>'; return; }
-        
-        const keys = Object.keys(objData);
+        let counts = { COG: 0, EMO: 0, SOC: 0 };
+        const goals = userData.objectifs || {};
+        const keys = Object.keys(goals).sort((a,b) => new Date(goals[a].date_cible) - new Date(goals[b].date_cible)); // Tri par date
+
         let hasActive = false;
 
         keys.forEach(key => {
-            const obj = objData[key];
-            const isPerso = obj.auteur === 'ELEVE';
-            const badge = isPerso ? '<span class="badge bg-secondary ms-2" style="font-size:0.6rem">MOI</span>' : '<span class="badge bg-warning text-dark ms-2" style="font-size:0.6rem">COACH</span>';
-            const contextStr = obj.matiere ? ` (${obj.matiere})` : '';
-            const dayStr = obj.date_cible || '';
+            const g = goals[key];
+            const typeClass = g.type === 'COG' ? 'cog' : (g.type === 'EMO' ? 'emo' : (g.type === 'SOC' ? 'soc' : 'neu'));
+            
+            // Calcul Compte à rebours
+            const target = new Date(g.date_cible);
+            const today = new Date(); today.setHours(0,0,0,0); target.setHours(0,0,0,0);
+            const diff = Math.ceil((target - today) / (1000 * 60 * 60 * 24));
+            let timeStr = diff === 0 ? "Aujourd'hui" : (diff < 0 ? "En retard" : `J-${diff}`);
+            if(g.done) timeStr = "Atteint le " + new Date(g.date_done).toLocaleDateString();
 
-            const html = `
-            <div class="obj-item ${obj.done ? 'done' : 'active'}">
-                <div class="d-flex justify-content-between align-items-center">
+            // Badge Cadre
+            let badgeClass = "badge-scolaire";
+            if(g.context === 'PFMP') badgeClass = "badge-stage";
+            if(g.context === 'Recherche') badgeClass = "badge-recherche";
+
+            if(g.done) {
+                // Historique et Stats
+                if(g.type && counts[g.type] !== undefined) counts[g.type]++;
+                historyList.innerHTML += `
+                <div class="obj-card done ${typeClass}">
+                    <i class="fas fa-check-circle text-success fs-4 me-3"></i>
                     <div>
-                        <div class="fw-bold">${obj.titre} ${badge}</div>
-                        <div class="small text-muted">${dayStr}${contextStr}</div>
+                        <div class="fw-bold">${g.titre}</div>
+                        <div class="small text-muted">${g.context} • ${g.detail || ''}</div>
                     </div>
-                    ${!obj.done ? `<input type="checkbox" class="form-check-input" onchange="checkObj('${key}')" style="width:25px;height:25px;">` : '<span class="text-success fw-bold">OK</span>'}
+                </div>`;
+            } else {
+                // Actif
+                hasActive = true;
+                activeList.innerHTML += `
+                <div class="obj-card ${typeClass}">
+                    <input type="checkbox" class="form-check-input me-3" style="width:25px;height:25px;border-color:#ccc;" onchange="validateGoal('${key}')">
+                    <div class="w-100">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <span class="fw-bold lh-sm">${g.titre}</span>
+                            <span class="obj-badge ${badgeClass}">${g.context}</span>
+                        </div>
+                        <div class="d-flex justify-content-between mt-2">
+                            <small class="text-muted">${g.detail || ''}</small>
+                            <small class="countdown ${diff<0?'urgent':''}">${timeStr}</small>
+                        </div>
+                    </div>
+                </div>`;
+            }
+        });
+
+        if(!hasActive) activeList.innerHTML = `<div class="text-center py-4 text-muted fst-italic">Aucun objectif en cours.<br>Clique sur + pour démarrer !</div>`;
+
+        // Update Charts
+        renderDonut('chartCog', counts.COG, '#3b82f6');
+        renderDonut('chartEmo', counts.EMO, '#ec4899');
+        renderDonut('chartSoc', counts.SOC, '#8b5cf6');
+    }
+
+    function validateGoal(key) {
+        if(confirm("Bravo ! Objectif atteint ? 🏆")) {
+            firebase.database().ref(`accompagnement/eleves/${userCode}/objectifs/${key}`).update({
+                done: true,
+                date_done: new Date().toISOString()
+            });
+        } else {
+            updateDashboard(); // Reset checkbox
+        }
+    }
+
+    // --- WIZARD CREATION OBJECTIF (Le Cœur V18) ---
+    function startGoalWizard() {
+        draftGoal = {};
+        document.getElementById('wizard-overlay').style.display = 'flex';
+        renderWizardStep(1);
+    }
+
+    function renderWizardStep(step) {
+        const cont = document.getElementById('wizard-steps');
+        cont.innerHTML = '';
+
+        if(step === 1) { // CHOIX CADRE
+            cont.innerHTML = `
+                <h4 class="fw-bold mb-4">Dans quel cadre ?</h4>
+                <button class="list-btn" onclick="draftGoal.context='Scolaire'; renderWizardStep(2)"><div class="list-dot bg-primary"></div>🏫 Scolaire</button>
+                <button class="list-btn" onclick="draftGoal.context='PFMP'; renderWizardStep(2)"><div class="list-dot bg-warning"></div>💼 PFMP / Stage</button>
+                <button class="list-btn" onclick="draftGoal.context='Recherche'; renderWizardStep(2)"><div class="list-dot bg-success"></div>🔎 Recherche de Stage</button>
+                <button class="list-btn" onclick="draftGoal.context='Autre'; renderWizardStep(4)"><div class="list-dot bg-secondary"></div>✨ Autre (Libre)</button>
+            `;
+        }
+        else if(step === 2) { // CHOIX COMPÉTENCE
+            cont.innerHTML = `
+                <button class="btn btn-light btn-sm mb-3" onclick="renderWizardStep(1)">← Retour</button>
+                <h4 class="fw-bold mb-4">Quel type de progrès ?</h4>
+                <button class="list-btn" onclick="draftGoal.type='COG'; renderWizardStep(3)"><div class="list-dot" style="background:var(--cog-color)"></div>🧠 Cognitif (Tête)</button>
+                <button class="list-btn" onclick="draftGoal.type='EMO'; renderWizardStep(3)"><div class="list-dot" style="background:var(--emo-color)"></div>❤️ Émotionnel (Cœur)</button>
+                <button class="list-btn" onclick="draftGoal.type='SOC'; renderWizardStep(3)"><div class="list-dot" style="background:var(--soc-color)"></div>🤝 Social (Lien)</button>
+                <button class="list-btn" onclick="draftGoal.type='AUTRE'; renderWizardStep(4)"><div class="list-dot bg-secondary"></div>⚪ Autre</button>
+            `;
+        }
+        else if(step === 3) { // LISTE DÉROULANTE
+            const list = GOAL_LIBRARY[draftGoal.context]?.[draftGoal.type] || [];
+            let html = `<button class="btn btn-light btn-sm mb-3" onclick="renderWizardStep(2)">← Retour</button><h4 class="fw-bold mb-3">Choisis ton but :</h4><div class="list-group">`;
+            list.forEach(goal => {
+                html += `<button class="list-group-item list-group-item-action py-3" onclick="draftGoal.titre='${goal}'; renderWizardStep(4)">${goal}</button>`;
+            });
+            html += `<button class="list-group-item list-group-item-action py-3 fst-italic text-muted" onclick="draftGoal.titre=prompt('Ton objectif :'); if(draftGoal.titre) renderWizardStep(4)">🖊️ Autre (Écrire)...</button></div>`;
+            cont.innerHTML = html;
+        }
+        else if(step === 4) { // DÉTAILS
+            const fieldConfig = CONTEXT_FIELDS[draftGoal.context] || CONTEXT_FIELDS['Autre'];
+            let detailInput = `<input type="text" id="wiz-detail" class="form-control mb-3" placeholder="...">`;
+            
+            if(fieldConfig.type === 'select') {
+                let opts = fieldConfig.opts.map(o => `<option value="${o}">${o}</option>`).join('');
+                detailInput = `<select id="wiz-detail" class="form-select mb-3">${opts}</select>`;
+            }
+
+            cont.innerHTML = `
+                <button class="btn btn-light btn-sm mb-3" onclick="renderWizardStep(1)">← Recommencer</button>
+                <h4 class="fw-bold mb-4">Concrètement 📅</h4>
+                
+                <label class="small fw-bold text-muted">POUR QUAND ?</label>
+                <input type="date" id="wiz-date" class="form-control mb-4" value="${new Date().toISOString().split('T')[0]}">
+                
+                <label class="small fw-bold text-muted">${fieldConfig.label}</label>
+                ${detailInput}
+
+                <div class="card p-3 mb-4 bg-light border-0">
+                    <strong>${draftGoal.titre || 'Objectif Libre'}</strong>
                 </div>
-            </div>`;
 
-            if(obj.done) historyList.innerHTML += html;
-            else { activeList.innerHTML += html; hasActive = true; }
-        });
-
-        if(!hasActive) activeList.innerHTML = '<div class="text-muted small fst-italic">Aucun objectif actif.</div>';
+                <button class="btn btn-primary w-100 rounded-pill py-3 fw-bold" onclick="saveWizardGoal()">✅ VALIDER L'OBJECTIF</button>
+            `;
+        }
     }
 
-    window.openNewObjectiveModal = function() { document.getElementById('new-obj-overlay').style.display = 'flex'; }
-    window.closeNewObjectiveModal = function() { document.getElementById('new-obj-overlay').style.display = 'none'; }
-    window.checkOtherSubject = function(sel) {
-        const inp = document.getElementById('new-obj-context-input');
-        if(sel.value === 'Autre') { inp.style.display = 'block'; inp.focus(); } else { inp.style.display = 'none'; }
-    }
-    
-    window.saveNewObjective = function() {
-        const t = document.getElementById('new-obj-title').value;
-        const d = document.getElementById('new-obj-date').value;
-        let m = document.getElementById('new-obj-context-select').value;
-        if(m === 'Autre') m = document.getElementById('new-obj-context-input').value;
-        const type = document.getElementById('new-obj-type').value;
+    function saveWizardGoal() {
+        const date = document.getElementById('wiz-date').value;
+        const detail = document.getElementById('wiz-detail').value;
+        if(!date) return alert("Date requise");
 
-        if(!t) return;
-        
         firebase.database().ref(`accompagnement/eleves/${userCode}/objectifs`).push({
-            titre: t, date_cible: d, matiere: m, type: type, done: false, auteur: "ELEVE", created: new Date().toISOString()
+            context: draftGoal.context,
+            type: draftGoal.type || 'AUTRE',
+            titre: draftGoal.titre || "Objectif Libre",
+            date_cible: date,
+            detail: detail,
+            done: false,
+            created: new Date().toISOString()
         });
-        closeNewObjectiveModal();
+        closeWizard();
     }
+    function closeWizard() { document.getElementById('wizard-overlay').style.display = 'none'; }
 
-    window.checkObj = function(key) {
-        if(confirm("Objectif atteint ?")) {
-            firebase.database().ref(`accompagnement/eleves/${userCode}/objectifs/${key}`).update({ done: true });
-        }
-    }
-    window.toggleHistory = function() {
-        const h = document.getElementById('objectives-history-list');
-        h.style.display = h.style.display === 'none' ? 'block' : 'none';
-    }
+    // --- CERCLES DÉTAILS ---
+    window.openCircleDetail = function(type) {
+        const title = type === 'COG' ? 'Cognitif' : (type === 'EMO' ? 'Émotionnel' : 'Social');
+        const color = type === 'COG' ? 'var(--cog-color)' : (type === 'EMO' ? 'var(--emo-color)' : 'var(--soc-color)');
+        
+        document.getElementById('circle-title').innerText = title;
+        document.getElementById('circle-title').style.color = color;
+        document.getElementById('circle-def').innerText = DEFINITIONS[type];
+        
+        const list = document.getElementById('circle-history-list'); list.innerHTML = '';
+        const goals = userData.objectifs || {};
+        
+        let found = false;
+        Object.values(goals).forEach(g => {
+            if(g.type === type && g.done) {
+                found = true;
+                list.innerHTML += `<div class="p-2 mb-2 border-bottom"><i class="fas fa-check text-success me-2"></i>${g.titre}</div>`;
+            }
+        });
+        if(!found) list.innerHTML = '<div class="text-muted fst-italic">Pas encore de réussite validée ici.</div>';
 
-    // --- NAVIGATION ---
-    window.switchView = function(viewName) {
-        document.querySelectorAll('.app-content').forEach(el => el.classList.remove('active'));
-        document.getElementById('view-' + viewName).classList.add('active');
-        document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
-        event.currentTarget.classList.add('active');
+        document.getElementById('circle-overlay').style.display = 'flex';
     }
+    function closeCircle() { document.getElementById('circle-overlay').style.display = 'none'; }
 
-    // --- LIBRARY & WIZARD (Code inchangé V16 pour cette partie) ---
-    function renderLibraryList() {
-        const container = document.getElementById('library-list'); container.innerHTML = '';
-        REF_STRUCT.forEach(ref => {
-            const safeId = ref.id.replace('.', '_');
-            const data = libraryData[safeId] || {};
-            const title = data.titre_eleve || ref.default;
-            container.innerHTML += `<div class="card-box p-3 mb-2" onclick="openKnowledge('${safeId}', '${ref.color}', '${ref.id}')" style="cursor:pointer; border-left:4px solid ${ref.color}"><h6 class="fw-bold mb-0">${title}</h6><small class="text-muted">${ref.axe}</small></div>`;
+    // --- CHART UTILS ---
+    function renderDonut(id, val, col) {
+        const ctx = document.getElementById(id); if(!ctx) return;
+        if(charts[id]) charts[id].destroy();
+        charts[id] = new Chart(ctx.getContext('2d'), {
+            type: 'doughnut',
+            data: { datasets: [{ data: val>0?[val, 10]:[0,1], backgroundColor: val>0?[col, '#e2e8f0']:['transparent','#e2e8f0'], borderWidth:0 }] },
+            options: { cutout: '75%', responsive:true, maintainAspectRatio:false, events:[], plugins:{tooltip:{enabled:false}} }
         });
     }
-    window.openKnowledge = function(safeId, color, code) {
-        const data = libraryData[safeId] || {};
-        const title = data.titre_eleve || "Titre";
-        const science = data.explication_scientifique || "Pas encore d'explication.";
-        const pourquoi = data.pourquoi_scolaire || "";
-        const lien = data.lien_externe || "";
-        const overlay = document.getElementById('knowledge-overlay');
-        let btnExo = lien ? `<a href="${lien}" target="_blank" class="btn btn-primary w-100 rounded-pill mt-3">🚀 Faire l'exercice</a>` : '';
-        overlay.innerHTML = `<div class="p-4"><div class="d-flex justify-content-between mb-4"><h3 class="fw-bold" style="color:${color}">${title}</h3><button class="btn btn-light rounded-circle" onclick="closeKnowledge()">✕</button></div><div class="mb-3"><strong>C'est quoi ?</strong><p>${science}</p></div><div class="mb-3"><strong>Pourquoi ?</strong><p>${pourquoi}</p></div>${btnExo}</div>`;
-        overlay.style.display = 'flex';
-    }
-    window.closeKnowledge = function() { document.getElementById('knowledge-overlay').style.display = 'none'; }
 
-    window.lancerRituel = function() { document.getElementById('wizard-overlay').style.display = 'flex'; showStep(1); }
-    window.showStep = function(s) {
-        const ov = document.getElementById('wizard-overlay'); ov.innerHTML = '';
-        if(s===1) ov.innerHTML = `<div class="p-4 text-center"><h3 class="fw-bold mb-4">C'était où ?</h3><button class="btn btn-light w-100 p-3 mb-2 text-start fw-bold" onclick="selCtx('COURS')">📚 En Cours</button><button class="btn btn-light w-100 p-3 mb-2 text-start fw-bold" onclick="selCtx('ATELIER')">🛠️ En Atelier</button><button class="btn btn-light w-100 p-3 mb-2 text-start fw-bold" onclick="selCtx('STAGE')">💼 En Stage</button></div>`;
-        else if(s===2) {
-            let h = `<div class="p-4"><button class="btn btn-sm btn-light mb-3" onclick="showStep(1)">Retour</button><h4 class="fw-bold mb-3">Ta réussite</h4>`;
-            REF_STRUCT.forEach(r => h+=`<button class="btn btn-light w-100 p-3 mb-2 text-start" onclick="selComp('${r.id}')" style="border-left:4px solid ${r.color}"><b>${r.default}</b></button>`);
-            ov.innerHTML = h + `</div>`;
-        } else if(s===3) {
-            ov.innerHTML = `<div class="p-4"><button class="btn btn-sm btn-light mb-3" onclick="showStep(2)">Retour</button><h4 class="fw-bold mb-3">Détails</h4><select id="w-lvl" class="form-select mb-3"><option value="1">⭐ Découverte</option><option value="2">⭐⭐ Appliqué</option><option value="3">⭐⭐⭐ Maîtrisé</option></select><textarea id="w-prv" class="form-control mb-3" placeholder="Preuve..."></textarea><button class="btn btn-primary w-100 rounded-pill py-3" onclick="saveRituel()">Valider</button></div>`;
-        }
+    // --- EXTRAS ---
+    window.toggleHistory = function() { const h = document.getElementById('history-goals-list'); h.style.display = h.style.display==='none'?'block':'none'; }
+    window.startMoodCheck = function() { document.getElementById('mood-overlay').style.display = 'flex'; }
+    window.saveMood = function() {
+        const m = document.getElementById('mood-select').value; if(!m) return;
+        document.getElementById('mood-header-text').innerText = "Humeur : " + m;
+        document.getElementById('mood-overlay').style.display = 'none';
     }
-    window.selCtx=function(c){wizardData.ctx=c;showStep(2)};
-    window.selComp=function(i){wizardData.id=i;showStep(3)};
-    window.saveRituel=function(){
-        const p=document.getElementById('w-prv').value; const l=document.getElementById('w-lvl').value;
-        if(p.length<2){alert('Preuve ?');return;}
-        const sid = wizardData.id.replace('.','_');
-        firebase.database().ref(`accompagnement/eleves/${userCode}/competences_validees/${sid}`).set({valide:true, niveau:l, preuve:p, contexte:wizardData.ctx, date:new Date().toISOString()}).then(()=>{document.getElementById('wizard-overlay').style.display='none';});
+    function checkMoodToday() { /* Optionnel: check si déjà rempli */ }
+
+    window.startBreathing = function() {
+        document.getElementById('breath-overlay').style.display = 'flex';
+        const c = document.getElementById('breath-circle'); const t = document.getElementById('breath-text');
+        breathInterval = setInterval(() => {
+            c.innerText = "Inspirer"; c.className = "breath-circle inhale"; t.innerText = "Gonfle tes poumons...";
+            setTimeout(() => { c.innerText = "Expirer"; c.className = "breath-circle exhale"; t.innerText = "Relâche tout..."; }, 5000);
+        }, 11000);
     }
-    window.closeWizard = function(){document.getElementById('wizard-overlay').style.display='none';}
+    window.stopBreathing = function() { document.getElementById('breath-overlay').style.display='none'; clearInterval(breathInterval); }
 
 </script>
 </body>
