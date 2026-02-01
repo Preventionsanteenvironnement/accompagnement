@@ -4,95 +4,96 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Espace Réussite</title>
-    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
 
     <style>
         :root { 
-            --bg-app: #f8fafc; --surface: #ffffff; --text-main: #1e293b; --primary: #4f46e5; --radius: 12px;
+            --bg-app: #f8fafc; --surface: #ffffff; --text-main: #0f172a; --primary: #4f46e5; --radius: 8px;
             --cog-color: #3b82f6; --emo-color: #ec4899; --soc-color: #8b5cf6; --neu-color: #64748b;
         }
         body { background-color: var(--bg-app); color: var(--text-main); font-family: 'Outfit', sans-serif; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
         
-        /* HEADER SOBRE */
-        .app-header { background: var(--surface); padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; z-index: 20; }
-        .student-id { font-weight: 700; color: var(--text-main); font-size: 1rem; letter-spacing: 0.5px; }
-        .btn-breath { background: none; border: 1px solid #e2e8f0; color: var(--neu-color); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
+        /* HEADER SOBRE (G) */
+        .app-header { background: var(--surface); padding: 1rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; z-index: 20; }
+        .student-id { font-weight: 700; color: var(--text-main); font-size: 0.9rem; letter-spacing: 0.5px; text-transform: uppercase; }
+        .btn-header { background: none; border: 1px solid #cbd5e1; color: var(--neu-color); padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; text-decoration: none; }
 
-        /* CONTENU PRINCIPAL */
-        .app-content { flex: 1; overflow-y: auto; padding: 1.5rem; padding-bottom: 100px; display: none; } /* Caché par défaut */
-        .app-content.active { display: block; animation: fadeIn 0.5s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .app-content { flex: 1; overflow-y: auto; padding: 1rem; padding-bottom: 100px; display: none; }
+        .app-content.active { display: block; }
 
         /* METEO */
-        .mood-summary { background: white; padding: 12px; border-radius: var(--radius); border: 1px solid #e2e8f0; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
-        .mood-tag { font-weight: 700; color: var(--primary); }
+        .mood-box { background: white; padding: 15px; border-radius: var(--radius); border: 1px solid #e2e8f0; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        
+        /* CERCLES */
+        .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 1.5rem; }
+        .kpi-item { background: white; border-radius: var(--radius); padding: 10px 5px; text-align: center; border: 1px solid #e2e8f0; cursor: pointer; }
+        .chart-mini { position: relative; height: 50px; width: 50px; margin: 0 auto 5px auto; }
+        .kpi-title { font-weight: 700; font-size: 0.7rem; text-transform: uppercase; color: var(--neu-color); }
 
-        /* CERCLES KPI */
-        .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1rem; }
-        .kpi-item { background: white; border-radius: var(--radius); padding: 15px 5px; text-align: center; border: 1px solid #f1f5f9; box-shadow: 0 2px 4px rgba(0,0,0,0.02); cursor: pointer; }
-        .chart-mini { position: relative; height: 60px; width: 60px; margin: 0 auto 8px auto; }
-        .kpi-title { font-weight: 700; font-size: 0.75rem; text-transform: uppercase; color: var(--neu-color); }
-
-        /* OBJECTIFS */
-        .obj-card { background: white; border-radius: var(--radius); padding: 15px; margin-bottom: 10px; border: 1px solid #e2e8f0; position: relative; border-left-width: 5px; cursor: pointer; }
+        /* LISTE OBJECTIFS (B) */
+        .obj-card { background: white; border-radius: var(--radius); padding: 12px; margin-bottom: 8px; border: 1px solid #e2e8f0; border-left-width: 4px; display: flex; align-items: center; cursor: pointer; }
         .obj-card.cog { border-left-color: var(--cog-color); }
         .obj-card.emo { border-left-color: var(--emo-color); }
         .obj-card.soc { border-left-color: var(--soc-color); }
         .obj-card.neu { border-left-color: var(--neu-color); }
-        .obj-badge { font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; font-weight: 700; text-transform: uppercase; background: #f1f5f9; color: #475569; margin-left: 8px; }
         
-        /* ACTIONS RAPIDES */
-        .quick-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 2rem; }
-        .btn-quick { background: white; border: 1px solid #e2e8f0; padding: 10px; border-radius: 10px; text-align: center; color: var(--primary); font-weight: 600; font-size: 0.85rem; cursor: pointer; }
+        .obj-content { flex: 1; margin-left: 10px; }
+        .obj-title { font-weight: 600; font-size: 0.9rem; line-height: 1.2; margin-bottom: 4px; }
+        .obj-meta { font-size: 0.75rem; color: #64748b; display: flex; gap: 8px; align-items: center; }
+        .obj-badge { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-weight: 700; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .obj-time { font-weight: 600; margin-left: auto; }
+        .obj-time.urgent { color: #dc2626; }
+
+        /* BOUTONS ACTIONS */
+        .btn-main { display: block; width: 100%; background: white; border: 1px solid #e2e8f0; padding: 12px; margin-bottom: 10px; border-radius: var(--radius); text-align: left; font-weight: 600; color: var(--primary); }
+        .btn-add { background: var(--primary); color: white; text-align: center; border: none; }
 
         /* NAV BAS */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: white; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-around; padding: 12px 0; z-index: 30; }
-        .nav-btn { background: none; border: none; color: #94a3b8; font-size: 0.75rem; display: flex; flex-direction: column; align-items: center; font-weight: 500; }
-        .nav-btn.active { color: var(--primary); font-weight: 700; }
-        .nav-btn i { font-size: 1.2rem; margin-bottom: 4px; }
+        .nav-btn { background: none; border: none; color: #94a3b8; font-size: 0.75rem; font-weight: 600; }
+        .nav-btn.active { color: var(--primary); }
 
         /* OVERLAYS */
         .overlay-full { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #f8fafc; z-index: 100; display: none; flex-direction: column; overflow-y: auto; }
-        .overlay-header { padding: 1.5rem; background: white; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; }
+        .overlay-header { padding: 1rem; background: white; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; }
         .step-content { padding: 1.5rem; flex: 1; }
-        .list-btn { width: 100%; text-align: left; padding: 15px; margin-bottom: 8px; background: white; border: 1px solid #e2e8f0; border-radius: 8px; font-weight: 600; color: var(--text-main); }
         
+        .list-btn { width: 100%; text-align: left; padding: 12px; margin-bottom: 8px; background: white; border: 1px solid #e2e8f0; border-radius: var(--radius); font-weight: 500; color: var(--text-main); }
+        .list-btn:active, .list-btn.selected { background: #e0e7ff; border-color: var(--primary); color: var(--primary); font-weight: 700; }
+
+        /* FORMULAIRES */
+        .form-label { font-size: 0.75rem; font-weight: 700; color: var(--neu-color); text-transform: uppercase; margin-bottom: 5px; display: block; }
+        .form-control, .form-select { border-radius: 6px; border: 1px solid #cbd5e1; padding: 10px; width: 100%; margin-bottom: 15px; font-size: 0.9rem; }
+
         .hidden { display: none !important; }
-        
-        /* RESPIRATION ANIMATION */
-        .breath-circle { width: 200px; height: 200px; background: #e0e7ff; border-radius: 50%; margin: auto; display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 1.2rem; font-weight: bold; transition: all 5s ease-in-out; }
-        .inhale { transform: scale(1.5); background-color: #c7d2fe; }
-        .exhale { transform: scale(1.0); background-color: #e0e7ff; }
-        
-        /* QR CODE */
-        #qrcode-container { display: flex; justify-content: center; margin: 20px 0; }
+        #qrcode-container { display: flex; justify-content: center; margin: 20px 0; padding: 10px; background: white; border-radius: 8px; }
     </style>
 </head>
 <body>
 
-<div id="loader" style="position:fixed; top:0; left:0; width:100%; height:100%; background:white; z-index:9999; display:flex; align-items:center; justify-content:center; flex-direction:column;">
+<div id="loader" style="position:fixed; top:0; left:0; width:100%; height:100%; background:white; z-index:9999; display:flex; align-items:center; justify-content:center;">
     <div class="spinner-border text-primary" role="status"></div>
-    <div class="mt-3 text-muted small">Chargement...</div>
 </div>
 
 <header class="app-header">
     <div class="student-id"><span id="display-code">--</span></div>
-    <button class="btn-breath" onclick="startBreathing()">Respiration</button>
+    <button class="btn-header" onclick="startBreathing()">Respiration</button>
 </header>
 
 <main class="app-content active" id="view-dashboard">
     
-    <div class="mood-summary" id="mood-summary-box" style="display:none;">
-        <div><div class="small text-muted">Humeur du jour</div><div class="mood-tag" id="mood-display-val">--</div></div>
-        <button class="btn btn-sm btn-outline-secondary rounded-pill" onclick="openMoodModal()">Changer</button>
+    <div class="mood-box" id="mood-box" style="display:none;">
+        <div>
+            <div style="font-size:0.75rem; color:#64748b; font-weight:600;">HUMEUR DU JOUR</div>
+            <div style="font-weight:700; color:#4f46e5;" id="mood-display">--</div>
+        </div>
+        <button class="btn-header" onclick="openMoodModal()">Changer</button>
     </div>
 
     <div class="kpi-grid">
@@ -101,163 +102,342 @@
         <div class="kpi-item" onclick="openCircleDetail('SOC')"><div class="chart-mini"><canvas id="chartSoc"></canvas></div><div class="kpi-title">Social</div></div>
     </div>
 
-    <div class="quick-actions">
-        <div class="btn-quick" onclick="openAttestation()">📄 Ma Synthèse CPS</div>
-        <div class="btn-quick" onclick="openRecoModal()">🏅 Ajouter une reconnaissance</div>
-    </div>
+    <button class="btn-main btn-add" onclick="startGoalWizard()">+ Ajouter un objectif</button>
+    <button class="btn-main" onclick="openRecoModal()">Ajouter une reconnaissance</button>
+    <button class="btn-main" onclick="openAttestation()">Ma Synthèse CPS</button>
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h6 class="fw-bold mb-0 text-dark">Objectifs à atteindre</h6>
-        <button class="btn btn-sm btn-primary rounded-pill px-3" onclick="startGoalWizard()">+ Ajouter</button>
+    <h6 style="font-weight:700; margin-top:20px; margin-bottom:10px; font-size:0.85rem; color:#334155;">OBJECTIFS À ATTEINDRE</h6>
+    <div id="goals-list"></div>
+
+    <div style="margin-top:20px; border-top:1px solid #e2e8f0; padding-top:10px;">
+        <div onclick="toggleHistory()" style="cursor:pointer; font-size:0.8rem; font-weight:600; color:#64748b;">
+            Voir les objectifs atteints ▼
+        </div>
+        <div id="history-list" style="display:none; margin-top:10px;"></div>
     </div>
-    <div id="active-goals-list"></div>
 </main>
 
 <div class="bottom-nav">
-    <button class="nav-btn active" onclick="switchView('dashboard')"><i class="fas fa-home"></i>Accueil</button>
-    <button class="nav-btn" onclick="openAttestation()"><i class="fas fa-file-alt"></i>Bilan</button>
+    <button class="nav-btn active" onclick="switchView('dashboard')">ACCUEIL</button>
+    <button class="nav-btn" onclick="openAttestation()">BILAN</button>
 </div>
 
-<div id="circle-overlay" class="overlay-full">
+<div id="wizard-overlay" class="overlay-full">
     <div class="overlay-header">
-        <h5 class="fw-bold mb-0" id="circle-title">--</h5>
-        <button class="btn-close" onclick="closeCircle()"></button>
+        <h5 style="margin:0; font-weight:700;">Nouvel Objectif</h5>
+        <button class="btn-header" onclick="closeWizard()">Fermer</button>
     </div>
-    <div class="step-content">
-        <ul class="nav nav-pills mb-3 nav-fill" id="pills-tab">
-            <li class="nav-item"><button class="nav-link active btn-sm" onclick="switchCircleTab('suivi')">Suivi</button></li>
-            <li class="nav-item"><button class="nav-link btn-sm" onclick="switchCircleTab('comprendre')">Comprendre</button></li>
-            <li class="nav-item"><button class="nav-link btn-sm" onclick="switchCircleTab('pratique')">Pratique</button></li>
-        </ul>
-        <div id="tab-suivi">
-            <h6 class="text-primary small fw-bold mb-2 mt-2">📅 À VENIR</h6><div id="list-future" class="mb-3 text-muted small fst-italic">Rien.</div>
-            <h6 class="text-warning small fw-bold mb-2">⏳ EN COURS</h6><div id="list-current" class="mb-3 text-muted small fst-italic">Rien.</div>
-            <h6 class="text-success small fw-bold mb-2">✅ ATTEINTS</h6><div id="list-done" class="mb-3 text-muted small fst-italic">Rien.</div>
-        </div>
-        <div id="tab-comprendre" class="hidden">
-            <div class="card p-3 mb-3 bg-light border-0"><strong class="d-block mb-1">C'est quoi ?</strong><p class="mb-0 small" id="circle-def">--</p></div>
-            <h6 class="fw-bold mt-4 mb-2">Dictionnaire</h6><div id="circle-dict-list" class="list-group list-group-flush small"></div>
-        </div>
-        <div id="tab-pratique" class="hidden">
-            <h6 class="fw-bold mb-3">Exercices</h6><div id="circle-ex-list" class="list-group list-group-flush"></div>
-            <div class="mt-4 pt-3 border-top"><label class="small fw-bold text-muted">RESSOURCES</label><a href="https://github.com/preventionsanteenvironnement" target="_blank" class="btn btn-outline-primary w-100 mt-2">Voir GitHub</a></div>
-        </div>
-    </div>
+    <div class="step-content" id="wizard-content"></div>
 </div>
 
-<div id="attestation-overlay" class="overlay-full">
-    <div class="overlay-header no-print"><h5 class="fw-bold mb-0">Synthèse</h5><button class="btn-close" onclick="document.getElementById('attestation-overlay').style.display='none'"></button></div>
+<div id="detail-overlay" class="overlay-full">
+    <div class="overlay-header">
+        <h5 style="margin:0; font-weight:700;">Détail Objectif</h5>
+        <button class="btn-header" onclick="closeDetail()">Fermer</button>
+    </div>
     <div class="step-content">
-        <div class="text-center mb-4"><h3 class="fw-bold">Mon Profil CPS</h3></div>
-        <div class="card p-3 mb-3" style="border-left:5px solid var(--cog-color)"><h5 style="color:var(--cog-color)">Cognitif</h5><p id="syn-cog-txt" class="small text-muted">...</p></div>
-        <div class="card p-3 mb-3" style="border-left:5px solid var(--emo-color)"><h5 style="color:var(--emo-color)">Émotionnel</h5><p id="syn-emo-txt" class="small text-muted">...</p></div>
-        <div class="card p-3 mb-3" style="border-left:5px solid var(--soc-color)"><h5 style="color:var(--soc-color)">Social</h5><p id="syn-soc-txt" class="small text-muted">...</p></div>
-        <button class="btn btn-dark w-100 mt-3 no-print" onclick="window.print()">Imprimer</button>
+        <div class="mb-3">
+            <span id="det-badge" class="obj-badge">CADRE</span>
+        </div>
+        
+        <label class="form-label">Objectif</label>
+        <input type="text" id="det-title" class="form-control" disabled style="background:#f1f5f9; font-weight:600;">
+        <small class="text-muted d-block mb-3" id="det-help">Texte issu du référentiel (non modifiable).</small>
+
+        <label class="form-label">Pour quand ?</label>
+        <input type="date" id="det-date" class="form-control">
+
+        <label class="form-label">Matière / Lieu</label>
+        <input type="text" id="det-context" class="form-control">
+
+        <button class="btn-main btn-add" onclick="saveDetail()">Enregistrer les modifications</button>
+
+        <hr style="margin: 20px 0; border-color:#e2e8f0;">
+
+        <button class="btn-main" style="border-color:#4f46e5; color:#4f46e5;" onclick="showQRForGoal()">Demander validation adulte</button>
+        
+        <button class="btn-header w-100 mt-3" style="color:#dc2626; border-color:#fca5a5;" onclick="deleteGoal()">Supprimer</button>
     </div>
 </div>
 
 <div id="qr-overlay" class="overlay-full" style="justify-content:center; align-items:center;">
-    <div class="text-center p-4">
-        <h4 class="fw-bold mb-3">Validation</h4>
+    <div style="text-align:center; padding:20px;">
+        <h4 style="font-weight:700; margin-bottom:20px;">Faire valider</h4>
         <div id="qrcode-container"></div>
-        <button class="btn btn-light rounded-pill px-4 mt-3" onclick="document.getElementById('qr-overlay').style.display='none'">Fermer</button>
+        <p class="text-muted small mt-3">Présente ce code à l'adulte.</p>
+        <button class="btn-header" onclick="document.getElementById('qr-overlay').style.display='none'">Fermer</button>
     </div>
 </div>
 
-<div id="wizard-overlay" class="overlay-full"><div class="overlay-header"><h5 class="fw-bold mb-0">Nouveau But</h5><button class="btn-close" onclick="document.getElementById('wizard-overlay').style.display='none'"></button></div><div class="step-content" id="wizard-steps"></div></div>
+<div id="mood-overlay" class="overlay-full">
+    <div class="overlay-header"><h5 style="margin:0; font-weight:700;">Météo du jour</h5></div>
+    <div class="step-content" id="mood-content"></div>
+</div>
 
-<div id="mood-overlay" class="overlay-full"><div class="overlay-header"><h5 class="fw-bold mb-0">Météo</h5></div><div class="step-content" id="mood-step-container"></div></div>
+<div id="circle-overlay" class="overlay-full">
+    <div class="overlay-header"><h5 id="circle-title" style="margin:0; font-weight:700;">--</h5><button class="btn-header" onclick="closeCircle()">Fermer</button></div>
+    <div class="step-content" id="circle-content"></div>
+</div>
 
-<div id="breath-overlay" class="overlay-full" style="justify-content:center;"><div class="text-center"><div id="breath-circle" class="breath-circle">Prêt ?</div><button class="btn btn-light mt-5" onclick="stopBreathing()">Fermer</button></div></div>
-
-<script src="js/firebase-config.js"></script>
+<div id="attestation-overlay" class="overlay-full">
+    <div class="overlay-header no-print"><h5 style="margin:0; font-weight:700;">Synthèse</h5><button class="btn-header" onclick="document.getElementById('attestation-overlay').style.display='none'">Fermer</button></div>
+    <div class="step-content" id="attestation-content">
+        <h3 class="fw-bold mb-4 text-center">Profil de Compétences</h3>
+        <div class="card p-3 mb-3" style="border-left:5px solid var(--cog-color)"><h5 style="color:var(--cog-color); margin:0 0 10px 0;">Cognitif</h5><p id="syn-cog" class="small m-0 text-muted">...</p></div>
+        <div class="card p-3 mb-3" style="border-left:5px solid var(--emo-color)"><h5 style="color:var(--emo-color); margin:0 0 10px 0;">Émotionnel</h5><p id="syn-emo" class="small m-0 text-muted">...</p></div>
+        <div class="card p-3 mb-3" style="border-left:5px solid var(--soc-color)"><h5 style="color:var(--soc-color); margin:0 0 10px 0;">Social</h5><p id="syn-soc" class="small m-0 text-muted">...</p></div>
+        <button class="btn-main no-print mt-4" onclick="window.print()">Imprimer</button>
+    </div>
+</div>
 
 <script>
-    // --- SÉCURITÉ CHARGEMENT V23 (LE FIX !) ---
-    // Si Firebase met plus de 2 secondes à répondre, on force l'affichage
+    // --- CONFIG & SECU ---
+    if (typeof firebaseConfig !== 'undefined') firebase.initializeApp(firebaseConfig);
+    let userCode = new URLSearchParams(window.location.search).get("id");
+    
+    // Fallback Secu
     window.addEventListener('load', () => {
         setTimeout(() => {
             document.getElementById('loader').style.display = 'none';
-            // Si pas de code élève, on met un défaut pour que la page s'affiche
-            if(!userCode) {
-                userCode = "KA47";
-                document.getElementById('display-code').innerText = userCode + " (Démo)";
-                loadData();
-            }
-        }, 2500);
+            if(!userCode) { userCode = "KA47"; document.getElementById('display-code').innerText = "KA47 (TEST)"; loadData(); }
+        }, 2000);
     });
 
-    if (typeof firebaseConfig !== 'undefined') firebase.initializeApp(firebaseConfig);
-    let userCode = new URLSearchParams(window.location.search).get("id");
     let userData = {};
+    let draft = {};
+    let currentEditId = null;
     let charts = {};
-    let draftGoal = {};
-    let breathInterval;
 
-    // --- DONNÉES ---
-    const GOAL_LIBRARY = { "Scolaire": { "EMO": ["Gérer stress"], "COG": ["Organiser"], "SOC": ["Participer"] }, "PFMP": { "EMO": ["Confiance"], "COG": ["Sécurité"], "SOC": ["Politesse"] } }; 
-    const EMOTIONS_V2 = { "Joie":["Satisfait"], "Peur":["Stressé"], "Colère":["Énervé"], "Tristesse":["Déçu"] };
-    const DICTIONNAIRE = { "Cognitif": "Tête", "Emotionnel": "Cœur", "Social": "Lien" };
+    // --- DATA ---
+    const GOAL_LIB = {
+        "Scolaire": {
+            "COG": ["Se concentrer", "Comprendre consigne", "Organiser matériel", "Planifier travail", "Appliquer méthode", "Vérifier travail"],
+            "EMO": ["Identifier émotions", "Exprimer ressenti", "Réguler stress", "Prendre confiance", "Accepter correction"],
+            "SOC": ["Participer oralement", "Lever la main", "Parler clairement", "Écouter sans couper", "Travailler en groupe"]
+        },
+        "PFMP": {
+            "COG": ["Comprendre consigne pro", "Observer avant d'agir", "Appliquer procédure", "Gérer temps", "Respecter sécurité"],
+            "EMO": ["Gérer stress tâche", "Accepter remarque", "Gérer fatigue", "Rester motivé"],
+            "SOC": ["Saluer", "Se présenter", "Parler poliment", "Posture pro", "Respecter hiérarchie"]
+        },
+        "Recherche": {
+            "COG": ["Identifier entreprises", "Préparer CV", "Adapter candidature", "Planifier actions"],
+            "EMO": ["Gérer peur refus", "Oser contacter", "Persévérer", "Se rassurer"],
+            "SOC": ["Se présenter tél", "Exprimer motivation", "Remercier", "Posture entretien"]
+        }
+    };
+    const MATIERES = ["Français","Maths","Anglais","Espagnol","Hist-Géo","Eco-Droit","Ens. Pro","PSE","Arts","EPS","Autre"];
+    const EMOTIONS = {
+        "Joie": ["Satisfait","Fier","Enthousiaste"], "Tristesse": ["Déçu","Découragé"], "Colère": ["Agacé","Frustré"], 
+        "Peur": ["Inquiet","Stressé"], "Dégoût": ["Gêné"], "Surprise": ["Étonné"]
+    };
 
-    // --- LOGIQUE ---
     function loadData() {
         if(!userCode) return;
         document.getElementById('display-code').innerText = userCode;
         firebase.database().ref(`accompagnement/eleves/${userCode}`).on('value', (snap) => {
             userData = snap.val() || { objectifs: {}, meteo: {} };
-            updateDashboard();
-            checkMoodToday();
-            generateAttestation();
+            renderDashboard();
+            checkMood();
+            renderAttestation();
         });
     }
 
-    function updateDashboard() {
-        const list = document.getElementById('active-goals-list'); list.innerHTML = '';
+    // --- DASHBOARD (F) ---
+    function renderDashboard() {
+        const list = document.getElementById('goals-list'); list.innerHTML = '';
+        const hist = document.getElementById('history-list'); hist.innerHTML = '';
         const goals = userData.objectifs || {};
+        const keys = Object.keys(goals);
         let counts = {COG:0, EMO:0, SOC:0};
 
-        Object.keys(goals).forEach(key => {
-            const g = goals[key];
+        // Tri (F) : Date proche d'abord
+        keys.sort((a,b) => {
+            const da = new Date(goals[a].date_cible || '2099-01-01');
+            const db = new Date(goals[b].date_cible || '2099-01-01');
+            return da - db;
+        });
+
+        keys.forEach(k => {
+            const g = goals[k];
+            const type = (g.type || 'NEU').toLowerCase();
+            const badge = g.context || 'Autre';
+            
+            // Calcul J-x (E)
+            let timeStr = "Date à définir";
+            let urgent = false;
+            if(g.date_cible) {
+                const today = new Date(); today.setHours(0,0,0,0);
+                const target = new Date(g.date_cible); target.setHours(0,0,0,0);
+                const diff = Math.ceil((target - today) / (86400000));
+                if(!isNaN(diff)) {
+                    timeStr = diff === 0 ? "Aujourd'hui" : (diff < 0 ? "Dépassé" : `J-${diff}`);
+                    if(diff < 0) urgent = true;
+                }
+            }
+
             if(g.done) {
-                if(g.type && counts[g.type]!==undefined) counts[g.type]++;
+                if(counts[g.type]) counts[g.type]++;
+                hist.innerHTML += `<div class="obj-card ${type}" style="opacity:0.6"><div class="obj-content"><div class="obj-title">${g.titre}</div><div class="obj-meta">Validé</div></div></div>`;
             } else {
-                list.innerHTML += `<div class="obj-card ${g.type ? g.type.toLowerCase() : 'neu'}">
-                    <div class="d-flex justify-content-between"><strong>${g.titre}</strong><span class="obj-badge">${g.context}</span></div>
-                    <div class="d-flex justify-content-between mt-2">
-                        <small class="text-muted">${g.detail || '...'}</small>
-                        <small onclick="showQRValidation('${key}','${g.type}')" class="fw-bold text-primary" style="cursor:pointer">Valider 📷</small>
+                list.innerHTML += `
+                <div class="obj-card ${type}" onclick="openDetail('${k}')">
+                    <input type="checkbox" onclick="event.stopPropagation(); toggleGoal('${k}', true)" style="width:20px;height:20px;">
+                    <div class="obj-content">
+                        <div class="obj-title">${g.titre}</div>
+                        <div class="obj-meta">
+                            <span class="obj-badge">${badge}</span>
+                            <span>${g.detail || ''}</span>
+                            <span class="obj-time ${urgent?'urgent':''}">${timeStr}</span>
+                        </div>
                     </div>
                 </div>`;
             }
         });
 
+        if(list.innerHTML === '') list.innerHTML = '<div style="text-align:center; color:#94a3b8; font-style:italic; padding:20px;">Aucun objectif en cours.</div>';
+
+        // Charts
         ['Cog','Emo','Soc'].forEach(t => {
             const ctx = document.getElementById('chart'+t);
-            if(ctx) new Chart(ctx, { type:'doughnut', data:{datasets:[{data:[counts[t.toUpperCase()], 10], backgroundColor:['#4f46e5','#eee']}]}, options:{cutout:'75%', events:[]} });
+            if(ctx) new Chart(ctx, { type:'doughnut', data:{datasets:[{data:[counts[t.toUpperCase()], 10], backgroundColor:['#4f46e5','#f1f5f9'], borderWidth:0}]}, options:{cutout:'75%', events:[], plugins:{tooltip:false}} });
         });
     }
 
-    // --- METEO ---
-    function checkMoodToday() {
+    function toggleGoal(k, status) {
+        if(confirm("As-tu atteint cet objectif ?")) {
+            firebase.database().ref(`accompagnement/eleves/${userCode}/objectifs/${k}`).update({done: status, date_done: new Date().toISOString()});
+        } else {
+            renderDashboard(); // Reset checkbox
+        }
+    }
+
+    // --- WIZARD 6 ETAPES (A) ---
+    window.startGoalWizard = function() { draft = {}; document.getElementById('wizard-overlay').style.display='flex'; wizStep(1); }
+    
+    function wizStep(s) {
+        const c = document.getElementById('wizard-content'); c.innerHTML = '';
+        if(s===1) { // CADRE
+            c.innerHTML = `<h5>1. Dans quel cadre ?</h5>
+            <button class="list-btn" onclick="draft.context='Scolaire'; wizStep(2)">Scolaire</button>
+            <button class="list-btn" onclick="draft.context='PFMP'; wizStep(2)">PFMP / Stage</button>
+            <button class="list-btn" onclick="draft.context='Recherche'; wizStep(2)">Recherche de stage</button>
+            <button class="list-btn" onclick="draft.context='Autre'; wizStep(2)">Autre (Libre)</button>`;
+        } else if(s===2) { // TYPE
+            c.innerHTML = `<h5>2. Quel type de progrès ?</h5>
+            <button class="list-btn" onclick="draft.type='COG'; wizStep(3)">Cognitif (Tête)</button>
+            <button class="list-btn" onclick="draft.type='EMO'; wizStep(3)">Émotionnel (Cœur)</button>
+            <button class="list-btn" onclick="draft.type='SOC'; wizStep(3)">Social (Lien)</button>
+            <button class="list-btn" onclick="draft.type='AUTRE'; wizStep(3)">Autre</button>`;
+        } else if(s===3) { // BUT
+            const list = GOAL_LIB[draft.context]?.[draft.type] || [];
+            let h = `<h5>3. Choisis ton but</h5>`;
+            list.forEach(g => h+=`<button class="list-btn" onclick="draft.titre='${g}'; wizStep(4)">${g}</button>`);
+            h+=`<button class="list-btn" onclick="draft.titre=prompt('Ton objectif ?'); if(draft.titre) wizStep(4)">Autre (Écrire)...</button>`;
+            c.innerHTML = h;
+        } else if(s===4) { // DATE
+            c.innerHTML = `<h5>4. Pour quand ?</h5>
+            <input type="date" id="w-date" class="form-control" value="${new Date().toISOString().split('T')[0]}">
+            <button class="btn-main btn-add" onclick="draft.date=document.getElementById('w-date').value; wizStep(5)">Continuer</button>`;
+        } else if(s===5) { // MATIERE/LIEU
+            let inputHtml = `<input type="text" id="w-det" class="form-control" placeholder="Précise...">`;
+            if(draft.context === 'Scolaire') {
+                inputHtml = `<select id="w-det" class="form-select">${MATIERES.map(m=>`<option value="${m}">${m}</option>`).join('')}</select>`;
+            }
+            c.innerHTML = `<h5>5. Matière / Lieu</h5>${inputHtml}
+            <button class="btn-main btn-add" onclick="draft.detail=document.getElementById('w-det').value; wizStep(6)">Continuer</button>`;
+        } else if(s===6) { // VALIDATION
+            c.innerHTML = `<h5>6. Récapitulatif</h5>
+            <div class="card p-3 mb-3 bg-light">
+                <strong>${draft.titre}</strong><br>
+                ${draft.context} • ${draft.type}<br>
+                ${draft.detail} • ${draft.date}
+            </div>
+            <button class="btn-main btn-add" onclick="saveWizard()">Valider l'objectif</button>`;
+        }
+    }
+    window.saveWizard = function() {
+        if(!draft.date) draft.date = new Date().toISOString().split('T')[0]; // Fallback date
+        firebase.database().ref(`accompagnement/eleves/${userCode}/objectifs`).push({
+            context: draft.context, type: draft.type, titre: draft.titre,
+            date_cible: draft.date, detail: draft.detail || 'Non précisé',
+            done: false, created: new Date().toISOString()
+        });
+        document.getElementById('wizard-overlay').style.display='none';
+    }
+    window.closeWizard = function(){document.getElementById('wizard-overlay').style.display='none';}
+
+    // --- DETAIL OBJECTIF & QR (C) ---
+    window.openDetail = function(k) {
+        currentEditId = k;
+        const g = userData.objectifs[k];
+        document.getElementById('detail-overlay').style.display='flex';
+        document.getElementById('det-badge').innerText = g.context || 'AUTRE';
+        document.getElementById('det-title').value = g.titre;
+        document.getElementById('det-date').value = g.date_cible || '';
+        document.getElementById('det-context').value = g.detail || '';
+        
+        // Verrouillage titre si liste (E)
+        const isFree = (g.context === 'Autre' || g.type === 'AUTRE');
+        document.getElementById('det-title').disabled = !isFree;
+        document.getElementById('det-help').style.display = isFree ? 'none' : 'block';
+    }
+    window.saveDetail = function() {
+        const d = document.getElementById('det-date').value;
+        const c = document.getElementById('det-context').value;
+        const t = document.getElementById('det-title').value;
+        let up = {date_cible:d, detail:c};
+        if(!document.getElementById('det-title').disabled) up.titre = t;
+        firebase.database().ref(`accompagnement/eleves/${userCode}/objectifs/${currentEditId}`).update(up);
+        document.getElementById('detail-overlay').style.display='none';
+    }
+    window.deleteGoal = function() {
+        if(confirm("Supprimer ?")) {
+            firebase.database().ref(`accompagnement/eleves/${userCode}/objectifs/${currentEditId}`).remove();
+            document.getElementById('detail-overlay').style.display='none';
+        }
+    }
+    window.closeDetail = function(){document.getElementById('detail-overlay').style.display='none';}
+
+    window.showQRForGoal = function() {
+        const g = userData.objectifs[currentEditId];
+        const p = { eleve: userCode, objectif: currentEditId, competence: g.type, timestamp: Date.now(), cadre: g.context };
+        generateQR(JSON.stringify(p));
+    }
+    window.openRecoModal = function() {
+        const type = prompt("Type ? (COG, EMO, SOC)"); // Simplifié pour code, à remplacer par boutons si besoin
+        if(type) {
+            const p = { eleve: userCode, type_reconnaissance: type.toUpperCase(), competence: type.toUpperCase(), timestamp: Date.now() };
+            generateQR(JSON.stringify(p));
+        }
+    }
+    function generateQR(txt) {
+        document.getElementById('qrcode-container').innerHTML = '';
+        new QRCode(document.getElementById('qrcode-container'), { text: txt, width: 200, height: 200 });
+        document.getElementById('qr-overlay').style.display='flex';
+    }
+
+    // --- METEO (2 Niveaux) ---
+    function checkMood() {
         const today = new Date().toISOString().split('T')[0];
         const m = (userData.meteo && userData.meteo[today]);
         if(m) {
-            document.getElementById('mood-summary-box').style.display='flex';
-            document.getElementById('mood-display-val').innerText = m.secondary + " (" + m.primary + ")";
+            document.getElementById('mood-box').style.display='flex';
+            document.getElementById('mood-display').innerText = m.secondary;
         } else {
             openMoodModal();
         }
     }
     window.openMoodModal = function() {
         document.getElementById('mood-overlay').style.display='flex';
-        let h = `<h5 class="mb-3 text-center">Emotion ?</h5>`;
-        Object.keys(EMOTIONS_V2).forEach(k => h+=`<button class="list-btn" onclick="renderMood2('${k}')">${k}</button>`);
-        document.getElementById('mood-step-container').innerHTML = h;
+        let h = `<h5>1. Émotion principale</h5>`;
+        Object.keys(EMOTIONS).forEach(k => h+=`<button class="list-btn" onclick="moodStep2('${k}')">${k}</button>`);
+        document.getElementById('mood-content').innerHTML = h;
     }
-    window.renderMood2 = function(p) {
-        let h = `<h5 class="mb-3 text-center">Précision (${p})</h5>`;
-        EMOTIONS_V2[p].forEach(s => h+=`<button class="list-btn" onclick="saveMood('${p}','${s}')">${s}</button>`);
-        document.getElementById('mood-step-container').innerHTML = h;
+    window.moodStep2 = function(p) {
+        let h = `<h5>2. Précisons (${p})</h5>`;
+        EMOTIONS[p].forEach(s => h+=`<button class="list-btn" onclick="saveMood('${p}','${s}')">${s}</button>`);
+        document.getElementById('mood-content').innerHTML = h;
     }
     window.saveMood = function(p, s) {
         const today = new Date().toISOString().split('T')[0];
@@ -265,55 +445,30 @@
         document.getElementById('mood-overlay').style.display='none';
     }
 
-    // --- CERCLES ---
+    // --- CERCLES & ATTESTATION ---
     window.openCircleDetail = function(t) {
         document.getElementById('circle-title').innerText = t;
-        document.getElementById('circle-def').innerText = DICTIONNAIRE[t=='COG'?'Cognitif':(t=='EMO'?'Emotionnel':'Social')];
+        // Ici on afficherait l'historique complet filtré par type (omis pour brièveté code V24)
         document.getElementById('circle-overlay').style.display='flex';
-        // Remplissage simplifié pour l'exemple V23
-        document.getElementById('list-done').innerHTML = "Chargement...";
+        document.getElementById('circle-content').innerHTML = "<p class='text-muted'>Historique complet ici...</p>";
     }
     window.closeCircle = function(){document.getElementById('circle-overlay').style.display='none';}
-    window.switchCircleTab = function(t) {
-        ['suivi','comprendre','pratique'].forEach(x => document.getElementById('tab-'+x).classList.add('hidden'));
-        document.getElementById('tab-'+t).classList.remove('hidden');
-    }
-
-    // --- QR ---
-    window.showQRValidation = function(id, type) {
-        const p = { eleve: userCode, objectif: id, type_competence: type, flux: 1, timestamp: Date.now() };
-        document.getElementById('qrcode-container').innerHTML = '';
-        new QRCode(document.getElementById('qrcode-container'), { text: JSON.stringify(p), width: 200, height: 200 });
-        document.getElementById('qr-overlay').style.display='flex';
-    }
-    window.openRecoModal = function() {
-        const type = prompt("Type ? (COG, EMO, SOC)");
-        if(!type) return;
-        const p = { eleve: userCode, type_competence: type.toUpperCase(), flux: 2, timestamp: Date.now() };
-        document.getElementById('qrcode-container').innerHTML = '';
-        new QRCode(document.getElementById('qrcode-container'), { text: JSON.stringify(p), width: 200, height: 200 });
-        document.getElementById('qr-overlay').style.display='flex';
-    }
-
-    // --- WIZARD SIMPLIFIÉ (Pour que ça marche direct) ---
-    window.startGoalWizard = function() {
-        const t = prompt("Titre de l'objectif ?");
-        if(!t) return;
-        firebase.database().ref(`accompagnement/eleves/${userCode}/objectifs`).push({
-            titre: t, type: "COG", context: "Scolaire", done: false, created: new Date().toISOString()
-        });
-    }
-
-    // --- ATTESTATION & EXTRAS ---
+    
     window.openAttestation = function() { document.getElementById('attestation-overlay').style.display='flex'; }
-    window.generateAttestation = function() { /* Logique stats */ }
-    window.startBreathing = function() { document.getElementById('breath-overlay').style.display='flex'; }
-    window.stopBreathing = function() { document.getElementById('breath-overlay').style.display='none'; }
+    window.renderAttestation = function() {
+        document.getElementById('syn-cog').innerText = "Analyse des objectifs cognitifs...";
+        document.getElementById('syn-emo').innerText = "Analyse des objectifs émotionnels...";
+        document.getElementById('syn-soc').innerText = "Analyse des objectifs sociaux...";
+    }
+
+    // --- NAV ---
     window.switchView = function(v) {
-        document.querySelectorAll('.app-content').forEach(e=>e.classList.remove('active'));
+        document.querySelectorAll('.app-content').forEach(e => e.classList.remove('active'));
         document.getElementById('view-'+v).classList.add('active');
     }
-
+    window.toggleHistory = function() {
+        const h = document.getElementById('history-list'); h.style.display = h.style.display==='none'?'block':'none';
+    }
 </script>
 </body>
 </html>
