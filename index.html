@@ -14,14 +14,14 @@
 
     <style>
         :root { 
-            --bg-app: #f8fafc; --surface: #ffffff; --text-main: #0f172a; --primary: #4f46e5; --radius: 10px;
+            --bg-app: #f8fafc; --surface: #ffffff; --text-main: #0f172a; --primary: #4f46e5; --radius: 8px;
             --cog-color: #3b82f6; --emo-color: #ec4899; --soc-color: #8b5cf6; --neu-color: #64748b;
         }
         body { background-color: var(--bg-app); color: var(--text-main); font-family: 'Outfit', sans-serif; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
         
         .app-header { background: var(--surface); padding: 1rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; z-index: 20; }
         .student-id { font-weight: 700; color: var(--text-main); font-size: 0.9rem; letter-spacing: 0.5px; text-transform: uppercase; }
-        .btn-header { background: none; border: 1px solid #cbd5e1; color: var(--neu-color); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; text-decoration: none; }
+        .btn-header { background: none; border: 1px solid #cbd5e1; color: var(--neu-color); padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; text-decoration: none; }
 
         .app-content { flex: 1; overflow-y: auto; padding: 1rem; padding-bottom: 100px; display: none; }
         .app-content.active { display: block; }
@@ -42,7 +42,7 @@
         .obj-content { flex: 1; margin-left: 10px; }
         .obj-title { font-weight: 600; font-size: 0.9rem; line-height: 1.2; margin-bottom: 4px; }
         .obj-meta { font-size: 0.75rem; color: #64748b; display: flex; gap: 8px; align-items: center; }
-        .obj-badge { background: #f1f5f9; padding: 2px 6px; border-radius: 6px; font-weight: 700; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .obj-badge { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-weight: 700; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5px; }
         .obj-time { font-weight: 600; margin-left: auto; }
         .obj-time.urgent { color: #dc2626; }
 
@@ -55,17 +55,16 @@
 
         .overlay-full { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #f8fafc; z-index: 100; display: none; flex-direction: column; overflow-y: auto; }
         .overlay-header { padding: 1rem; background: white; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; }
-        .step-content { padding: 1.1rem; flex: 1; }
+        .step-content { padding: 1.5rem; flex: 1; }
         
-        .list-btn { width: 100%; text-align: left; padding: 12px; margin-bottom: 8px; background: white; border: 1px solid #e2e8f0; border-radius: var(--radius); font-weight: 600; color: var(--text-main); }
-        .list-btn:active, .list-btn.selected { background: #e0e7ff; border-color: var(--primary); color: var(--primary); font-weight: 800; }
+        .list-btn { width: 100%; text-align: left; padding: 12px; margin-bottom: 8px; background: white; border: 1px solid #e2e8f0; border-radius: var(--radius); font-weight: 500; color: var(--text-main); }
+        .list-btn:active, .list-btn.selected { background: #e0e7ff; border-color: var(--primary); color: var(--primary); font-weight: 700; }
 
-        .form-label { font-size: 0.75rem; font-weight: 800; color: var(--neu-color); text-transform: uppercase; margin-bottom: 7px; display: block; }
-        .form-control, .form-select, textarea.form-control { border-radius: 10px; border: 1px solid #cbd5e1; padding: 12px; width: 100%; margin-bottom: 15px; font-size: 0.95rem; }
-        textarea.form-control { min-height: 90px; resize: none; }
+        .form-label { font-size: 0.75rem; font-weight: 700; color: var(--neu-color); text-transform: uppercase; margin-bottom: 5px; display: block; }
+        .form-control, .form-select { border-radius: 6px; border: 1px solid #cbd5e1; padding: 10px; width: 100%; margin-bottom: 15px; font-size: 0.9rem; }
 
         .hidden { display: none !important; }
-        #qrcode-container { display: flex; justify-content: center; margin: 20px 0; padding: 10px; background: white; border-radius: 12px; }
+        #qrcode-container { display: flex; justify-content: center; margin: 20px 0; padding: 10px; background: white; border-radius: 8px; }
 
         .breath-circle {
             width: 220px;
@@ -74,7 +73,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 800;
+            font-weight: 700;
             border: 3px solid #e2e8f0;
             background: white;
             margin: 0 auto;
@@ -82,46 +81,27 @@
         }
         .breath-circle.inhale { transform: scale(1.15); }
         .breath-circle.exhale { transform: scale(0.95); }
-
-        /* WIZARD PREMIUM */
-        .wiz-topbar { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:14px; }
-        .wiz-back { border:1px solid #cbd5e1; background:white; color:#334155; padding:8px 10px; border-radius:10px; font-weight:800; font-size:.85rem; }
-        .wiz-pill { flex:1; background:white; border:1px solid #e2e8f0; border-radius:999px; padding:10px 12px; display:flex; justify-content:space-between; align-items:center; }
-        .wiz-pill .k { font-size:.72rem; font-weight:900; color:#64748b; text-transform:uppercase; letter-spacing:.6px; }
-        .wiz-pill .v { font-size:.9rem; font-weight:900; color:#0f172a; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:55%; text-align:right; }
-        .wiz-section-title { font-weight:900; font-size:.78rem; color:#475569; text-transform:uppercase; letter-spacing:.7px; margin:14px 0 8px 0; display:flex; align-items:center; gap:8px; }
-        .dot { width:10px; height:10px; border-radius:999px; display:inline-block; }
-        .dot.cog { background: var(--cog-color); }
-        .dot.emo { background: var(--emo-color); }
-        .dot.soc { background: var(--soc-color); }
-        .dot.neu { background: var(--neu-color); }
-
-        .cps-grid { display:grid; grid-template-columns: repeat(2, 1fr); gap:10px; }
-        .cps-tile { background:white; border:1px solid #e2e8f0; border-radius:14px; padding:12px; text-align:left; box-shadow: 0 1px 0 rgba(15,23,42,.03); transition: transform .06s ease; }
-        .cps-tile:active { transform: scale(.99); }
-        .cps-type { font-size:.70rem; font-weight:900; text-transform:uppercase; letter-spacing:.6px; color:#64748b; margin-bottom:6px; display:flex; align-items:center; gap:8px; }
-        .cps-label { font-size:.92rem; font-weight:900; color:#0f172a; line-height:1.18; }
-        .cps-sub { font-size:.78rem; color:#64748b; margin-top:6px; line-height:1.2; }
-        .cps-tile.cog { border-left:5px solid var(--cog-color); }
-        .cps-tile.emo { border-left:5px solid var(--emo-color); }
-        .cps-tile.soc { border-left:5px solid var(--soc-color); }
-        .cps-tile.neu { border-left:5px solid var(--neu-color); }
-
-        .goal-chip { width:100%; background:white; border:1px solid #e2e8f0; border-radius:14px; padding:12px; text-align:left; margin-bottom:10px; }
-        .goal-chip .h { font-weight:900; color:#0f172a; font-size:.92rem; }
-        .goal-chip .m { margin-top:5px; color:#64748b; font-size:.78rem; line-height:1.2; }
-        .goal-chip.cog { border-left:5px solid var(--cog-color); }
-        .goal-chip.emo { border-left:5px solid var(--emo-color); }
-        .goal-chip.soc { border-left:5px solid var(--soc-color); }
-        .goal-chip.neu { border-left:5px solid var(--neu-color); }
-
-        .big-type-row { display:grid; grid-template-columns: repeat(2, 1fr); gap:10px; }
-        .big-type { background:white; border:1px solid #e2e8f0; border-radius:16px; padding:16px; font-weight:900; text-align:left; }
-        .big-type.cog { border-left:6px solid var(--cog-color); }
-        .big-type.emo { border-left:6px solid var(--emo-color); }
-        .big-type.soc { border-left:6px solid var(--soc-color); }
-        .big-type.neu { border-left:6px solid var(--neu-color); }
-        .big-type small { display:block; margin-top:6px; color:#64748b; font-weight:700; }
+    
+        /* --- Sélecteur CPS (boutons premium) --- */
+        .chips-grid { display:flex; flex-wrap:wrap; gap:10px; }
+        .chip {
+            display:inline-flex; align-items:center; gap:8px;
+            padding:10px 12px; border-radius:999px;
+            background:white; border:1px solid #e2e8f0;
+            font-weight:700; font-size:0.85rem; color:var(--text-main);
+            cursor:pointer; user-select:none;
+            transition: transform .05s ease, border-color .15s ease, box-shadow .15s ease;
+        }
+        .chip:active { transform: scale(0.98); }
+        .chip small { font-weight:700; font-size:0.65rem; text-transform:uppercase; letter-spacing:.5px; color:#64748b; }
+        .chip.selected { border-color: var(--primary); box-shadow: 0 6px 18px rgba(15,23,42,0.06); }
+        .chip-dot { width:10px; height:10px; border-radius:999px; background:#94a3b8; flex:0 0 auto; }
+        .chip-pill { margin-left:auto; font-size:0.65rem; font-weight:800; padding:3px 8px; border-radius:999px; background:#f1f5f9; color:#475569; }
+        .search-box { display:flex; gap:10px; align-items:center; margin:10px 0 14px 0; }
+        .search-box input { flex:1; }
+        .section-h { margin:18px 0 10px 0; font-weight:800; font-size:0.8rem; color:#334155; text-transform:uppercase; letter-spacing:.6px; }
+        .btn-row { display:flex; gap:10px; margin-top:10px; }
+        .btn-ghost { width:100%; background:white; border:1px solid #e2e8f0; padding:12px; border-radius: var(--radius); font-weight:700; color:#475569; }
 
     </style>
 </head>
@@ -173,7 +153,7 @@
 
 <div id="wizard-overlay" class="overlay-full">
     <div class="overlay-header">
-        <h5 style="margin:0; font-weight:800;">Nouvel Objectif</h5>
+        <h5 style="margin:0; font-weight:700;">Nouvel Objectif</h5>
         <button class="btn-header" onclick="closeWizard()">Fermer</button>
     </div>
     <div class="step-content" id="wizard-content"></div>
@@ -181,16 +161,17 @@
 
 <div id="detail-overlay" class="overlay-full">
     <div class="overlay-header">
-        <h5 style="margin:0; font-weight:800;">Détail Objectif</h5>
+        <h5 style="margin:0; font-weight:700;">Détail Objectif</h5>
         <button class="btn-header" onclick="closeDetail()">Fermer</button>
     </div>
     <div class="step-content">
         <div class="mb-3">
             <span id="det-badge" class="obj-badge">CADRE</span>
+            <div id="det-cps" class="text-muted small mt-2" style="font-weight:600;">--</div>
         </div>
         
         <label class="form-label">Objectif</label>
-        <input type="text" id="det-title" class="form-control" disabled style="background:#f1f5f9; font-weight:800;">
+        <input type="text" id="det-title" class="form-control" disabled style="background:#f1f5f9; font-weight:600;">
         <small class="text-muted d-block mb-3" id="det-help">Texte issu du référentiel (non modifiable).</small>
 
         <label class="form-label">Pour quand ?</label>
@@ -212,7 +193,7 @@
 
 <div id="reco-overlay" class="overlay-full">
     <div class="overlay-header">
-        <h5 style="margin:0; font-weight:800;">Reconnaissance</h5>
+        <h5 style="margin:0; font-weight:700;">Reconnaissance</h5>
         <button class="btn-header" onclick="closeReco()">Fermer</button>
     </div>
     <div class="step-content" style="text-align:center;">
@@ -226,7 +207,7 @@
 
 <div id="qr-overlay" class="overlay-full" style="justify-content:center; align-items:center;">
     <div style="text-align:center; padding:20px;">
-        <h4 style="font-weight:900; margin-bottom:20px;">Faire valider</h4>
+        <h4 style="font-weight:700; margin-bottom:20px;">Faire valider</h4>
         <div id="qrcode-container"></div>
         <p class="text-muted small mt-3">Présente ce code à l'adulte.</p>
         <button class="btn-header" onclick="document.getElementById('qr-overlay').style.display='none'">Fermer</button>
@@ -234,22 +215,22 @@
 </div>
 
 <div id="mood-overlay" class="overlay-full">
-    <div class="overlay-header"><h5 style="margin:0; font-weight:800;">Météo du jour</h5></div>
+    <div class="overlay-header"><h5 style="margin:0; font-weight:700;">Météo du jour</h5></div>
     <div class="step-content" id="mood-content"></div>
 </div>
 
 <div id="circle-overlay" class="overlay-full">
-    <div class="overlay-header"><h5 id="circle-title" style="margin:0; font-weight:800;">--</h5><button class="btn-header" onclick="closeCircle()">Fermer</button></div>
+    <div class="overlay-header"><h5 id="circle-title" style="margin:0; font-weight:700;">--</h5><button class="btn-header" onclick="closeCircle()">Fermer</button></div>
     <div class="step-content" id="circle-content"></div>
 </div>
 
 <div id="attestation-overlay" class="overlay-full">
-    <div class="overlay-header no-print"><h5 style="margin:0; font-weight:800;">Synthèse</h5><button class="btn-header" onclick="document.getElementById('attestation-overlay').style.display='none'">Fermer</button></div>
+    <div class="overlay-header no-print"><h5 style="margin:0; font-weight:700;">Synthèse</h5><button class="btn-header" onclick="document.getElementById('attestation-overlay').style.display='none'">Fermer</button></div>
     <div class="step-content" id="attestation-content">
         <h3 class="fw-bold mb-4 text-center">Profil de Compétences</h3>
-        <div class="card p-3 mb-3" style="border-left:5px solid var(--cog-color)"><h5 style="color:var(--cog-color); margin:0 0 10px 0; font-weight:900;">Cognitif</h5><p id="syn-cog" class="small m-0 text-muted">...</p></div>
-        <div class="card p-3 mb-3" style="border-left:5px solid var(--emo-color)"><h5 style="color:var(--emo-color); margin:0 0 10px 0; font-weight:900;">Émotionnel</h5><p id="syn-emo" class="small m-0 text-muted">...</p></div>
-        <div class="card p-3 mb-3" style="border-left:5px solid var(--soc-color)"><h5 style="color:var(--soc-color); margin:0 0 10px 0; font-weight:900;">Social</h5><p id="syn-soc" class="small m-0 text-muted">...</p></div>
+        <div class="card p-3 mb-3" style="border-left:5px solid var(--cog-color)"><h5 style="color:var(--cog-color); margin:0 0 10px 0;">Cognitif</h5><p id="syn-cog" class="small m-0 text-muted">...</p></div>
+        <div class="card p-3 mb-3" style="border-left:5px solid var(--emo-color)"><h5 style="color:var(--emo-color); margin:0 0 10px 0;">Émotionnel</h5><p id="syn-emo" class="small m-0 text-muted">...</p></div>
+        <div class="card p-3 mb-3" style="border-left:5px solid var(--soc-color)"><h5 style="color:var(--soc-color); margin:0 0 10px 0;">Social</h5><p id="syn-soc" class="small m-0 text-muted">...</p></div>
         <button class="btn-main no-print mt-4" onclick="window.print()">Imprimer</button>
     </div>
 </div>
@@ -282,169 +263,50 @@
     let charts = {};
     let breathInterval = null;
 
+    
+    // --- Bibliothèque CPS (Santé publique France) ---
+    let CPS_LIBRARY = null;
+
+    async function loadCpsLibrary() {
+        if(CPS_LIBRARY) return CPS_LIBRARY;
+        try {
+            const r = await fetch('data/cps_library.json', { cache: 'no-store' });
+            CPS_LIBRARY = await r.json();
+            return CPS_LIBRARY;
+        } catch(e) {
+            console.warn("CPS_LIBRARY introuvable (data/cps_library.json).", e);
+            CPS_LIBRARY = { contexts: {} };
+            return CPS_LIBRARY;
+        }
+    }
+
+    function ctxKey(label) {
+        if(!label) return "Autre";
+        const v = label.toLowerCase();
+        if(v.includes("pfmp") || v.includes("stage")) return "PFMP";
+        if(v.includes("recherche")) return "Recherche";
+        if(v.includes("scol")) return "Scolaire";
+        return "Autre";
+    }
+
+    function domainLabel(short) {
+        if(short==="COG") return "Cognitif";
+        if(short==="EMO") return "Émotionnel";
+        if(short==="SOC") return "Social";
+        return "Autre";
+    }
+
+    function domainDotColor(short, fallback="#94a3b8") {
+        if(short==="COG") return getComputedStyle(document.documentElement).getPropertyValue('--cog-color')?.trim() || fallback;
+        if(short==="EMO") return getComputedStyle(document.documentElement).getPropertyValue('--emo-color')?.trim() || fallback;
+        if(short==="SOC") return getComputedStyle(document.documentElement).getPropertyValue('--soc-color')?.trim() || fallback;
+        return fallback;
+    }
+
     const MATIERES = ["Français","Maths","Anglais","Espagnol","Hist-Géo","Eco-Droit","Ens. Pro","PSE","Arts","EPS","Autre"];
     const EMOTIONS = {
         "Joie": ["Satisfait","Fier","Enthousiaste"], "Tristesse": ["Déçu","Découragé"], "Colère": ["Agacé","Frustré"],
         "Peur": ["Inquiet","Stressé"], "Dégoût": ["Gêné"], "Surprise": ["Étonné"]
-    };
-
-    /* BIBLIOTHÈQUE CPS (VERSION 1) 
-       Tu l’enrichiras ensuite avec ton PDF : ici on met déjà une base solide et premium.
-       Structure : par cadre -> liste CPS (id, type, label, sub, goals[])
-    */
-    const CPS_LIB = {
-        "Scolaire": [
-            { id:"SC_COG_CONS", type:"COG", label:"Comprendre une consigne", sub:"Je clarifie avant d’agir", goals:[
-                "Reformuler la consigne avec mes mots",
-                "Repérer les verbes d’action dans la consigne",
-                "Demander une précision si je bloque",
-                "Surligner les informations utiles"
-            ]},
-            { id:"SC_COG_FOCUS", type:"COG", label:"Me concentrer", sub:"Je garde mon attention", goals:[
-                "Me mettre en mode sans distractions 10 minutes",
-                "Faire une chose à la fois",
-                "Me remettre au travail après une interruption",
-                "Finir une tâche commencée"
-            ]},
-            { id:"SC_COG_ORGA", type:"COG", label:"M’organiser", sub:"Matériel et méthode", goals:[
-                "Préparer mon matériel avant de commencer",
-                "Planifier mon travail en 3 étapes",
-                "Noter les devoirs / échéances du jour",
-                "Vérifier mon travail avant de rendre"
-            ]},
-            { id:"SC_COG_AUTON", type:"COG", label:"Gagner en autonomie", sub:"Je gère sans dépendre", goals:[
-                "Chercher une solution avant de demander",
-                "Utiliser une fiche / un modèle",
-                "Relire mon cours pour trouver l’info",
-                "Faire une auto-vérification simple"
-            ]},
-
-            { id:"SC_EMO_STRESS", type:"EMO", label:"Réguler mon stress", sub:"Je redescends vite", goals:[
-                "Faire 3 respirations avant de répondre",
-                "Me calmer avant une évaluation",
-                "Utiliser une phrase rassurante (je peux y arriver)",
-                "Demander une pause courte si besoin"
-            ]},
-            { id:"SC_EMO_CONF", type:"EMO", label:"Prendre confiance", sub:"Je me valorise", goals:[
-                "Noter 1 réussite du jour",
-                "Oser tenter même si je ne suis pas sûr",
-                "Accepter une erreur sans me dévaloriser",
-                "Me féliciter après un effort"
-            ]},
-            { id:"SC_EMO_COL", type:"EMO", label:"Gérer la frustration", sub:"Je reste stable", goals:[
-                "Ne pas abandonner au premier blocage",
-                "Dire ce que je ressens sans exploser",
-                "Revenir au calme en 2 minutes",
-                "Accepter une correction sans me braquer"
-            ]},
-
-            { id:"SC_SOC_ECOUTE", type:"SOC", label:"Écouter sans couper", sub:"Je respecte la parole", goals:[
-                "Laisser parler jusqu’au bout",
-                "Regarder la personne qui parle",
-                "Reformuler ce que j’ai compris",
-                "Poser une question après écoute"
-            ]},
-            { id:"SC_SOC_ORAL", type:"SOC", label:"Participer à l’oral", sub:"Je prends ma place", goals:[
-                "Lever la main 1 fois aujourd’hui",
-                "Parler clairement en une phrase",
-                "Oser poser une question",
-                "Exprimer mon avis avec respect"
-            ]},
-            { id:"SC_SOC_GRP", type:"SOC", label:"Travailler en groupe", sub:"Je coopère", goals:[
-                "Me répartir une tâche et la tenir",
-                "Aider sans faire à la place",
-                "Encourager un camarade",
-                "Garder un ton calme en équipe"
-            ]}
-        ],
-
-        "PFMP": [
-            { id:"PF_COG_PROC", type:"COG", label:"Appliquer une procédure", sub:"Je respecte les étapes", goals:[
-                "Lire la consigne pro avant d’agir",
-                "Suivre l’ordre des étapes",
-                "Vérifier le résultat à la fin",
-                "Demander validation au bon moment"
-            ]},
-            { id:"PF_COG_TEMPS", type:"COG", label:"Gérer mon temps", sub:"Je tiens le rythme", goals:[
-                "Commencer dès qu’on me confie une tâche",
-                "Finir dans le temps donné",
-                "Prévenir si je suis en retard",
-                "Prioriser l’essentiel"
-            ]},
-            { id:"PF_COG_SECUR", type:"COG", label:"Respecter la sécurité", sub:"Je travaille sans risque", goals:[
-                "Porter les EPI sans qu’on me le rappelle",
-                "Ranger l’espace de travail",
-                "Signaler un danger à un adulte",
-                "Appliquer une consigne de sécurité"
-            ]},
-
-            { id:"PF_EMO_STRESS", type:"EMO", label:"Gérer la pression", sub:"Je reste pro", goals:[
-                "Rester calme si on me reprend",
-                "Respirer avant de répondre",
-                "Demander une précision sans peur",
-                "Continuer malgré une erreur"
-            ]},
-            { id:"PF_EMO_MOTIV", type:"EMO", label:"Rester motivé", sub:"Je tiens l’effort", goals:[
-                "Faire la tâche jusqu’au bout",
-                "Accepter une tâche répétitive",
-                "Me fixer un mini-objectif dans la journée",
-                "Faire preuve d’initiative simple"
-            ]},
-
-            { id:"PF_SOC_POLI", type:"SOC", label:"Communiquer poliment", sub:"Formules pro", goals:[
-                "Saluer en arrivant et en partant",
-                "Dire merci / s’il vous plaît",
-                "Parler avec un ton adapté",
-                "Demander de l’aide correctement"
-            ]},
-            { id:"PF_SOC_HIER", type:"SOC", label:"Respecter la hiérarchie", sub:"Je m’adresse bien", goals:[
-                "Identifier la bonne personne à qui parler",
-                "Prévenir mon tuteur avant une action",
-                "Accepter une consigne sans discuter",
-                "Faire un retour clair en fin de tâche"
-            ]}
-        ],
-
-        "Recherche": [
-            { id:"RE_COG_PLAN", type:"COG", label:"Planifier mes démarches", sub:"Je m’organise", goals:[
-                "Faire une liste de 5 entreprises",
-                "Prévoir 2 actions par jour",
-                "Noter les réponses reçues",
-                "Préparer un message type"
-            ]},
-            { id:"RE_COG_CV", type:"COG", label:"Améliorer mon CV", sub:"Je rends pro", goals:[
-                "Corriger les fautes",
-                "Ajouter une expérience / compétence",
-                "Adapter le CV à un métier",
-                "Mettre en page proprement"
-            ]},
-            { id:"RE_EMO_OSER", type:"EMO", label:"Oser contacter", sub:"Je dépasse la peur", goals:[
-                "Appeler 1 entreprise aujourd’hui",
-                "Envoyer 2 candidatures",
-                "Relancer poliment après 3 jours",
-                "Me récompenser après l’effort"
-            ]},
-            { id:"RE_EMO_PERS", type:"EMO", label:"Persévérer", sub:"Je ne lâche pas", goals:[
-                "Faire 1 action même si j’ai peur",
-                "Continuer après un refus",
-                "Garder un rythme régulier",
-                "Demander un avis pour progresser"
-            ]},
-            { id:"RE_SOC_ENT", type:"SOC", label:"Se présenter", sub:"Message clair", goals:[
-                "Dire qui je suis en 10 secondes",
-                "Expliquer ce que je cherche",
-                "Poser une question pro",
-                "Remercier et conclure"
-            ]},
-            { id:"RE_SOC_MAIL", type:"SOC", label:"Écrire un message pro", sub:"Mail / SMS", goals:[
-                "Écrire un mail court et poli",
-                "Mettre un objet clair",
-                "Joindre le bon fichier",
-                "Relire avant d’envoyer"
-            ]}
-        ],
-
-        "Autre": []
     };
 
     function loadData() {
@@ -517,7 +379,7 @@
                             <span class="obj-badge">${(g.context || 'Autre')}</span>
                         </div>
                         <div class="obj-meta" style="display:flex; justify-content:space-between; margin-top:6px;">
-                            <span>${g.detail || ''}</span>
+                            <span>${(g.spe_label ? (g.spe_label + ' • ') : '')}${g.detail || ''}</span>
                             <span class="obj-time ${urgentClass}">${timeStr}</span>
                         </div>
                     </div>
@@ -548,299 +410,229 @@
         }
     }
 
-    /* WIZARD NOUVELLE LOGIQUE
-       1) Cadre
-       2) Choix CPS (boutons couleurs)  -> fixe automatiquement type (COG/EMO/SOC/AUTRE)
-       3) Choix objectif concret (savoir-faire) selon cadre + CPS (boutons)
-       4) Date
-       5) Matière/Lieu
-       6) Récap
-    */
-    window.startGoalWizard = function() { 
-        draft = {
-            context: null,
-            type: null,
-            cps_id: null,
-            cps_label: null,
-            titre: null,
-            origin: null,
-            date: null,
-            detail: null
-        }; 
-        document.getElementById('wizard-overlay').style.display='flex'; 
-        wizStep(1); 
+    
+    window.startGoalWizard = async function() {
+        draft = {};
+        document.getElementById('wizard-overlay').style.display='flex';
+        const c = document.getElementById('wizard-content');
+        c.innerHTML = `<div class="text-center text-muted" style="padding:30px 0; font-weight:700;">Chargement...</div>`;
+        await loadCpsLibrary();
+        wizStep(1);
     }
 
-    function typeClass(type) {
-        const t = (type || 'AUTRE').toUpperCase();
-        if(t.includes('COG')) return 'cog';
-        if(t.includes('EMO')) return 'emo';
-        if(t.includes('SOC')) return 'soc';
-        return 'neu';
+    window.wizBack = function(prev){
+        if(typeof prev === 'number') wizStep(prev);
     }
 
-    function prettyType(type) {
-        const t = (type || 'AUTRE').toUpperCase();
-        if(t === 'COG') return 'Cognitif';
-        if(t === 'EMO') return 'Émotionnel';
-        if(t === 'SOC') return 'Social';
-        return 'Autre';
-    }
-
-    function wizTop(s) {
-        const back = s > 1 ? `<button class="wiz-back" onclick="wizStep(${s-1})">Retour</button>` : `<span style="width:74px;"></span>`;
-        const vContext = draft.context ? draft.context : "Cadre";
-        const vType = draft.type ? prettyType(draft.type) : "CPS";
-        return `
-            <div class="wiz-topbar">
-                ${back}
-                <div class="wiz-pill">
-                    <span class="k">Cadre</span>
-                    <span class="v">${vContext}</span>
-                </div>
-                <div class="wiz-pill">
-                    <span class="k">Type</span>
-                    <span class="v">${vType}</span>
-                </div>
-            </div>
-        `;
-    }
-
-    function getCpsListForContext(ctx) {
-        if(!ctx) return [];
-        return CPS_LIB[ctx] || [];
-    }
-
-    function getCpsById(ctx, id) {
-        const arr = getCpsListForContext(ctx);
-        return arr.find(x => x.id === id) || null;
-    }
-
-    function cpsSection(title, dotClass, items) {
-        if(!items || items.length === 0) return '';
-        const tiles = items.map(c => `
-            <button class="cps-tile ${typeClass(c.type)}" onclick="selectCPS('${c.id}')">
-                <div class="cps-type"><span class="dot ${typeClass(c.type)}"></span>${prettyType(c.type)}</div>
-                <div class="cps-label">${c.label}</div>
-                <div class="cps-sub">${c.sub || ''}</div>
-            </button>
-        `).join('');
-        return `
-            <div class="wiz-section-title"><span class="dot ${dotClass}"></span>${title}</div>
-            <div class="cps-grid">${tiles}</div>
-        `;
-    }
-
-    window.selectCPS = function(cpsId) {
-        const cps = getCpsById(draft.context, cpsId);
-        if(!cps) return;
-        draft.cps_id = cps.id;
-        draft.cps_label = cps.label;
-        draft.type = cps.type || 'AUTRE';
-        draft.origin = 'lib';
+    window.selectCompetence = function(uid){
+        if(!window.__CPS_MAP || !window.__CPS_MAP[uid]) return;
+        draft.cps = window.__CPS_MAP[uid];
+        draft.type = draft.cps.domain || 'AUTRE';
         wizStep(3);
     }
 
+    window.selectObjectif = function(uid){
+        if(!window.__OBJ_MAP || !window.__OBJ_MAP[uid]) return;
+        draft.obj = window.__OBJ_MAP[uid];
+        draft.titre = draft.obj.texte || '';
+        draft.code_ref = draft.obj.code_ref || '';
+        wizStep(4);
+    }
+
     function wizStep(s) {
-        const c = document.getElementById('wizard-content'); 
+        draft._step = s;
+        const c = document.getElementById('wizard-content');
         c.innerHTML = '';
 
+        // Header interne (retour)
+        const backMap = {2:1,3:2,4:3,5:4,6:5};
+        const back = backMap[s] || null;
+        if(back){
+            c.innerHTML += `<div class="btn-row">
+                <button class="btn-ghost" onclick="wizBack(${back})">← Retour</button>
+            </div>`;
+        }
+
         if(s===1) {
-            c.innerHTML = `
-                ${wizTop(1)}
-                <div style="background:white; border:1px solid #e2e8f0; border-radius:16px; padding:14px; margin-bottom:12px;">
-                    <div class="form-label" style="margin:0;">Choisis un cadre</div>
-                    <div style="margin-top:8px; font-size:.85rem; color:#64748b; font-weight:700;">Le cadre va adapter la bibliothèque de compétences et d’objectifs.</div>
-                </div>
-                <button class="list-btn" onclick="draft.context='Scolaire'; wizStep(2)">Scolaire</button>
-                <button class="list-btn" onclick="draft.context='PFMP'; wizStep(2)">PFMP / Stage</button>
-                <button class="list-btn" onclick="draft.context='Recherche'; wizStep(2)">Recherche de stage</button>
-                <button class="list-btn" onclick="draft.context='Autre'; wizStep(2)">Autre (Libre)</button>
-            `;
+            c.innerHTML += `<h5 style="margin-top:16px;">1. Dans quel cadre ?</h5>
+            <button class="list-btn" onclick="draft.context='Scolaire'; wizStep(2)">Scolaire</button>
+            <button class="list-btn" onclick="draft.context='PFMP'; wizStep(2)">PFMP / Stage</button>
+            <button class="list-btn" onclick="draft.context='Recherche'; wizStep(2)">Recherche de stage</button>
+            <button class="list-btn" onclick="draft.context='Autre'; draft.type='AUTRE'; draft.cps=null; wizStep(3)">Autre (Libre)</button>`;
         }
 
         else if(s===2) {
-            // CAS "AUTRE" = l’élève choisit le type puis écrit son objectif (sans prompt)
-            if(draft.context === 'Autre') {
-                c.innerHTML = `
-                    ${wizTop(2)}
-                    <div style="background:white; border:1px solid #e2e8f0; border-radius:16px; padding:14px; margin-bottom:12px;">
-                        <div class="form-label" style="margin:0;">Choisis un type</div>
-                        <div style="margin-top:8px; font-size:.85rem; color:#64748b; font-weight:700;">Ici, tout est libre. Tu écriras ton objectif ensuite.</div>
-                    </div>
-                    <div class="big-type-row">
-                        <button class="big-type cog" onclick="draft.type='COG'; draft.cps_id=null; draft.cps_label=null; draft.origin='free'; wizStep(3)">
-                            Cognitif
-                            <small>Comprendre, s’organiser, apprendre</small>
-                        </button>
-                        <button class="big-type emo" onclick="draft.type='EMO'; draft.cps_id=null; draft.cps_label=null; draft.origin='free'; wizStep(3)">
-                            Émotionnel
-                            <small>Stress, confiance, frustration</small>
-                        </button>
-                        <button class="big-type soc" onclick="draft.type='SOC'; draft.cps_id=null; draft.cps_label=null; draft.origin='free'; wizStep(3)">
-                            Social
-                            <small>Communication, écoute, coopération</small>
-                        </button>
-                        <button class="big-type neu" onclick="draft.type='AUTRE'; draft.cps_id=null; draft.cps_label=null; draft.origin='free'; wizStep(3)">
-                            Autre
-                            <small>Objectif personnel</small>
-                        </button>
-                    </div>
-                `;
+            const key = ctxKey(draft.context);
+            const ctx = (CPS_LIBRARY && CPS_LIBRARY.contexts && CPS_LIBRARY.contexts[key]) ? CPS_LIBRARY.contexts[key] : null;
+
+            c.innerHTML += `<h5 style="margin-top:16px;">2. Choisis ta compétence</h5>
+            <div class="search-box">
+                <input id="cps-search" class="form-control" placeholder="Rechercher (ex : stress, empathie, consigne...)">
+                <button class="btn-header" onclick="wizStep(2)">OK</button>
+            </div>`;
+
+            const q = (document.getElementById('cps-search')?.value || '').trim().toLowerCase();
+            window.__CPS_MAP = {};
+
+            if(!ctx || !ctx.domains) {
+                c.innerHTML += `<div class="text-muted">Bibliothèque non disponible.</div>`;
                 return;
             }
 
-            // Autres cadres : affichage bibliothèque CPS (boutons couleurs)
-            const cpsArr = getCpsListForContext(draft.context);
-            const cog = cpsArr.filter(x => (x.type||'').toUpperCase()==='COG');
-            const emo = cpsArr.filter(x => (x.type||'').toUpperCase()==='EMO');
-            const soc = cpsArr.filter(x => (x.type||'').toUpperCase()==='SOC');
+            const order = ['COG','EMO','SOC'];
+            order.forEach(dom => {
+                const d = ctx.domains[dom];
+                if(!d || !d.competences || d.competences.length===0) return;
 
-            c.innerHTML = `
-                ${wizTop(2)}
-                <div style="background:white; border:1px solid #e2e8f0; border-radius:16px; padding:14px; margin-bottom:12px;">
-                    <div class="form-label" style="margin:0;">Choisis une compétence</div>
-                    <div style="margin-top:8px; font-size:.85rem; color:#64748b; font-weight:700;">Clique sur une CPS : le type se sélectionne automatiquement.</div>
-                </div>
-                ${cpsSection("Cognitif", "cog", cog)}
-                ${cpsSection("Émotionnel", "emo", emo)}
-                ${cpsSection("Social", "soc", soc)}
-                <div style="height:8px;"></div>
-                <button class="list-btn" onclick="draft.type='AUTRE'; draft.cps_id=null; draft.cps_label=null; draft.origin='free'; wizStep(3)">Autre (objectif libre)</button>
-            `;
+                const title = d.title || domainLabel(dom);
+                const color = d.color || domainDotColor(dom);
+                const filtered = d.competences.filter(x => {
+                    if(!q) return true;
+                    const hay = `${x.spe_label||''} ${x.gen_label||''} ${x.cat_label||''}`.toLowerCase();
+                    return hay.includes(q);
+                });
+
+                if(filtered.length===0) return;
+
+                c.innerHTML += `<div class="section-h">${title}</div>`;
+                c.innerHTML += `<div class="chips-grid">` +
+                    filtered.map(x => {
+                        const uid = `${x.domain}_${x.cat_code}_${x.gen_code}_${x.spe_code}`;
+                        window.__CPS_MAP[uid] = x;
+                        const pill = domainLabel(x.domain);
+                        return `
+                            <div class="chip" onclick="selectCompetence('${uid}')">
+                                <span class="chip-dot" style="background:${color}"></span>
+                                <span>${x.spe_label || ''}</span>
+                                <span class="chip-pill">${pill}</span>
+                            </div>`;
+                    }).join('') +
+                `</div>`;
+            });
+
+            c.innerHTML += `<div class="text-muted" style="margin-top:14px; font-size:0.75rem;">
+                Référentiel : Santé publique France
+            </div>`;
         }
 
         else if(s===3) {
-            // Si libre : on écrit l’objectif directement (sans prompt)
-            if(draft.origin === 'free' || !draft.cps_id) {
-                c.innerHTML = `
-                    ${wizTop(3)}
-                    <div style="background:white; border:1px solid #e2e8f0; border-radius:16px; padding:14px; margin-bottom:12px;">
-                        <div class="form-label" style="margin:0;">Écris ton objectif</div>
-                        <div style="margin-top:8px; font-size:.85rem; color:#64748b; font-weight:700;">Court, concret, réalisable.</div>
-                    </div>
-                    <label class="form-label">Objectif</label>
-                    <textarea id="w-free-goal" class="form-control" placeholder="Ex : Me remettre au calme quand je suis agacé"></textarea>
-                    <button class="btn-main btn-add" onclick="setFreeGoalAndContinue()">Continuer</button>
-                `;
+            // si cadre Autre (libre), on saute la bibliothèque
+            if(ctxKey(draft.context)==='Autre') {
+                c.innerHTML += `<h5 style="margin-top:16px;">Objectif libre</h5>
+                <button class="list-btn" onclick="draft.titre=prompt('Ton objectif ?'); if(draft.titre) { draft.code_ref=''; draft.obj=null; wizStep(4);}">Écrire mon objectif</button>`;
                 return;
             }
 
-            // Bibliothèque : choix des objectifs concrets (savoir-faire) liés à la CPS
-            const cps = getCpsById(draft.context, draft.cps_id);
-            const goals = (cps && cps.goals) ? cps.goals : [];
-            const tClass = typeClass(draft.type);
+            if(!draft.cps) {
+                c.innerHTML += `<div class="text-muted" style="margin-top:16px;">Aucune compétence sélectionnée.</div>`;
+                return;
+            }
 
-            let goalButtons = goals.map(g => `
-                <button class="goal-chip ${tClass}" onclick="draft.titre=${JSON.stringify(g)}; wizStep(4)">
-                    <div class="h">${g}</div>
-                    <div class="m">${draft.context} • ${prettyType(draft.type)} • ${cps.label}</div>
-                </button>
-            `).join('');
+            const domColor = draft.cps.domain_color || domainDotColor(draft.cps.domain);
+            c.innerHTML += `<h5 style="margin-top:16px;">3. Choisis un objectif</h5>
+            <div class="card p-3 mb-3" style="border-left:5px solid ${domColor};">
+                <div style="font-weight:800;">${draft.cps.spe_label || ''}</div>
+                <div class="text-muted small" style="margin-top:4px;">${domainLabel(draft.cps.domain)} • ${draft.context}</div>
+            </div>
+            <div class="search-box">
+                <input id="obj-search" class="form-control" placeholder="Rechercher un objectif...">
+                <button class="btn-header" onclick="wizStep(3)">OK</button>
+            </div>`;
 
-            goalButtons += `
-                <button class="goal-chip neu" onclick="openCustomGoalFromCps()">
-                    <div class="h">Autre (écrire mon objectif)</div>
-                    <div class="m">Même CPS, mais objectif personnalisé</div>
-                </button>
-            `;
+            const oq = (document.getElementById('obj-search')?.value || '').trim().toLowerCase();
+            const list = (draft.cps.objectifs || []).filter(o => {
+                if(!oq) return true;
+                return (o.texte||'').toLowerCase().includes(oq);
+            });
 
-            c.innerHTML = `
-                ${wizTop(3)}
-                <div style="background:white; border:1px solid #e2e8f0; border-radius:16px; padding:14px; margin-bottom:12px;">
-                    <div class="form-label" style="margin:0;">Choisis un objectif concret</div>
-                    <div style="margin-top:8px; font-size:.85rem; color:#64748b; font-weight:800;">
-                        <span style="display:inline-flex; align-items:center; gap:8px;">
-                            <span class="dot ${tClass}"></span>${cps.label}
-                        </span>
-                    </div>
-                </div>
-                ${goalButtons}
-            `;
+            window.__OBJ_MAP = {};
+            if(list.length===0){
+                c.innerHTML += `<div class="text-muted">Aucune proposition.</div>`;
+            } else {
+                list.forEach((o, i) => {
+                    const uid = `${draft.cps.spe_code}_${o.code_ref || i}`;
+                    window.__OBJ_MAP[uid] = o;
+                    c.innerHTML += `<button class="list-btn" onclick="selectObjectif('${uid}')">${o.texte || ''}</button>`;
+                });
+            }
+
+            c.innerHTML += `<button class="list-btn" onclick="draft.titre=prompt('Ton objectif ?'); if(draft.titre) { draft.code_ref=''; draft.obj=null; wizStep(4);}">Autre (Écrire)...</button>`;
         }
 
         else if(s===4) {
-            const today = new Date().toISOString().split('T')[0];
-            c.innerHTML = `
-                ${wizTop(4)}
-                <div style="background:white; border:1px solid #e2e8f0; border-radius:16px; padding:14px; margin-bottom:12px;">
-                    <div class="form-label" style="margin:0;">Choisis une date</div>
-                    <div style="margin-top:8px; font-size:.85rem; color:#64748b; font-weight:700;">Une date proche et réaliste.</div>
-                </div>
-                <label class="form-label">Pour quand ?</label>
-                <input type="date" id="w-date" class="form-control" value="${draft.date || today}">
-                <button class="btn-main btn-add" onclick="draft.date=document.getElementById('w-date').value; wizStep(5)">Continuer</button>
-            `;
+            c.innerHTML += `<h5 style="margin-top:16px;">4. Pour quand ?</h5>
+            <input type="date" id="w-date" class="form-control" value="${(draft.date || new Date().toISOString().split('T')[0])}">
+            <button class="btn-main btn-add" onclick="draft.date=document.getElementById('w-date').value; wizStep(5)">Continuer</button>`;
         }
 
         else if(s===5) {
-            let inputHtml = `<input type="text" id="w-det" class="form-control" placeholder="Précise le lieu, la matière, le contexte...">`;
-            if(draft.context === 'Scolaire') {
+            const key = ctxKey(draft.context);
+            let label = "Matière / Lieu";
+            let inputHtml = `<input type="text" id="w-det" class="form-control" placeholder="Précise...">`;
+
+            if(key === 'Scolaire') {
+                label = "Matière";
                 inputHtml = `<select id="w-det" class="form-select">${MATIERES.map(m=>`<option value="${m}">${m}</option>`).join('')}</select>`;
+            } else if(key === 'PFMP') {
+                label = "Lieu / Activité";
+                inputHtml = `<input type="text" id="w-det" class="form-control" placeholder="Ex : atelier, chantier, caisse, service...">`;
+            } else if(key === 'Recherche') {
+                label = "Cible";
+                inputHtml = `<input type="text" id="w-det" class="form-control" placeholder="Ex : entreprise, secteur, métier visé...">`;
+            } else {
+                label = "Contexte";
             }
-            c.innerHTML = `
-                ${wizTop(5)}
-                <div style="background:white; border:1px solid #e2e8f0; border-radius:16px; padding:14px; margin-bottom:12px;">
-                    <div class="form-label" style="margin:0;">Matière / Lieu</div>
-                    <div style="margin-top:8px; font-size:.85rem; color:#64748b; font-weight:700;">Ça aide à se rappeler quand utiliser l’objectif.</div>
-                </div>
-                <label class="form-label">Contexte</label>
-                ${inputHtml}
-                <button class="btn-main btn-add" onclick="draft.detail=document.getElementById('w-det').value; wizStep(6)">Continuer</button>
-            `;
+
+            c.innerHTML += `<h5 style="margin-top:16px;">5. ${label}</h5>${inputHtml}
+            <button class="btn-main btn-add" onclick="draft.detail=document.getElementById('w-det').value; wizStep(6)">Continuer</button>`;
         }
 
         else if(s===6) {
-            const tClass = typeClass(draft.type);
-            const cpsLine = draft.cps_label ? `<div style="margin-top:6px; color:#64748b; font-weight:800; font-size:.85rem;"><span class="dot ${tClass}" style="margin-right:8px;"></span>${draft.cps_label}</div>` : '';
-            c.innerHTML = `
-                ${wizTop(6)}
-                <div style="background:white; border:1px solid #e2e8f0; border-radius:18px; padding:16px; margin-bottom:12px;">
-                    <div class="form-label" style="margin:0;">Récapitulatif</div>
-                    <div style="margin-top:10px; font-weight:900; font-size:1.02rem; color:#0f172a;">${draft.titre || ''}</div>
-                    ${cpsLine}
-                    <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
-                        <span class="obj-badge">${draft.context || ''}</span>
-                        <span class="obj-badge">${prettyType(draft.type)}</span>
-                        <span class="obj-badge">${draft.detail || 'Non précisé'}</span>
-                        <span class="obj-badge">${draft.date || ''}</span>
-                    </div>
+            const dom = draft.type || (draft.cps?.domain) || 'AUTRE';
+            const domColor = draft.cps?.domain_color || domainDotColor(dom);
+            const compLine = draft.cps ? draft.cps.spe_label : 'Objectif libre';
+            c.innerHTML += `<h5 style="margin-top:16px;">6. Récapitulatif</h5>
+            <div class="card p-3 mb-3 bg-light" style="border-left:5px solid ${domColor};">
+                <div style="font-weight:900;">${draft.titre || ''}</div>
+                <div class="text-muted small" style="margin-top:6px;">
+                    <span style="font-weight:800;">Cadre :</span> ${draft.context || ''}<br>
+                    <span style="font-weight:800;">Compétence :</span> ${compLine}<br>
+                    <span style="font-weight:800;">Type :</span> ${domainLabel(dom)}<br>
+                    <span style="font-weight:800;">Quand :</span> ${draft.date || ''}<br>
+                    <span style="font-weight:800;">Contexte :</span> ${draft.detail || 'Non précisé'}
                 </div>
-                <button class="btn-main btn-add" onclick="saveWizard()">Valider l'objectif</button>
-            `;
+            </div>
+            <button class="btn-main btn-add" onclick="saveWizard()">Valider l'objectif</button>`;
         }
-    }
-
-    window.setFreeGoalAndContinue = function() {
-        const v = (document.getElementById('w-free-goal')?.value || '').trim();
-        if(!v) return;
-        draft.titre = v;
-        if(!draft.origin) draft.origin = 'free';
-        wizStep(4);
-    }
-
-    window.openCustomGoalFromCps = function() {
-        const v = prompt("Écris ton objectif (court et concret) :");
-        if(!v) return;
-        draft.titre = v.trim();
-        draft.origin = 'free';
-        wizStep(4);
     }
 
     window.saveWizard = function() {
         if(!draft.date) draft.date = new Date().toISOString().split('T')[0];
+
+        const ctx = draft.context || 'Autre';
+        const dom = draft.type || (draft.cps?.domain) || 'AUTRE';
+
         const payload = {
-            context: draft.context || 'Autre',
-            type: (draft.type || 'AUTRE'),
+            context: ctx,
+            type: dom,
             titre: draft.titre || '',
             date_cible: draft.date,
-            detail: (draft.detail && String(draft.detail).trim()) ? String(draft.detail).trim() : 'Non précisé',
+            detail: (draft.detail && String(draft.detail).trim()) ? draft.detail : 'Non précisé',
             done: false,
             created: new Date().toISOString(),
-            origin: draft.origin || 'lib',
-            cps_id: draft.cps_id || "",
-            cps_label: draft.cps_label || ""
+
+            // --- Métadonnées CPS (pour le cockpit) ---
+            ref_source: "Santé publique France",
+            cat_code: draft.cps?.cat_code || "",
+            cat_label: draft.cps?.cat_label || "",
+            gen_code: draft.cps?.gen_code || "",
+            gen_label: draft.cps?.gen_label || "",
+            spe_code: draft.cps?.spe_code || "",
+            spe_label: draft.cps?.spe_label || "",
+            code_ref: draft.code_ref || "",
+            domaine: dom
         };
+
         firebase.database().ref(`accompagnement/eleves/${userCode}/objectifs`).push(payload);
         document.getElementById('wizard-overlay').style.display='none';
     }
@@ -853,11 +645,14 @@
         if(!g) return;
 
         document.getElementById('det-badge').innerText = (g.context || 'AUTRE').toUpperCase();
+        const cpsLine = (g.spe_label ? g.spe_label : 'Objectif libre') + ' • ' + domainLabel((g.type || 'AUTRE').toUpperCase());
+        const detCps = document.getElementById('det-cps');
+        if(detCps) detCps.innerText = cpsLine;
         document.getElementById('det-title').value = g.titre || '';
         document.getElementById('det-date').value = g.date_cible || '';
         document.getElementById('det-context').value = g.detail || '';
 
-        const isFree = (g.context === 'Autre' || g.type === 'AUTRE' || g.origin === 'free');
+        const isFree = (g.context === 'Autre' || g.type === 'AUTRE');
         document.getElementById('det-title').disabled = !isFree;
         document.getElementById('det-help').style.display = isFree ? 'none' : 'block';
 
@@ -900,9 +695,7 @@
             timestamp: Date.now(),
             cadre: g.context || 'Autre',
             flux: 1,
-            ref_id_officiel: "",
-            cps_id: g.cps_id || "",
-            cps_label: g.cps_label || ""
+            ref_id_officiel: ""
         };
         generateQR(JSON.stringify(p));
     }
@@ -942,13 +735,13 @@
 
     window.openMoodModal = function() {
         document.getElementById('mood-overlay').style.display='flex';
-        let h = `<h5 style="font-weight:900;">1. Émotion principale</h5>`;
+        let h = `<h5>1. Émotion principale</h5>`;
         Object.keys(EMOTIONS).forEach(k => h+=`<button class="list-btn" onclick="moodStep2('${k}')">${k}</button>`);
         document.getElementById('mood-content').innerHTML = h;
     }
 
     window.moodStep2 = function(p) {
-        let h = `<h5 style="font-weight:900;">2. Précisons (${p})</h5>`;
+        let h = `<h5>2. Précisons (${p})</h5>`;
         EMOTIONS[p].forEach(s => h+=`<button class="list-btn" onclick="saveMood('${p}','${s}')">${s}</button>`);
         document.getElementById('mood-content').innerHTML = h;
     }
