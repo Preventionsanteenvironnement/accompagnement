@@ -1,0 +1,1755 @@
+{
+  "meta": {
+    "source": "Santé publique France",
+    "type": "référentiel CPS",
+    "generated": "2026-02-01",
+    "note": "Bibliothèque structurée pour sélection élève + suivi cockpit."
+  },
+  "contexts": {
+    "Scolaire": {
+      "context": "Scolaire",
+      "domains": {
+        "COG": {
+          "title": "Renforcer sa conscience et maîtrise de soi (Cerveau)",
+          "color": "#3b82f6",
+          "competences": [
+            {
+              "domain": "COG",
+              "domain_title": "Renforcer sa conscience et maîtrise de soi (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Identifier si je retiens mieux en écoutant ou en lisant (mémoire)."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Repérer ce qui me distrait le plus en classe pour l'éviter."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Renforcer sa conscience et maîtrise de soi (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Vérifier la source d'une information avant de la croire."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Distinguer une opinion d'un fait scientifique en cours."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Renforcer sa conscience et maîtrise de soi (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Identifier une réussite scolaire dans ma journée (même petite)."
+                },
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Relire une mauvaise note pour voir ce que je peux améliorer."
+                },
+                {
+                  "code_ref": "S-2",
+                  "texte": "Accepter de me tromper pour apprendre (droit à l'erreur)."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Renforcer sa conscience et maîtrise de soi (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Écouter une consigne jusqu'au bout sans interrompre."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Rester concentré 15 minutes sur une tâche sans regarder mon téléphone."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Me remettre au travail immédiatement quand je sens que je rêve."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Renforcer sa conscience et maîtrise de soi (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Noter tous mes devoirs dans mon agenda."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Préparer mon sac la veille pour ne rien oublier."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Finir un exercice dans le temps imparti."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Renforcer sa conscience et maîtrise de soi (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-4",
+                  "texte": "Lever la main avant de prendre la parole."
+                },
+                {
+                  "code_ref": "SF-4",
+                  "texte": "Attendre mon tour pour parler sans couper la parole."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Éloigner mon téléphone pour ne pas être tenté."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Renforcer sa conscience et maîtrise de soi (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Bien lire l'énoncé en entier avant de dire 'je ne comprends pas'."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Essayer une solution au brouillon avant d'appeler le professeur."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Renforcer sa conscience et maîtrise de soi (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Oser lever la main pour demander une explication."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Expliquer précisément ce qui me bloque (un mot, une méthode)."
+                }
+              ]
+            }
+          ]
+        },
+        "EMO": {
+          "title": "Réguler ses émotions et son stress (Cœur)",
+          "color": "#ef4444",
+          "competences": [
+            {
+              "domain": "EMO",
+              "domain_title": "Réguler ses émotions et son stress (Cœur)",
+              "domain_color": "#ef4444",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "S-1",
+                  "texte": "Comprendre pourquoi je suis stressé avant un contrôle."
+                },
+                {
+                  "code_ref": "S-2",
+                  "texte": "Reconnaître que ma colère vient d'une incompréhension."
+                }
+              ]
+            },
+            {
+              "domain": "EMO",
+              "domain_title": "Réguler ses émotions et son stress (Cœur)",
+              "domain_color": "#ef4444",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Nommer précisément l'émotion que je ressens (joie, peur, colère, tristesse)."
+                },
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Repérer les signes physiques de mon stress (mains moites, cœur qui bat)."
+                }
+              ]
+            },
+            {
+              "domain": "EMO",
+              "domain_title": "Réguler ses émotions et son stress (Cœur)",
+              "domain_color": "#ef4444",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Dire 'je suis déçu' plutôt que de bouder ou m'énerver."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Exprimer mon désaccord calmement sans agressivité."
+                }
+              ]
+            },
+            {
+              "domain": "EMO",
+              "domain_title": "Réguler ses émotions et son stress (Cœur)",
+              "domain_color": "#ef4444",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Prendre 3 grandes respirations avant de passer à l'oral."
+                },
+                {
+                  "code_ref": "SF-4",
+                  "texte": "Me rassurer intérieurement face à une difficulté ('je peux y arriver')."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Faire une pause calme si je sens que je vais m'énerver."
+                }
+              ]
+            }
+          ]
+        },
+        "SOC": {
+          "title": "Développer des relations constructives (Liens)",
+          "color": "#10b981",
+          "competences": [
+            {
+              "domain": "SOC",
+              "domain_title": "Développer des relations constructives (Liens)",
+              "domain_color": "#10b981",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Parler avec un volume de voix adapté à la classe."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Formuler une demande claire au professeur ou à un camarade."
+                },
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Utiliser un vocabulaire respectueux."
+                }
+              ]
+            },
+            {
+              "domain": "SOC",
+              "domain_title": "Développer des relations constructives (Liens)",
+              "domain_color": "#10b981",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Écouter un camarade sans lui couper la parole."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Reformuler ce que l'autre a dit pour vérifier que j'ai compris."
+                }
+              ]
+            },
+            {
+              "domain": "SOC",
+              "domain_title": "Développer des relations constructives (Liens)",
+              "domain_color": "#10b981",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Dire bonjour en entrant en classe."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Proposer mon aide à un camarade en difficulté."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Remercier quand on m'aide."
+                }
+              ]
+            },
+            {
+              "domain": "SOC",
+              "domain_title": "Développer des relations constructives (Liens)",
+              "domain_color": "#10b981",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Oser dire 'non' poliment si je ne suis pas d'accord."
+                },
+                {
+                  "code_ref": "SF-4",
+                  "texte": "Accepter une critique sur mon travail sans me vexer."
+                }
+              ]
+            },
+            {
+              "domain": "SOC",
+              "domain_title": "Développer des relations constructives (Liens)",
+              "domain_color": "#10b981",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Rester calme lors d'un désaccord."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Chercher une solution (compromis) plutôt que d'accuser l'autre."
+                },
+                {
+                  "code_ref": "SF-1",
+                  "texte": "S'excuser si j'ai eu un comportement inapproprié."
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "PFMP": {
+      "context": "PFMP",
+      "domains": {
+        "COG": {
+          "title": "Efficacité professionnelle et Sécurité (Cerveau)",
+          "color": "#3b82f6",
+          "competences": [
+            {
+              "domain": "COG",
+              "domain_title": "Efficacité professionnelle et Sécurité (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Identifier les tâches où je suis à l'aise et celles où je suis lent."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Repérer mes moments de fatigue dans la journée de travail."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Efficacité professionnelle et Sécurité (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Comprendre le 'pourquoi' d'une règle de sécurité."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Vérifier si mon travail correspond aux attentes du client/tuteur."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Efficacité professionnelle et Sécurité (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "S-3",
+                  "texte": "Respecter les horaires de l'entreprise (valeur ponctualité)."
+                },
+                {
+                  "code_ref": "S-3",
+                  "texte": "Prendre soin du matériel de l'entreprise (valeur respect)."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Efficacité professionnelle et Sécurité (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Prioriser la sécurité avant la vitesse."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Choisir le bon outil pour la bonne tâche."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Efficacité professionnelle et Sécurité (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Reconnaître quand j'ai bien réalisé une tâche complexe."
+                },
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Accepter de ne pas tout savoir faire dès le premier jour."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Efficacité professionnelle et Sécurité (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Rester concentré sur une tâche répétitive sans me laisser distraire."
+                },
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Écouter une consigne technique jusqu'au bout sans interrompre."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Ne pas consulter mon téléphone personnel pendant le temps de travail."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Efficacité professionnelle et Sécurité (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Terminer le chantier/dossier dans les temps impartis."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Organiser mon poste de travail pour être efficace."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Efficacité professionnelle et Sécurité (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-4",
+                  "texte": "Attendre le bon moment pour poser une question au tuteur."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Garder mon calme face à un imprévu technique."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Efficacité professionnelle et Sécurité (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Observer la situation avant d'agir."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Chercher une solution par moi-même avant d'appeler le tuteur."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Efficacité professionnelle et Sécurité (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Alerter immédiatement si je vois un danger ou une erreur."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Demander de l'aide si je ne suis pas sûr de la procédure."
+                }
+              ]
+            }
+          ]
+        },
+        "EMO": {
+          "title": "Gestion du stress et Attitude (Cœur)",
+          "color": "#ef4444",
+          "competences": [
+            {
+              "domain": "EMO",
+              "domain_title": "Gestion du stress et Attitude (Cœur)",
+              "domain_color": "#ef4444",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "S-1",
+                  "texte": "Comprendre que mon stress vient de la peur de mal faire."
+                },
+                {
+                  "code_ref": "S-2",
+                  "texte": "Accepter que la fatigue joue sur mon humeur en fin de journée."
+                }
+              ]
+            },
+            {
+              "domain": "EMO",
+              "domain_title": "Gestion du stress et Attitude (Cœur)",
+              "domain_color": "#ef4444",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Identifier quand je commence à m'énerver sur une tâche."
+                },
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Reconnaître quand je suis fier de mon travail."
+                }
+              ]
+            },
+            {
+              "domain": "EMO",
+              "domain_title": "Gestion du stress et Attitude (Cœur)",
+              "domain_color": "#ef4444",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Dire calmement au tuteur que je suis débordé."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Exprimer une difficulté sans me plaindre ou râler."
+                }
+              ]
+            },
+            {
+              "domain": "EMO",
+              "domain_title": "Gestion du stress et Attitude (Cœur)",
+              "domain_color": "#ef4444",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Rester courtois même en période de 'rush' ou de pression."
+                },
+                {
+                  "code_ref": "SF-4",
+                  "texte": "Accepter de recommencer une tâche ratée sans me décourager."
+                },
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Prendre du recul face à un client mécontent."
+                }
+              ]
+            }
+          ]
+        },
+        "SOC": {
+          "title": "Intégration et Communication (Liens)",
+          "color": "#10b981",
+          "competences": [
+            {
+              "domain": "SOC",
+              "domain_title": "Intégration et Communication (Liens)",
+              "domain_color": "#10b981",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Utiliser le vouvoiement et un langage professionnel."
+                },
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Parler distinctement pour être compris des clients/collègues."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Adopter une tenue et une posture professionnelle."
+                }
+              ]
+            },
+            {
+              "domain": "SOC",
+              "domain_title": "Intégration et Communication (Liens)",
+              "domain_color": "#10b981",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Écouter attentivement la demande d'un client."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "S'intéresser au travail des collègues."
+                }
+              ]
+            },
+            {
+              "domain": "SOC",
+              "domain_title": "Intégration et Communication (Liens)",
+              "domain_color": "#10b981",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Saluer chaque personne de l'équipe en arrivant et en partant."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Proposer mon aide à un collègue quand j'ai fini ma tâche."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Participer aux temps de pause avec l'équipe."
+                }
+              ]
+            },
+            {
+              "domain": "SOC",
+              "domain_title": "Intégration et Communication (Liens)",
+              "domain_color": "#10b981",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-4",
+                  "texte": "Accepter une remarque ou une critique du tuteur sans me vexer."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Savoir dire 'non' si on me demande une tâche dangereuse sans protection."
+                }
+              ]
+            },
+            {
+              "domain": "SOC",
+              "domain_title": "Intégration et Communication (Liens)",
+              "domain_color": "#10b981",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "S'excuser si j'ai commis une erreur."
+                },
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Ne pas répondre à l'agressivité par l'agressivité."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Aller voir le responsable en cas de conflit avec un collègue."
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "Recherche": {
+      "context": "Recherche",
+      "domains": {
+        "COG": {
+          "title": "Stratégie et Organisation de la recherche (Cerveau)",
+          "color": "#3b82f6",
+          "competences": [
+            {
+              "domain": "COG",
+              "domain_title": "Stratégie et Organisation de la recherche (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Identifier mes points forts à mettre dans mon CV."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Savoir dire ce que je sais faire et ce que je veux apprendre."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Identifier mes contraintes (transport, horaires) pour cibler la zone géographique."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Stratégie et Organisation de la recherche (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Vérifier l'activité de l'entreprise avant d'appeler (est-ce que ça correspond ?)."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Adapter mon CV et ma lettre en fonction de l'entreprise visée."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Stratégie et Organisation de la recherche (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "S-1",
+                  "texte": "Choisir un stage qui m'aidera vraiment pour mon diplôme."
+                },
+                {
+                  "code_ref": "S-2",
+                  "texte": "Ne pas choisir une entreprise juste parce qu'elle est 'en bas de chez moi'."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Stratégie et Organisation de la recherche (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Croire en mes capacités malgré un refus."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Identifier ce qui n'a pas marché dans un entretien pour faire mieux au prochain."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Stratégie et Organisation de la recherche (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Consacrer 1h sans distraction à faire des recherches sur Internet."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Être totalement attentif lors d'un appel téléphonique (pas de bruit de fond)."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Stratégie et Organisation de la recherche (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Tenir un tableau de suivi (qui j'ai appelé, quand, réponse)."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Me fixer un objectif chiffré (ex: 3 appels ou 3 visites par jour)."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Imprimer et préparer mes CV la veille."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Stratégie et Organisation de la recherche (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Ne pas raccrocher précipitamment si on me fait patienter."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Ne pas s'énerver si on ne trouve pas l'adresse tout de suite."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Stratégie et Organisation de la recherche (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Trouver le nom du responsable si la secrétaire refuse de me le passer."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Trouver un autre moyen de transport si le bus est annulé."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Stratégie et Organisation de la recherche (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Oser demander à ma famille ou mes amis s'ils connaissent des entreprises."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Demander à mon prof de relire mon CV."
+                }
+              ]
+            }
+          ]
+        },
+        "EMO": {
+          "title": "Gestion de la peur et Motivation (Cœur)",
+          "color": "#ef4444",
+          "competences": [
+            {
+              "domain": "EMO",
+              "domain_title": "Gestion de la peur et Motivation (Cœur)",
+              "domain_color": "#ef4444",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "S-1",
+                  "texte": "Comprendre que ma peur de téléphoner est normale."
+                },
+                {
+                  "code_ref": "S-2",
+                  "texte": "Réaliser que le refus n'est pas contre moi personnellement."
+                }
+              ]
+            },
+            {
+              "domain": "EMO",
+              "domain_title": "Gestion de la peur et Motivation (Cœur)",
+              "domain_color": "#ef4444",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Sentir quand je me décourage pour faire une pause utile."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Reconnaître mon stress avant d'entrer dans une entreprise."
+                }
+              ]
+            },
+            {
+              "domain": "EMO",
+              "domain_title": "Gestion de la peur et Motivation (Cœur)",
+              "domain_color": "#ef4444",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Montrer mon envie et mon sourire (même au téléphone, ça s'entend)."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Exprimer ma motivation sans paraître désespéré."
+                }
+              ]
+            },
+            {
+              "domain": "EMO",
+              "domain_title": "Gestion de la peur et Motivation (Cœur)",
+              "domain_color": "#ef4444",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Oser appuyer sur le bouton 'appel' malgré la boule au ventre."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Prendre une grande respiration avant de franchir la porte d'une entreprise."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Rester courtois même après un refus sec."
+                }
+              ]
+            }
+          ]
+        },
+        "SOC": {
+          "title": "Communication et Persuasion (Liens)",
+          "color": "#10b981",
+          "competences": [
+            {
+              "domain": "SOC",
+              "domain_title": "Communication et Persuasion (Liens)",
+              "domain_color": "#10b981",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Savoir me présenter en 3 phrases (Nom, Classe, But)."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Articuler et parler assez fort au téléphone."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Rédiger un mail de demande de stage sans fautes et avec les formules de politesse."
+                }
+              ]
+            },
+            {
+              "domain": "SOC",
+              "domain_title": "Communication et Persuasion (Liens)",
+              "domain_color": "#10b981",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Ne pas insister si je vois que la personne est débordée (proposer de repasser)."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Éviter d'appeler pendant les heures de 'coup de feu' (restauration/commerce)."
+                }
+              ]
+            },
+            {
+              "domain": "SOC",
+              "domain_title": "Communication et Persuasion (Liens)",
+              "domain_color": "#10b981",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Remercier la personne pour son temps, même si la réponse est non."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Laisser une bonne image pour pouvoir retenter ma chance plus tard."
+                }
+              ]
+            },
+            {
+              "domain": "SOC",
+              "domain_title": "Communication et Persuasion (Liens)",
+              "domain_color": "#10b981",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Oser entrer dans une entreprise que je ne connais pas."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Oser rappeler (relancer) une entreprise qui ne m'a pas répondu."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Soutenir le regard de mon interlocuteur."
+                }
+              ]
+            },
+            {
+              "domain": "SOC",
+              "domain_title": "Communication et Persuasion (Liens)",
+              "domain_color": "#10b981",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Proposer d'autres dates si celles demandées ne conviennent pas."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Accepter un refus poliment sans claquer la porte."
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "Autre": {
+      "context": "Autre",
+      "domains": {
+        "COG": {
+          "title": "Responsabilité et Citoyenneté (Cerveau)",
+          "color": "#3b82f6",
+          "competences": [
+            {
+              "domain": "COG",
+              "domain_title": "Responsabilité et Citoyenneté (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Identifier mon rôle de délégué ou d'éco-délégué si je le suis."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Reconnaître mon besoin de calme au foyer quand il y a trop de bruit."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Savoir si je suis influençable par mon groupe d'amis."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Responsabilité et Citoyenneté (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Comprendre le sens du règlement intérieur (pourquoi c'est interdit ?)."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Ne pas croire aveuglément les rumeurs qui circulent dans les couloirs."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Alerter si je vois une situation dangereuse (dégradation, harcèlement)."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Responsabilité et Citoyenneté (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "S-1",
+                  "texte": "Respecter les lieux communs (toilettes, couloirs, self)."
+                },
+                {
+                  "code_ref": "S-2",
+                  "texte": "Valoriser l'honnêteté quand je m'explique à la Vie Scolaire."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Responsabilité et Citoyenneté (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Décider d'aller en permanence pour travailler plutôt que de traîner dehors."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Choisir de jeter mes déchets à la poubelle même si personne ne regarde."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Responsabilité et Citoyenneté (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Être fier d'avoir aidé à nettoyer une table au self."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Reconnaître que j'ai réussi à garder mon calme dans la cour."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Responsabilité et Citoyenneté (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Être attentif aux annonces micro ou aux écrans d'information."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Faire attention aux autres quand je me déplace dans les escaliers."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Entendre la sonnerie immédiatement et réagir."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Responsabilité et Citoyenneté (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Gérer mon temps de pause pour ne pas arriver en retard en cours."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Rendre mes documents administratifs à l'heure à la Vie Scolaire."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Organiser mon casier pour ne pas perdre mes affaires."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Responsabilité et Citoyenneté (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Ne pas courir ou crier dans les couloirs."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Patienter calmement dans la file d'attente du self."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Ne pas bousculer les autres pour sortir plus vite."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Responsabilité et Citoyenneté (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Savoir quoi faire si j'ai perdu ma carte de cantine."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Trouver une occupation calme s'il pleut pendant la récréation."
+                }
+              ]
+            },
+            {
+              "domain": "COG",
+              "domain_title": "Responsabilité et Citoyenneté (Cerveau)",
+              "domain_color": "#3b82f6",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Demander poliment un renseignement à l'accueil."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Aller voir l'infirmière si je ne me sens pas bien."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Signaler un problème de matériel à un surveillant (AED)."
+                }
+              ]
+            }
+          ]
+        },
+        "EMO": {
+          "title": "Climat scolaire et Bien-être (Cœur)",
+          "color": "#ef4444",
+          "competences": [
+            {
+              "domain": "EMO",
+              "domain_title": "Climat scolaire et Bien-être (Cœur)",
+              "domain_color": "#ef4444",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "S-1",
+                  "texte": "Comprendre pourquoi le bruit du self me fatigue."
+                },
+                {
+                  "code_ref": "S-2",
+                  "texte": "Comprendre que l'agressivité cache souvent une peur ou un mal-être."
+                }
+              ]
+            },
+            {
+              "domain": "EMO",
+              "domain_title": "Climat scolaire et Bien-être (Cœur)",
+              "domain_color": "#ef4444",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Sentir quand je m'énerve à cause d'un jeu ou d'une discussion."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Reconnaître mon sentiment d'injustice face à une punition."
+                }
+              ]
+            },
+            {
+              "domain": "EMO",
+              "domain_title": "Climat scolaire et Bien-être (Cœur)",
+              "domain_color": "#ef4444",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Dire 'stop' calmement si un jeu va trop loin."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Exprimer un problème à un surveillant sans crier."
+                }
+              ]
+            },
+            {
+              "domain": "EMO",
+              "domain_title": "Climat scolaire et Bien-être (Cœur)",
+              "domain_color": "#ef4444",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Me calmer dans le couloir avant de rentrer en cours après une récré agitée."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Gérer mon anxiété quand je suis convoqué à la Vie Scolaire."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "S'isoler quelques minutes au calme si je suis trop énervé."
+                }
+              ]
+            }
+          ]
+        },
+        "SOC": {
+          "title": "Vivre ensemble et Civilité (Liens)",
+          "color": "#10b981",
+          "competences": [
+            {
+              "domain": "SOC",
+              "domain_title": "Vivre ensemble et Civilité (Liens)",
+              "domain_color": "#10b981",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Dire bonjour et merci au personnel de cantine et de ménage."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Parler correctement aux assistants d'éducation (AED)."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Utiliser un langage correct même entre amis dans la cour."
+                }
+              ]
+            },
+            {
+              "domain": "SOC",
+              "domain_title": "Vivre ensemble et Civilité (Liens)",
+              "domain_color": "#10b981",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Accueillir un nouvel élève ou un élève isolé à ma table."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Ne pas me moquer d'un élève différent."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Prendre des nouvelles d'un camarade absent."
+                }
+              ]
+            },
+            {
+              "domain": "SOC",
+              "domain_title": "Vivre ensemble et Civilité (Liens)",
+              "domain_color": "#10b981",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Prêter mon matériel (carte de self, stylo) en cas de besoin."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Aider à ranger les chaises ou le matériel du foyer."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Tenir la porte pour la personne qui arrive derrière moi."
+                }
+              ]
+            },
+            {
+              "domain": "SOC",
+              "domain_title": "Vivre ensemble et Civilité (Liens)",
+              "domain_color": "#10b981",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Refuser de sécher les cours même si mes amis le font."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Refuser de participer à une dégradation ou une bêtise."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "Ne pas rire à une blague blessante ou raciste."
+                }
+              ]
+            },
+            {
+              "domain": "SOC",
+              "domain_title": "Vivre ensemble et Civilité (Liens)",
+              "domain_color": "#10b981",
+              "cat_code": "",
+              "cat_label": "",
+              "gen_code": "",
+              "gen_label": "",
+              "spe_code": "",
+              "spe_label": "",
+              "objectifs": [
+                {
+                  "code_ref": "SF-1",
+                  "texte": "Aller voir un adulte pour régler une dispute grave."
+                },
+                {
+                  "code_ref": "SF-2",
+                  "texte": "Ne pas utiliser la violence physique en cas de désaccord."
+                },
+                {
+                  "code_ref": "SF-3",
+                  "texte": "S'interposer ou alerter si je suis témoin de harcèlement."
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}
