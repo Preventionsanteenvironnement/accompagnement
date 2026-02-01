@@ -10,28 +10,23 @@
         :root { --bg-dark: #0f172a; --card-dark: #1e293b; --neon-blue: #38bdf8; --neon-purple: #c084fc; --neon-green: #4ade80; }
         body { background-color: var(--bg-dark); color: #f1f5f9; font-family: 'Outfit', sans-serif; height: 100vh; overflow: hidden; }
         
-        /* Structure du Wizard (Étapes) */
         .step-container { display: none; height: 100%; flex-direction: column; justify-content: center; align-items: center; padding: 20px; text-align: center; animation: fadeIn 0.5s ease; }
         .step-active { display: flex; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Boutons Géants */
         .btn-big-choice { background: var(--card-dark); border: 2px solid rgba(255,255,255,0.1); color: white; width: 100%; padding: 1.5rem; margin-bottom: 1rem; border-radius: 20px; transition: all 0.2s; text-align: left; display: flex; align-items: center; justify-content: space-between; }
         .btn-big-choice:active { transform: scale(0.98); border-color: var(--neon-blue); background: rgba(56, 189, 248, 0.1); }
         .btn-big-choice h5 { margin: 0; font-weight: 700; }
         .btn-big-choice small { color: #94a3b8; }
         .btn-icon { font-size: 2rem; margin-right: 15px; }
 
-        /* Indicateur de progression */
         .progress-dots { position: fixed; top: 20px; left: 0; width: 100%; text-align: center; z-index: 100; }
         .dot { height: 8px; width: 8px; background-color: rgba(255,255,255,0.2); border-radius: 50%; display: inline-block; margin: 0 5px; transition: all 0.3s; }
         .dot.active { background-color: var(--neon-blue); transform: scale(1.5); }
 
-        /* Emojis Ressenti */
         .emoji-btn { font-size: 3rem; background: transparent; border: none; transition: transform 0.2s; margin: 0 10px; cursor: pointer; opacity: 0.6; }
         .emoji-btn.selected { transform: scale(1.3); opacity: 1; filter: drop-shadow(0 0 10px var(--neon-purple)); }
         
-        /* Espace Fermé */
         #school-closed { display:none; height:100vh; align-items:center; justify-content:center; flex-direction:column; }
         .closed-icon { font-size: 5rem; margin-bottom: 20px; opacity: 0.5; }
     </style>
@@ -61,25 +56,19 @@
 <div id="step-1" class="step-container">
     <h2 class="mb-2">C'était où ? 🏫</h2>
     <p class="text-white-50 mb-4">Sélectionne le moment clé de ta journée.</p>
-    
-    <div id="context-suggestions" style="width: 100%; max-width: 400px;">
-        </div>
-
+    <div id="context-suggestions" style="width: 100%; max-width: 400px;"></div>
     <button class="btn btn-outline-secondary rounded-pill mt-3" onclick="goToStep(0)">Annuler</button>
 </div>
 
 <div id="step-2" class="step-container">
     <h2 class="mb-2">Ta réussite 🚀</h2>
     <p class="text-white-50 mb-4">Qu'as-tu réussi à faire dans ce contexte ?</p>
-    
-    <div id="competence-list" style="width: 100%; max-width: 400px; overflow-y: auto; max-height: 60vh;">
-        </div>
+    <div id="competence-list" style="width: 100%; max-width: 400px; overflow-y: auto; max-height: 60vh;"></div>
     <button class="btn btn-outline-secondary rounded-pill mt-3" onclick="goToStep(1)">Retour</button>
 </div>
 
 <div id="step-3" class="step-container">
     <h2 class="mb-3 text-info" id="selected-comp-title">...</h2>
-    
     <div style="width: 100%; max-width: 400px;">
         <label class="small text-muted mb-2">Mon niveau d'autonomie :</label>
         <select id="input-niveau" class="form-select form-select-lg mb-4 bg-dark text-white border-secondary">
@@ -88,10 +77,8 @@
             <option value="3">⭐⭐⭐ Je maîtrise (Niveau 3)</option>
             <option value="4">⭐⭐⭐⭐ Je transmets (Expert)</option>
         </select>
-
         <label class="small text-muted mb-2">Raconte ce moment (Preuve) :</label>
         <textarea id="input-preuve" class="form-control bg-dark text-white border-secondary mb-4" rows="4" placeholder="Ex: Pendant l'exercice de maths, j'ai..."></textarea>
-        
         <button class="btn btn-primary btn-lg w-100 rounded-pill" onclick="goToStep(4)">Continuer ➡</button>
     </div>
     <button class="btn btn-link text-white-50 mt-2" onclick="goToStep(2)">Retour</button>
@@ -99,7 +86,6 @@
 
 <div id="step-4" class="step-container">
     <h2 class="mb-4">Comment tu te sens ? 🌤️</h2>
-    
     <div class="d-flex justify-content-center flex-wrap mb-5">
         <button class="emoji-btn" onclick="selectFeeling('fier', this)">😎<div class="fs-6 mt-2">Fier(e)</div></button>
         <button class="emoji-btn" onclick="selectFeeling('bien', this)">🙂<div class="fs-6 mt-2">Bien</div></button>
@@ -107,16 +93,14 @@
         <button class="emoji-btn" onclick="selectFeeling('stresse', this)">🤯<div class="fs-6 mt-2">Stressé(e)</div></button>
         <button class="emoji-btn" onclick="selectFeeling('fatigue', this)">😴<div class="fs-6 mt-2">Fatigué(e)</div></button>
     </div>
-
-    <button id="btn-save-final" class="btn btn-success btn-lg rounded-pill w-100 py-3 fw-bold" style="max-width: 400px; display:none;" onclick="finaliserSauvegarde()">
-        ✅ Valider ma journée
-    </button>
+    <button id="btn-save-final" class="btn btn-success btn-lg rounded-pill w-100 py-3 fw-bold" style="max-width: 400px; display:none;" onclick="finaliserSauvegarde()">✅ Valider ma journée</button>
 </div>
 
 <div id="school-closed">
     <div class="closed-icon">🌙</div>
-    <h3 class="text-warning">Espace en pause</h3>
+    <h3 class="text-warning">Espace Fermé</h3>
     <p class="text-white-50 text-center px-4">L'application est accessible uniquement<br>pendant les heures scolaires.</p>
+    <div id="horaires-display" class="badge bg-dark mt-3 p-3">--</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -126,21 +110,19 @@
 <script src="js/firebase-config.js"></script>
 
 <script>
-    // --- 1. CONFIGURATION MODIFIABLE ---
-    const CONFIG_ECOLE = { ouverture: 7, fermeture: 22, jours: [1,2,3,4,5,6], maintenance: false }; // Large pour tests
+    // --- CONFIG PAR DÉFAUT (Écrasée par Firebase) ---
+    let CONFIG_ECOLE = { ouverture: 8, fermeture: 18, jours: [1,2,3,4,5], maintenance: false };
 
-    // --- EMPLOI DU TEMPS INTELLIGENT (A/B) ---
-    // Vous pouvez modifier les matières ici. Si une case est vide, on propose "Cours".
+    // --- EMPLOI DU TEMPS (A MODIFIER SELON BESOIN) ---
     const EMPLOI_DU_TEMPS = {
         "A": {
-            1: ["Francais", "Maths", "Anglais", "Atelier Pro"], // Lundi (1)
-            2: ["Histoire", "Eco-Gestion", "EPS", "Vie de Classe"], // Mardi (2)
-            3: ["Anglais", "Maths", "Soutien"], // Mercredi (3)
-            4: ["Atelier Pro", "Atelier Pro", "PSE", "Espagnol"], // Jeudi (4)
-            5: ["Chef d'Oeuvre", "Co-Intervention", "Français", "Arts"] // Vendredi (5)
+            1: ["Francais", "Maths", "Anglais", "Atelier Pro"], 
+            2: ["Histoire", "Eco-Gestion", "EPS", "Vie de Classe"],
+            3: ["Anglais", "Maths", "Soutien"],
+            4: ["Atelier Pro", "Atelier Pro", "PSE", "Espagnol"],
+            5: ["Chef d'Oeuvre", "Co-Intervention", "Français", "Arts"]
         },
         "B": {
-            // Copiez la structure de A si c'est pareil, ou changez pour B
             1: ["Francais", "Maths", "Anglais", "Atelier Pro"],
             2: ["Histoire", "Eco-Gestion", "EPS", "Vie de Classe"],
             3: ["Anglais", "Maths", "Soutien"],
@@ -149,53 +131,63 @@
         }
     };
 
-    // --- DICTIONNAIRE TRADUIT ---
     const REF_SIMPLE = [
-        { id: "C1.1", text: "Savoir ce que je vaux", axe: "COG" },
-        { id: "C1.2", text: "Ne pas juger trop vite", axe: "COG" },
-        { id: "C1.4", text: "Faire des choix réfléchis", axe: "COG" },
-        { id: "C1.6", text: "Rester concentré", axe: "COG" },
-        { id: "E1.1", text: "Comprendre ma réaction", axe: "EMO" },
-        { id: "E1.2", text: "Nommer mon émotion", axe: "EMO" },
-        { id: "S1.1", text: "Parler calmement", axe: "SOC" },
-        { id: "S1.2", text: "Écouter les autres", axe: "SOC" },
-        { id: "S1.3", text: "Aider ou encourager", axe: "SOC" }
+        { id: "C1.1", text: "Savoir ce que je vaux", axe: "COG" }, { id: "C1.2", text: "Ne pas juger trop vite", axe: "COG" }, { id: "C1.4", text: "Faire des choix réfléchis", axe: "COG" }, { id: "C1.6", text: "Rester concentré", axe: "COG" },
+        { id: "E1.1", text: "Comprendre ma réaction", axe: "EMO" }, { id: "E1.2", text: "Nommer mon émotion", axe: "EMO" },
+        { id: "S1.1", text: "Parler calmement", axe: "SOC" }, { id: "S1.2", text: "Écouter les autres", axe: "SOC" }, { id: "S1.3", text: "Aider ou encourager", axe: "SOC" }
     ];
 
-    // --- VARIABLES ---
     if (typeof firebaseConfig !== 'undefined') firebase.initializeApp(firebaseConfig);
     const userCode = new URLSearchParams(window.location.search).get("id");
     let currentData = { contexte: "", competenceId: "", niveau: 1, preuve: "", feeling: "" };
     let userData = {};
 
-    // --- INITIALISATION ---
     window.onload = function() {
         if (!userCode) return;
         document.getElementById('display-code').innerText = userCode;
 
-        // Vérif Horaires
-        if(!checkHoraires()) return;
+        // 1. D'ABORD, on écoute la config du Cockpit
+        firebase.database().ref('accompagnement/config/horaires').on('value', (snap) => {
+            if(snap.val()) CONFIG_ECOLE = snap.val();
+            // Une fois qu'on a la config, on vérifie si on ouvre
+            verifierAccesEtLancer();
+        });
+    };
 
-        // Firebase Auth
+    function verifierAccesEtLancer() {
+        if(!checkHoraires()) {
+            document.getElementById('loader').style.display = 'none';
+            // On ferme tout
+            document.querySelectorAll('.step-container').forEach(el => el.classList.remove('step-active'));
+            document.getElementById('school-closed').style.display = 'flex';
+            document.getElementById('horaires-display').innerHTML = `Ouvert de ${CONFIG_ECOLE.ouverture}h à ${CONFIG_ECOLE.fermeture}h`;
+            return;
+        } else {
+            document.getElementById('school-closed').style.display = 'none';
+        }
+
+        // Si c'est ouvert, on vérifie l'autorisation élève
         firebase.database().ref(`accompagnement/autorisations/${userCode}`).on('value', (snap) => {
             const val = snap.val();
             document.getElementById('loader').style.display = 'none';
             if(val && val.autorise) {
-                document.querySelector('.step-container').classList.add('step-active');
-                loadUserData();
+                // Si on n'est pas déjà dans un step, on lance l'accueil
+                if(!document.querySelector('.step-active')) {
+                    document.getElementById('step-0').classList.add('step-active');
+                    loadUserData();
+                }
             } else {
                 alert("Accès non activé par le professeur.");
             }
         });
-    };
+    }
 
     function checkHoraires() {
         const now = new Date();
         const jour = now.getDay();
         const heure = now.getHours();
+        // Si maintenance activée OU jour pas dans la liste OU hors heures
         if (CONFIG_ECOLE.maintenance || !CONFIG_ECOLE.jours.includes(jour) || heure < CONFIG_ECOLE.ouverture || heure >= CONFIG_ECOLE.fermeture) {
-            document.getElementById('loader').style.display = 'none';
-            document.getElementById('school-closed').style.display = 'flex';
             return false;
         }
         return true;
@@ -210,82 +202,51 @@
 
     // --- NAVIGATION WIZARD ---
     window.goToStep = function(stepNum) {
-        // Masquer toutes les étapes
         document.querySelectorAll('.step-container').forEach(el => el.classList.remove('step-active'));
-        
-        // Afficher la bonne
         document.getElementById(`step-${stepNum}`).classList.add('step-active');
-        
-        // Gérer la barre de progression
         const dots = document.getElementById('progress-bar');
         if(stepNum > 0) {
             dots.style.display = 'block';
-            document.querySelectorAll('.dot').forEach((d, i) => {
-                d.classList.toggle('active', i < stepNum);
-            });
-        } else {
-            dots.style.display = 'none';
-        }
-
-        // Logique spécifique par étape
+            document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i < stepNum));
+        } else { dots.style.display = 'none'; }
         if(stepNum === 1) generateContextSuggestions();
         if(stepNum === 2) generateCompetenceList();
     };
 
-    // --- ÉTAPE 1 : CONTEXTE INTELLIGENT ---
     function generateContextSuggestions() {
         const container = document.getElementById('context-suggestions');
         container.innerHTML = '';
-
-        // 1. Déterminer Semaine A ou B (Simple simulation basée sur le numéro de semaine)
         const now = new Date();
         const weekNum = getWeekNumber(now);
-        const typeSemaine = (weekNum % 2 === 0) ? "B" : "A"; // Impair=A, Pair=B (modifiable)
-        const jourSemaine = now.getDay(); // 1 = Lundi
+        const typeSemaine = (weekNum % 2 === 0) ? "B" : "A"; 
+        const jourSemaine = now.getDay(); 
         
         let suggestions = [];
-
-        // 2. Chercher dans l'emploi du temps
         if(EMPLOI_DU_TEMPS[typeSemaine] && EMPLOI_DU_TEMPS[typeSemaine][jourSemaine]) {
-            const matieres = EMPLOI_DU_TEMPS[typeSemaine][jourSemaine];
-            // On prend tout pour l'instant (ou on pourrait filtrer matin/aprem)
-            matieres.forEach(m => suggestions.push({ type: 'COURS', label: m, icon: '📚' }));
+            EMPLOI_DU_TEMPS[typeSemaine][jourSemaine].forEach(m => suggestions.push({ type: 'COURS', label: m, icon: '📚' }));
         }
-
-        // 3. Ajouter les options fixes
         suggestions.push({ type: 'ATELIER', label: 'En Atelier', icon: '🛠️' });
         suggestions.push({ type: 'STAGE', label: 'En Stage / PFMP', icon: '💼' });
         suggestions.push({ type: 'AUTRE', label: 'Autre / Vie Scolaire', icon: '🏠' });
 
-        // 4. Générer les boutons
         suggestions.forEach(sugg => {
             const btn = document.createElement('button');
             btn.className = 'btn-big-choice';
             btn.innerHTML = `<span class="btn-icon">${sugg.icon}</span> <div><h5>${sugg.label}</h5><small>${sugg.type === 'COURS' ? 'Suggéré par l\'emploi du temps' : 'Contexte général'}</small></div>`;
-            btn.onclick = () => selectContexte(sugg.label, sugg.type);
+            btn.onclick = () => { currentData.contexte = sugg.label; goToStep(2); };
             container.appendChild(btn);
         });
     }
 
-    function selectContexte(label, type) {
-        currentData.contexte = label; // On garde le nom précis (ex: Maths)
-        goToStep(2);
-    }
-
-    // --- ÉTAPE 2 : LISTE COMPÉTENCES ---
     function generateCompetenceList() {
         const container = document.getElementById('competence-list');
         container.innerHTML = '';
-        
         REF_SIMPLE.forEach(comp => {
             const btn = document.createElement('button');
             btn.className = 'btn-big-choice p-3 mb-2';
-            // Couleur selon l'axe
             let color = comp.axe === 'COG' ? '#38bdf8' : (comp.axe === 'EMO' ? '#f87171' : '#4ade80');
-            
             btn.style.borderLeft = `5px solid ${color}`;
             btn.innerHTML = `<div><h6 class="mb-0">${comp.text}</h6></div><span style="color:${color}">➜</span>`;
-            
             btn.onclick = () => {
                 currentData.competenceId = comp.id;
                 document.getElementById('selected-comp-title').innerText = comp.text;
@@ -295,7 +256,6 @@
         });
     }
 
-    // --- ÉTAPE 4 : RESSENTI & SAVE ---
     window.selectFeeling = function(feel, btnElement) {
         currentData.feeling = feel;
         document.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('selected'));
@@ -304,56 +264,26 @@
     }
 
     window.finaliserSauvegarde = function() {
-        // Récupération des données formulaire Étape 3
         currentData.niveau = parseInt(document.getElementById('input-niveau').value);
         currentData.preuve = document.getElementById('input-preuve').value;
-        
         if(currentData.preuve.length < 3) { alert("N'oublie pas de raconter ta preuve !"); return; }
 
-        // Sauvegarde Firebase
         const safeId = currentData.competenceId.replace(/\./g, '_');
-        const dataToSave = {
-            valide: true,
-            niveau: currentData.niveau,
-            preuve: currentData.preuve,
-            contexte: currentData.contexte, // Ex: "Maths" ou "Stage"
-            feeling: currentData.feeling,
-            date: new Date().toISOString()
-        };
-
+        const dataToSave = { valide: true, niveau: currentData.niveau, preuve: currentData.preuve, contexte: currentData.contexte, feeling: currentData.feeling, date: new Date().toISOString() };
         firebase.database().ref(`accompagnement/eleves/${userCode}/competences_validees/${safeId}`).set(dataToSave)
-        .then(() => {
-            alert("✅ C'est noté ! Bravo pour cette relecture.");
-            window.location.reload(); // On recharge pour revenir à l'accueil
-        });
+        .then(() => { alert("✅ C'est noté !"); window.location.reload(); });
     }
 
-    // --- UTILS ---
     function getWeekNumber(d) {
         d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
         d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
         var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
-        var weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
-        return weekNo;
+        return Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
     }
 
     function initMiniChart() {
-        // Mini graphique simplifié pour l'accueil
         const ctx = document.getElementById('miniRadar').getContext('2d');
-        new Chart(ctx, {
-            type: 'radar',
-            data: {
-                labels: ['Tête', 'Cœur', 'Social'],
-                datasets: [{
-                    data: [50, 60, 40], // Valeurs fictives pour l'instant (à connecter aux vrais calculs si besoin)
-                    backgroundColor: 'rgba(56, 189, 248, 0.2)',
-                    borderColor: '#38bdf8',
-                    borderWidth: 2,
-                    pointRadius: 0
-                }]
-            },
-            options: { scales: { r: { ticks: { display: false }, pointLabels: { color: 'white' } } }, plugins: { legend: { display: false } } }
-        });
+        new Chart(ctx, { type: 'radar', data: { labels: ['Tête', 'Cœur', 'Social'], datasets: [{ data: [50, 60, 40], backgroundColor: 'rgba(56, 189, 248, 0.2)', borderColor: '#38bdf8', borderWidth: 2, pointRadius: 0 }] }, options: { scales: { r: { ticks: { display: false }, pointLabels: { color: 'white' } } }, plugins: { legend: { display: false } } } });
     }
 </script>
 </body>
