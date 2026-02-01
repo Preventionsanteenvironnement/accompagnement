@@ -18,7 +18,6 @@
         .app-content.active { display: block; animation: fadeIn 0.3s; }
         @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
 
-        /* CARTES */
         .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1.5rem; }
         .kpi-card { background: var(--surface); border-radius: var(--radius); padding: 1rem 0.5rem; text-align: center; box-shadow: var(--shadow); display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .kpi-label { font-size: 0.7rem; font-weight: 600; color: var(--text-sec); text-transform: uppercase; margin-top: 5px; }
@@ -29,7 +28,6 @@
         .recent-item { background: var(--surface); padding: 1rem; border-radius: 12px; margin-bottom: 0.8rem; display: flex; align-items: center; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
         .icon-box { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 1rem; font-size: 1.2rem; }
 
-        /* OBJECTIFS (Nouveau) */
         .objective-card { background: #fffbeb; border-left: 4px solid #f59e0b; border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem; box-shadow: var(--shadow); display: none; }
 
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--surface); border-top: 1px solid #e5e7eb; display: flex; justify-content: space-around; padding: 0.8rem 0; z-index: 20; }
@@ -60,28 +58,23 @@
 </header>
 
 <main class="app-content active" id="view-dashboard">
-    
     <div id="objectives-card" class="objective-card">
         <h6 class="fw-bold text-warning mb-2">🎯 MON DÉFI SEMAINE</h6>
         <div id="student-obj-list"></div>
     </div>
-
     <div class="kpi-grid">
         <div class="kpi-card"><div class="chart-container"><canvas id="chartCog"></canvas></div><div class="kpi-label" style="color:var(--cog-color)">Cognitif</div></div>
         <div class="kpi-card"><div class="chart-container"><canvas id="chartEmo"></canvas></div><div class="kpi-label" style="color:var(--emo-color)">Émotionnel</div></div>
         <div class="kpi-card"><div class="chart-container"><canvas id="chartSoc"></canvas></div><div class="kpi-label" style="color:var(--soc-color)">Social</div></div>
     </div>
-
     <div class="context-card d-flex align-items-center justify-content-between">
         <div><div class="small text-muted fw-bold mb-1">SUGGÉRÉ MAINTENANT</div><h5 class="mb-0 fw-bold" id="current-course">Pause / Libre</h5></div>
         <i class="fas fa-clock text-muted fs-4"></i>
     </div>
-
     <div class="action-card" onclick="lancerRituel()">
         <div><h4 class="mb-1 fw-bold">Faire le point</h4><div class="small opacity-75">Valider une réussite maintenant</div></div>
         <div style="background:rgba(255,255,255,0.2); width:50px; height:50px; border-radius:50%; display:flex; align-items:center; justify-content:center;"><i class="fas fa-plus fs-4"></i></div>
     </div>
-
     <h6 class="text-muted fw-bold mb-3 ms-1">DERNIÈRES RÉUSSITES</h6>
     <div id="recent-list"></div>
 </main>
@@ -112,19 +105,35 @@
     const userCode = new URLSearchParams(window.location.search).get("id");
     let CONFIG_ECOLE = { ouverture: 7, fermeture: 22, jours: [1,2,3,4,5,6], maintenance: false };
     
-    // STRUCTURE
+    // --- LISTE COMPLÈTE DES COMPÉTENCES (PRO & DÉTAILLÉE) ---
     const REF_STRUCT = [
-        { id: "C1.1", default:"Savoir ce que je vaux", axe: "COG", color: "#3b82f6" },
-        { id: "C1.2", default:"Esprit critique", axe: "COG", color: "#3b82f6" },
-        { id: "C1.3", default:"Mes valeurs", axe: "COG", color: "#3b82f6" },
-        { id: "C1.4", default:"Mes choix", axe: "COG", color: "#3b82f6" },
-        { id: "C1.5", default:"M'auto-évaluer", axe: "COG", color: "#3b82f6" },
-        { id: "C1.6", default:"Concentration", axe: "COG", color: "#3b82f6" },
-        { id: "E1.1", default:"Comprendre émotions", axe: "EMO", color: "#ef4444" },
-        { id: "E1.2", default:"Identifier émotions", axe: "EMO", color: "#ef4444" },
-        { id: "S1.1", default:"Bien communiquer", axe: "SOC", color: "#10b981" },
+        // COGNITIF C1
+        { id: "C1.1", default:"Connaissance de soi", axe: "COG", color: "#3b82f6" },
+        { id: "C1.2", default:"Pensée critique", axe: "COG", color: "#3b82f6" },
+        { id: "C1.3", default:"Valeurs et besoins", axe: "COG", color: "#3b82f6" },
+        { id: "C1.4", default:"Décisions constructives", axe: "COG", color: "#3b82f6" },
+        { id: "C1.5", default:"Auto-évaluation positive", axe: "COG", color: "#3b82f6" },
+        { id: "C1.6", default:"Pleine attention", axe: "COG", color: "#3b82f6" },
+        // COGNITIF C2
+        { id: "C2.1", default:"Atteindre ses buts", axe: "COG", color: "#3b82f6" },
+        { id: "C2.2", default:"Gérer ses impulsions", axe: "COG", color: "#3b82f6" },
+        { id: "C2.3", default:"Résoudre des problèmes", axe: "COG", color: "#3b82f6" },
+        { id: "C2.4", default:"Demander de l'aide", axe: "COG", color: "#3b82f6" },
+        
+        // EMOTIONNEL E1
+        { id: "E1.1", default:"Comprendre les émotions", axe: "EMO", color: "#ef4444" },
+        { id: "E1.2", default:"Identifier les émotions", axe: "EMO", color: "#ef4444" },
+        // EMOTIONNEL E2
+        { id: "E2.2", default:"Exprimer ses émotions", axe: "EMO", color: "#ef4444" },
+        { id: "E2.3", default:"Gérer son stress", axe: "EMO", color: "#ef4444" },
+
+        // SOCIAL S1
+        { id: "S1.1", default:"Communication positive", axe: "SOC", color: "#10b981" },
         { id: "S1.2", default:"Empathie", axe: "SOC", color: "#10b981" },
-        { id: "S1.3", default:"Coopération", axe: "SOC", color: "#10b981" }
+        { id: "S1.3", default:"Liens prosociaux", axe: "SOC", color: "#10b981" },
+        // SOCIAL S2
+        { id: "S2.1", default:"S'affirmer / Résister", axe: "SOC", color: "#10b981" },
+        { id: "S2.2", default:"Résoudre les conflits", axe: "SOC", color: "#10b981" }
     ];
 
     let userData = {};
@@ -164,11 +173,10 @@
         firebase.database().ref(`accompagnement/eleves/${userCode}`).on('value', (snap) => {
             userData = snap.val() || { competences_validees: {}, objectifs: {} };
             updateDashboard();
-            renderObjectives(userData.objectifs); // APPEL DES OBJECTIFS ICI
+            renderObjectives(userData.objectifs);
         });
     }
 
-    // --- NAVIGATION ---
     window.switchView = function(viewName) {
         document.querySelectorAll('.app-content').forEach(el => el.classList.remove('active'));
         document.getElementById('view-' + viewName).classList.add('active');
@@ -176,7 +184,6 @@
         event.currentTarget.classList.add('active');
     }
 
-    // --- DASHBOARD ---
     function updateDashboard() {
         let counts = { COG: 0, EMO: 0, SOC: 0 };
         let recent = [];
@@ -210,7 +217,6 @@
         });
     }
 
-    // --- OBJECTIFS (DEFIS) ---
     function renderObjectives(objData) {
         const card = document.getElementById('objectives-card');
         const list = document.getElementById('student-obj-list');
@@ -236,7 +242,6 @@
         }
     }
 
-    // --- LIBRARY ---
     function renderLibraryList() {
         const container = document.getElementById('library-list');
         container.innerHTML = '';
@@ -270,7 +275,6 @@
     }
     window.closeKnowledge = function() { document.getElementById('knowledge-overlay').style.display = 'none'; }
 
-    // --- WIZARD RITUEL ---
     window.lancerRituel = function() { document.getElementById('wizard-overlay').style.display = 'flex'; showStep(1); }
     window.showStep = function(step) {
         const overlay = document.getElementById('wizard-overlay'); overlay.innerHTML = '';
