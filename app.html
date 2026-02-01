@@ -28,7 +28,7 @@
         .recent-item { background: var(--surface); padding: 1rem; border-radius: 12px; margin-bottom: 0.8rem; display: flex; align-items: center; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
         .icon-box { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 1rem; font-size: 1.2rem; }
 
-        .objective-card { background: #fffbeb; border-left: 4px solid #f59e0b; border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem; box-shadow: var(--shadow); display: none; }
+        .objective-card { background: #fffbeb; border-left: 4px solid #f59e0b; border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem; box-shadow: var(--shadow); display: block; }
 
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--surface); border-top: 1px solid #e5e7eb; display: flex; justify-content: space-around; padding: 0.8rem 0; z-index: 20; }
         .nav-item { text-align: center; color: var(--text-sec); background: none; border: none; font-size: 0.8rem; }
@@ -59,9 +59,14 @@
 
 <main class="app-content active" id="view-dashboard">
     <div id="objectives-card" class="objective-card">
-        <h6 class="fw-bold text-warning mb-2">🎯 MON DÉFI SEMAINE</h6>
+        <div class="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
+            <h6 class="fw-bold text-warning mb-0">🎯 MON DÉFI SEMAINE</h6>
+            <button class="btn btn-sm btn-warning text-white rounded-circle fw-bold shadow-sm" onclick="ajouterDefiPerso()" style="width:32px; height:32px; padding:0; font-size:1.2rem; line-height:1;">+</button>
+        </div>
         <div id="student-obj-list"></div>
+        <div id="empty-obj-msg" class="text-muted small fst-italic" style="display:none;">Aucun défi. Clique sur + pour t'en fixer un !</div>
     </div>
+
     <div class="kpi-grid">
         <div class="kpi-card"><div class="chart-container"><canvas id="chartCog"></canvas></div><div class="kpi-label" style="color:var(--cog-color)">Cognitif</div></div>
         <div class="kpi-card"><div class="chart-container"><canvas id="chartEmo"></canvas></div><div class="kpi-label" style="color:var(--emo-color)">Émotionnel</div></div>
@@ -105,33 +110,25 @@
     const userCode = new URLSearchParams(window.location.search).get("id");
     let CONFIG_ECOLE = { ouverture: 7, fermeture: 22, jours: [1,2,3,4,5,6], maintenance: false };
     
-    // --- LISTE COMPLÈTE DES COMPÉTENCES (PRO & DÉTAILLÉE) ---
+    // LISTE OFFICIELLE
     const REF_STRUCT = [
-        // COGNITIF C1
         { id: "C1.1", default:"Connaissance de soi", axe: "COG", color: "#3b82f6" },
         { id: "C1.2", default:"Pensée critique", axe: "COG", color: "#3b82f6" },
         { id: "C1.3", default:"Valeurs et besoins", axe: "COG", color: "#3b82f6" },
         { id: "C1.4", default:"Décisions constructives", axe: "COG", color: "#3b82f6" },
         { id: "C1.5", default:"Auto-évaluation positive", axe: "COG", color: "#3b82f6" },
         { id: "C1.6", default:"Pleine attention", axe: "COG", color: "#3b82f6" },
-        // COGNITIF C2
         { id: "C2.1", default:"Atteindre ses buts", axe: "COG", color: "#3b82f6" },
         { id: "C2.2", default:"Gérer ses impulsions", axe: "COG", color: "#3b82f6" },
         { id: "C2.3", default:"Résoudre des problèmes", axe: "COG", color: "#3b82f6" },
         { id: "C2.4", default:"Demander de l'aide", axe: "COG", color: "#3b82f6" },
-        
-        // EMOTIONNEL E1
         { id: "E1.1", default:"Comprendre les émotions", axe: "EMO", color: "#ef4444" },
         { id: "E1.2", default:"Identifier les émotions", axe: "EMO", color: "#ef4444" },
-        // EMOTIONNEL E2
         { id: "E2.2", default:"Exprimer ses émotions", axe: "EMO", color: "#ef4444" },
         { id: "E2.3", default:"Gérer son stress", axe: "EMO", color: "#ef4444" },
-
-        // SOCIAL S1
         { id: "S1.1", default:"Communication positive", axe: "SOC", color: "#10b981" },
         { id: "S1.2", default:"Empathie", axe: "SOC", color: "#10b981" },
         { id: "S1.3", default:"Liens prosociaux", axe: "SOC", color: "#10b981" },
-        // SOCIAL S2
         { id: "S2.1", default:"S'affirmer / Résister", axe: "SOC", color: "#10b981" },
         { id: "S2.2", default:"Résoudre les conflits", axe: "SOC", color: "#10b981" }
     ];
@@ -217,23 +214,38 @@
         });
     }
 
+    // --- LOGIQUE OBJECTIFS MISE À JOUR (MOI vs COACH) ---
     function renderObjectives(objData) {
-        const card = document.getElementById('objectives-card');
         const list = document.getElementById('student-obj-list');
+        const emptyMsg = document.getElementById('empty-obj-msg');
         list.innerHTML = '';
-        if(!objData) { card.style.display = 'none'; return; }
+        
+        if(!objData) { if(emptyMsg) emptyMsg.style.display = 'block'; return; }
+        
         const keys = Object.keys(objData);
-        if(keys.length === 0) { card.style.display = 'none'; return; }
-
         let hasActive = false;
+
         keys.forEach(key => {
             const obj = objData[key];
             if(!obj.done) {
                 hasActive = true;
-                list.innerHTML += `<div class="d-flex align-items-center mb-2"><input type="checkbox" class="form-check-input me-2" onchange="checkObjective('${key}')" style="width:20px;height:20px;"><div><div class="fw-bold text-dark">${obj.titre}</div><div class="small text-muted">${obj.mesure || ''}</div></div></div>`;
+                const isPerso = obj.auteur === 'ELEVE';
+                const badge = isPerso 
+                    ? '<span class="badge bg-light text-warning border border-warning ms-2" style="font-size:0.6rem">MOI</span>' 
+                    : '<span class="badge bg-warning text-white ms-2" style="font-size:0.6rem">COACH</span>';
+
+                list.innerHTML += `
+                <div class="d-flex align-items-start mb-3 pb-2 border-bottom border-light">
+                    <input type="checkbox" class="form-check-input me-2 mt-1" onchange="checkObjective('${key}')" style="width:22px;height:22px; border-color:#f59e0b;">
+                    <div>
+                        <div class="fw-bold text-dark lh-sm">${obj.titre} ${badge}</div>
+                        <div class="small text-muted mt-1">${obj.mesure || ''}</div>
+                    </div>
+                </div>`;
             }
         });
-        card.style.display = hasActive ? 'block' : 'none';
+
+        if(emptyMsg) emptyMsg.style.display = hasActive ? 'none' : 'block';
     }
 
     window.checkObjective = function(key) {
@@ -242,6 +254,15 @@
         }
     }
 
+    window.ajouterDefiPerso = function() {
+        const titre = prompt("Quel défi veux-tu te lancer ?");
+        if(!titre) return;
+        const mesure = prompt("Comment sauras-tu que tu as réussi ? (Critère)");
+        const newRef = firebase.database().ref(`accompagnement/eleves/${userCode}/objectifs`).push();
+        newRef.set({ titre: titre, mesure: mesure || "Auto-évaluation", done: false, auteur: "ELEVE", date: new Date().toISOString() });
+    }
+
+    // --- LIBRARY ---
     function renderLibraryList() {
         const container = document.getElementById('library-list');
         container.innerHTML = '';
@@ -275,6 +296,7 @@
     }
     window.closeKnowledge = function() { document.getElementById('knowledge-overlay').style.display = 'none'; }
 
+    // --- WIZARD RITUEL ---
     window.lancerRituel = function() { document.getElementById('wizard-overlay').style.display = 'flex'; showStep(1); }
     window.showStep = function(step) {
         const overlay = document.getElementById('wizard-overlay'); overlay.innerHTML = '';
