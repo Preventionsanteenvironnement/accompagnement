@@ -3,358 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Espace Réussite</title>
+    <title>Espace Réussite V22</title>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
     <style>
-        :root { 
-            --bg-app: #f8fafc; --surface: #ffffff; --text-main: #1e293b; --primary: #4f46e5; --radius: 12px;
-            --cog-color: #3b82f6; --emo-color: #ec4899; --soc-color: #8b5cf6; --neu-color: #64748b;
-        }
-        body { background-color: var(--bg-app); color: var(--text-main); font-family: 'Outfit', sans-serif; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+        /* CSS MINIMAL POUR EVITER ECRAN BLANC */
+        body { font-family: 'Outfit', sans-serif; background: #f8fafc; color: #1e293b; padding: 20px; }
+        #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .error-box { background: #fee2e2; color: #b91c1c; padding: 20px; border-radius: 10px; border: 1px solid #fca5a5; display: none; margin-top: 20px; text-align: center; }
         
-        /* HEADER SOBRE */
-        .app-header { background: var(--surface); padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; z-index: 20; }
-        .student-id { font-weight: 700; color: var(--text-main); font-size: 1rem; letter-spacing: 0.5px; }
-        .btn-breath { background: none; border: 1px solid #e2e8f0; color: var(--neu-color); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
-
-        .app-content { flex: 1; overflow-y: auto; padding: 1.5rem; padding-bottom: 100px; display: none; }
-        .app-content.active { display: block; animation: fadeIn 0.3s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* METEO */
-        .mood-summary { background: white; padding: 12px; border-radius: var(--radius); border: 1px solid #e2e8f0; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
-        .mood-tag { font-weight: 700; color: var(--primary); }
-
-        /* CERCLES */
-        .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1rem; }
-        .kpi-item { background: white; border-radius: var(--radius); padding: 15px 5px; text-align: center; border: 1px solid #f1f5f9; box-shadow: 0 2px 4px rgba(0,0,0,0.02); cursor: pointer; }
-        .chart-mini { position: relative; height: 60px; width: 60px; margin: 0 auto 8px auto; }
-        .kpi-title { font-weight: 700; font-size: 0.75rem; text-transform: uppercase; color: var(--neu-color); }
-
-        /* OBJECTIFS */
-        .obj-card { background: white; border-radius: var(--radius); padding: 15px; margin-bottom: 10px; border: 1px solid #e2e8f0; position: relative; border-left-width: 5px; cursor: pointer; }
-        .obj-card.cog { border-left-color: var(--cog-color); }
-        .obj-card.emo { border-left-color: var(--emo-color); }
-        .obj-card.soc { border-left-color: var(--soc-color); }
-        .obj-card.neu { border-left-color: var(--neu-color); }
-        .obj-badge { font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; font-weight: 700; text-transform: uppercase; background: #f1f5f9; color: #475569; margin-left: 8px; }
-        .countdown { font-size: 0.75rem; font-weight: 600; color: #64748b; margin-top: 4px; display: block; }
-        .countdown.urgent { color: #ef4444; }
-
-        /* ACTIONS RAPIDES */
-        .quick-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 2rem; }
-        .btn-quick { background: white; border: 1px solid #e2e8f0; padding: 10px; border-radius: 10px; text-align: center; color: var(--primary); font-weight: 600; font-size: 0.85rem; }
-
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: white; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-around; padding: 12px 0; z-index: 30; }
-        .nav-btn { background: none; border: none; color: #94a3b8; font-size: 0.75rem; display: flex; flex-direction: column; align-items: center; font-weight: 500; }
-        .nav-btn.active { color: var(--primary); font-weight: 700; }
-        .nav-btn i { font-size: 1.2rem; margin-bottom: 4px; }
-
-        /* OVERLAYS */
-        .overlay-full { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #f8fafc; z-index: 100; display: none; flex-direction: column; overflow-y: auto; }
-        .overlay-header { padding: 1.5rem; background: white; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; }
-        .step-content { padding: 1.5rem; flex: 1; }
-        .list-btn { width: 100%; text-align: left; padding: 15px; margin-bottom: 8px; background: white; border: 1px solid #e2e8f0; border-radius: 8px; font-weight: 600; color: var(--text-main); }
-        
-        /* QR CODE */
-        #qrcode-container { display: flex; justify-content: center; margin: 20px 0; padding: 20px; background: white; border-radius: 12px; }
-        
-        /* PRINT (Attestation) */
-        @media print {
-            .app-header, .bottom-nav, .btn-close, .no-print { display: none !important; }
-            .overlay-full { position: relative; display: block !important; height: auto; overflow: visible; background: white; }
-            .card-attestation { border: 1px solid #000 !important; break-inside: avoid; margin-bottom: 20px; }
-        }
-        
-        .hidden { display: none !important; }
+        /* STYLE APP (V20) */
+        .app-content { display: none; } /* Caché tant que pas chargé */
+        .card-custom { background: white; border-radius: 15px; padding: 15px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 15px; }
+        .btn-action { width: 100%; padding: 12px; border-radius: 12px; font-weight: bold; border: none; margin-bottom: 10px; }
+        .btn-primary-soft { background: #e0e7ff; color: #4f46e5; }
     </style>
 </head>
 <body>
 
-<div id="loader" style="position:fixed; top:0; left:0; width:100%; height:100%; background:white; z-index:9999; display:flex; align-items:center; justify-content:center;">
-    <div class="spinner-border text-primary" role="status"></div>
-</div>
-
-<header class="app-header">
-    <div class="student-id"><span id="display-code">--</span></div>
-    <button class="btn-breath" onclick="startBreathing()">Respiration</button>
-</header>
-
-<main class="app-content active" id="view-dashboard">
-    <div class="mood-summary" id="mood-summary-box" style="display:none;">
-        <div><div class="small text-muted">Humeur du jour</div><div class="mood-tag" id="mood-display-val">--</div></div>
-        <button class="btn btn-sm btn-outline-secondary rounded-pill" onclick="openMoodModal()">Changer</button>
-    </div>
-
-    <div class="kpi-grid">
-        <div class="kpi-item" onclick="openCircleDetail('COG')"><div class="chart-mini"><canvas id="chartCog"></canvas></div><div class="kpi-title">Cognitif</div></div>
-        <div class="kpi-item" onclick="openCircleDetail('EMO')"><div class="chart-mini"><canvas id="chartEmo"></canvas></div><div class="kpi-title">Émotionnel</div></div>
-        <div class="kpi-item" onclick="openCircleDetail('SOC')"><div class="chart-mini"><canvas id="chartSoc"></canvas></div><div class="kpi-title">Social</div></div>
-    </div>
-
-    <div class="quick-actions">
-        <div class="btn-quick" onclick="openAttestation()">📄 Ma Synthèse CPS</div>
-        <div class="btn-quick" onclick="openRecoModal()">🏅 Ajouter une reconnaissance</div>
-    </div>
-
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h6 class="fw-bold mb-0 text-dark">Objectifs à atteindre</h6>
-        <button class="btn btn-sm btn-primary rounded-pill px-3" onclick="startGoalWizard()">+ Ajouter</button>
-    </div>
-    <div id="active-goals-list"></div>
-</main>
-
-<div class="bottom-nav">
-    <button class="nav-btn active" onclick="switchView('dashboard')"><i class="fas fa-home"></i>Accueil</button>
-    <button class="nav-btn" onclick="openAttestation()"><i class="fas fa-file-alt"></i>Bilan</button>
-</div>
-
-<div id="circle-overlay" class="overlay-full">
-    <div class="overlay-header">
-        <h5 class="fw-bold mb-0" id="circle-title">--</h5>
-        <button class="btn-close" onclick="closeCircle()"></button>
-    </div>
-    <div class="step-content">
-        <ul class="nav nav-pills mb-3 nav-fill" id="pills-tab">
-            <li class="nav-item"><button class="nav-link active btn-sm" onclick="switchCircleTab('suivi')">Suivi</button></li>
-            <li class="nav-item"><button class="nav-link btn-sm" onclick="switchCircleTab('comprendre')">Comprendre</button></li>
-            <li class="nav-item"><button class="nav-link btn-sm" onclick="switchCircleTab('pratique')">Pratique</button></li>
-            <li class="nav-item"><button class="nav-link btn-sm" onclick="openAttestation()">Synthèse</button></li>
-        </ul>
-
-        <div id="tab-suivi">
-            <h6 class="text-primary small fw-bold mb-2 mt-2">📅 À VENIR</h6>
-            <div id="list-future" class="mb-3 text-muted small fst-italic">Rien de prévu.</div>
-            <h6 class="text-warning small fw-bold mb-2">⏳ EN COURS / À FAIRE</h6>
-            <div id="list-current" class="mb-3 text-muted small fst-italic">Rien en cours.</div>
-            <h6 class="text-success small fw-bold mb-2">✅ ATTEINTS</h6>
-            <div id="list-done" class="mb-3 text-muted small fst-italic">Aucune réussite encore.</div>
-        </div>
-
-        <div id="tab-comprendre" class="hidden">
-            <div class="card p-3 mb-3 border-0 bg-light"><strong class="d-block mb-1">C'est quoi ?</strong><p class="mb-0 small" id="circle-def">--</p></div>
-            <div class="card p-3 mb-3 border-0 bg-light"><strong class="d-block mb-1">Utilité Pro</strong><p class="mb-0 small" id="circle-exp">--</p></div>
-            <h6 class="fw-bold mt-4 mb-2">Dictionnaire</h6><div id="circle-dict-list" class="list-group list-group-flush small"></div>
-        </div>
-
-        <div id="tab-pratique" class="hidden">
-            <h6 class="fw-bold mb-3">Exercices</h6><div id="circle-ex-list" class="list-group list-group-flush"></div>
-            <div class="mt-4 pt-3 border-top"><label class="small fw-bold text-muted">RESSOURCES EXTERNES</label><a href="https://github.com/preventionsanteenvironnement" target="_blank" class="btn btn-outline-primary w-100 mt-2">Accéder aux exercices GitHub</a></div>
+    <div id="loader">
+        <div class="spinner-border text-primary" role="status"></div>
+        <div style="margin-top: 15px; font-weight: bold;">Chargement de ton espace...</div>
+        <div id="error-display" class="error-box">
+            <strong>Oups !</strong> <span id="error-msg"></span><br>
+            <small>Vérifie ta connexion ou le fichier de configuration.</small>
         </div>
     </div>
-</div>
 
-<div id="attestation-overlay" class="overlay-full">
-    <div class="overlay-header no-print">
-        <h5 class="fw-bold mb-0">Synthèse & Attestation</h5>
-        <button class="btn-close" onclick="document.getElementById('attestation-overlay').style.display='none'"></button>
-    </div>
-    <div class="step-content">
-        <div class="text-center mb-4"><h3 class="fw-bold">Mon Profil de Compétences</h3><p class="text-muted">Bilan personnel et professionnel</p></div>
+    <div id="app-container" class="app-content">
+        <h3>Bonjour <span id="user-code-display">...</span> 👋</h3>
         
-        <div class="card card-attestation p-3 mb-3" style="border-left:5px solid var(--cog-color)">
-            <h5 class="fw-bold" style="color:var(--cog-color)">Mes Atouts Cognitifs</h5>
-            <p id="syn-cog-txt" class="small text-muted">Analyse en cours...</p>
-        </div>
-        <div class="card card-attestation p-3 mb-3" style="border-left:5px solid var(--emo-color)">
-            <h5 class="fw-bold" style="color:var(--emo-color)">Mes Atouts Émotionnels</h5>
-            <p id="syn-emo-txt" class="small text-muted">Analyse en cours...</p>
-        </div>
-        <div class="card card-attestation p-3 mb-3" style="border-left:5px solid var(--soc-color)">
-            <h5 class="fw-bold" style="color:var(--soc-color)">Mes Atouts Sociaux</h5>
-            <p id="syn-soc-txt" class="small text-muted">Analyse en cours...</p>
+        <div class="card-custom">
+            <h5>🎯 Mes Objectifs</h5>
+            <div id="goals-list">Chargement...</div>
+            <button class="btn btn-primary w-100 mt-3" onclick="alert('Ajout bientôt !')">+ Nouvel Objectif</button>
         </div>
 
-        <div class="card card-attestation p-3 mb-3 bg-light border-0">
-            <h5 class="fw-bold">Synthèse Transversale</h5>
-            <p class="small">Je développe mon autonomie et ma capacité d'adaptation en milieu professionnel.</p>
+        <div class="card-custom">
+            <h5>📊 Mes Compétences</h5>
+            <canvas id="chartTest" style="max-height: 200px;"></canvas>
         </div>
-        
-        <button class="btn btn-dark w-100 mt-3 no-print" onclick="window.print()">Imprimer / PDF</button>
     </div>
-</div>
 
-<div id="qr-overlay" class="overlay-full" style="justify-content:center; align-items:center;">
-    <div class="text-center p-4">
-        <h4 class="fw-bold mb-3">Validation Adulte</h4>
-        <p class="text-muted small">Présente ce code à ton enseignant.</p>
-        <div id="qrcode-container"></div>
-        <button class="btn btn-light rounded-pill px-4 mt-3" onclick="document.getElementById('qr-overlay').style.display='none'">Fermer</button>
-    </div>
-</div>
+    <script src="js/firebase-config.js"></script>
 
-<div id="wizard-overlay" class="overlay-full"><div class="overlay-header"><h5 class="fw-bold mb-0">Nouveau But</h5><button class="btn-close" onclick="document.getElementById('wizard-overlay').style.display='none'"></button></div><div class="step-content" id="wizard-steps"></div></div>
-<div id="edit-goal-overlay" class="overlay-full"><div class="overlay-header"><h5 class="fw-bold mb-0">Modifier</h5><button class="btn-close" onclick="document.getElementById('edit-goal-overlay').style.display='none'"></button></div><div class="step-content"><label class="small fw-bold">Date</label><input type="date" id="ed-date" class="form-control mb-3"><label class="small fw-bold">Lieu</label><input type="text" id="ed-loc" class="form-control mb-3"><button class="btn btn-primary w-100" onclick="saveEdit()">Sauver</button></div></div>
-<div id="mood-overlay" class="overlay-full"><div class="overlay-header"><h5 class="fw-bold mb-0">Météo</h5></div><div class="step-content" id="mood-step-container"></div></div>
-<div id="breath-overlay" class="overlay-full" style="justify-content:center;"><div class="text-center"><h3>Respire</h3><button class="btn btn-light mt-3" onclick="document.getElementById('breath-overlay').style.display='none'">Fermer</button></div></div>
-<div id="school-closed" style="display:none;"><h3 class="text-white text-center mt-5">Pause</h3></div>
+    <script>
+        // FONCTION DE SÉCURITÉ : AFFICHE ERREUR SI PLANTE
+        window.onerror = function(msg, url, line) {
+            document.getElementById('error-display').style.display = 'block';
+            document.getElementById('error-msg').innerText = msg;
+            return false;
+        };
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-<script src="js/firebase-config.js"></script>
-
-<script>
-    if (typeof firebaseConfig !== 'undefined') firebase.initializeApp(firebaseConfig);
-    const userCode = new URLSearchParams(window.location.search).get("id");
-    let CONFIG_ECOLE = { ouverture: 6, fermeture: 23, jours: [0,1,2,3,4,5,6], maintenance: false };
-    
-    // --- DONNÉES STATIQUES (JS) ---
-    const REF_STRUCT = [ /* ... Liste complète des C1, C2, E1... S2 ... */ 
-        {id:"C1.1", axe:"COG"}, {id:"E1.1", axe:"EMO"}, {id:"S1.1", axe:"SOC"} // Simplifié pour l'exemple, mais mettre la liste complète V19 ici
-    ];
-    const EMOTIONS = { "Joie":["Satisfait"], "Peur":["Stressé"] }; // Liste complète V19 à remettre
-    const DICTIONNAIRE = { "Cognitif": "Tête...", "Emotionnel": "Cœur..." }; 
-    const EXERCICES = { "COG": ["Exo 1"], "EMO": ["Exo 2"] };
-
-    let userData = {};
-    let currentEditId = null;
-    let charts = {};
-
-    window.onload = function() {
-        if (!userCode) return;
-        document.getElementById('display-code').innerText = userCode;
-        firebase.database().ref('accompagnement/config/horaires').on('value', (s) => { if(s.val()) CONFIG_ECOLE = s.val(); checkAccess(); });
-    };
-
-    function checkAccess() {
-        firebase.database().ref(`accompagnement/autorisations/${userCode}`).on('value', (s) => {
-            if(s.val() && s.val().autorise) loadData();
-        });
-    }
-
-    function loadData() {
-        firebase.database().ref(`accompagnement/eleves/${userCode}`).on('value', (snap) => {
-            userData = snap.val() || { objectifs: {}, meteo: {}, validations: {} };
-            updateDashboard();
-            generateAttestation(); // Met à jour la synthèse
-        });
-    }
-
-    // --- DASHBOARD & OBJECTIFS ---
-    function updateDashboard() {
-        const activeList = document.getElementById('active-goals-list'); activeList.innerHTML = '';
-        const goals = userData.objectifs || {};
-        let counts = {COG:0, EMO:0, SOC:0};
-
-        Object.keys(goals).forEach(key => {
-            const g = goals[key];
-            if(g.done) {
-                if(g.type && counts[g.type]!==undefined) counts[g.type]++;
-            } else {
-                // Affichage Objectif Actif
-                activeList.innerHTML += `<div class="obj-card ${g.type ? g.type.toLowerCase() : 'neu'}" onclick="openEditGoal('${key}')">
-                    <div class="d-flex justify-content-between">
-                        <strong>${g.titre}</strong>
-                        <span class="obj-badge">${g.context}</span>
-                    </div>
-                    <div class="d-flex justify-content-between mt-2">
-                        <small class="text-muted">${g.detail || '...'}</small>
-                        <small onclick="event.stopPropagation(); showQRValidation('${key}','${g.type}')" class="fw-bold text-primary" style="cursor:pointer">Valid. Prof 📷</small>
-                    </div>
-                </div>`;
+        // DÉMARRAGE
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("Démarrage App...");
+            
+            // 1. Vérif Firebase
+            if (typeof firebase === 'undefined' || typeof firebaseConfig === 'undefined') {
+                throw new Error("Firebase non chargé ! Vérifiez js/firebase-config.js");
             }
-        });
-        
-        // Update Charts
-        ['Cog','Emo','Soc'].forEach(t => {
-            const ctx = document.getElementById('chart'+t);
-            if(ctx) new Chart(ctx, { type:'doughnut', data:{datasets:[{data:[counts[t.toUpperCase()], 10], backgroundColor:['#4f46e5','#eee']}]}, options:{cutout:'75%', events:[]} });
-        });
-    }
+            
+            // 2. Init Firebase
+            if (!firebase.apps.length) {
+                firebase.initializeApp(firebaseConfig);
+            }
 
-    // --- CERCLES DÉTAILS (SUIVI 3 SECTIONS) ---
-    window.openCircleDetail = function(type) {
-        document.getElementById('circle-title').innerText = type === 'COG' ? 'Cognitif' : (type === 'EMO' ? 'Emotionnel' : 'Social');
-        
-        const futureDiv = document.getElementById('list-future'); futureDiv.innerHTML = '';
-        const currentDiv = document.getElementById('list-current'); currentDiv.innerHTML = '';
-        const doneDiv = document.getElementById('list-done'); doneDiv.innerHTML = '';
-        
-        const goals = userData.objectifs || {};
-        const today = new Date().toISOString().split('T')[0];
+            // 3. Récupération Code Élève (URL)
+            const params = new URLSearchParams(window.location.search);
+            let userCode = params.get("id");
 
-        Object.values(goals).forEach(g => {
-            if(g.type === type) {
-                if(g.done) {
-                    doneDiv.innerHTML += `<div>✅ ${g.titre}</div>`;
-                } else if (g.date_cible > today) {
-                    futureDiv.innerHTML += `<div>📅 ${g.titre}</div>`;
-                } else {
-                    currentDiv.innerHTML += `<div>⏳ ${g.titre}</div>`;
+            // MODE DÉMO AUTOMATIQUE
+            if (!userCode) {
+                console.warn("Pas de code. Mode Démo activé.");
+                userCode = "KA47"; // Code par défaut
+            }
+
+            document.getElementById('user-code-display').innerText = userCode;
+
+            // 4. Test Connexion Base de Données
+            const db = firebase.database();
+            db.ref('test_connection').set(new Date().toISOString())
+                .then(() => {
+                    console.log("Connexion Firebase OK");
+                    // SI OK : On affiche l'app
+                    document.getElementById('loader').style.display = 'none';
+                    document.getElementById('app-container').style.display = 'block';
+                    loadData(userCode);
+                })
+                .catch((e) => {
+                    throw new Error("Erreur connexion Base de Données : " + e.message);
+                });
+        });
+
+        function loadData(id) {
+            // Exemple chargement simple
+            new Chart(document.getElementById('chartTest'), {
+                type: 'bar',
+                data: {
+                    labels: ['Cog', 'Emo', 'Soc'],
+                    datasets: [{ label: 'Niveau', data: [3, 5, 2], backgroundColor: ['#3b82f6', '#ec4899', '#8b5cf6'] }]
                 }
-            }
-        });
-        
-        document.getElementById('circle-overlay').style.display = 'flex';
-    }
-    window.closeCircle = function() { document.getElementById('circle-overlay').style.display='none'; }
-    window.switchCircleTab = function(t) {
-        ['suivi','comprendre','pratique'].forEach(x => document.getElementById('tab-'+x).classList.add('hidden'));
-        document.getElementById('tab-'+t).classList.remove('hidden');
-    }
+            });
+            document.getElementById('goals-list').innerHTML = "<em>Aucun objectif pour l'instant.</em>";
+        }
+    </script>
 
-    // --- ATTESTATION ---
-    window.openAttestation = function() {
-        document.getElementById('attestation-overlay').style.display = 'flex';
-    }
-    function generateAttestation() {
-        // Logique simple de comptage pour générer du texte
-        const goals = userData.objectifs || {};
-        let c=0, e=0, s=0;
-        Object.values(goals).forEach(g => { if(g.done) { if(g.type=='COG') c++; if(g.type=='EMO') e++; if(g.type=='SOC') s++; } });
-        
-        document.getElementById('syn-cog-txt').innerText = c > 0 ? `A validé ${c} objectifs liés à l'organisation et l'apprentissage.` : "Début du parcours.";
-        document.getElementById('syn-emo-txt').innerText = e > 0 ? `A validé ${e} objectifs de régulation émotionnelle.` : "Début du parcours.";
-        document.getElementById('syn-soc-txt').innerText = s > 0 ? `A validé ${s} objectifs de communication et collaboration.` : "Début du parcours.";
-    }
-
-    // --- QR CODE GENERATION (FLUX 1 & 2) ---
-    window.showQRValidation = function(objId, type) {
-        const payload = {
-            eleve: userCode,
-            objectif: objId,
-            type_competence: type,
-            flux: 1, // Validation d'objectif
-            timestamp: Date.now()
-        };
-        generateQR(JSON.stringify(payload));
-    }
-
-    window.openRecoModal = function() {
-        // Simple choix rapide pour Flux 2
-        const type = prompt("Type ? (COG, EMO, SOC)"); // À remplacer par belle UI
-        if(!type) return;
-        const payload = {
-            eleve: userCode,
-            type_competence: type.toUpperCase(),
-            flux: 2, // Reconnaissance spontanée
-            timestamp: Date.now()
-        };
-        generateQR(JSON.stringify(payload));
-    }
-
-    function generateQR(text) {
-        const container = document.getElementById('qrcode-container');
-        container.innerHTML = '';
-        new QRCode(container, { text: text, width: 200, height: 200 });
-        document.getElementById('qr-overlay').style.display = 'flex';
-    }
-
-    // --- EDIT & WIZARD (Simplifiés pour le code) ---
-    window.openEditGoal = function(k) { currentEditId=k; document.getElementById('edit-goal-overlay').style.display='flex'; }
-    window.saveEdit = function() {
-        const d = document.getElementById('ed-date').value; const l = document.getElementById('ed-loc').value;
-        firebase.database().ref(`accompagnement/eleves/${userCode}/objectifs/${currentEditId}`).update({date_cible:d, detail:l});
-        document.getElementById('edit-goal-overlay').style.display='none';
-    }
-    
-    // ... Reste des fonctions Wizard & Météo identiques V19 ...
-    window.startGoalWizard = function() { document.getElementById('wizard-overlay').style.display='flex'; document.getElementById('wizard-steps').innerText="Charger Wizard..."; } // Remplacer par logique complète V19
-</script>
 </body>
 </html>
