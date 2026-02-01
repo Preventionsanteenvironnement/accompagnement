@@ -59,6 +59,10 @@
 </header>
 
 <main class="app-content active" id="view-dashboard">
+    <div id="objectives-card" class="card p-3 mb-3 border-0 shadow-sm" style="background: #fffbeb; border-left: 4px solid #f59e0b; display:none;">
+    <h6 class="fw-bold text-warning mb-2">🎯 MON DÉFI SEMAINE</h6>
+    <div id="student-obj-list"></div>
+</div>
     <div class="kpi-grid">
         <div class="kpi-card"><div class="chart-container"><canvas id="chartCog"></canvas></div><div class="kpi-label" style="color:var(--cog-color)">Cognitif</div></div>
         <div class="kpi-card"><div class="chart-container"><canvas id="chartEmo"></canvas></div><div class="kpi-label" style="color:var(--emo-color)">Émotionnel</div></div>
@@ -322,6 +326,40 @@
         const data = { valide: true, niveau: parseInt(niveau), preuve: preuve, contexte: wizardData.contexte, date: new Date().toISOString() };
         firebase.database().ref(`accompagnement/eleves/${userCode}/competences_validees/${safeId}`).set(data).then(() => { closeWizard(); });
     }
+    // Ajoutez ça à la fin, avant </script>
+function renderObjectives(objData) {
+    const card = document.getElementById('objectives-card');
+    const list = document.getElementById('student-obj-list');
+    list.innerHTML = '';
+    
+    if(!objData) { card.style.display = 'none'; return; }
+    
+    const keys = Object.keys(objData);
+    if(keys.length === 0) { card.style.display = 'none'; return; }
+
+    card.style.display = 'block'; // On affiche la carte seulement s'il y a des défis
+    
+    keys.forEach(key => {
+        const obj = objData[key];
+        if(!obj.done) { // On n'affiche que ceux à faire
+            list.innerHTML += `
+            <div class="d-flex align-items-center mb-2">
+                <input type="checkbox" class="form-check-input me-2" onchange="checkObjective('${key}')">
+                <div>
+                    <div class="fw-bold text-dark">${obj.titre}</div>
+                    <div class="small text-muted">${obj.mesure || ''}</div>
+                </div>
+            </div>`;
+        }
+    });
+}
+
+window.checkObjective = function(key) {
+    if(confirm("Bravo ! Tu as réussi ce défi ?")) {
+        firebase.database().ref(`accompagnement/eleves/${userCode}/objectifs/${key}`).update({ done: true });
+        // La carte se mettra à jour toute seule grâce au listener
+    }
+}
 </script>
 </body>
 </html>
