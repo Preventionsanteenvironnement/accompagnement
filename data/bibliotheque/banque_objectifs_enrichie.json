@@ -1,0 +1,1273 @@
+{
+  "meta": {
+    "titre": "Banque d'objectifs CPS - Mode Simple & Pro",
+    "source": "Adapté du référentiel Santé publique France 2025",
+    "derniere_maj": "2026-02-02",
+    "description": "Objectifs SMART formulés positivement, avec double formulation (accessible / académique)",
+    "version": "1.0"
+  },
+
+  "thematiques": [
+    {
+      "id": "attention",
+      "nom": "Concentration & Attention",
+      "nom_simple": "Rester concentré",
+      "emoji": "🎯",
+      "description": "Rester focus en classe, gérer les distractions",
+      "couleur": "#3b82f6",
+      "axe_principal": "COG",
+      "objectifs": [
+        {
+          "id": "ATT-001",
+          "texte_simple": "Ranger mon téléphone dans mon sac dès que le cours commence",
+          "texte_pro": "Renforcer sa pleine attention en éliminant les sources de distraction technologique (C1.6)",
+          "emoji": "📱",
+          "cps_code": "C1.6",
+          "cps_nom": "Renforcer sa pleine attention",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Mon téléphone est dans mon sac pendant tout le cours",
+            "Je ne le sors pas avant la sonnerie"
+          ],
+          "difficulte": 1,
+          "contextes": ["Scolaire"]
+        },
+        {
+          "id": "ATT-002",
+          "texte_simple": "Écouter la consigne du prof jusqu'au bout avant de commencer",
+          "texte_pro": "Développer l'écoute active et la pleine attention lors des instructions (C1.6)",
+          "emoji": "👂",
+          "cps_code": "C1.6",
+          "cps_nom": "Renforcer sa pleine attention",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "J'attends que le prof ait fini de parler",
+            "Je peux reformuler ce qu'il a dit"
+          ],
+          "difficulte": 1,
+          "contextes": ["Scolaire"]
+        },
+        {
+          "id": "ATT-003",
+          "texte_simple": "Rester concentré 15 minutes sur un exercice sans interruption",
+          "texte_pro": "Développer sa capacité de concentration soutenue sur une tâche unique (C1.6)",
+          "emoji": "⏱️",
+          "cps_code": "C1.6",
+          "cps_nom": "Renforcer sa pleine attention",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Je travaille 15 min sans lever la tête",
+            "Je finis l'exercice avant de faire autre chose"
+          ],
+          "difficulte": 2,
+          "contextes": ["Scolaire"]
+        },
+        {
+          "id": "ATT-004",
+          "texte_simple": "Revenir à mon travail dès que je me rends compte que je rêvasse",
+          "texte_pro": "Développer la métacognition et l'auto-régulation attentionnelle (C1.6)",
+          "emoji": "🔄",
+          "cps_code": "C1.6",
+          "cps_nom": "Renforcer sa pleine attention",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Je remarque quand mon esprit s'évade",
+            "Je me recentre sur ma tâche immédiatement"
+          ],
+          "difficulte": 2,
+          "contextes": ["Scolaire"]
+        },
+        {
+          "id": "ATT-005",
+          "texte_simple": "M'installer à une place où je serai plus concentré",
+          "texte_pro": "Identifier et adapter son environnement pour favoriser l'attention (C1.1)",
+          "emoji": "🪑",
+          "cps_code": "C1.1",
+          "cps_nom": "Accroître sa connaissance de soi",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Je choisis une place adaptée à ma concentration",
+            "Je m'éloigne des camarades qui me distraient"
+          ],
+          "difficulte": 1,
+          "contextes": ["Scolaire"]
+        },
+        {
+          "id": "ATT-006",
+          "texte_simple": "Regarder le prof ou le tableau pendant les explications",
+          "texte_pro": "Maintenir un contact visuel actif pour soutenir l'attention (C1.6)",
+          "emoji": "👀",
+          "cps_code": "C1.6",
+          "cps_nom": "Renforcer sa pleine attention",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Je regarde vers l'avant quand le prof parle",
+            "Je suis du regard ce qui est montré au tableau"
+          ],
+          "difficulte": 1,
+          "contextes": ["Scolaire"]
+        },
+        {
+          "id": "ATT-007",
+          "texte_simple": "Prendre des notes pour rester actif pendant le cours",
+          "texte_pro": "Utiliser l'écriture comme support de l'attention active (C1.6, C2.1)",
+          "emoji": "📝",
+          "cps_code": "C1.6",
+          "cps_nom": "Renforcer sa pleine attention",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "J'écris les points importants",
+            "Mes notes m'aident à suivre le cours"
+          ],
+          "difficulte": 2,
+          "contextes": ["Scolaire"]
+        }
+      ]
+    },
+
+    {
+      "id": "prise_parole",
+      "nom": "Prise de parole & Participation",
+      "nom_simple": "Participer en classe",
+      "emoji": "🗣️",
+      "description": "S'exprimer en classe, participer, oser prendre la parole",
+      "couleur": "#8b5cf6",
+      "axe_principal": "SOC",
+      "objectifs": [
+        {
+          "id": "PAR-001",
+          "texte_simple": "Lever la main avant de prendre la parole",
+          "texte_pro": "Gérer son impulsivité verbale en respectant le cadre de communication (C2.2)",
+          "emoji": "✋",
+          "cps_code": "C2.2",
+          "cps_nom": "Gérer ses impulsions",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Je lève la main à chaque fois que je veux parler",
+            "J'attends qu'on me donne la parole"
+          ],
+          "difficulte": 1,
+          "contextes": ["Scolaire"]
+        },
+        {
+          "id": "PAR-002",
+          "texte_simple": "Attendre mon tour pour parler sans couper la parole",
+          "texte_pro": "Développer la patience et le respect du temps de parole d'autrui (C2.2, S1.2)",
+          "emoji": "⏳",
+          "cps_code": "C2.2",
+          "cps_nom": "Gérer ses impulsions",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Je laisse les autres finir leur phrase",
+            "Je ne coupe la parole à personne"
+          ],
+          "difficulte": 2,
+          "contextes": ["Scolaire", "PFMP"]
+        },
+        {
+          "id": "PAR-003",
+          "texte_simple": "Participer au moins une fois pendant le cours",
+          "texte_pro": "Renforcer l'engagement actif et la confiance dans la participation orale (C1.5)",
+          "emoji": "🙋",
+          "cps_code": "C1.5",
+          "cps_nom": "S'auto-évaluer positivement",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "J'ai levé la main au moins une fois",
+            "J'ai donné au moins une réponse ou posé une question"
+          ],
+          "difficulte": 2,
+          "contextes": ["Scolaire"]
+        },
+        {
+          "id": "PAR-004",
+          "texte_simple": "Parler assez fort pour que toute la classe m'entende",
+          "texte_pro": "Adapter son volume vocal au contexte de communication collective (S1.1)",
+          "emoji": "🔊",
+          "cps_code": "S1.1",
+          "cps_nom": "Communiquer de façon efficace",
+          "axe": "SOC",
+          "indicateurs_reussite": [
+            "Le prof n'a pas besoin de me faire répéter",
+            "Les élèves au fond de la classe m'entendent"
+          ],
+          "difficulte": 2,
+          "contextes": ["Scolaire"]
+        },
+        {
+          "id": "PAR-005",
+          "texte_simple": "Oser donner une réponse même si je ne suis pas sûr à 100%",
+          "texte_pro": "Accepter la prise de risque et l'erreur comme partie du processus d'apprentissage (C1.5)",
+          "emoji": "💪",
+          "cps_code": "C1.5",
+          "cps_nom": "S'auto-évaluer positivement",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Je propose une réponse même incertaine",
+            "J'accepte de me tromper pour apprendre"
+          ],
+          "difficulte": 3,
+          "contextes": ["Scolaire"]
+        },
+        {
+          "id": "PAR-006",
+          "texte_simple": "Formuler ma question clairement dans ma tête avant de lever la main",
+          "texte_pro": "Structurer sa pensée avant de communiquer oralement (S1.1, C2.3)",
+          "emoji": "❓",
+          "cps_code": "S1.1",
+          "cps_nom": "Communiquer de façon efficace",
+          "axe": "SOC",
+          "indicateurs_reussite": [
+            "Je sais exactement ce que je veux demander",
+            "Ma question est précise et compréhensible"
+          ],
+          "difficulte": 2,
+          "contextes": ["Scolaire"]
+        },
+        {
+          "id": "PAR-007",
+          "texte_simple": "Présenter un travail devant la classe en regardant mes camarades",
+          "texte_pro": "Développer l'aisance à l'oral et la communication non-verbale (S1.1, E2.3)",
+          "emoji": "🎤",
+          "cps_code": "S1.1",
+          "cps_nom": "Communiquer de façon efficace",
+          "axe": "SOC",
+          "indicateurs_reussite": [
+            "Je regarde la classe pendant ma présentation",
+            "Je ne lis pas tout sur ma feuille"
+          ],
+          "difficulte": 3,
+          "contextes": ["Scolaire"]
+        }
+      ]
+    },
+
+    {
+      "id": "organisation",
+      "nom": "Organisation & Méthode",
+      "nom_simple": "Être organisé",
+      "emoji": "📋",
+      "description": "Gérer son temps, son matériel, ses devoirs",
+      "couleur": "#10b981",
+      "axe_principal": "COG",
+      "objectifs": [
+        {
+          "id": "ORG-001",
+          "texte_simple": "Noter tous mes devoirs dans mon agenda avant de quitter le cours",
+          "texte_pro": "Utiliser des outils d'organisation pour atteindre ses buts (C2.1)",
+          "emoji": "📓",
+          "cps_code": "C2.1",
+          "cps_nom": "Atteindre ses buts personnels",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Tous les devoirs sont notés avec la date",
+            "Je n'oublie plus de devoirs"
+          ],
+          "difficulte": 1,
+          "contextes": ["Scolaire"]
+        },
+        {
+          "id": "ORG-002",
+          "texte_simple": "Préparer mon sac la veille avec tout le matériel nécessaire",
+          "texte_pro": "Anticiper et planifier pour éviter les oublis (C2.1)",
+          "emoji": "🎒",
+          "cps_code": "C2.1",
+          "cps_nom": "Atteindre ses buts personnels",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Mon sac est prêt le soir",
+            "J'ai tout mon matériel en arrivant en cours"
+          ],
+          "difficulte": 1,
+          "contextes": ["Scolaire"]
+        },
+        {
+          "id": "ORG-003",
+          "texte_simple": "Finir un exercice dans le temps donné par le professeur",
+          "texte_pro": "Gérer son temps et respecter les échéances (C2.1)",
+          "emoji": "⏰",
+          "cps_code": "C2.1",
+          "cps_nom": "Atteindre ses buts personnels",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Je termine l'exercice avant la fin du temps",
+            "Je gère mon rythme de travail"
+          ],
+          "difficulte": 2,
+          "contextes": ["Scolaire"]
+        },
+        {
+          "id": "ORG-004",
+          "texte_simple": "Commencer mes devoirs le jour où ils sont donnés",
+          "texte_pro": "Lutter contre la procrastination par l'action immédiate (C2.1, C2.2)",
+          "emoji": "🚀",
+          "cps_code": "C2.1",
+          "cps_nom": "Atteindre ses buts personnels",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Je commence le devoir le soir même ou le lendemain",
+            "Je n'attends pas la veille pour tout faire"
+          ],
+          "difficulte": 2,
+          "contextes": ["Scolaire"]
+        },
+        {
+          "id": "ORG-005",
+          "texte_simple": "Relire mes cours chaque soir pendant 10 minutes",
+          "texte_pro": "Consolider ses apprentissages par la révision régulière (C2.1)",
+          "emoji": "📖",
+          "cps_code": "C2.1",
+          "cps_nom": "Atteindre ses buts personnels",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Je relis mes notes chaque soir",
+            "Je comprends mieux le cours suivant"
+          ],
+          "difficulte": 2,
+          "contextes": ["Scolaire"]
+        },
+        {
+          "id": "ORG-006",
+          "texte_simple": "Arriver en cours avec 5 minutes d'avance",
+          "texte_pro": "Gérer son temps et anticiper les imprévus (C2.1)",
+          "emoji": "⏱️",
+          "cps_code": "C2.1",
+          "cps_nom": "Atteindre ses buts personnels",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Je suis installé avant que le cours commence",
+            "Je ne suis plus en retard"
+          ],
+          "difficulte": 1,
+          "contextes": ["Scolaire", "PFMP"]
+        },
+        {
+          "id": "ORG-007",
+          "texte_simple": "Ranger mon classeur ou mes documents chaque semaine",
+          "texte_pro": "Maintenir un environnement de travail ordonné (C2.1)",
+          "emoji": "🗂️",
+          "cps_code": "C2.1",
+          "cps_nom": "Atteindre ses buts personnels",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Mes documents sont classés et rangés",
+            "Je retrouve facilement mes cours"
+          ],
+          "difficulte": 1,
+          "contextes": ["Scolaire"]
+        }
+      ]
+    },
+
+    {
+      "id": "emotions",
+      "nom": "Gestion des émotions",
+      "nom_simple": "Gérer mes émotions",
+      "emoji": "💭",
+      "description": "Reconnaître, comprendre et réguler ses émotions",
+      "couleur": "#f43f5e",
+      "axe_principal": "EMO",
+      "objectifs": [
+        {
+          "id": "EMO-001",
+          "texte_simple": "Prendre 3 grandes respirations quand je sens le stress monter",
+          "texte_pro": "Utiliser des techniques de régulation physiologique du stress (E2.3)",
+          "emoji": "🌬️",
+          "cps_code": "E2.3",
+          "cps_nom": "Gérer son stress",
+          "axe": "EMO",
+          "indicateurs_reussite": [
+            "Je respire profondément avant un contrôle",
+            "Je me sens plus calme après"
+          ],
+          "difficulte": 1,
+          "contextes": ["Scolaire", "PFMP", "Recherche"]
+        },
+        {
+          "id": "EMO-002",
+          "texte_simple": "Nommer l'émotion que je ressens quand ça ne va pas",
+          "texte_pro": "Développer la conscience et l'identification de ses états émotionnels (E1.2)",
+          "emoji": "🏷️",
+          "cps_code": "E1.2",
+          "cps_nom": "Identifier ses émotions",
+          "axe": "EMO",
+          "indicateurs_reussite": [
+            "Je sais dire si je suis triste, en colère, stressé...",
+            "Je peux expliquer pourquoi je ressens ça"
+          ],
+          "difficulte": 2,
+          "contextes": ["Scolaire", "PFMP", "Autre"]
+        },
+        {
+          "id": "EMO-003",
+          "texte_simple": "Dire 'je suis déçu' au lieu de bouder ou m'énerver",
+          "texte_pro": "Exprimer ses émotions de façon constructive et verbale (E2.2)",
+          "emoji": "💬",
+          "cps_code": "E2.2",
+          "cps_nom": "Exprimer ses émotions de façon constructive",
+          "axe": "EMO",
+          "indicateurs_reussite": [
+            "J'utilise des mots pour dire ce que je ressens",
+            "Je ne boude pas et je ne crie pas"
+          ],
+          "difficulte": 2,
+          "contextes": ["Scolaire", "PFMP", "Autre"]
+        },
+        {
+          "id": "EMO-004",
+          "texte_simple": "Faire une pause de 30 secondes quand je sens la colère monter",
+          "texte_pro": "Utiliser le temps de pause pour réguler une émotion intense (E2.3, C2.2)",
+          "emoji": "⏸️",
+          "cps_code": "E2.3",
+          "cps_nom": "Gérer son stress",
+          "axe": "EMO",
+          "indicateurs_reussite": [
+            "Je m'arrête avant de réagir sous le coup de la colère",
+            "Je prends le temps de me calmer"
+          ],
+          "difficulte": 2,
+          "contextes": ["Scolaire", "PFMP", "Autre"]
+        },
+        {
+          "id": "EMO-005",
+          "texte_simple": "Me dire une phrase positive quand je doute de moi",
+          "texte_pro": "Développer le discours interne positif et l'auto-encouragement (E2.3, C1.5)",
+          "emoji": "💪",
+          "cps_code": "E2.3",
+          "cps_nom": "Gérer son stress",
+          "axe": "EMO",
+          "indicateurs_reussite": [
+            "Je me dis 'je peux y arriver' ou équivalent",
+            "Je remplace les pensées négatives par du positif"
+          ],
+          "difficulte": 2,
+          "contextes": ["Scolaire", "PFMP", "Recherche"]
+        },
+        {
+          "id": "EMO-006",
+          "texte_simple": "Reconnaître les signes physiques de mon stress (mains moites, cœur qui bat)",
+          "texte_pro": "Développer la conscience corporelle des manifestations émotionnelles (E1.2)",
+          "emoji": "🫀",
+          "cps_code": "E1.2",
+          "cps_nom": "Identifier ses émotions",
+          "axe": "EMO",
+          "indicateurs_reussite": [
+            "Je repère quand mon corps me signale du stress",
+            "J'agis avant que ça devienne trop fort"
+          ],
+          "difficulte": 2,
+          "contextes": ["Scolaire", "PFMP", "Recherche"]
+        },
+        {
+          "id": "EMO-007",
+          "texte_simple": "Accepter une critique sur mon travail sans me vexer",
+          "texte_pro": "Développer la résilience émotionnelle face aux retours négatifs (E2.3, S2.1)",
+          "emoji": "🛡️",
+          "cps_code": "E2.3",
+          "cps_nom": "Gérer son stress",
+          "axe": "EMO",
+          "indicateurs_reussite": [
+            "J'écoute la critique sans m'énerver",
+            "J'utilise la critique pour m'améliorer"
+          ],
+          "difficulte": 3,
+          "contextes": ["Scolaire", "PFMP"]
+        },
+        {
+          "id": "EMO-008",
+          "texte_simple": "Rebondir après un échec en identifiant ce que je peux améliorer",
+          "texte_pro": "Transformer l'échec en opportunité d'apprentissage (C1.5, E2.3)",
+          "emoji": "🔄",
+          "cps_code": "C1.5",
+          "cps_nom": "S'auto-évaluer positivement",
+          "axe": "EMO",
+          "indicateurs_reussite": [
+            "Je regarde ma copie pour comprendre mes erreurs",
+            "Je note ce que je ferai différemment la prochaine fois"
+          ],
+          "difficulte": 2,
+          "contextes": ["Scolaire"]
+        }
+      ]
+    },
+
+    {
+      "id": "relations",
+      "nom": "Relations & Communication",
+      "nom_simple": "Bien communiquer avec les autres",
+      "emoji": "🤝",
+      "description": "Communiquer, écouter, aider, résoudre les conflits",
+      "couleur": "#8b5cf6",
+      "axe_principal": "SOC",
+      "objectifs": [
+        {
+          "id": "REL-001",
+          "texte_simple": "Dire bonjour en entrant en classe ou dans un lieu",
+          "texte_pro": "Respecter les codes sociaux de salutation (S1.3)",
+          "emoji": "👋",
+          "cps_code": "S1.3",
+          "cps_nom": "Développer des liens prosociaux",
+          "axe": "SOC",
+          "indicateurs_reussite": [
+            "Je dis bonjour en arrivant",
+            "Je salue les adultes et les camarades"
+          ],
+          "difficulte": 1,
+          "contextes": ["Scolaire", "PFMP", "Recherche"]
+        },
+        {
+          "id": "REL-002",
+          "texte_simple": "Écouter un camarade jusqu'au bout sans l'interrompre",
+          "texte_pro": "Pratiquer l'écoute active et empathique (S1.2)",
+          "emoji": "👂",
+          "cps_code": "S1.2",
+          "cps_nom": "Communiquer de façon empathique",
+          "axe": "SOC",
+          "indicateurs_reussite": [
+            "Je laisse l'autre finir de parler",
+            "Je montre que j'écoute (regard, hochement de tête)"
+          ],
+          "difficulte": 2,
+          "contextes": ["Scolaire", "PFMP"]
+        },
+        {
+          "id": "REL-003",
+          "texte_simple": "Proposer mon aide à un camarade qui a du mal",
+          "texte_pro": "Développer les comportements d'entraide et de solidarité (S1.3)",
+          "emoji": "🆘",
+          "cps_code": "S1.3",
+          "cps_nom": "Développer des liens prosociaux",
+          "axe": "SOC",
+          "indicateurs_reussite": [
+            "Je propose spontanément mon aide",
+            "J'explique sans me moquer"
+          ],
+          "difficulte": 2,
+          "contextes": ["Scolaire", "PFMP"]
+        },
+        {
+          "id": "REL-004",
+          "texte_simple": "Remercier quand quelqu'un m'aide ou me rend service",
+          "texte_pro": "Exprimer sa gratitude dans les interactions sociales (S1.3)",
+          "emoji": "🙏",
+          "cps_code": "S1.3",
+          "cps_nom": "Développer des liens prosociaux",
+          "axe": "SOC",
+          "indicateurs_reussite": [
+            "Je dis merci systématiquement",
+            "Je montre que j'apprécie l'aide reçue"
+          ],
+          "difficulte": 1,
+          "contextes": ["Scolaire", "PFMP", "Recherche"]
+        },
+        {
+          "id": "REL-005",
+          "texte_simple": "Oser dire 'non' poliment quand je ne suis pas d'accord",
+          "texte_pro": "Développer l'affirmation de soi dans le respect (S2.1)",
+          "emoji": "🚫",
+          "cps_code": "S2.1",
+          "cps_nom": "S'affirmer et résister à la pression",
+          "axe": "SOC",
+          "indicateurs_reussite": [
+            "J'exprime mon désaccord calmement",
+            "Je donne mes raisons sans agressivité"
+          ],
+          "difficulte": 3,
+          "contextes": ["Scolaire", "PFMP", "Autre"]
+        },
+        {
+          "id": "REL-006",
+          "texte_simple": "Chercher un compromis plutôt que de vouloir avoir raison à tout prix",
+          "texte_pro": "Développer des stratégies de résolution de conflits (S2.2)",
+          "emoji": "🤝",
+          "cps_code": "S2.2",
+          "cps_nom": "Résoudre les conflits",
+          "axe": "SOC",
+          "indicateurs_reussite": [
+            "Je propose des solutions qui conviennent aux deux",
+            "J'accepte de faire des concessions"
+          ],
+          "difficulte": 3,
+          "contextes": ["Scolaire", "PFMP", "Autre"]
+        },
+        {
+          "id": "REL-007",
+          "texte_simple": "Reformuler ce que l'autre a dit pour vérifier que j'ai compris",
+          "texte_pro": "Utiliser la reformulation comme outil de communication empathique (S1.2)",
+          "emoji": "🔁",
+          "cps_code": "S1.2",
+          "cps_nom": "Communiquer de façon empathique",
+          "axe": "SOC",
+          "indicateurs_reussite": [
+            "Je dis 'si je comprends bien, tu veux dire que...'",
+            "L'autre confirme que j'ai bien compris"
+          ],
+          "difficulte": 2,
+          "contextes": ["Scolaire", "PFMP"]
+        },
+        {
+          "id": "REL-008",
+          "texte_simple": "M'excuser sincèrement quand j'ai fait une erreur ou blessé quelqu'un",
+          "texte_pro": "Reconnaître sa responsabilité et réparer la relation (S2.2)",
+          "emoji": "🙇",
+          "cps_code": "S2.2",
+          "cps_nom": "Résoudre les conflits",
+          "axe": "SOC",
+          "indicateurs_reussite": [
+            "Je reconnais mon erreur",
+            "Je m'excuse sans minimiser"
+          ],
+          "difficulte": 2,
+          "contextes": ["Scolaire", "PFMP", "Autre"]
+        },
+        {
+          "id": "REL-009",
+          "texte_simple": "Utiliser un vocabulaire respectueux même quand je suis énervé",
+          "texte_pro": "Maintenir une communication respectueuse en situation de tension (S1.1, E2.2)",
+          "emoji": "🗣️",
+          "cps_code": "S1.1",
+          "cps_nom": "Communiquer de façon efficace",
+          "axe": "SOC",
+          "indicateurs_reussite": [
+            "Je ne dis pas de gros mots ou d'insultes",
+            "Je reste poli même si je suis en colère"
+          ],
+          "difficulte": 3,
+          "contextes": ["Scolaire", "PFMP", "Autre"]
+        }
+      ]
+    },
+
+    {
+      "id": "aide",
+      "nom": "Demander de l'aide",
+      "nom_simple": "Oser demander de l'aide",
+      "emoji": "🆘",
+      "description": "Identifier ses besoins et solliciter du soutien",
+      "couleur": "#f59e0b",
+      "axe_principal": "COG",
+      "objectifs": [
+        {
+          "id": "AID-001",
+          "texte_simple": "Lever la main pour demander une explication quand je ne comprends pas",
+          "texte_pro": "Identifier ses besoins d'aide et les exprimer (C2.4)",
+          "emoji": "✋",
+          "cps_code": "C2.4",
+          "cps_nom": "Savoir demander de l'aide",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Je lève la main quand je bloque",
+            "J'ose demander même devant la classe"
+          ],
+          "difficulte": 2,
+          "contextes": ["Scolaire"]
+        },
+        {
+          "id": "AID-002",
+          "texte_simple": "Expliquer précisément ce qui me bloque (un mot, une méthode, un calcul)",
+          "texte_pro": "Formuler sa demande d'aide de manière précise et constructive (C2.4, S1.1)",
+          "emoji": "🎯",
+          "cps_code": "C2.4",
+          "cps_nom": "Savoir demander de l'aide",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Je dis exactement où je bloque",
+            "Le prof comprend tout de suite mon problème"
+          ],
+          "difficulte": 2,
+          "contextes": ["Scolaire", "PFMP"]
+        },
+        {
+          "id": "AID-003",
+          "texte_simple": "Demander à un camarade de m'expliquer ce que je n'ai pas compris",
+          "texte_pro": "Utiliser les ressources de son réseau de pairs (C2.4, S1.3)",
+          "emoji": "👥",
+          "cps_code": "C2.4",
+          "cps_nom": "Savoir demander de l'aide",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Je demande de l'aide à un camarade",
+            "J'accepte qu'on m'explique"
+          ],
+          "difficulte": 1,
+          "contextes": ["Scolaire"]
+        },
+        {
+          "id": "AID-004",
+          "texte_simple": "Aller voir le prof à la fin du cours pour poser une question",
+          "texte_pro": "Prendre l'initiative de solliciter un accompagnement individualisé (C2.4)",
+          "emoji": "🚶",
+          "cps_code": "C2.4",
+          "cps_nom": "Savoir demander de l'aide",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "J'attends la fin du cours pour poser ma question",
+            "Je prends l'initiative d'aller voir le prof"
+          ],
+          "difficulte": 2,
+          "contextes": ["Scolaire"]
+        },
+        {
+          "id": "AID-005",
+          "texte_simple": "Demander de l'aide à ma famille pour un travail scolaire",
+          "texte_pro": "Mobiliser son réseau familial comme ressource d'apprentissage (C2.4)",
+          "emoji": "🏠",
+          "cps_code": "C2.4",
+          "cps_nom": "Savoir demander de l'aide",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Je demande à un proche de m'aider",
+            "J'accepte les conseils"
+          ],
+          "difficulte": 1,
+          "contextes": ["Scolaire"]
+        }
+      ]
+    },
+
+    {
+      "id": "connaissance_soi",
+      "nom": "Connaissance de soi",
+      "nom_simple": "Mieux me connaître",
+      "emoji": "🪞",
+      "description": "Identifier ses forces, ses faiblesses, son fonctionnement",
+      "couleur": "#3b82f6",
+      "axe_principal": "COG",
+      "objectifs": [
+        {
+          "id": "SOI-001",
+          "texte_simple": "Identifier comment je retiens le mieux (en écoutant, en lisant, en écrivant)",
+          "texte_pro": "Explorer et connaître son profil d'apprentissage (C1.1)",
+          "emoji": "🧠",
+          "cps_code": "C1.1",
+          "cps_nom": "Accroître sa connaissance de soi",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Je sais si je suis plutôt auditif, visuel ou kinesthésique",
+            "J'adapte ma façon de réviser"
+          ],
+          "difficulte": 2,
+          "contextes": ["Scolaire"]
+        },
+        {
+          "id": "SOI-002",
+          "texte_simple": "Identifier une de mes forces à mettre en avant",
+          "texte_pro": "Reconnaître et valoriser ses compétences et qualités (C1.1, C1.5)",
+          "emoji": "💎",
+          "cps_code": "C1.1",
+          "cps_nom": "Accroître sa connaissance de soi",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Je peux citer au moins une de mes forces",
+            "Je sais l'expliquer à quelqu'un"
+          ],
+          "difficulte": 2,
+          "contextes": ["Scolaire", "PFMP", "Recherche"]
+        },
+        {
+          "id": "SOI-003",
+          "texte_simple": "Identifier un point que je veux améliorer cette semaine",
+          "texte_pro": "Développer la conscience de ses axes de progression (C1.1)",
+          "emoji": "📈",
+          "cps_code": "C1.1",
+          "cps_nom": "Accroître sa connaissance de soi",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Je choisis un point précis à travailler",
+            "Je fais des efforts dessus pendant la semaine"
+          ],
+          "difficulte": 2,
+          "contextes": ["Scolaire", "PFMP"]
+        },
+        {
+          "id": "SOI-004",
+          "texte_simple": "Noter une réussite chaque jour, même petite",
+          "texte_pro": "Cultiver la reconnaissance de ses accomplissements quotidiens (C1.5)",
+          "emoji": "⭐",
+          "cps_code": "C1.5",
+          "cps_nom": "S'auto-évaluer positivement",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Je note ou je me rappelle une réussite chaque jour",
+            "Je valorise même les petites victoires"
+          ],
+          "difficulte": 1,
+          "contextes": ["Scolaire", "PFMP", "Autre"]
+        },
+        {
+          "id": "SOI-005",
+          "texte_simple": "Repérer ce qui me motive pour mieux m'en servir",
+          "texte_pro": "Identifier ses sources de motivation intrinsèque et extrinsèque (C1.3)",
+          "emoji": "🔥",
+          "cps_code": "C1.3",
+          "cps_nom": "Connaître ses valeurs, besoins et buts",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Je sais ce qui me donne envie de travailler",
+            "J'utilise ces leviers quand je manque de motivation"
+          ],
+          "difficulte": 2,
+          "contextes": ["Scolaire", "PFMP"]
+        }
+      ]
+    },
+
+    {
+      "id": "pensee_critique",
+      "nom": "Pensée critique",
+      "nom_simple": "Réfléchir avant d'agir ou de croire",
+      "emoji": "🤔",
+      "description": "Vérifier les informations, prendre du recul, analyser",
+      "couleur": "#3b82f6",
+      "axe_principal": "COG",
+      "objectifs": [
+        {
+          "id": "CRI-001",
+          "texte_simple": "Vérifier la source d'une information avant de la croire ou la partager",
+          "texte_pro": "Développer l'esprit critique face à l'information (C1.2)",
+          "emoji": "🔍",
+          "cps_code": "C1.2",
+          "cps_nom": "Penser de façon critique",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Je vérifie d'où vient l'info",
+            "Je ne partage pas sans vérifier"
+          ],
+          "difficulte": 2,
+          "contextes": ["Scolaire", "Autre"]
+        },
+        {
+          "id": "CRI-002",
+          "texte_simple": "Distinguer un fait d'une opinion dans ce que je lis ou entends",
+          "texte_pro": "Différencier les énoncés factuels des jugements de valeur (C1.2)",
+          "emoji": "⚖️",
+          "cps_code": "C1.2",
+          "cps_nom": "Penser de façon critique",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Je repère quand quelqu'un donne son avis vs un fait",
+            "Je ne confonds pas les deux"
+          ],
+          "difficulte": 2,
+          "contextes": ["Scolaire"]
+        },
+        {
+          "id": "CRI-003",
+          "texte_simple": "Bien lire l'énoncé en entier avant de dire 'je ne comprends pas'",
+          "texte_pro": "Prendre le temps d'analyser avant de conclure (C1.2, C2.3)",
+          "emoji": "📄",
+          "cps_code": "C2.3",
+          "cps_nom": "Résoudre des problèmes",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Je lis tout l'énoncé avant de poser une question",
+            "Je comprends souvent mieux après relecture"
+          ],
+          "difficulte": 1,
+          "contextes": ["Scolaire"]
+        },
+        {
+          "id": "CRI-004",
+          "texte_simple": "Essayer une solution par moi-même avant de demander la réponse",
+          "texte_pro": "Développer l'autonomie dans la résolution de problèmes (C2.3)",
+          "emoji": "💡",
+          "cps_code": "C2.3",
+          "cps_nom": "Résoudre des problèmes",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Je fais un essai au brouillon",
+            "Je cherche par moi-même avant d'appeler le prof"
+          ],
+          "difficulte": 2,
+          "contextes": ["Scolaire"]
+        }
+      ]
+    },
+
+    {
+      "id": "stage_recherche",
+      "nom": "Recherche de stage",
+      "nom_simple": "Trouver mon stage",
+      "emoji": "🔍",
+      "description": "Préparer et mener sa recherche de stage",
+      "couleur": "#f59e0b",
+      "axe_principal": "COG",
+      "objectifs": [
+        {
+          "id": "STG-001",
+          "texte_simple": "Appeler ou me déplacer dans au moins 3 entreprises cette semaine",
+          "texte_pro": "Mener des démarches actives et régulières de recherche (C2.1)",
+          "emoji": "📞",
+          "cps_code": "C2.1",
+          "cps_nom": "Atteindre ses buts personnels",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "J'ai contacté au moins 3 entreprises",
+            "J'ai noté les réponses dans mon suivi"
+          ],
+          "difficulte": 2,
+          "contextes": ["Recherche"]
+        },
+        {
+          "id": "STG-002",
+          "texte_simple": "Préparer ce que je vais dire avant d'appeler une entreprise",
+          "texte_pro": "Planifier sa communication professionnelle (C2.1, S1.1)",
+          "emoji": "📝",
+          "cps_code": "S1.1",
+          "cps_nom": "Communiquer de façon efficace",
+          "axe": "SOC",
+          "indicateurs_reussite": [
+            "J'ai préparé ma phrase d'accroche",
+            "Je sais quoi répondre aux questions courantes"
+          ],
+          "difficulte": 2,
+          "contextes": ["Recherche"]
+        },
+        {
+          "id": "STG-003",
+          "texte_simple": "Relancer une entreprise qui n'a pas répondu après une semaine",
+          "texte_pro": "Faire preuve de persévérance dans ses démarches (C2.1)",
+          "emoji": "🔄",
+          "cps_code": "C2.1",
+          "cps_nom": "Atteindre ses buts personnels",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Je relance après 5-7 jours sans réponse",
+            "Je reste poli et motivé dans ma relance"
+          ],
+          "difficulte": 2,
+          "contextes": ["Recherche"]
+        },
+        {
+          "id": "STG-004",
+          "texte_simple": "Me présenter correctement lors d'un appel ou d'une visite",
+          "texte_pro": "Adapter sa communication au contexte professionnel (S1.1)",
+          "emoji": "🤝",
+          "cps_code": "S1.1",
+          "cps_nom": "Communiquer de façon efficace",
+          "axe": "SOC",
+          "indicateurs_reussite": [
+            "Je dis bonjour, mon nom, ma formation, ce que je cherche",
+            "Je suis poli et clair"
+          ],
+          "difficulte": 1,
+          "contextes": ["Recherche"]
+        },
+        {
+          "id": "STG-005",
+          "texte_simple": "Garder mon calme si on me dit non ou si on me fait attendre",
+          "texte_pro": "Gérer ses émotions face au rejet ou à la frustration (E2.3, C2.2)",
+          "emoji": "😌",
+          "cps_code": "E2.3",
+          "cps_nom": "Gérer son stress",
+          "axe": "EMO",
+          "indicateurs_reussite": [
+            "Je reste poli même après un refus",
+            "Je ne me décourage pas"
+          ],
+          "difficulte": 2,
+          "contextes": ["Recherche"]
+        },
+        {
+          "id": "STG-006",
+          "texte_simple": "Mettre à jour mon CV avec mes dernières expériences",
+          "texte_pro": "Maintenir ses outils de candidature actualisés (C2.1, C1.1)",
+          "emoji": "📄",
+          "cps_code": "C2.1",
+          "cps_nom": "Atteindre ses buts personnels",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Mon CV est à jour",
+            "Mes informations sont correctes"
+          ],
+          "difficulte": 1,
+          "contextes": ["Recherche"]
+        },
+        {
+          "id": "STG-007",
+          "texte_simple": "Demander à quelqu'un de mon entourage s'il connaît des entreprises",
+          "texte_pro": "Mobiliser son réseau personnel dans sa recherche (C2.4, S1.3)",
+          "emoji": "👨‍👩‍👧",
+          "cps_code": "C2.4",
+          "cps_nom": "Savoir demander de l'aide",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "J'ai demandé à ma famille ou mes amis",
+            "J'ai suivi les pistes qu'on m'a données"
+          ],
+          "difficulte": 1,
+          "contextes": ["Recherche"]
+        },
+        {
+          "id": "STG-008",
+          "texte_simple": "Vérifier que l'entreprise correspond à ma formation avant de postuler",
+          "texte_pro": "Cibler ses candidatures de manière pertinente (C1.2)",
+          "emoji": "🎯",
+          "cps_code": "C1.2",
+          "cps_nom": "Penser de façon critique",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Je vérifie l'activité de l'entreprise",
+            "Je postule dans des entreprises en lien avec mon diplôme"
+          ],
+          "difficulte": 2,
+          "contextes": ["Recherche"]
+        }
+      ]
+    },
+
+    {
+      "id": "stage_pfmp",
+      "nom": "En stage (PFMP)",
+      "nom_simple": "Réussir mon stage",
+      "emoji": "🏢",
+      "description": "Bien se comporter et progresser pendant le stage",
+      "couleur": "#10b981",
+      "axe_principal": "SOC",
+      "objectifs": [
+        {
+          "id": "PFM-001",
+          "texte_simple": "Arriver à l'heure chaque jour de stage",
+          "texte_pro": "Respecter les contraintes horaires du monde professionnel (C2.1)",
+          "emoji": "⏰",
+          "cps_code": "C2.1",
+          "cps_nom": "Atteindre ses buts personnels",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Je suis à l'heure tous les jours",
+            "Je préviens si j'ai un problème"
+          ],
+          "difficulte": 1,
+          "contextes": ["PFMP"]
+        },
+        {
+          "id": "PFM-002",
+          "texte_simple": "Saluer toute l'équipe en arrivant le matin",
+          "texte_pro": "Respecter les codes sociaux en milieu professionnel (S1.3)",
+          "emoji": "👋",
+          "cps_code": "S1.3",
+          "cps_nom": "Développer des liens prosociaux",
+          "axe": "SOC",
+          "indicateurs_reussite": [
+            "Je dis bonjour à chaque personne",
+            "Je suis souriant et poli"
+          ],
+          "difficulte": 1,
+          "contextes": ["PFMP"]
+        },
+        {
+          "id": "PFM-003",
+          "texte_simple": "Demander ce que je peux faire quand je n'ai plus de tâche",
+          "texte_pro": "Faire preuve d'initiative et d'engagement professionnel (C2.4, S1.1)",
+          "emoji": "🙋",
+          "cps_code": "C2.4",
+          "cps_nom": "Savoir demander de l'aide",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Je ne reste pas sans rien faire",
+            "Je propose mon aide"
+          ],
+          "difficulte": 2,
+          "contextes": ["PFMP"]
+        },
+        {
+          "id": "PFM-004",
+          "texte_simple": "Prendre des notes sur ce que j'apprends chaque jour",
+          "texte_pro": "Documenter ses apprentissages professionnels (C2.1)",
+          "emoji": "📓",
+          "cps_code": "C2.1",
+          "cps_nom": "Atteindre ses buts personnels",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "J'écris ce que j'ai fait et appris",
+            "Je peux en parler après"
+          ],
+          "difficulte": 1,
+          "contextes": ["PFMP"]
+        },
+        {
+          "id": "PFM-005",
+          "texte_simple": "Poser des questions pour mieux comprendre une tâche",
+          "texte_pro": "Développer sa curiosité professionnelle et clarifier les attentes (C2.4, S1.1)",
+          "emoji": "❓",
+          "cps_code": "C2.4",
+          "cps_nom": "Savoir demander de l'aide",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "J'ose poser des questions",
+            "Je comprends mieux ce qu'on attend de moi"
+          ],
+          "difficulte": 2,
+          "contextes": ["PFMP"]
+        },
+        {
+          "id": "PFM-006",
+          "texte_simple": "Appliquer une remarque de mon tuteur dès la fois suivante",
+          "texte_pro": "Intégrer les feedbacks pour progresser (C1.5, E2.3)",
+          "emoji": "✅",
+          "cps_code": "C1.5",
+          "cps_nom": "S'auto-évaluer positivement",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Je fais attention à la remarque",
+            "Je corrige mon comportement ou ma méthode"
+          ],
+          "difficulte": 2,
+          "contextes": ["PFMP"]
+        },
+        {
+          "id": "PFM-007",
+          "texte_simple": "Ranger mon espace de travail avant de partir",
+          "texte_pro": "Respecter l'environnement de travail collectif (S1.3)",
+          "emoji": "🧹",
+          "cps_code": "S1.3",
+          "cps_nom": "Développer des liens prosociaux",
+          "axe": "SOC",
+          "indicateurs_reussite": [
+            "Mon poste est propre et rangé",
+            "Je laisse tout en ordre pour le lendemain"
+          ],
+          "difficulte": 1,
+          "contextes": ["PFMP"]
+        },
+        {
+          "id": "PFM-008",
+          "texte_simple": "Adopter une tenue correcte et adaptée au lieu de stage",
+          "texte_pro": "S'adapter aux codes vestimentaires professionnels (C1.1)",
+          "emoji": "👔",
+          "cps_code": "C1.1",
+          "cps_nom": "Accroître sa connaissance de soi",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Ma tenue est propre et appropriée",
+            "Je respecte les consignes de l'entreprise"
+          ],
+          "difficulte": 1,
+          "contextes": ["PFMP"]
+        }
+      ]
+    },
+
+    {
+      "id": "posture",
+      "nom": "Posture & Attitude",
+      "nom_simple": "Avoir une bonne attitude",
+      "emoji": "🧍",
+      "description": "Comportement général, posture, respect du cadre",
+      "couleur": "#6366f1",
+      "axe_principal": "SOC",
+      "objectifs": [
+        {
+          "id": "POS-001",
+          "texte_simple": "M'asseoir correctement sur ma chaise pendant le cours",
+          "texte_pro": "Adopter une posture d'apprentissage favorable (C1.6)",
+          "emoji": "🪑",
+          "cps_code": "C1.6",
+          "cps_nom": "Renforcer sa pleine attention",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Je suis assis droit, face au tableau",
+            "Je ne me balance pas sur ma chaise"
+          ],
+          "difficulte": 1,
+          "contextes": ["Scolaire"]
+        },
+        {
+          "id": "POS-002",
+          "texte_simple": "Enlever ma veste ou ma capuche en cours",
+          "texte_pro": "Respecter les codes vestimentaires de la classe (S1.3)",
+          "emoji": "🧥",
+          "cps_code": "S1.3",
+          "cps_nom": "Développer des liens prosociaux",
+          "axe": "SOC",
+          "indicateurs_reussite": [
+            "J'enlève ma veste en arrivant",
+            "Je respecte cette règle sans qu'on me le demande"
+          ],
+          "difficulte": 1,
+          "contextes": ["Scolaire"]
+        },
+        {
+          "id": "POS-003",
+          "texte_simple": "Sortir mes affaires dès que j'arrive en classe",
+          "texte_pro": "Se préparer activement au travail (C2.1)",
+          "emoji": "📚",
+          "cps_code": "C2.1",
+          "cps_nom": "Atteindre ses buts personnels",
+          "axe": "COG",
+          "indicateurs_reussite": [
+            "Mes affaires sont sur la table avant que le cours commence",
+            "Je suis prêt à travailler"
+          ],
+          "difficulte": 1,
+          "contextes": ["Scolaire"]
+        },
+        {
+          "id": "POS-004",
+          "texte_simple": "Regarder la personne qui me parle",
+          "texte_pro": "Maintenir un contact visuel respectueux dans la communication (S1.2)",
+          "emoji": "👁️",
+          "cps_code": "S1.2",
+          "cps_nom": "Communiquer de façon empathique",
+          "axe": "SOC",
+          "indicateurs_reussite": [
+            "Je regarde mon interlocuteur",
+            "Je montre que j'écoute"
+          ],
+          "difficulte": 1,
+          "contextes": ["Scolaire", "PFMP"]
+        },
+        {
+          "id": "POS-005",
+          "texte_simple": "Rester calme quand on me fait une remarque",
+          "texte_pro": "Accueillir les remarques avec maîtrise émotionnelle (E2.3, S2.1)",
+          "emoji": "😌",
+          "cps_code": "E2.3",
+          "cps_nom": "Gérer son stress",
+          "axe": "EMO",
+          "indicateurs_reussite": [
+            "J'écoute la remarque sans répondre de façon agressive",
+            "Je prends en compte ce qu'on me dit"
+          ],
+          "difficulte": 2,
+          "contextes": ["Scolaire", "PFMP"]
+        },
+        {
+          "id": "POS-006",
+          "texte_simple": "Accepter de changer de place si le professeur me le demande",
+          "texte_pro": "Accepter les décisions de l'autorité avec respect (S2.1)",
+          "emoji": "🔀",
+          "cps_code": "S2.1",
+          "cps_nom": "S'affirmer et résister à la pression",
+          "axe": "SOC",
+          "indicateurs_reussite": [
+            "Je change de place sans protester",
+            "Je comprends que c'est pour mon bien"
+          ],
+          "difficulte": 2,
+          "contextes": ["Scolaire"]
+        }
+      ]
+    }
+  ],
+
+  "statistiques": {
+    "total_objectifs": 75,
+    "par_axe": {
+      "COG": 42,
+      "EMO": 12,
+      "SOC": 21
+    },
+    "par_difficulte": {
+      "1": 28,
+      "2": 38,
+      "3": 9
+    },
+    "par_contexte": {
+      "Scolaire": 58,
+      "PFMP": 22,
+      "Recherche": 12,
+      "Autre": 8
+    }
+  }
+}
