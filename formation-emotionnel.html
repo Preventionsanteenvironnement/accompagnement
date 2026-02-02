@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Formation Émotionnelle — Mon Objectif</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#faf9f7;--surface:#fff;--border:rgba(0,0,0,.06);--text:#1a1a2e;--text2:#64748b;--text3:#94a3b8;--primary:#6366f1;--primary-light:#eef2ff;--cog:#3b82f6;--cog-bg:rgba(59,130,246,.08);--emo:#f43f5e;--emo-bg:rgba(244,63,94,.08);--soc:#8b5cf6;--soc-bg:rgba(139,92,246,.08);--success:#10b981;--danger:#ef4444;--warn:#f59e0b;--radius:16px;--radius-sm:12px;--shadow:0 2px 8px rgba(0,0,0,.04);--shadow-lg:0 8px 30px rgba(0,0,0,.08);--ease:cubic-bezier(.4,0,.2,1);--font:'Outfit',system-ui,sans-serif}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh}
+.page-header{background:var(--surface);padding:14px 20px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
+.back-btn{width:36px;height:36px;border-radius:10px;border:none;background:var(--bg);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;text-decoration:none;color:var(--text)}
+.page-title{font-weight:800;font-size:.95rem;flex:1}
+.page-code{font-size:.6rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px}
+.page-body{max-width:520px;margin:0 auto;padding:20px 16px 80px}
+.hero{text-align:center;padding:28px 20px;border-radius:var(--radius);margin-bottom:20px}
+.hero-emoji{font-size:3rem;margin-bottom:8px}
+.hero-title{font-weight:800;font-size:1.2rem;margin-bottom:4px}
+.hero-sub{font-size:.82rem;color:var(--text2);line-height:1.5}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:12px;box-shadow:var(--shadow)}
+.card-title{font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.card h4{font-size:.88rem;font-weight:800;margin-bottom:8px}
+.card p{font-size:.82rem;color:var(--text2);line-height:1.6}
+.tag{display:inline-flex;padding:5px 12px;border-radius:8px;font-size:.72rem;font-weight:700;margin:0 4px 6px 0}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;text-align:center}
+.stat-val{font-weight:800;font-size:1.4rem}
+.stat-lbl{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);margin-top:3px}
+.accordion{margin-bottom:8px}
+.acc-head{width:100%;text-align:left;padding:14px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);font-family:var(--font);font-weight:700;font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:all .15s}
+.acc-head:hover{border-color:var(--primary);box-shadow:var(--shadow)}
+.acc-head .arrow{transition:transform .2s;font-size:.7rem;color:var(--text3)}
+.acc-head.open .arrow{transform:rotate(90deg)}
+.acc-body{display:none;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-top:none;border-radius:0 0 var(--radius-sm) var(--radius-sm)}
+.acc-body.open{display:block}
+.spe-item{padding:10px 0;border-bottom:1px solid var(--border)}
+.spe-item:last-child{border-bottom:none}
+.spe-name{font-weight:700;font-size:.82rem;margin-bottom:4px}
+.spe-desc{font-size:.72rem;color:var(--text3)}
+.obj-chip{display:inline-block;padding:5px 12px;background:var(--bg);border-radius:8px;font-size:.72rem;font-weight:600;color:var(--text2);margin:2px 3px 2px 0}
+.goal-mini{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.goal-mini .gm-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.goal-mini .gm-title{font-weight:700;font-size:.78rem;flex:1}
+.goal-mini .gm-badge{font-size:.6rem;font-weight:800;padding:2px 6px;border-radius:4px}
+.empty{text-align:center;color:var(--text3);font-size:.8rem;font-style:italic;padding:20px 0}
+.section-h{font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);margin:20px 0 10px;display:flex;align-items:center;gap:6px}
+.resource-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .15s}
+.resource-card:hover{box-shadow:var(--shadow);transform:translateY(-1px)}
+.resource-card .rc-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.resource-card .rc-name{font-weight:700;font-size:.8rem}
+.resource-card .rc-sub{font-size:.68rem;color:var(--text3)}
+.placeholder-box{background:linear-gradient(135deg,rgba(99,102,241,.04),rgba(139,92,246,.04));border:2px dashed rgba(99,102,241,.15);border-radius:var(--radius);padding:28px 20px;text-align:center;margin-bottom:12px}
+.placeholder-box .pb-icon{font-size:2rem;margin-bottom:8px}
+.placeholder-box p{font-size:.8rem;color:var(--text3);line-height:1.5}
+.ref-footer{font-size:.65rem;color:var(--text3);text-align:center;margin-top:24px;font-style:italic;padding:12px;border-top:1px solid var(--border)}
+.hero{background:linear-gradient(135deg,rgba(244,63,94,.08),rgba(244,63,94,.02))}
+</style>
+</head>
+<body>
+<header class="page-header">
+  <a class="back-btn" onclick="goBack()">←</a>
+  <span class="page-title">❤️ Émotionnel — Se former</span>
+  <span class="page-code" id="page-code">—</span>
+</header>
+<div class="page-body">
+  <div class="hero">
+    <div class="hero-emoji">❤️</div>
+    <div class="hero-title">Le domaine Émotionnel</div>
+    <div class="hero-sub">Apprendre à reconnaître, comprendre et gérer ses émotions pour mieux vivre au quotidien.</div>
+  </div>
+
+  <div id="my-stats"></div>
+
+  <div class="card">
+    <h4>💡 C'est quoi exactement ?</h4>
+    <p>Le domaine émotionnel, c'est tout ce qui concerne ce que tu ressens — la joie, la colère, la peur, la tristesse, la surprise — et ce que tu fais de ces émotions.</p>
+    <p style="margin-top:8px"><strong>Reconnaître</strong> — mettre un mot sur ce que tu ressens, identifier les signaux dans ton corps (boule au ventre, mains moites, cœur qui bat).</p>
+    <p><strong>Comprendre</strong> — savoir pourquoi tu ressens ça, quelle situation a déclenché l'émotion.</p>
+    <p><strong>Exprimer</strong> — dire ce que tu ressens sans exploser ni te renfermer.</p>
+    <p><strong>Réguler</strong> — trouver des stratégies pour calmer une émotion trop forte (respiration, pause, mouvement).</p>
+  </div>
+
+  <div class="card">
+    <h4>📖 Mots-clés</h4>
+    <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">
+      <span class="tag" style="background:var(--emo-bg);color:var(--emo)">Émotions</span>
+      <span class="tag" style="background:var(--emo-bg);color:var(--emo)">Stress</span>
+      <span class="tag" style="background:var(--emo-bg);color:var(--emo)">Régulation</span>
+      <span class="tag" style="background:var(--emo-bg);color:var(--emo)">Empathie</span>
+      <span class="tag" style="background:var(--emo-bg);color:var(--emo)">Résilience</span>
+      <span class="tag" style="background:var(--emo-bg);color:var(--emo)">Conscience émotionnelle</span>
+      <span class="tag" style="background:var(--emo-bg);color:var(--emo)">Bien-être</span>
+      <span class="tag" style="background:var(--emo-bg);color:var(--emo)">Confiance en soi</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h4>🎯 Les 6 émotions primaires</h4>
+    <p style="margin-bottom:8px">Tu les utilises chaque jour dans ta météo émotionnelle :</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;text-align:center">
+      <div style="padding:10px;background:rgba(16,185,129,.06);border-radius:10px"><div style="font-size:1.4rem">😊</div><div style="font-size:.72rem;font-weight:700;margin-top:2px">Joie</div></div>
+      <div style="padding:10px;background:rgba(59,130,246,.06);border-radius:10px"><div style="font-size:1.4rem">😢</div><div style="font-size:.72rem;font-weight:700;margin-top:2px">Tristesse</div></div>
+      <div style="padding:10px;background:rgba(239,68,68,.06);border-radius:10px"><div style="font-size:1.4rem">😠</div><div style="font-size:.72rem;font-weight:700;margin-top:2px">Colère</div></div>
+      <div style="padding:10px;background:rgba(245,158,11,.06);border-radius:10px"><div style="font-size:1.4rem">😰</div><div style="font-size:.72rem;font-weight:700;margin-top:2px">Peur</div></div>
+      <div style="padding:10px;background:rgba(139,92,246,.06);border-radius:10px"><div style="font-size:1.4rem">😲</div><div style="font-size:.72rem;font-weight:700;margin-top:2px">Surprise</div></div>
+      <div style="padding:10px;background:rgba(107,114,128,.06);border-radius:10px"><div style="font-size:1.4rem">😖</div><div style="font-size:.72rem;font-weight:700;margin-top:2px">Dégoût</div></div>
+    </div>
+    <p style="margin-top:8px;font-size:.72rem;color:var(--text3)">Chaque émotion a un rôle : la peur te protège, la colère signale une injustice, la tristesse aide à ralentir. Aucune émotion n'est "mauvaise".</p>
+  </div>
+
+  <div class="section-h">📚 Les compétences en détail</div>
+  <div id="competences-list"></div>
+
+  <div class="section-h">⏳ Mes objectifs émotionnels</div>
+  <div id="my-goals"></div>
+
+  <div class="section-h">🔗 Ressources et exercices</div>
+  <div class="placeholder-box">
+    <div class="pb-icon">🌬</div>
+    <p>Des exercices de respiration, de gestion du stress et de conscience émotionnelle seront ajoutés ici.<br><br>En attendant, utilise l'exercice de Respiration sur la page d'accueil !</p>
+  </div>
+
+  <div class="ref-footer">Référentiel des compétences psychosociales — Santé publique France</div>
+</div>
+
+<script>
+const firebaseConfig={apiKey:"AIzaSyAWdCMvOiAJln3eT9LIAQD3RWJUD0IQcLI",authDomain:"devoirs-pse.firebaseapp.com",databaseURL:"https://devoirs-pse-default-rtdb.europe-west1.firebasedatabase.app",projectId:"devoirs-pse",storageBucket:"devoirs-pse.appspot.com",messagingSenderId:"614730413904",appId:"1:614730413904:web:a5dd478af5de30f6bede55"};
+firebase.initializeApp(firebaseConfig);const db=firebase.database();
+const userCode=new URLSearchParams(window.location.search).get('id')||'';
+document.getElementById('page-code').textContent=userCode||'—';
+function getAx(g){var t=(g.type||g.domaine||'').toUpperCase();return t.includes('COG')?'COG':t.includes('EMO')?'EMO':t.includes('SOC')?'SOC':'NEU'}
+function dateFr(d){if(!d)return'—';return new Date(d).toLocaleDateString('fr-FR',{day:'numeric',month:'short'})}
+function daysLeft(d){if(!d)return null;var t=new Date();t.setHours(0,0,0,0);var x=new Date(d);x.setHours(0,0,0,0);return Math.ceil((x-t)/864e5)}
+function goBack(){var id=userCode?'?id='+userCode:'';window.location.href='index.html'+id}
+// Accordion toggle
+document.addEventListener('click',function(e){var head=e.target.closest('.acc-head');if(!head)return;head.classList.toggle('open');var body=head.nextElementSibling;if(body)body.classList.toggle('open')});
+
+var AX='EMO';
+db.ref('accompagnement/eleves/'+userCode).on('value',function(snap){
+  var data=snap.val()||{};var goals=data.objectifs||{};
+  var mine=Object.entries(goals).filter(function(e){return getAx(e[1])===AX});
+  var doneC=mine.filter(function(e){return e[1].done}).length;
+  var activeC=mine.filter(function(e){return!e[1].done}).length;
+  document.getElementById('my-stats').innerHTML='<div class="stats-grid"><div class="stat"><div class="stat-val" style="color:var(--emo)">'+mine.length+'</div><div class="stat-lbl">Total</div></div><div class="stat"><div class="stat-val" style="color:var(--success)">'+doneC+'</div><div class="stat-lbl">Validés</div></div><div class="stat"><div class="stat-val" style="color:var(--warn)">'+activeC+'</div><div class="stat-lbl">En cours</div></div></div>';
+  var goalsHtml='';
+  if(!mine.length)goalsHtml='<div class="empty">Pas encore d\'objectif émotionnel</div>';
+  else mine.forEach(function(e){var g=e[1];var dl=daysLeft(g.date_cible);var badge=g.done?'<span class="gm-badge" style="background:rgba(16,185,129,.1);color:var(--success)">Validé</span>':'<span class="gm-badge" style="background:rgba(245,158,11,.1);color:var(--warn)">'+(dl!==null&&dl>=0?'J-'+dl:'En cours')+'</span>';
+    goalsHtml+='<div class="goal-mini"><span class="gm-dot" style="background:var(--emo)"></span><span class="gm-title">'+(g.titre||'')+'</span>'+badge+'</div>'});
+  document.getElementById('my-goals').innerHTML=goalsHtml;
+});
+fetch('data/bibliotheque/scolaire.json').then(function(r){return r.json()}).then(function(data){
+  var dom=data.domaine_emotionnel;if(!dom)return;var html='';
+  (dom.categories||[]).forEach(function(cat){
+    (cat.competences_generales||[]).forEach(function(gen){
+      html+='<div class="accordion"><button class="acc-head"><span style="color:var(--emo)">'+gen.nom_gen+'</span><span class="arrow">▶</span></button><div class="acc-body">';
+      (gen.competences_specifiques||[]).forEach(function(spe){
+        html+='<div class="spe-item"><div class="spe-name">'+spe.nom_spe+'</div><div style="margin-top:4px">';
+        (spe.objectifs_eleve||[]).forEach(function(o){html+='<span class="obj-chip">'+o.texte+'</span>'});
+        html+='</div></div>'});
+      html+='</div></div>'});
+  });
+  document.getElementById('competences-list').innerHTML=html;
+});
+</script>
+</body>
+</html>
