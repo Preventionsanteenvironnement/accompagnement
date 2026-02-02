@@ -14,20 +14,35 @@
 :root{--bg:#faf9f7;--surface:#fff;--border:rgba(0,0,0,.06);--text:#1a1a2e;--text2:#64748b;--text3:#94a3b8;--primary:#6366f1;--primary-light:#eef2ff;--cog:#3b82f6;--cog-bg:rgba(59,130,246,.08);--emo:#f43f5e;--emo-bg:rgba(244,63,94,.08);--soc:#8b5cf6;--soc-bg:rgba(139,92,246,.08);--success:#10b981;--danger:#ef4444;--warn:#f59e0b;--radius:16px;--radius-sm:12px;--shadow:0 2px 8px rgba(0,0,0,.04);--shadow-lg:0 8px 30px rgba(0,0,0,.08);--ease:cubic-bezier(.4,0,.2,1);--font:'Outfit',system-ui,sans-serif}
 html,body{height:100%;overflow:hidden}
 body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex;flex-direction:column}
-.loader-screen{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(160deg,#6366f1 0%,#8b5cf6 40%,#f43f5e 100%)}
-.loader-screen .logo{width:80px;height:80px;border-radius:24px;background:rgba(255,255,255,.15);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;font-size:2.2rem;color:#fff;margin-bottom:20px;animation:logoPulse 2s ease infinite}
-@keyframes logoPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
-.loader-screen h1{color:#fff;font-weight:800;font-size:1.4rem}
-.loader-screen p{color:rgba(255,255,255,.6);font-size:.8rem;margin-top:6px}
-.loader-dots{display:flex;gap:6px;margin-top:28px}
-.loader-dots span{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3);animation:dotB .6s ease infinite alternate}
-.loader-dots span:nth-child(2){animation-delay:.2s}
-.loader-dots span:nth-child(3){animation-delay:.4s}
-@keyframes dotB{to{background:#fff;transform:translateY(-4px)}}
+
+/* ── Welcome Screen (instant, no Firebase) ── */
+.welcome-screen{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg);padding:40px 24px;text-align:center}
+.welcome-content{width:100%;max-width:340px}
+.welcome-logo{width:80px;height:80px;border-radius:24px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:2.2rem;color:#fff;margin:0 auto 24px;box-shadow:0 8px 32px rgba(99,102,241,.25)}
+.welcome-brand{font-size:1.7rem;font-weight:800;color:var(--text);letter-spacing:-.5px;line-height:1.2}
+.welcome-brand span{color:var(--primary)}
+.welcome-sub{color:var(--text2);font-size:.85rem;margin-top:6px;margin-bottom:36px;font-weight:500}
+.welcome-form{width:100%}
+.welcome-input{width:100%;padding:15px 18px;border:2px solid rgba(0,0,0,.08);border-radius:14px;font-family:var(--font);font-size:1.1rem;font-weight:700;text-align:center;letter-spacing:3px;text-transform:uppercase;outline:none;transition:border-color .2s,box-shadow .2s;background:var(--surface);margin-bottom:12px}
+.welcome-input:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(99,102,241,.1)}
+.welcome-input::placeholder{letter-spacing:0;text-transform:none;font-weight:500;color:var(--text3)}
+.welcome-btn{width:100%;padding:15px;background:linear-gradient(135deg,var(--primary),var(--soc));color:#fff;border:none;border-radius:14px;font-family:var(--font);font-weight:800;font-size:.9rem;cursor:pointer;transition:transform .15s,box-shadow .15s,opacity .15s}
+.welcome-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(99,102,241,.3)}
+.welcome-btn:active{transform:translateY(0)}
+.welcome-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.welcome-btn .btn-spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.welcome-error{color:var(--danger);font-size:.78rem;font-weight:600;margin-top:12px;min-height:20px}
+.welcome-footer{margin-top:48px;font-size:.7rem;color:var(--text3);font-weight:500}
+
+/* ── Denied Screen ── */
 .denied-screen{position:fixed;inset:0;z-index:9998;display:none;flex-direction:column;align-items:center;justify-content:center;background:var(--bg);padding:40px;text-align:center}
 .denied-screen .denied-icon{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#fef3c7,#fde68a);display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin-bottom:24px}
 .denied-screen h2{font-size:1.2rem;font-weight:800;margin-bottom:10px}
 .denied-screen p{color:var(--text2);font-size:.85rem;max-width:300px;line-height:1.6}
+.denied-retry{margin-top:24px;padding:10px 24px;background:var(--surface);border:1px solid var(--border);border-radius:999px;font-family:var(--font);font-weight:700;font-size:.8rem;color:var(--text2);cursor:pointer;transition:all .15s}
+.denied-retry:hover{background:var(--primary-light);color:var(--primary);border-color:rgba(99,102,241,.2)}
+
 .app-header{background:var(--surface);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);flex-shrink:0;z-index:10}
 .header-left .h-code{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3)}
 .header-left .h-date{font-size:.95rem;font-weight:700;color:var(--text);margin-top:2px}
@@ -189,8 +204,31 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex
 </style>
 </head>
 <body>
-<div class="loader-screen" id="loader"><div class="logo">◈</div><h1>Mon Objectif</h1><p>Chargement…</p><div class="loader-dots"><span></span><span></span><span></span></div></div>
-<div class="denied-screen" id="access-denied"><div class="denied-icon">⏳</div><h2>Ton espace n'est pas encore actif</h2><p>Ton enseignant doit d'abord activer ton accès.</p></div>
+
+<!-- ═══ WELCOME SCREEN (instant, zero Firebase) ═══ -->
+<div class="welcome-screen" id="welcome">
+  <div class="welcome-content">
+    <div class="welcome-logo">◈</div>
+    <h1 class="welcome-brand">mon<span>objectif</span>.fr</h1>
+    <p class="welcome-sub">Bienvenue sur ton espace personnel</p>
+    <div class="welcome-form">
+      <input type="text" class="welcome-input" id="code-input" placeholder="Entre ton code" maxlength="8" autocomplete="off" spellcheck="false" autofocus>
+      <button class="welcome-btn" id="code-btn" onclick="submitCode()">Accéder à mon espace</button>
+    </div>
+    <p class="welcome-error" id="welcome-error"></p>
+    <p class="welcome-footer">Espace sécurisé · Code fourni par ton enseignant</p>
+  </div>
+</div>
+
+<!-- ═══ DENIED SCREEN (dynamic messages) ═══ -->
+<div class="denied-screen" id="access-denied">
+  <div class="denied-icon" id="denied-icon">⏳</div>
+  <h2 id="denied-title">Ton espace n'est pas encore actif</h2>
+  <p id="denied-msg">Ton enseignant doit d'abord activer ton accès.</p>
+  <button class="denied-retry" onclick="backToWelcome()">← Réessayer</button>
+</div>
+
+<!-- ═══ APP ═══ -->
 <div id="app" style="display:none">
   <header class="app-header"><div class="header-left"><div class="h-code" id="display-code">—</div><div class="h-date" id="h-date"></div></div><button class="header-btn" onclick="openBreathing()">🌬 Respiration</button></header>
   <div class="app-content"><div class="app-container">
@@ -229,7 +267,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex
 <script>
 const firebaseConfig={apiKey:"AIzaSyAWdCMvOiAJln3eT9LIAQD3RWJUD0IQcLI",authDomain:"devoirs-pse.firebaseapp.com",databaseURL:"https://devoirs-pse-default-rtdb.europe-west1.firebasedatabase.app",projectId:"devoirs-pse",storageBucket:"devoirs-pse.appspot.com",messagingSenderId:"614730413904",appId:"1:614730413904:web:a5dd478af5de30f6bede55"};
 firebase.initializeApp(firebaseConfig);const db=firebase.database();
-let userCode=new URLSearchParams(window.location.search).get('id');
+let userCode=null;
 let userData={objectifs:{},meteo:{}},draft={},currentEditId=null,breathInterval=null,attestChart=null,contextData={},wizMode='competence';
 const MATIERES=["Français","Mathématiques","Anglais LV1","Espagnol LV2","Histoire-Géographie / EMC","Économie-Droit","Enseignement professionnel","Prévention Santé Environnement","PSE","Arts appliqués","EPS","DNL","Soutien au parcours","Professeur absent","Projet","Sortie","Travail personnel"];
 const EMOTIONS={"Joie":{emoji:"😊",subs:["À l'aise","Amoureux","Content","Excité","Satisfait","Serein","Enjoué","Enthousiaste"]},"Tristesse":{emoji:"😢",subs:["Abattu","Accablé","Affecté","Affligé","Anéanti","Blessé","Chagriné","Mélancolique"]},"Colère":{emoji:"😠",subs:["Agacé","Agité","Agressif","Contrarié","Enragé","Furieux","Haineux"]},"Peur":{emoji:"😰",subs:["Angoissé","Anxieux","Craintif","Effrayé","Méfiant","Insécure","Indécis","Inquiet"]},"Surprise":{emoji:"😲",subs:["Ébahi","Étonné","Émerveillé","Troublé","Insécure","Secoué","Stupéfait"]},"Dégoût":{emoji:"😖",subs:["Aigri","Amer","Antipathique","Aversion","Blessé","Écœuré","Mépris"]}};
@@ -247,16 +285,125 @@ async function loadContext(key){if(contextData[key])return contextData[key];try{
 function addHistory(k,action){db.ref('accompagnement/eleves/'+userCode+'/objectifs/'+k+'/historique').push({action,date:new Date().toISOString()})}
 function renderHistory(g){const h=g.historique?Object.values(g.historique).sort((a,b)=>new Date(b.date)-new Date(a.date)):[];const entries=[{action:'Créé',date:g.created||''},...h];return entries.map(e=>'<div class="mh-entry"><span class="mh-dot"></span><span class="mh-text">'+dateFr(e.date)+' — '+e.action+'</span></div>').join('')}
 
-// INIT
+// ══════════════════════════════════════════
+// INIT — Welcome screen (zero Firebase)
+// ══════════════════════════════════════════
+var authListener=null;
 window.addEventListener('load',function(){
   var now=new Date();var jours=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];var mois=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
   document.getElementById('h-date').textContent=jours[now.getDay()]+' '+now.getDate()+' '+mois[now.getMonth()];
-  setTimeout(function(){
-    document.getElementById('loader').style.display='none';
-    if(!userCode){userCode='KA47';document.getElementById('display-code').textContent='KA47';showApp();loadData();return}
-    db.ref('accompagnement/autorisations/'+userCode).on('value',function(snap){var d=snap.val();if(d&&d.autorise===true){document.getElementById('access-denied').style.display='none';document.getElementById('display-code').textContent=userCode;showApp();loadData()}else{document.getElementById('app').style.display='none';document.getElementById('access-denied').style.display='flex'}});
-  },1400);
+  // Enter key on code input
+  document.getElementById('code-input').addEventListener('keydown',function(e){if(e.key==='Enter')submitCode()});
+  // Backward compat: auto-submit if ?id= in URL
+  var urlCode=new URLSearchParams(window.location.search).get('id');
+  if(urlCode){
+    document.getElementById('code-input').value=urlCode;
+    submitCode();
+  }
 });
+
+function submitCode(){
+  var input=document.getElementById('code-input');
+  var btn=document.getElementById('code-btn');
+  var err=document.getElementById('welcome-error');
+  var code=input.value.trim().toUpperCase();
+  if(!code||code.length<2){err.textContent='Entre ton code pour continuer.';return}
+  // Loading state
+  err.textContent='';
+  btn.disabled=true;
+  btn.innerHTML='<span class="btn-spinner"></span> Vérification…';
+  // Check authorization in Firebase
+  db.ref('accompagnement/autorisations/'+code).once('value',function(snap){
+    var auth=snap.val();
+    if(!auth||auth.autorise!==true){
+      btn.disabled=false;btn.textContent='Accéder à mon espace';
+      if(!auth){showDenied('unknown')}else{showDenied('not-authorized')}
+      return;
+    }
+    // Authorized — now check schedule
+    checkSchedule(code,auth,function(allowed){
+      if(!allowed){
+        btn.disabled=false;btn.textContent='Accéder à mon espace';
+        showDenied('outside-hours');
+        return;
+      }
+      // SUCCESS — grant access
+      userCode=code;
+      window.history.replaceState({},'','?id='+code);
+      document.getElementById('welcome').style.display='none';
+      document.getElementById('access-denied').style.display='none';
+      document.getElementById('display-code').textContent=code;
+      showApp();
+      loadData();
+      // Real-time listener for ongoing auth changes
+      if(authListener)db.ref('accompagnement/autorisations/'+code).off('value',authListener);
+      authListener=db.ref('accompagnement/autorisations/'+code).on('value',function(s){
+        var d=s.val();
+        if(!d||d.autorise!==true){
+          document.getElementById('app').style.display='none';
+          showDenied('not-authorized');
+        }
+      });
+    });
+  });
+}
+
+function checkSchedule(code,auth,callback){
+  // Individual schedule takes priority
+  if(auth.horaires){callback(isWithinSchedule(auth.horaires));return}
+  // Otherwise check global schedule
+  db.ref('accompagnement/config/horaires_global').once('value',function(snap){
+    var global=snap.val();
+    if(!global){callback(true);return}// No schedule = always allowed
+    callback(isWithinSchedule(global));
+  });
+}
+
+function isWithinSchedule(horaires){
+  var joursRef=['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
+  var now=new Date();
+  var jour=joursRef[now.getDay()];
+  var schedule=horaires[jour];
+  if(!schedule||!schedule.actif)return false;
+  var currentMinutes=now.getHours()*60+now.getMinutes();
+  var parts=schedule.debut.split(':');
+  var debutMinutes=parseInt(parts[0])*60+parseInt(parts[1]);
+  parts=schedule.fin.split(':');
+  var finMinutes=parseInt(parts[0])*60+parseInt(parts[1]);
+  return currentMinutes>=debutMinutes&&currentMinutes<=finMinutes;
+}
+
+function showDenied(reason){
+  var icon=document.getElementById('denied-icon');
+  var title=document.getElementById('denied-title');
+  var msg=document.getElementById('denied-msg');
+  if(reason==='unknown'){
+    icon.textContent='🔍';
+    title.textContent='Code non reconnu';
+    msg.textContent='Vérifie ton code et réessaie. Il t\u2019a été donné par ton enseignant.';
+  }else if(reason==='outside-hours'){
+    icon.textContent='🕐';
+    title.textContent='Accès fermé pour le moment';
+    msg.textContent='L\u2019espace est disponible uniquement pendant les horaires définis par ton enseignant. Reviens plus tard\u00a0!';
+  }else{
+    icon.textContent='⏳';
+    title.textContent='Ton espace n\u2019est pas encore actif';
+    msg.textContent='Ton enseignant doit d\u2019abord activer ton accès.';
+  }
+  document.getElementById('welcome').style.display='none';
+  document.getElementById('access-denied').style.display='flex';
+}
+
+function backToWelcome(){
+  document.getElementById('access-denied').style.display='none';
+  document.getElementById('welcome').style.display='flex';
+  document.getElementById('code-input').value='';
+  document.getElementById('code-input').focus();
+  document.getElementById('welcome-error').textContent='';
+  // Clear ?id= from URL
+  window.history.replaceState({},'',window.location.pathname);
+}
+
 function showApp(){var a=document.getElementById('app');a.style.display='flex';a.style.flexDirection='column';a.style.height='100vh'}
 function loadData(){db.ref('accompagnement/eleves/'+userCode).on('value',function(snap){userData=snap.val()||{};if(!userData.objectifs)userData.objectifs={};if(!userData.meteo)userData.meteo={};render();checkMood()})}
 
