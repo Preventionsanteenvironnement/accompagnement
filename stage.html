@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Stage & PFMP — Mon Objectif</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#faf9f7;--surface:#fff;--border:rgba(0,0,0,.06);--text:#1a1a2e;--text2:#64748b;--text3:#94a3b8;--primary:#6366f1;--primary-light:#eef2ff;--cog:#3b82f6;--cog-bg:rgba(59,130,246,.08);--emo:#f43f5e;--emo-bg:rgba(244,63,94,.08);--soc:#8b5cf6;--soc-bg:rgba(139,92,246,.08);--success:#10b981;--danger:#ef4444;--warn:#f59e0b;--radius:16px;--radius-sm:12px;--shadow:0 2px 8px rgba(0,0,0,.04);--shadow-lg:0 8px 30px rgba(0,0,0,.08);--ease:cubic-bezier(.4,0,.2,1);--font:'Outfit',system-ui,sans-serif}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh}
+.page-header{background:var(--surface);padding:14px 20px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
+.back-btn{width:36px;height:36px;border-radius:10px;border:none;background:var(--bg);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;text-decoration:none;color:var(--text)}
+.page-title{font-weight:800;font-size:.95rem;flex:1}
+.page-code{font-size:.6rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px}
+.page-body{max-width:520px;margin:0 auto;padding:20px 16px 80px}
+.hero{text-align:center;padding:28px 20px;border-radius:var(--radius);margin-bottom:20px}
+.hero-emoji{font-size:3rem;margin-bottom:8px}
+.hero-title{font-weight:800;font-size:1.2rem;margin-bottom:4px}
+.hero-sub{font-size:.82rem;color:var(--text2);line-height:1.5}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:12px;box-shadow:var(--shadow)}
+.card-title{font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.card h4{font-size:.88rem;font-weight:800;margin-bottom:8px}
+.card p{font-size:.82rem;color:var(--text2);line-height:1.6}
+.tag{display:inline-flex;padding:5px 12px;border-radius:8px;font-size:.72rem;font-weight:700;margin:0 4px 6px 0}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;text-align:center}
+.stat-val{font-weight:800;font-size:1.4rem}
+.stat-lbl{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);margin-top:3px}
+.accordion{margin-bottom:8px}
+.acc-head{width:100%;text-align:left;padding:14px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);font-family:var(--font);font-weight:700;font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:all .15s}
+.acc-head:hover{border-color:var(--primary);box-shadow:var(--shadow)}
+.acc-head .arrow{transition:transform .2s;font-size:.7rem;color:var(--text3)}
+.acc-head.open .arrow{transform:rotate(90deg)}
+.acc-body{display:none;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-top:none;border-radius:0 0 var(--radius-sm) var(--radius-sm)}
+.acc-body.open{display:block}
+.spe-item{padding:10px 0;border-bottom:1px solid var(--border)}
+.spe-item:last-child{border-bottom:none}
+.spe-name{font-weight:700;font-size:.82rem;margin-bottom:4px}
+.spe-desc{font-size:.72rem;color:var(--text3)}
+.obj-chip{display:inline-block;padding:5px 12px;background:var(--bg);border-radius:8px;font-size:.72rem;font-weight:600;color:var(--text2);margin:2px 3px 2px 0}
+.goal-mini{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.goal-mini .gm-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.goal-mini .gm-title{font-weight:700;font-size:.78rem;flex:1}
+.goal-mini .gm-badge{font-size:.6rem;font-weight:800;padding:2px 6px;border-radius:4px}
+.empty{text-align:center;color:var(--text3);font-size:.8rem;font-style:italic;padding:20px 0}
+.section-h{font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);margin:20px 0 10px;display:flex;align-items:center;gap:6px}
+.resource-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .15s}
+.resource-card:hover{box-shadow:var(--shadow);transform:translateY(-1px)}
+.resource-card .rc-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.resource-card .rc-name{font-weight:700;font-size:.8rem}
+.resource-card .rc-sub{font-size:.68rem;color:var(--text3)}
+.placeholder-box{background:linear-gradient(135deg,rgba(99,102,241,.04),rgba(139,92,246,.04));border:2px dashed rgba(99,102,241,.15);border-radius:var(--radius);padding:28px 20px;text-align:center;margin-bottom:12px}
+.placeholder-box .pb-icon{font-size:2rem;margin-bottom:8px}
+.placeholder-box p{font-size:.8rem;color:var(--text3);line-height:1.5}
+.ref-footer{font-size:.65rem;color:var(--text3);text-align:center;margin-top:24px;font-style:italic;padding:12px;border-top:1px solid var(--border)}
+
+.stage-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:10px}
+.stage-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.stage-card-name{font-weight:800;font-size:.88rem}
+.stage-status{padding:4px 10px;border-radius:999px;font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.3px}
+.stage-status.contacte{background:rgba(59,130,246,.1);color:var(--cog)}
+.stage-status.relance{background:rgba(245,158,11,.1);color:var(--warn)}
+.stage-status.reponse{background:rgba(139,92,246,.1);color:var(--soc)}
+.stage-status.trouve{background:rgba(16,185,129,.1);color:var(--success)}
+.stage-meta{font-size:.72rem;color:var(--text3)}
+.stage-actions{display:flex;gap:6px;margin-top:8px}
+.stage-actions select{padding:5px 10px;border:1px solid var(--border);border-radius:8px;font-family:var(--font);font-size:.72rem;font-weight:700}
+.add-btn{width:100%;padding:14px;background:transparent;border:2px dashed rgba(99,102,241,.2);border-radius:var(--radius);font-family:var(--font);font-weight:700;font-size:.82rem;color:var(--primary);cursor:pointer;margin-bottom:12px}
+.add-btn:hover{background:var(--primary-light)}
+.tab-bar{display:flex;gap:0;background:var(--bg);border-radius:var(--radius-sm);padding:3px;margin-bottom:16px}
+.tab-btn{flex:1;padding:10px;border:none;border-radius:10px;font-family:var(--font);font-size:.72rem;font-weight:700;cursor:pointer;background:transparent;color:var(--text2);transition:all .15s;text-align:center}
+.tab-btn.active{background:var(--surface);color:var(--primary);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+
+</style>
+</head>
+<body>
+<header class="page-header">
+  <a class="back-btn" onclick="goBack()">←</a>
+  <span class="page-title">🏢 Stage & PFMP</span>
+  <span class="page-code" id="page-code">—</span>
+</header>
+<div class="page-body">
+  <div class="hero" style="background:linear-gradient(135deg,rgba(245,158,11,.06),rgba(16,185,129,.04))">
+    <div class="hero-emoji">🏢</div>
+    <div class="hero-title">Mon espace Stage</div>
+    <div class="hero-sub">Recherche de stage, suivi PFMP, objectifs professionnels et rapport de stage.</div>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('recherche',this)">🔍 Recherche</button>
+    <button class="tab-btn" onclick="switchTab('objectifs',this)">🎯 Objectifs</button>
+    <button class="tab-btn" onclick="switchTab('rapport',this)">📋 Rapport</button>
+  </div>
+
+  <!-- TAB: Recherche -->
+  <div id="tab-recherche">
+    <div class="section-h">📍 Mes pistes de stage</div>
+    <div id="stage-lieux"></div>
+    <button class="add-btn" onclick="addLieu()">+ Ajouter un lieu / entreprise</button>
+
+    <div class="card">
+      <h4>💡 Conseils pour chercher un stage</h4>
+      <p><strong>1. Cible bien</strong> — Choisis des entreprises en rapport avec ta formation.</p>
+      <p><strong>2. Prépare-toi</strong> — CV à jour, lettre de motivation adaptée, tenue correcte.</p>
+      <p><strong>3. Relance</strong> — Si pas de réponse après 1 semaine, rappelle ou repasse.</p>
+      <p><strong>4. Note tout</strong> — Ajoute chaque entreprise contactée ici pour ne rien oublier.</p>
+    </div>
+  </div>
+
+  <!-- TAB: Objectifs -->
+  <div id="tab-objectifs" style="display:none">
+    <div class="section-h">🎯 Objectifs PFMP / Stage</div>
+    <div id="stage-goals"></div>
+  </div>
+
+  <!-- TAB: Rapport -->
+  <div id="tab-rapport" style="display:none">
+    <div class="placeholder-box">
+      <div class="pb-icon">📋</div>
+      <p><strong>Rapport de stage numérique</strong><br><br>Tu pourras bientôt remplir ton rapport de stage directement ici, jour par jour. Chaque journée sera enregistrée et tu pourras générer un document complet à la fin de ton stage.<br><br>Fonctionnalité en préparation.</p>
+    </div>
+
+    <div class="card">
+      <h4>📝 Ce que contiendra ton rapport</h4>
+      <p>• Présentation de l'entreprise et du service</p>
+      <p>• Activités réalisées chaque jour</p>
+      <p>• Compétences développées (liées aux CPS)</p>
+      <p>• Bilan personnel et professionnel</p>
+      <p>• Validation par le tuteur (QR code)</p>
+    </div>
+  </div>
+
+  <div class="ref-footer">monobjectif.fr — Espace Stage & PFMP</div>
+</div>
+
+<script>
+const firebaseConfig={apiKey:"AIzaSyAWdCMvOiAJln3eT9LIAQD3RWJUD0IQcLI",authDomain:"devoirs-pse.firebaseapp.com",databaseURL:"https://devoirs-pse-default-rtdb.europe-west1.firebasedatabase.app",projectId:"devoirs-pse",storageBucket:"devoirs-pse.appspot.com",messagingSenderId:"614730413904",appId:"1:614730413904:web:a5dd478af5de30f6bede55"};
+firebase.initializeApp(firebaseConfig);const db=firebase.database();
+const userCode=new URLSearchParams(window.location.search).get('id')||'';
+document.getElementById('page-code').textContent=userCode||'—';
+function getAx(g){var t=(g.type||g.domaine||'').toUpperCase();return t.includes('COG')?'COG':t.includes('EMO')?'EMO':t.includes('SOC')?'SOC':'NEU'}
+function dateFr(d){if(!d)return'—';return new Date(d).toLocaleDateString('fr-FR',{day:'numeric',month:'short'})}
+function daysLeft(d){if(!d)return null;var t=new Date();t.setHours(0,0,0,0);var x=new Date(d);x.setHours(0,0,0,0);return Math.ceil((x-t)/864e5)}
+function goBack(){var id=userCode?'?id='+userCode:'';window.location.href='index.html'+id}
+// Accordion toggle
+document.addEventListener('click',function(e){var head=e.target.closest('.acc-head');if(!head)return;head.classList.toggle('open');var body=head.nextElementSibling;if(body)body.classList.toggle('open')});
+
+function switchTab(tab,btn){
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active')});
+  btn.classList.add('active');
+  ['recherche','objectifs','rapport'].forEach(function(t){document.getElementById('tab-'+t).style.display=t===tab?'block':'none'});
+}
+var STATUSES=['contacté','relancé','réponse reçue','stage trouvé'];
+var STATUS_CLS=['contacte','relance','reponse','trouve'];
+function renderLieux(data){
+  var lieux=data.stage_lieux||{};var keys=Object.keys(lieux);var el=document.getElementById('stage-lieux');
+  if(!keys.length){el.innerHTML='<div class="empty">Aucune piste ajoutée pour le moment</div>';return}
+  el.innerHTML=keys.map(function(k){var l=lieux[k];var sIdx=STATUSES.indexOf(l.statut||'contacté');
+    return '<div class="stage-card"><div class="stage-card-header"><div class="stage-card-name">'+(l.nom||'—')+'</div><span class="stage-status '+STATUS_CLS[sIdx>=0?sIdx:0]+'">'+(l.statut||'contacté')+'</span></div><div class="stage-meta">'+(l.ville||'Non précisé')+(l.created?' · Ajouté le '+dateFr(l.created):'')+'</div><div class="stage-actions"><select onchange="updateLieu(\''+k+'\',this.value)">'+STATUSES.map(function(s){return '<option value="'+s+'"'+(s===l.statut?' selected':'')+'>'+s+'</option>'}).join('')+'</select></div></div>'}).join('');
+}
+function renderStageGoals(data){
+  var goals=data.objectifs||{};var mine=Object.entries(goals).filter(function(e){return e[1].context==='PFMP'||e[1].context==='Recherche'});
+  var el=document.getElementById('stage-goals');
+  if(!mine.length){el.innerHTML='<div class="empty">Pas encore d\'objectif stage. Crée-en un depuis l\'accueil !</div>';return}
+  el.innerHTML=mine.map(function(e){var g=e[1];var dl=daysLeft(g.date_cible);
+    var badge=g.done?'<span class="gm-badge" style="background:rgba(16,185,129,.1);color:var(--success)">Validé</span>':'<span class="gm-badge" style="background:rgba(245,158,11,.1);color:var(--warn)">'+(dl!==null&&dl>=0?'J-'+dl:'En cours')+'</span>';
+    return '<div class="goal-mini"><span class="gm-dot" style="background:var(--warn)"></span><span class="gm-title">'+(g.titre||'')+'</span>'+badge+'</div>'}).join('');
+}
+db.ref('accompagnement/eleves/'+userCode).on('value',function(snap){
+  var data=snap.val()||{};if(!data.stage_lieux)data.stage_lieux={};renderLieux(data);renderStageGoals(data);
+});
+window.addLieu=function(){
+  var nom=prompt("Nom de l'entreprise ou du lieu ?");if(!nom)return;
+  var ville=prompt("Ville / zone ?");
+  db.ref('accompagnement/eleves/'+userCode+'/stage_lieux').push({nom:nom,ville:ville||'',statut:'contacté',created:new Date().toISOString()});
+};
+window.updateLieu=function(k,statut){db.ref('accompagnement/eleves/'+userCode+'/stage_lieux/'+k+'/statut').set(statut)};
+</script>
+</body>
+</html>
