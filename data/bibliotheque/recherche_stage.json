@@ -1,0 +1,241 @@
+{
+  "domaine_cognitif": {
+    "couleur": "#3b82f6",
+    "titre": "Stratégie et Organisation de la recherche (Cerveau)",
+    "categories": [
+      {
+        "code_cat": "C1",
+        "nom_cat": "Préparation et Analyse",
+        "competences_generales": [
+          {
+            "code_gen": "C1.A",
+            "nom_gen": "Se connaître et Cibler",
+            "competences_specifiques": [
+              {
+                "code_spe": "C1.1",
+                "nom_spe": "Accroître sa connaissance de soi (Ciblage)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Identifier mes points forts à mettre dans mon CV." },
+                  { "code_ref": "SF-2", "texte": "Savoir dire ce que je sais faire et ce que je veux apprendre." },
+                  { "code_ref": "SF-3", "texte": "Identifier mes contraintes (transport, horaires) pour cibler la zone géographique." }
+                ]
+              },
+              {
+                "code_spe": "C1.2",
+                "nom_spe": "Penser de façon critique (Sélection)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Vérifier l'activité de l'entreprise avant d'appeler (est-ce que ça correspond ?)." },
+                  { "code_ref": "SF-2", "texte": "Adapter mon CV et ma lettre en fonction de l'entreprise visée." }
+                ]
+              },
+              {
+                "code_spe": "C1.3",
+                "nom_spe": "Connaître ses buts (Projet pro)",
+                "objectifs_eleve": [
+                  { "code_ref": "S-1", "texte": "Choisir un stage qui m'aidera vraiment pour mon diplôme." },
+                  { "code_ref": "S-2", "texte": "Ne pas choisir une entreprise juste parce qu'elle est 'en bas de chez moi'." }
+                ]
+              },
+              {
+                "code_spe": "C1.5",
+                "nom_spe": "S'auto-évaluer positivement (Confiance)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Croire en mes capacités malgré un refus." },
+                  { "code_ref": "SF-2", "texte": "Identifier ce qui n'a pas marché dans un entretien pour faire mieux au prochain." }
+                ]
+              },
+              {
+                "code_spe": "C1.6",
+                "nom_spe": "Renforcer sa pleine attention (Focus recherche)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Consacrer 1h sans distraction à faire des recherches sur Internet." },
+                  { "code_ref": "SF-2", "texte": "Être totalement attentif lors d'un appel téléphonique (pas de bruit de fond)." }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "code_cat": "C2",
+        "nom_cat": "Organisation et Persévérance",
+        "competences_generales": [
+          {
+            "code_gen": "C2.A",
+            "nom_gen": "Planifier et Tenir bon",
+            "competences_specifiques": [
+              {
+                "code_spe": "C2.1",
+                "nom_spe": "Atteindre ses buts (Organisation)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Tenir un tableau de suivi (qui j'ai appelé, quand, réponse)." },
+                  { "code_ref": "SF-2", "texte": "Me fixer un objectif chiffré (ex: 3 appels ou 3 visites par jour)." },
+                  { "code_ref": "SF-3", "texte": "Imprimer et préparer mes CV la veille." }
+                ]
+              },
+              {
+                "code_spe": "C2.2",
+                "nom_spe": "Gérer ses impulsions (Patience)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Ne pas raccrocher précipitamment si on me fait patienter." },
+                  { "code_ref": "SF-2", "texte": "Ne pas s'énerver si on ne trouve pas l'adresse tout de suite." }
+                ]
+              },
+              {
+                "code_spe": "C2.3",
+                "nom_spe": "Résoudre des problèmes (Débrouillardise)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Trouver le nom du responsable si la secrétaire refuse de me le passer." },
+                  { "code_ref": "SF-2", "texte": "Trouver un autre moyen de transport si le bus est annulé." }
+                ]
+              },
+              {
+                "code_spe": "C2.4",
+                "nom_spe": "Savoir demander de l'aide (Réseau)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Oser demander à ma famille ou mes amis s'ils connaissent des entreprises." },
+                  { "code_ref": "SF-2", "texte": "Demander à mon prof de relire mon CV." }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "domaine_emotionnel": {
+    "couleur": "#ef4444",
+    "titre": "Gestion de la peur et Motivation (Cœur)",
+    "categories": [
+      {
+        "code_cat": "E1",
+        "nom_cat": "Conscience émotionnelle face à la recherche",
+        "competences_generales": [
+          {
+            "code_gen": "E1.A",
+            "nom_gen": "Identifier ses freins",
+            "competences_specifiques": [
+              {
+                "code_spe": "E1.1",
+                "nom_spe": "Comprendre les émotions (Peur du refus)",
+                "objectifs_eleve": [
+                  { "code_ref": "S-1", "texte": "Comprendre que ma peur de téléphoner est normale." },
+                  { "code_ref": "S-2", "texte": "Réaliser que le refus n'est pas contre moi personnellement." }
+                ]
+              },
+              {
+                "code_spe": "E1.2",
+                "nom_spe": "Identifier ses émotions",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Sentir quand je me décourage pour faire une pause utile." },
+                  { "code_ref": "SF-2", "texte": "Reconnaître mon stress avant d'entrer dans une entreprise." }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "code_cat": "E2",
+        "nom_cat": "Régulation émotionnelle en action",
+        "competences_generales": [
+          {
+            "code_gen": "E2.A",
+            "nom_gen": "Motivation et Gestion du stress",
+            "competences_specifiques": [
+              {
+                "code_spe": "E2.2",
+                "nom_spe": "Exprimer ses émotions (Motivation)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Montrer mon envie et mon sourire (même au téléphone, ça s'entend)." },
+                  { "code_ref": "SF-2", "texte": "Exprimer ma motivation sans paraître désespéré." }
+                ]
+              },
+              {
+                "code_spe": "E2.3",
+                "nom_spe": "Gérer son stress (Avant l'action)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Oser appuyer sur le bouton 'appel' malgré la boule au ventre." },
+                  { "code_ref": "SF-2", "texte": "Prendre une grande respiration avant de franchir la porte d'une entreprise." },
+                  { "code_ref": "SF-3", "texte": "Rester courtois même après un refus sec." }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "domaine_social": {
+    "couleur": "#10b981",
+    "titre": "Communication et Persuasion (Liens)",
+    "categories": [
+      {
+        "code_cat": "S1",
+        "nom_cat": "Communication de démarchage",
+        "competences_generales": [
+          {
+            "code_gen": "S1.A",
+            "nom_gen": "Se présenter et Convaincre",
+            "competences_specifiques": [
+              {
+                "code_spe": "S1.1",
+                "nom_spe": "Communiquer de façon efficace (Pitch)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Savoir me présenter en 3 phrases (Nom, Classe, But)." },
+                  { "code_ref": "SF-2", "texte": "Articuler et parler assez fort au téléphone." },
+                  { "code_ref": "SF-3", "texte": "Rédiger un mail de demande de stage sans fautes et avec les formules de politesse." }
+                ]
+              },
+              {
+                "code_spe": "S1.2",
+                "nom_spe": "Communiquer de façon empathique (Adaptation)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Ne pas insister si je vois que la personne est débordée (proposer de repasser)." },
+                  { "code_ref": "SF-2", "texte": "Éviter d'appeler pendant les heures de 'coup de feu' (restauration/commerce)." }
+                ]
+              },
+              {
+                "code_spe": "S1.3",
+                "nom_spe": "Développer des liens (Réseau)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Remercier la personne pour son temps, même si la réponse est non." },
+                  { "code_ref": "SF-2", "texte": "Laisser une bonne image pour pouvoir retenter ma chance plus tard." }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "code_cat": "S2",
+        "nom_cat": "Négociation et Audace",
+        "competences_generales": [
+          {
+            "code_gen": "S2.A",
+            "nom_gen": "Oser et Relancer",
+            "competences_specifiques": [
+              {
+                "code_spe": "S2.1",
+                "nom_spe": "S'affirmer (Audace)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Oser entrer dans une entreprise que je ne connais pas." },
+                  { "code_ref": "SF-2", "texte": "Oser rappeler (relancer) une entreprise qui ne m'a pas répondu." },
+                  { "code_ref": "SF-3", "texte": "Soutenir le regard de mon interlocuteur." }
+                ]
+              },
+              {
+                "code_spe": "S2.2",
+                "nom_spe": "Résoudre les conflits (Négociation)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Proposer d'autres dates si celles demandées ne conviennent pas." },
+                  { "code_ref": "SF-2", "texte": "Accepter un refus poliment sans claquer la porte." }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

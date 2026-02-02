@@ -1,0 +1,249 @@
+{
+  "domaine_cognitif": {
+    "couleur": "#3b82f6",
+    "titre": "Efficacité professionnelle et Sécurité (Cerveau)",
+    "categories": [
+      {
+        "code_cat": "C1",
+        "nom_cat": "Conscience professionnelle et Analyse",
+        "competences_generales": [
+          {
+            "code_gen": "C1.A",
+            "nom_gen": "Se connaître et Analyser",
+            "competences_specifiques": [
+              {
+                "code_spe": "C1.1",
+                "nom_spe": "Accroître sa connaissance de soi (Pro)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Identifier les tâches où je suis à l'aise et celles où je suis lent." },
+                  { "code_ref": "SF-3", "texte": "Repérer mes moments de fatigue dans la journée de travail." }
+                ]
+              },
+              {
+                "code_spe": "C1.2",
+                "nom_spe": "Penser de façon critique (Sécurité/Qualité)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-3", "texte": "Comprendre le 'pourquoi' d'une règle de sécurité." },
+                  { "code_ref": "SF-3", "texte": "Vérifier si mon travail correspond aux attentes du client/tuteur." }
+                ]
+              },
+              {
+                "code_spe": "C1.3",
+                "nom_spe": "Connaître ses valeurs et buts professionnels",
+                "objectifs_eleve": [
+                  { "code_ref": "S-3", "texte": "Respecter les horaires de l'entreprise (valeur ponctualité)." },
+                  { "code_ref": "S-3", "texte": "Prendre soin du matériel de l'entreprise (valeur respect)." }
+                ]
+              },
+              {
+                "code_spe": "C1.4",
+                "nom_spe": "Prendre des décisions constructives",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Prioriser la sécurité avant la vitesse." },
+                  { "code_ref": "SF-2", "texte": "Choisir le bon outil pour la bonne tâche." }
+                ]
+              },
+              {
+                "code_spe": "C1.5",
+                "nom_spe": "S'auto-évaluer positivement",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Reconnaître quand j'ai bien réalisé une tâche complexe." },
+                  { "code_ref": "SF-1", "texte": "Accepter de ne pas tout savoir faire dès le premier jour." }
+                ]
+              },
+              {
+                "code_spe": "C1.6",
+                "nom_spe": "Renforcer sa pleine attention (Vigilance)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-3", "texte": "Rester concentré sur une tâche répétitive sans me laisser distraire." },
+                  { "code_ref": "SF-1", "texte": "Écouter une consigne technique jusqu'au bout sans interrompre." },
+                  { "code_ref": "SF-3", "texte": "Ne pas consulter mon téléphone personnel pendant le temps de travail." }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "code_cat": "C2",
+        "nom_cat": "Organisation et Autonomie",
+        "competences_generales": [
+          {
+            "code_gen": "C2.A",
+            "nom_gen": "Réaliser ses tâches et Gérer ses impulsions",
+            "competences_specifiques": [
+              {
+                "code_spe": "C2.1",
+                "nom_spe": "Atteindre ses buts (Production)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-2", "texte": "Terminer le chantier/dossier dans les temps impartis." },
+                  { "code_ref": "SF-2", "texte": "Organiser mon poste de travail pour être efficace." }
+                ]
+              },
+              {
+                "code_spe": "C2.2",
+                "nom_spe": "Gérer ses impulsions (Posture pro)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-4", "texte": "Attendre le bon moment pour poser une question au tuteur." },
+                  { "code_ref": "SF-3", "texte": "Garder mon calme face à un imprévu technique." }
+                ]
+              },
+              {
+                "code_spe": "C2.3",
+                "nom_spe": "Résoudre des problèmes",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Observer la situation avant d'agir." },
+                  { "code_ref": "SF-2", "texte": "Chercher une solution par moi-même avant d'appeler le tuteur." }
+                ]
+              },
+              {
+                "code_spe": "C2.4",
+                "nom_spe": "Savoir demander de l'aide (Sécurité)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-3", "texte": "Alerter immédiatement si je vois un danger ou une erreur." },
+                  { "code_ref": "SF-3", "texte": "Demander de l'aide si je ne suis pas sûr de la procédure." }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "domaine_emotionnel": {
+    "couleur": "#ef4444",
+    "titre": "Gestion du stress et Attitude (Cœur)",
+    "categories": [
+      {
+        "code_cat": "E1",
+        "nom_cat": "Conscience émotionnelle au travail",
+        "competences_generales": [
+          {
+            "code_gen": "E1.A",
+            "nom_gen": "Comprendre ses réactions",
+            "competences_specifiques": [
+              {
+                "code_spe": "E1.1",
+                "nom_spe": "Comprendre les émotions (Contexte pro)",
+                "objectifs_eleve": [
+                  { "code_ref": "S-1", "texte": "Comprendre que mon stress vient de la peur de mal faire." },
+                  { "code_ref": "S-2", "texte": "Accepter que la fatigue joue sur mon humeur en fin de journée." }
+                ]
+              },
+              {
+                "code_spe": "E1.2",
+                "nom_spe": "Identifier ses émotions",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-2", "texte": "Identifier quand je commence à m'énerver sur une tâche." },
+                  { "code_ref": "SF-1", "texte": "Reconnaître quand je suis fier de mon travail." }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "code_cat": "E2",
+        "nom_cat": "Régulation émotionnelle professionnelle",
+        "competences_generales": [
+          {
+            "code_gen": "E2.A",
+            "nom_gen": "Gérer la pression et l'expression",
+            "competences_specifiques": [
+              {
+                "code_spe": "E2.2",
+                "nom_spe": "Exprimer ses émotions (Communication pro)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Dire calmement au tuteur que je suis débordé." },
+                  { "code_ref": "SF-2", "texte": "Exprimer une difficulté sans me plaindre ou râler." }
+                ]
+              },
+              {
+                "code_spe": "E2.3",
+                "nom_spe": "Gérer son stress (Adaptation)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-3", "texte": "Rester courtois même en période de 'rush' ou de pression." },
+                  { "code_ref": "SF-4", "texte": "Accepter de recommencer une tâche ratée sans me décourager." },
+                  { "code_ref": "SF-1", "texte": "Prendre du recul face à un client mécontent." }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "domaine_social": {
+    "couleur": "#10b981",
+    "titre": "Intégration et Communication (Liens)",
+    "categories": [
+      {
+        "code_cat": "S1",
+        "nom_cat": "Relations professionnelles",
+        "competences_generales": [
+          {
+            "code_gen": "S1.A",
+            "nom_gen": "Communiquer et S'intégrer",
+            "competences_specifiques": [
+              {
+                "code_spe": "S1.1",
+                "nom_spe": "Communiquer de façon efficace (Oral/Non-verbal)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-2", "texte": "Utiliser le vouvoiement et un langage professionnel." },
+                  { "code_ref": "SF-1", "texte": "Parler distinctement pour être compris des clients/collègues." },
+                  { "code_ref": "SF-3", "texte": "Adopter une tenue et une posture professionnelle." }
+                ]
+              },
+              {
+                "code_spe": "S1.2",
+                "nom_spe": "Communiquer de façon empathique (Client/Équipe)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-2", "texte": "Écouter attentivement la demande d'un client." },
+                  { "code_ref": "SF-3", "texte": "S'intéresser au travail des collègues." }
+                ]
+              },
+              {
+                "code_spe": "S1.3",
+                "nom_spe": "Développer des liens prosociaux (Intégration)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Saluer chaque personne de l'équipe en arrivant et en partant." },
+                  { "code_ref": "SF-3", "texte": "Proposer mon aide à un collègue quand j'ai fini ma tâche." },
+                  { "code_ref": "SF-3", "texte": "Participer aux temps de pause avec l'équipe." }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "code_cat": "S2",
+        "nom_cat": "Difficultés relationnelles et Hiérarchie",
+        "competences_generales": [
+          {
+            "code_gen": "S2.A",
+            "nom_gen": "S'affirmer et Gérer les conflits",
+            "competences_specifiques": [
+              {
+                "code_spe": "S2.1",
+                "nom_spe": "S'affirmer et résister (Critique/Sécurité)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-4", "texte": "Accepter une remarque ou une critique du tuteur sans me vexer." },
+                  { "code_ref": "SF-2", "texte": "Savoir dire 'non' si on me demande une tâche dangereuse sans protection." }
+                ]
+              },
+              {
+                "code_spe": "S2.2",
+                "nom_spe": "Résoudre les conflits (Apaisement)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "S'excuser si j'ai commis une erreur." },
+                  { "code_ref": "SF-1", "texte": "Ne pas répondre à l'agressivité par l'agressivité." },
+                  { "code_ref": "SF-2", "texte": "Aller voir le responsable en cas de conflit avec un collègue." }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

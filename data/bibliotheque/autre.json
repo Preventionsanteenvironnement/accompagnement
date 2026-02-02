@@ -1,0 +1,256 @@
+{
+  "domaine_cognitif": {
+    "couleur": "#3b82f6",
+    "titre": "Responsabilité et Citoyenneté (Cerveau)",
+    "categories": [
+      {
+        "code_cat": "C1",
+        "nom_cat": "Conscience de l'environnement scolaire",
+        "competences_generales": [
+          {
+            "code_gen": "C1.A",
+            "nom_gen": "Se situer dans l'établissement",
+            "competences_specifiques": [
+              {
+                "code_spe": "C1.1",
+                "nom_spe": "Accroître sa connaissance de soi (Citoyenneté)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Identifier mon rôle de délégué ou d'éco-délégué si je le suis." },
+                  { "code_ref": "SF-2", "texte": "Reconnaître mon besoin de calme au foyer quand il y a trop de bruit." },
+                  { "code_ref": "SF-3", "texte": "Savoir si je suis influençable par mon groupe d'amis." }
+                ]
+              },
+              {
+                "code_spe": "C1.2",
+                "nom_spe": "Penser de façon critique (Règlement)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Comprendre le sens du règlement intérieur (pourquoi c'est interdit ?)." },
+                  { "code_ref": "SF-2", "texte": "Ne pas croire aveuglément les rumeurs qui circulent dans les couloirs." },
+                  { "code_ref": "SF-3", "texte": "Alerter si je vois une situation dangereuse (dégradation, harcèlement)." }
+                ]
+              },
+              {
+                "code_spe": "C1.3",
+                "nom_spe": "Connaître ses valeurs (Respect)",
+                "objectifs_eleve": [
+                  { "code_ref": "S-1", "texte": "Respecter les lieux communs (toilettes, couloirs, self)." },
+                  { "code_ref": "S-2", "texte": "Valoriser l'honnêteté quand je m'explique à la Vie Scolaire." }
+                ]
+              },
+              {
+                "code_spe": "C1.4",
+                "nom_spe": "Prendre des décisions constructives (Choix)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Décider d'aller en permanence pour travailler plutôt que de traîner dehors." },
+                  { "code_ref": "SF-2", "texte": "Choisir de jeter mes déchets à la poubelle même si personne ne regarde." }
+                ]
+              },
+              {
+                "code_spe": "C1.5",
+                "nom_spe": "S'auto-évaluer positivement (Comportement)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Être fier d'avoir aidé à nettoyer une table au self." },
+                  { "code_ref": "SF-2", "texte": "Reconnaître que j'ai réussi à garder mon calme dans la cour." }
+                ]
+              },
+              {
+                "code_spe": "C1.6",
+                "nom_spe": "Renforcer sa pleine attention (Sécurité/Vigilance)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Être attentif aux annonces micro ou aux écrans d'information." },
+                  { "code_ref": "SF-2", "texte": "Faire attention aux autres quand je me déplace dans les escaliers." },
+                  { "code_ref": "SF-3", "texte": "Entendre la sonnerie immédiatement et réagir." }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "code_cat": "C2",
+        "nom_cat": "Autodiscipline et Autonomie",
+        "competences_generales": [
+          {
+            "code_gen": "C2.A",
+            "nom_gen": "Se gérer dans les espaces communs",
+            "competences_specifiques": [
+              {
+                "code_spe": "C2.1",
+                "nom_spe": "Atteindre ses buts (Ponctualité)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Gérer mon temps de pause pour ne pas arriver en retard en cours." },
+                  { "code_ref": "SF-2", "texte": "Rendre mes documents administratifs à l'heure à la Vie Scolaire." },
+                  { "code_ref": "SF-3", "texte": "Organiser mon casier pour ne pas perdre mes affaires." }
+                ]
+              },
+              {
+                "code_spe": "C2.2",
+                "nom_spe": "Gérer ses impulsions (Comportement)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Ne pas courir ou crier dans les couloirs." },
+                  { "code_ref": "SF-2", "texte": "Patienter calmement dans la file d'attente du self." },
+                  { "code_ref": "SF-3", "texte": "Ne pas bousculer les autres pour sortir plus vite." }
+                ]
+              },
+              {
+                "code_spe": "C2.3",
+                "nom_spe": "Résoudre des problèmes (Quotidien)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Savoir quoi faire si j'ai perdu ma carte de cantine." },
+                  { "code_ref": "SF-2", "texte": "Trouver une occupation calme s'il pleut pendant la récréation." }
+                ]
+              },
+              {
+                "code_spe": "C2.4",
+                "nom_spe": "Savoir demander de l'aide (Administratif)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Demander poliment un renseignement à l'accueil." },
+                  { "code_ref": "SF-2", "texte": "Aller voir l'infirmière si je ne me sens pas bien." },
+                  { "code_ref": "SF-3", "texte": "Signaler un problème de matériel à un surveillant (AED)." }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "domaine_emotionnel": {
+    "couleur": "#ef4444",
+    "titre": "Climat scolaire et Bien-être (Cœur)",
+    "categories": [
+      {
+        "code_cat": "E1",
+        "nom_cat": "Conscience du climat scolaire",
+        "competences_generales": [
+          {
+            "code_gen": "E1.A",
+            "nom_gen": "Ressentir et Identifier",
+            "competences_specifiques": [
+              {
+                "code_spe": "E1.1",
+                "nom_spe": "Comprendre les émotions (Vie collective)",
+                "objectifs_eleve": [
+                  { "code_ref": "S-1", "texte": "Comprendre pourquoi le bruit du self me fatigue." },
+                  { "code_ref": "S-2", "texte": "Comprendre que l'agressivité cache souvent une peur ou un mal-être." }
+                ]
+              },
+              {
+                "code_spe": "E1.2",
+                "nom_spe": "Identifier ses émotions (Récréation)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Sentir quand je m'énerve à cause d'un jeu ou d'une discussion." },
+                  { "code_ref": "SF-2", "texte": "Reconnaître mon sentiment d'injustice face à une punition." }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "code_cat": "E2",
+        "nom_cat": "Apaisement et Régulation",
+        "competences_generales": [
+          {
+            "code_gen": "E2.A",
+            "nom_gen": "Gérer les tensions",
+            "competences_specifiques": [
+              {
+                "code_spe": "E2.2",
+                "nom_spe": "Exprimer ses émotions (Respect)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Dire 'stop' calmement si un jeu va trop loin." },
+                  { "code_ref": "SF-2", "texte": "Exprimer un problème à un surveillant sans crier." }
+                ]
+              },
+              {
+                "code_spe": "E2.3",
+                "nom_spe": "Gérer son stress (Transition)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Me calmer dans le couloir avant de rentrer en cours après une récré agitée." },
+                  { "code_ref": "SF-2", "texte": "Gérer mon anxiété quand je suis convoqué à la Vie Scolaire." },
+                  { "code_ref": "SF-3", "texte": "S'isoler quelques minutes au calme si je suis trop énervé." }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "domaine_social": {
+    "couleur": "#10b981",
+    "titre": "Vivre ensemble et Civilité (Liens)",
+    "categories": [
+      {
+        "code_cat": "S1",
+        "nom_cat": "Relations dans l'établissement",
+        "competences_generales": [
+          {
+            "code_gen": "S1.A",
+            "nom_gen": "Politesse et Inclusion",
+            "competences_specifiques": [
+              {
+                "code_spe": "S1.1",
+                "nom_spe": "Communiquer de façon efficace (Civilité)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Dire bonjour et merci au personnel de cantine et de ménage." },
+                  { "code_ref": "SF-2", "texte": "Parler correctement aux assistants d'éducation (AED)." },
+                  { "code_ref": "SF-3", "texte": "Utiliser un langage correct même entre amis dans la cour." }
+                ]
+              },
+              {
+                "code_spe": "S1.2",
+                "nom_spe": "Communiquer de façon empathique (Inclusion)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Accueillir un nouvel élève ou un élève isolé à ma table." },
+                  { "code_ref": "SF-2", "texte": "Ne pas me moquer d'un élève différent." },
+                  { "code_ref": "SF-3", "texte": "Prendre des nouvelles d'un camarade absent." }
+                ]
+              },
+              {
+                "code_spe": "S1.3",
+                "nom_spe": "Développer des liens (Entraide)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Prêter mon matériel (carte de self, stylo) en cas de besoin." },
+                  { "code_ref": "SF-2", "texte": "Aider à ranger les chaises ou le matériel du foyer." },
+                  { "code_ref": "SF-3", "texte": "Tenir la porte pour la personne qui arrive derrière moi." }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "code_cat": "S2",
+        "nom_cat": "Gestion des conflits et Pression",
+        "competences_generales": [
+          {
+            "code_gen": "S2.A",
+            "nom_gen": "Résister et Pacifier",
+            "competences_specifiques": [
+              {
+                "code_spe": "S2.1",
+                "nom_spe": "S'affirmer et résister (Pression de groupe)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Refuser de sécher les cours même si mes amis le font." },
+                  { "code_ref": "SF-2", "texte": "Refuser de participer à une dégradation ou une bêtise." },
+                  { "code_ref": "SF-3", "texte": "Ne pas rire à une blague blessante ou raciste." }
+                ]
+              },
+              {
+                "code_spe": "S2.2",
+                "nom_spe": "Résoudre les conflits (Médiation)",
+                "objectifs_eleve": [
+                  { "code_ref": "SF-1", "texte": "Aller voir un adulte pour régler une dispute grave." },
+                  { "code_ref": "SF-2", "texte": "Ne pas utiliser la violence physique en cas de désaccord." },
+                  { "code_ref": "SF-3", "texte": "S'interposer ou alerter si je suis témoin de harcèlement." }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
