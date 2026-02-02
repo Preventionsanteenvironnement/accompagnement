@@ -331,7 +331,7 @@ window.openCpsSpace=async function(ax){
   if(activeC){c.innerHTML+='<div class="cps-space-section"><h4>⏳ En cours</h4>'+goals.filter(function(e){return!e[1].done}).map(function(e){var dl=daysLeft(e[1].date_cible);var lbl=dl!==null?(dl<0?'Dépassé':dl===0?"Auj.":'J-'+dl):'';return '<div class="cps-comp-card" onclick="closeOv(\'cps-overlay\');openDetail(\''+e[0]+'\')"><div class="cps-comp-title">'+(e[1].titre||'')+'</div><div class="cps-comp-gen">'+(e[1].detail||'')+' '+(lbl?'· '+lbl:'')+'</div></div>'}).join('')+'</div>'}
   if(doneC){c.innerHTML+='<div class="cps-space-section"><h4>✅ Validés</h4>'+goals.filter(function(e){return e[1].done}).map(function(e){return '<div class="cps-comp-card" style="opacity:.6"><div class="cps-comp-title">'+(e[1].titre||'')+'</div><div class="cps-comp-gen">Validé le '+dateFr(e[1].date_done)+'</div></div>'}).join('')+'</div>'}
   c.innerHTML+='<div class="cps-space-section"><h4>📚 Référentiel</h4>'+comps.map(function(s){return '<div class="cps-comp-card" onclick="openFormationFor(\''+ax+'\',\''+(s.code_spe||'').replace(/'/g,"\\'")+'\')">'+'<div class="cps-comp-title">'+s.nom_spe+'</div><div class="cps-comp-gen">'+s.gen_label+'</div></div>'}).join('')+'</div>'
-    +'<button class="cps-formation-btn" onclick="var id=userCode?\\'?id=\\'+userCode:\\'\\';var p={COG:\\'formation-cognitif.html\\',EMO:\\'formation-emotionnel.html\\',SOC:\\'formation-social.html\\'};window.location.href=p[\\''+ax+'\\']+id">📖 Explorer l\'espace '+meta.label+'</button>';
+    +'<button class="cps-formation-btn" onclick="openFormation(\''+ax+'\')">📖 Explorer l\'espace '+meta.label+'</button>';
   document.getElementById('cps-overlay').classList.add('show');
 }
 
@@ -339,24 +339,13 @@ window.openCpsSpace=async function(ax){
 window.openFormation=function(ax){
   var id=userCode?'?id='+userCode:'';
   var pages={COG:'formation-cognitif.html',EMO:'formation-emotionnel.html',SOC:'formation-social.html'};
-  window.location.href=(pages[ax]||'formation-cognitif.html')+id;return;
-  // Legacy code below kept for reference
-  var meta=AX[ax];document.getElementById('formation-title').textContent='📖 '+meta.label+' — Se former';
-  var biblio=await loadContext('Scolaire');var domK=ax==='COG'?'domaine_cognitif':ax==='EMO'?'domaine_emotionnel':'domaine_social';var dom=biblio&&biblio[domK];
-  var c=document.getElementById('formation-content');
-  var descMap={COG:"Le domaine cognitif concerne ta façon de réfléchir, d'analyser et de prendre des décisions. Développer ces compétences t'aide à mieux apprendre et à penser par toi-même.",EMO:"Le domaine émotionnel concerne ce que tu ressens et comment tu gères tes émotions. Reconnaître ses émotions et apprendre à les réguler aide à mieux vivre en classe.",SOC:"Le domaine social concerne tes relations avec les autres : communiquer, coopérer, gérer les conflits. Ces compétences te permettent de mieux travailler en groupe."};
-  var tagsMap={COG:['Pensée critique','Résolution de problèmes','Prise de décision','Pleine attention','Auto-évaluation','Connaissance de soi'],EMO:['Émotions','Stress','Régulation','Empathie','Résilience','Conscience émotionnelle'],SOC:['Communication','Coopération','Conflit','Écoute active','Entraide','Assertivité']};
-  var bgVar=ax==='COG'?'var(--cog-bg)':ax==='EMO'?'var(--emo-bg)':'var(--soc-bg)';
-  c.innerHTML='<div class="formation-block" style="border-left:4px solid '+domainColor(ax)+'"><h4>'+meta.emoji+' C\'est quoi ?</h4><p>'+descMap[ax]+'</p></div>'
-    +'<div class="formation-block"><h4>📖 Mots-clés</h4><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">'+(tagsMap[ax]||[]).map(function(t){return '<span class="formation-tag" style="background:'+bgVar+';color:'+domainColor(ax)+'">'+t+'</span>'}).join('')+'</div></div>';
-  if(dom)(dom.categories||[]).forEach(function(cat){(cat.competences_generales||[]).forEach(function(gen){var html='<div class="formation-block"><h4 style="color:'+domainColor(ax)+'">'+gen.nom_gen+'</h4>';(gen.competences_specifiques||[]).forEach(function(spe){html+='<div style="margin:8px 0 4px;font-weight:700;font-size:.82rem">'+spe.nom_spe+'</div><div style="display:flex;flex-wrap:wrap;gap:4px">';(spe.objectifs_eleve||[]).forEach(function(o){html+='<span style="display:inline-block;padding:4px 10px;background:var(--bg);border-radius:8px;font-size:.72rem;font-weight:600;color:var(--text2);margin-bottom:2px">'+o.texte+'</span>'});html+='</div>'});html+='</div>';c.innerHTML+=html})});
-  c.innerHTML+='<div class="formation-block" style="border-left:4px solid var(--warn)"><h4>🔗 Ressources</h4><p>Des exercices et fiches seront ajoutés ici par ton enseignant.</p><p style="margin-top:8px;font-style:italic;font-size:.72rem;color:var(--text3)">Source : Santé publique France</p></div>';
-  document.getElementById('formation-overlay').classList.add('show');
+  window.location.href=(pages[ax]||'formation-cognitif.html')+id;
 }
 window.openFormationFor=function(ax,speCode){
   var id=userCode?'?id='+userCode:'';
   var pages={COG:'formation-cognitif.html',EMO:'formation-emotionnel.html',SOC:'formation-social.html'};
   window.location.href=(pages[ax]||'formation-cognitif.html')+id+'#'+encodeURIComponent(speCode);
+}
 
 // MOOD
 function checkMood(){var today=new Date().toISOString().split('T')[0];var m=userData.meteo&&userData.meteo[today];if(m){document.getElementById('mood-box').style.display='flex';document.getElementById('mood-value').textContent=m.primary+' · '+m.secondary;document.getElementById('mood-emoji').textContent=m.emoji||'😊'}else{document.getElementById('mood-box').style.display='none';openMood()}}
@@ -377,7 +366,7 @@ function genQR(txt){document.getElementById('qrcode-container').innerHTML='';new
 window.openAttestation=function(){
   var id=userCode?'?id='+userCode:'';
   window.location.href='synthese.html'+id;
-}var goals=Object.values(userData.objectifs||{});var counts={COG:0,EMO:0,SOC:0},examples={COG:[],EMO:[],SOC:[]};goals.filter(function(g){return g.done}).forEach(function(g){var ax=getAx(g);if(ax!=='NEU'){counts[ax]++;if(examples[ax].length<2)examples[ax].push(g.titre||'')}});var ctx=document.getElementById('attest-radar');if(attestChart)attestChart.destroy();attestChart=new Chart(ctx,{type:'radar',data:{labels:['Cognitif','Émotionnel','Social'],datasets:[{data:[counts.COG,counts.EMO,counts.SOC],backgroundColor:'rgba(99,102,241,.12)',borderColor:'rgba(99,102,241,.5)',borderWidth:2,pointBackgroundColor:'#6366f1',pointRadius:5}]},options:{scales:{r:{beginAtZero:true,ticks:{display:false},grid:{color:'rgba(0,0,0,.05)'},pointLabels:{font:{size:13,weight:'700',family:'Outfit'}}}},plugins:{legend:{display:false}}}});['COG','EMO','SOC'].forEach(function(ax){document.getElementById('syn-'+ax.toLowerCase()).textContent=counts[ax]?counts[ax]+' objectif(s) validé(s)'+(examples[ax].length?'. Ex : '+examples[ax].join(', '):''):'Pas encore d\'objectif validé.'})}
+}
 function openReco(){document.getElementById('reco-overlay').classList.add('show')}
 
 // WIZARD
