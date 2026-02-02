@@ -115,6 +115,39 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex
 .wiz-summary .ws-value{font-weight:600;text-align:right;max-width:60%}
 .wiz-confirm{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:var(--radius-sm);font-family:var(--font);font-weight:800;font-size:.85rem;cursor:pointer}
 .wiz-confirm:hover{background:#4f46e5}
+.recap-card{background:var(--surface);border-radius:var(--radius);overflow:hidden;margin-bottom:16px;border:1px solid var(--border)}
+.recap-header{padding:22px 20px;position:relative;overflow:hidden}
+.recap-header::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;border-radius:50%;opacity:.07}
+.recap-header.cog{background:linear-gradient(135deg,rgba(59,130,246,.12),rgba(59,130,246,.02))}.recap-header.cog::before{background:#3b82f6}
+.recap-header.emo{background:linear-gradient(135deg,rgba(244,63,94,.12),rgba(244,63,94,.02))}.recap-header.emo::before{background:#f43f5e}
+.recap-header.soc{background:linear-gradient(135deg,rgba(139,92,246,.12),rgba(139,92,246,.02))}.recap-header.soc::before{background:#8b5cf6}
+.recap-header.neu{background:var(--bg)}
+.recap-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;font-size:.6rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;background:rgba(255,255,255,.65);backdrop-filter:blur(4px);margin-bottom:10px;color:var(--text2)}
+.recap-titre-display{font-weight:800;font-size:1.15rem;line-height:1.3;margin-bottom:8px;letter-spacing:-.3px}
+.recap-cps-tree{font-size:.72rem;color:var(--text2);line-height:1.8}
+.recap-cps-node{display:flex;align-items:center;gap:6px}.recap-cps-node.level-1{font-weight:700}.recap-cps-node.level-2{padding-left:16px;opacity:.85}.recap-cps-node.level-3{padding-left:32px;font-weight:800}
+.recap-cps-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.recap-body{padding:20px;display:flex;flex-direction:column;gap:18px}
+.recap-field{}
+.recap-field-label{font-size:.6rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:7px;display:flex;align-items:center;gap:5px}
+.recap-info-text{font-size:.65rem;color:var(--text3);margin-top:4px;font-style:italic}
+.recap-suggestions{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.recap-sugg{padding:7px 13px;background:var(--bg);border:1px solid var(--border);border-radius:999px;font-size:.7rem;font-weight:600;cursor:pointer;transition:all .15s;font-family:var(--font);color:var(--text2)}
+.recap-sugg:hover,.recap-sugg:active{border-color:var(--primary);color:var(--primary);background:var(--primary-light)}
+.recap-demarche{background:var(--bg);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:10px;position:relative;border:1px solid var(--border)}
+.recap-demarche-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.recap-demarche-num{font-size:.6rem;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.5px}
+.recap-demarche-del{background:none;border:none;color:var(--emo);font-size:.7rem;font-weight:700;cursor:pointer;font-family:var(--font);padding:2px 8px;border-radius:6px}.recap-demarche-del:hover{background:rgba(244,63,94,.06)}
+.recap-demarche .fi{margin-bottom:8px}
+.recap-demarche label{font-size:.6rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:3px}
+.recap-contact-grid{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.recap-contact-btn{padding:7px 12px;border:1px solid var(--border);border-radius:999px;background:var(--surface);font-size:.68rem;font-weight:600;cursor:pointer;font-family:var(--font);transition:all .15s;color:var(--text2)}
+.recap-contact-btn:hover{border-color:var(--primary)}.recap-contact-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.recap-add-btn{width:100%;padding:13px;border:2px dashed rgba(99,102,241,.25);border-radius:var(--radius-sm);background:none;font-family:var(--font);font-weight:700;font-size:.8rem;color:var(--primary);cursor:pointer;transition:all .15s}
+.recap-add-btn:hover{background:var(--primary-light);border-color:var(--primary)}
+.recap-warn{padding:12px 16px;background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.12);border-radius:var(--radius-sm);font-size:.75rem;color:#92400e;margin-bottom:14px;display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.recap-warn-btns{display:flex;gap:10px;margin-top:4px}
+.recap-warn-btns button{flex:1;padding:12px;border:none;border-radius:var(--radius-sm);font-family:var(--font);font-weight:700;font-size:.8rem;cursor:pointer}
 .wiz-switch{display:flex;gap:0;background:var(--bg);border-radius:var(--radius-sm);padding:3px;margin-bottom:14px}
 .wiz-switch-btn{flex:1;padding:8px;border:none;border-radius:9px;font-family:var(--font);font-size:.7rem;font-weight:700;cursor:pointer;background:transparent;color:var(--text2);transition:all .15s}
 .wiz-switch-btn.active{background:var(--surface);color:var(--primary);box-shadow:0 1px 3px rgba(0,0,0,.08)}
@@ -520,7 +553,7 @@ function openReco(){document.getElementById('reco-overlay').classList.add('show'
 window.startWizard=function(){draft={};document.getElementById('wizard-overlay').classList.add('show');wizStep(1)}
 function wizStep(s){
   draft._step=s;var c=document.getElementById('wizard-content');c.innerHTML='';
-  var backMap={2:1,3:2,4:3,5:4,6:5};if(backMap[s])c.innerHTML+='<button class="wiz-back" onclick="wizStep('+backMap[s]+')">← Retour</button>';
+  var backMap={2:1,3:2,4:3,5:4};if(backMap[s])c.innerHTML+='<button class="wiz-back" onclick="wizStep('+backMap[s]+')">← Retour</button>';
   if(s===1){c.innerHTML+='<div class="wiz-title">Dans quel cadre ?</div><button class="wiz-option" onclick="draft.context=\'Scolaire\';wizStep(2)">📚 Scolaire</button><button class="wiz-option" onclick="draft.context=\'PFMP\';wizStep(2)">🏢 PFMP / Stage</button><button class="wiz-option" onclick="draft.context=\'Recherche\';wizStep(2)">🔍 Recherche de stage</button><button class="wiz-option" onclick="draft.context=\'Autre\';draft.type=\'NEU\';draft.cps=null;wizStep(3)">✏️ Autre (libre)</button>'}
   else if(s===2){
     c.innerHTML+='<div class="wiz-title">Choisis ton entrée</div><div class="wiz-switch"><button class="wiz-switch-btn '+(wizMode==='competence'?'active':'')+'" onclick="wizMode=\'competence\';wizStep(2)">Par compétence</button><button class="wiz-switch-btn '+(wizMode==='objectif'?'active':'')+'" onclick="wizMode=\'objectif\';wizStep(2)">Par savoir-faire</button></div><input type="text" class="wiz-search" id="cps-search" placeholder="Rechercher…" oninput="wizStep(2)">';
@@ -530,21 +563,97 @@ function wizStep(s){
       else{var items=[];(dom.categories||[]).forEach(function(cat){(cat.competences_generales||[]).forEach(function(gen){(gen.competences_specifiques||[]).forEach(function(spe){(spe.objectifs_eleve||[]).forEach(function(obj,i){if(q&&(obj.texte+' '+spe.nom_spe).toLowerCase().indexOf(q)===-1)return;var uid='OBJ_'+ax+'_'+spe.code_spe+'_'+i;window.__OBJ_MAP[uid]=Object.assign({},obj,{domain:ax,cat_code:cat.code_cat,cat_label:cat.nom_cat,gen_code:gen.code_gen,gen_label:gen.nom_gen,spe_code:spe.code_spe,spe_label:spe.nom_spe,color:color});items.push('<button class="wiz-option" style="border-left:4px solid '+color+'" onclick="selectObj(\''+uid+'\')">'+obj.texte+'</button>')})})})});if(items.length)c.innerHTML+='<div class="wiz-section-h" style="color:'+color+'">'+domainLabel(ax)+'</div>'+items.join('')}
     });c.innerHTML+='<div style="font-size:.65rem;color:var(--text3);margin-top:10px;text-align:center">Référentiel : Santé publique France</div>'})}
   else if(s===3){
-    if(draft.context==='Autre'||!draft.cps){c.innerHTML+='<div class="wiz-title">Objectif libre</div><p style="font-size:.8rem;color:var(--text2);margin-bottom:12px">Écris ton propre objectif :</p><input type="text" class="fi" id="free-goal" placeholder="Mon objectif…"><button class="wiz-confirm" onclick="if(document.getElementById(\'free-goal\').value){draft.titre=document.getElementById(\'free-goal\').value;draft.code_ref=\'\';wizStep(4)}">Continuer</button>';return}
+    if(draft.context==='Autre'||!draft.cps){c.innerHTML+='<div class="wiz-title">Objectif libre</div><p style="font-size:.8rem;color:var(--text2);margin-bottom:12px">Écris ton propre objectif :</p><input type="text" class="fi" id="free-goal" placeholder="Mon objectif…"><button class="wiz-confirm" onclick="if(document.getElementById(\'free-goal\').value){draft.titre=document.getElementById(\'free-goal\').value;draft.code_ref=\'\';draft._backTo=3;wizStep(6)}">Continuer</button>';return}
     c.innerHTML+='<div class="wiz-title">Choisis un objectif</div><div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin-bottom:14px;border-left:4px solid '+(draft.cps.color||domainColor(draft.cps.domain))+'"><div style="font-weight:700;font-size:.82rem">'+draft.cps.spe_label+'</div><div style="font-size:.7rem;color:var(--text2);margin-top:3px">'+domainLabel(draft.cps.domain)+' · '+draft.cps.gen_label+'</div></div>';
     (draft.cps.objectifs||[]).forEach(function(o,i){var uid='SEL_'+draft.cps.spe_code+'_'+i;window.__OBJ_MAP=window.__OBJ_MAP||{};window.__OBJ_MAP[uid]=Object.assign({},o,{domain:draft.cps.domain,spe_code:draft.cps.spe_code,spe_label:draft.cps.spe_label,gen_code:draft.cps.gen_code,gen_label:draft.cps.gen_label,cat_code:draft.cps.cat_code,cat_label:draft.cps.cat_label});c.innerHTML+='<button class="wiz-option" onclick="selectObj(\''+uid+'\')">'+o.texte+'</button>'});
-    c.innerHTML+='<button class="wiz-option" style="color:var(--primary);border-style:dashed" onclick="var t=prompt(\'Ton objectif ?\');if(t){draft.titre=t;draft.code_ref=\'\';wizStep(4)}">✏️ Écrire mon propre objectif</button>'}
+    c.innerHTML+='<button class="wiz-option" style="color:var(--primary);border-style:dashed" onclick="var t=prompt(\'Ton objectif ?\');if(t){draft.titre=t;draft.code_ref=\'\';draft._backTo=3;wizStep(6)}">✏️ Écrire mon propre objectif</button>'}
   else if(s===4){c.innerHTML+='<div class="wiz-title">Pour quand ?</div><input type="date" class="fi" id="w-date" value="'+(draft.date||new Date().toISOString().split('T')[0])+'"><button class="wiz-confirm" onclick="draft.date=document.getElementById(\'w-date\').value;wizStep(5)">Continuer</button>'}
   else if(s===5){
     if(draft.context==='Scolaire'){c.innerHTML+='<div class="wiz-title">Matière</div><select class="fi" id="w-det">'+MATIERES.map(function(m){return '<option value="'+m+'">'+m+'</option>'}).join('')+'<option value="__autre">Autre…</option></select><input type="text" class="fi" id="w-det-autre" placeholder="Précise…" style="display:none"><button class="wiz-confirm" onclick="var v=document.getElementById(\'w-det\').value;draft.detail=v===\'__autre\'?document.getElementById(\'w-det-autre\').value:v;wizStep(6)">Continuer</button>';setTimeout(function(){var sel=document.getElementById('w-det');if(sel)sel.onchange=function(){document.getElementById('w-det-autre').style.display=sel.value==='__autre'?'block':'none'}},50)}
     else if(draft.context==='PFMP'){c.innerHTML+='<div class="wiz-title">Lieu / Activité</div><input type="text" class="fi" id="w-det" placeholder="Atelier, chantier, service…"><button class="wiz-confirm" onclick="draft.detail=document.getElementById(\'w-det\').value;wizStep(6)">Continuer</button>'}
     else if(draft.context==='Recherche'){c.innerHTML+='<div class="wiz-title">Cible</div><input type="text" class="fi" id="w-det" placeholder="Métier, secteur, zone…"><button class="wiz-confirm" onclick="draft.detail=document.getElementById(\'w-det\').value;wizStep(6)">Continuer</button>'}
     else{c.innerHTML+='<div class="wiz-title">Contexte</div><input type="text" class="fi" id="w-det" placeholder="Précise…"><button class="wiz-confirm" onclick="draft.detail=document.getElementById(\'w-det\').value;wizStep(6)">Continuer</button>'}}
-  else if(s===6){var dom=draft.type||(draft.cps&&draft.cps.domain)||'NEU';var color=domainColor(dom);c.innerHTML+='<div class="wiz-title">Récapitulatif</div><div class="wiz-summary" style="border-left:4px solid '+color+'"><div class="ws-row"><span class="ws-label">Objectif</span><span class="ws-value">'+(draft.titre||'')+'</span></div><div class="ws-row"><span class="ws-label">Cadre</span><span class="ws-value">'+(draft.context||'')+'</span></div><div class="ws-row"><span class="ws-label">Compétence</span><span class="ws-value">'+(draft.cps?draft.cps.spe_label:'Libre')+'</span></div><div class="ws-row"><span class="ws-label">Type</span><span class="ws-value">'+domainLabel(dom)+'</span></div><div class="ws-row"><span class="ws-label">Quand</span><span class="ws-value">'+(draft.date||'')+'</span></div><div class="ws-row"><span class="ws-label">Détail</span><span class="ws-value">'+(draft.detail||'Non précisé')+'</span></div></div><button class="wiz-confirm" onclick="saveWizard()">✅ Valider l\'objectif</button>'}
+  else if(s===6){renderRecapStep(c)}
 }
 window.selectCps=function(uid){if(!window.__CPS_MAP||!window.__CPS_MAP[uid])return;draft.cps=window.__CPS_MAP[uid];draft.type=draft.cps.domain||'NEU';wizStep(3)}
-window.selectObj=function(uid){var o=window.__OBJ_MAP&&window.__OBJ_MAP[uid];if(!o)return;draft.obj=o;draft.titre=o.texte||'';draft.code_ref=o.code_ref||'';draft.type=o.domain||'NEU';draft.cps={domain:o.domain,cat_code:o.cat_code,cat_label:o.cat_label,gen_code:o.gen_code,gen_label:o.gen_label,spe_code:o.spe_code,spe_label:o.spe_label,color:domainColor(o.domain)};wizStep(4)}
-window.saveWizard=function(){if(!draft.date)draft.date=new Date().toISOString().split('T')[0];var dom=draft.type||(draft.cps&&draft.cps.domain)||'NEU';db.ref('accompagnement/eleves/'+userCode+'/objectifs').push({context:draft.context||'Autre',type:dom,titre:draft.titre||'',date_cible:draft.date,detail:(draft.detail&&draft.detail.trim())||'Non précisé',done:false,created:new Date().toISOString(),ref_source:"Santé publique France",cat_code:(draft.cps&&draft.cps.cat_code)||"",cat_label:(draft.cps&&draft.cps.cat_label)||"",gen_code:(draft.cps&&draft.cps.gen_code)||"",gen_label:(draft.cps&&draft.cps.gen_label)||"",spe_code:(draft.cps&&draft.cps.spe_code)||"",spe_label:(draft.cps&&draft.cps.spe_label)||"",code_ref:draft.code_ref||"",domaine:dom});closeOv('wizard-overlay')}
+window.selectObj=function(uid){var o=window.__OBJ_MAP&&window.__OBJ_MAP[uid];if(!o)return;draft.obj=o;draft.titre=o.texte||'';draft.code_ref=o.code_ref||'';draft.type=o.domain||'NEU';draft.cps={domain:o.domain,cat_code:o.cat_code,cat_label:o.cat_label,gen_code:o.gen_code,gen_label:o.gen_label,spe_code:o.spe_code,spe_label:o.spe_label,color:domainColor(o.domain)};draft._backTo=draft._step;wizStep(6)}
+// === RECAP STEP (NEW) ===
+var CONTACT_MODES=[{v:'telephone',l:'\ud83d\udcde Par t\u00e9l\u00e9phone'},{v:'personne',l:'\ud83d\udeb6 En personne \u00e0 l\u2019entreprise'},{v:'email',l:'\ud83d\udce7 Par email'},{v:'courrier',l:'\u2709\ufe0f Par courrier'},{v:'reseau',l:'\ud83e\udd1d Via un contact / r\u00e9seau'}];
+function getRecapSuggestions(){var s=[],ctx=draft.context||'',dom=draft.type||(draft.cps&&draft.cps.domain)||'';if(ctx==='Scolaire'){s.push("Quand le prof me le confirmera","Quand j\u2019aurai r\u00e9ussi l\u2019\u00e9valuation","Quand j\u2019y arriverai seul(e)")}else if(ctx==='PFMP'){s.push("Quand mon tuteur me le dira","Quand je r\u00e9aliserai la t\u00e2che seul(e)")}else if(ctx==='Recherche'){s.push("Quand j\u2019aurai trouv\u00e9 mon stage","Quand j\u2019aurai ma convention sign\u00e9e","Quand j\u2019aurai contact\u00e9 5 entreprises")}if(dom==='COG'&&ctx!=='Recherche')s.push("Quand j\u2019aurai compris le sujet");if(dom==='EMO')s.push("Quand je me sentirai plus \u00e0 l\u2019aise");if(dom==='SOC')s.push("Quand j\u2019aurai am\u00e9lior\u00e9 mes \u00e9changes");if(s.length<2)s.push("Quand j\u2019aurai atteint mon objectif");return s.slice(0,4)}
+
+function renderRecapStep(c){
+  var dom=draft.type||(draft.cps&&draft.cps.domain)||'NEU',color=domainColor(dom),ax=AX[dom]||{cls:'neu',emoji:'\ud83d\udccb',label:'Autre'};
+  var isStage=draft.context==='Recherche',isScolaire=draft.context==='Scolaire';
+  var cadreIcons={'Scolaire':'\ud83d\udcda','PFMP':'\ud83c\udfe2','Recherche':'\ud83d\udd0d','Autre':'\u270f\ufe0f'};
+  if(!draft.demarches)draft.demarches=[];
+  // Back
+  if(draft._backTo)c.innerHTML+='<button class="wiz-back" onclick="collectRecapDraft();wizStep('+draft._backTo+')">\u2190 Retour</button>';
+  // Header
+  var h='<div class="recap-card"><div class="recap-header '+(ax.cls||'neu')+'">';
+  h+='<div class="recap-badge">'+(cadreIcons[draft.context]||'\u270f\ufe0f')+' '+(draft.context||'Autre')+'</div>';
+  h+='<div class="recap-titre-display">'+(draft.titre||'Mon objectif')+'</div>';
+  if(draft.cps){h+='<div class="recap-cps-tree">';h+='<div class="recap-cps-node level-1"><span class="recap-cps-dot" style="background:'+color+'"></span>'+(ax.emoji||'')+' '+(draft.cps.cat_label||ax.label)+'</div>';if(draft.cps.gen_label)h+='<div class="recap-cps-node level-2">\u21b3 '+(draft.cps.gen_label)+'</div>';if(draft.cps.spe_label)h+='<div class="recap-cps-node level-3">\u21b3 '+(draft.cps.spe_label)+'</div>';h+='</div>'}else{h+='<div class="recap-cps-tree" style="color:var(--text3)">Objectif libre \u2014 hors r\u00e9f\u00e9rentiel</div>'}
+  h+='</div><div class="recap-body">';
+  // Objectif (editable)
+  h+='<div class="recap-field"><div class="recap-field-label">\ud83c\udfaf Objectif</div><input type="text" class="fi" id="r-titre" value="'+(draft.titre||'').replace(/"/g,'&quot;')+'">';
+  if(draft.code_ref)h+='<div class="recap-info-text">Issu du r\u00e9f\u00e9rentiel CPS \u2014 modifiable</div>';
+  h+='</div>';
+  // Date
+  h+='<div class="recap-field"><div class="recap-field-label">\ud83d\udcc5 Pour quand ?</div><input type="date" class="fi" id="r-date" value="'+(draft.date||new Date().toISOString().split('T')[0])+'"></div>';
+  // Matiere / Lieu (NOT for stage)
+  if(!isStage){
+    if(isScolaire){h+='<div class="recap-field"><div class="recap-field-label">\ud83d\udcda Mati\u00e8re / Discipline</div><select class="fi" id="r-matiere">'+MATIERES.map(function(m){return '<option value="'+m+'"'+(m===(draft.detail||'')?' selected':'')+'>'+m+'</option>'}).join('')+'<option value="__autre"'+(MATIERES.indexOf(draft.detail||'')===-1&&draft.detail?' selected':'')+'>Autre\u2026</option></select><input type="text" class="fi" id="r-matiere-autre" placeholder="Pr\u00e9cise ta mati\u00e8re\u2026" style="display:'+(MATIERES.indexOf(draft.detail||'')===-1&&draft.detail?'block':'none')+';margin-top:8px" value="'+(MATIERES.indexOf(draft.detail||'')===-1?(draft.detail||'').replace(/"/g,'&quot;'):'')+'"></div>'}
+    else if(draft.context==='PFMP'){h+='<div class="recap-field"><div class="recap-field-label">\ud83c\udfe2 Lieu / Activit\u00e9</div><input type="text" class="fi" id="r-detail" value="'+(draft.detail||'').replace(/"/g,'&quot;')+'" placeholder="Atelier, chantier, service\u2026"></div>'}
+    else{h+='<div class="recap-field"><div class="recap-field-label">\ud83d\udccd Contexte</div><input type="text" class="fi" id="r-detail" value="'+(draft.detail||'').replace(/"/g,'&quot;')+'" placeholder="Pr\u00e9cise\u2026"></div>'}
+  }
+  // Critere reussite
+  var suggs=getRecapSuggestions();
+  h+='<div class="recap-field"><div class="recap-field-label">\ud83d\udccf Comment je saurai que c\u2019est r\u00e9ussi ?</div><input type="text" class="fi" id="r-critere" value="'+(draft.critere||'').replace(/"/g,'&quot;')+'" placeholder="Ex : Quand j\u2019aurai\u2026"><div class="recap-suggestions">'+suggs.map(function(sg){return '<button type="button" class="recap-sugg" onclick="document.getElementById(\'r-critere\').value=this.textContent">'+sg+'</button>'}).join('')+'</div></div>';
+  // Stage demarches
+  if(isStage){
+    h+='<div class="recap-field"><div class="recap-field-label">\ud83c\udfe2 Mes d\u00e9marches de recherche</div><div id="r-demarches-list">'+renderDemarchesHTML(draft.demarches)+'</div><button type="button" class="recap-add-btn" onclick="addDemarcheUI()">+ Ajouter une d\u00e9marche</button></div>';
+  }
+  h+='</div></div>';// close recap-body, recap-card
+  h+='<div id="r-warnings"></div>';
+  h+='<button class="wiz-confirm" onclick="validateRecap()">\u2705 Valider mon objectif</button>';
+  c.innerHTML+=h;
+  // Events
+  setTimeout(function(){var sel=document.getElementById('r-matiere');if(sel)sel.onchange=function(){document.getElementById('r-matiere-autre').style.display=sel.value==='__autre'?'block':'none'}},50);
+}
+
+function renderDemarchesHTML(list){if(!list||!list.length)return '<div style="font-size:.78rem;color:var(--text3);padding:8px 0;font-style:italic">Aucune d\u00e9marche pour le moment</div>';
+  return list.map(function(d,i){var h='<div class="recap-demarche" data-idx="'+i+'"><div class="recap-demarche-head"><span class="recap-demarche-num">D\u00e9marche '+(i+1)+'</span><button type="button" class="recap-demarche-del" onclick="removeDemarcheUI('+i+')">Supprimer</button></div>';
+  h+='<label>Entreprise *</label><input type="text" class="fi dem-entreprise" value="'+(d.entreprise||'').replace(/"/g,'&quot;')+'" placeholder="Nom de l\u2019entreprise">';
+  h+='<label>Ville</label><input type="text" class="fi dem-ville" value="'+(d.ville||'').replace(/"/g,'&quot;')+'" placeholder="Optionnel">';
+  h+='<label>Mode de contact</label><div class="recap-contact-grid">'+CONTACT_MODES.map(function(m){return '<button type="button" class="recap-contact-btn'+(d.contact_mode===m.v?' active':'')+'" data-mode="'+m.v+'" onclick="this.parentNode.querySelectorAll(\'.recap-contact-btn\').forEach(function(b){b.classList.remove(\'active\')});this.classList.add(\'active\')">'+m.l+'</button>'}).join('')+'</div>';
+  h+='<label>Date de la d\u00e9marche</label><input type="date" class="fi dem-date" value="'+(d.date_demarche||'')+'">';
+  h+='</div>';return h}).join('')}
+
+window.addDemarcheUI=function(){collectDemarches();draft.demarches.push({entreprise:'',ville:'',contact_mode:'',date_demarche:'',statut:'a_faire'});document.getElementById('r-demarches-list').innerHTML=renderDemarchesHTML(draft.demarches);var inputs=document.querySelectorAll('.recap-demarche:last-child .dem-entreprise');if(inputs.length)inputs[inputs.length-1].focus()}
+window.removeDemarcheUI=function(idx){collectDemarches();draft.demarches.splice(idx,1);document.getElementById('r-demarches-list').innerHTML=renderDemarchesHTML(draft.demarches)}
+
+function collectDemarches(){var cards=document.querySelectorAll('.recap-demarche');draft.demarches=[];cards.forEach(function(card){var ent=card.querySelector('.dem-entreprise'),vil=card.querySelector('.dem-ville'),dat=card.querySelector('.dem-date');var activeBtn=card.querySelector('.recap-contact-btn.active');draft.demarches.push({entreprise:ent?ent.value.trim():'',ville:vil?vil.value.trim():'',contact_mode:activeBtn?activeBtn.dataset.mode:'',date_demarche:dat?dat.value:'',statut:'a_faire'})})}
+
+window.collectRecapDraft=function(){var t=document.getElementById('r-titre');if(t)draft.titre=t.value;var d=document.getElementById('r-date');if(d)draft.date=d.value;var cr=document.getElementById('r-critere');if(cr)draft.critere=cr.value;var ms=document.getElementById('r-matiere');if(ms)draft.detail=ms.value==='__autre'?(document.getElementById('r-matiere-autre')||{}).value||'':ms.value;var det=document.getElementById('r-detail');if(det)draft.detail=det.value;if(draft.context==='Recherche')collectDemarches()}
+
+window.validateRecap=function(){
+  collectRecapDraft();
+  var missing=[],isStage=draft.context==='Recherche';
+  if(!draft.date)missing.push('la date');
+  if(!isStage&&!draft.detail)missing.push(draft.context==='Scolaire'?'la mati\u00e8re':'le lieu / contexte');
+  if(!draft.critere)missing.push('le crit\u00e8re de r\u00e9ussite');
+  if(isStage){var validDem=(draft.demarches||[]).filter(function(d){return d.entreprise});if(!validDem.length)missing.push('au moins une d\u00e9marche');
+    var noVille=(draft.demarches||[]).filter(function(d){return d.entreprise&&!d.ville});if(noVille.length){var vMsg=noVille.length===1?'la ville pour \u00ab\u202f'+noVille[0].entreprise+'\u202f\u00bb':'la ville pour '+noVille.length+' d\u00e9marches';missing.push(vMsg)}}
+  if(missing.length){var w=document.getElementById('r-warnings');w.innerHTML='<div class="recap-warn">\ud83d\udca1 Tu n\u2019as pas renseign\u00e9 : '+missing.join(', ')+'. Tu peux enregistrer quand m\u00eame et compl\u00e9ter plus tard.</div><div class="recap-warn-btns"><button onclick="saveWizard()" style="background:var(--primary);color:#fff">Enregistrer quand m\u00eame</button><button onclick="document.getElementById(\'r-warnings\').innerHTML=\'\'" style="background:var(--bg);color:var(--text);border:1px solid var(--border)">Compl\u00e9ter</button></div>';return}
+  saveWizard()}
+
+window.saveWizard=function(){
+  collectRecapDraft();
+  if(!draft.date)draft.date=new Date().toISOString().split('T')[0];
+  var dom=draft.type||(draft.cps&&draft.cps.domain)||'NEU';
+  var pushData={context:draft.context||'Autre',type:dom,titre:draft.titre||'',date_cible:draft.date,detail:(draft.detail&&draft.detail.trim())||'Non précisé',done:false,created:new Date().toISOString(),ref_source:"Santé publique France",cat_code:(draft.cps&&draft.cps.cat_code)||"",cat_label:(draft.cps&&draft.cps.cat_label)||"",gen_code:(draft.cps&&draft.cps.gen_code)||"",gen_label:(draft.cps&&draft.cps.gen_label)||"",spe_code:(draft.cps&&draft.cps.spe_code)||"",spe_label:(draft.cps&&draft.cps.spe_label)||"",code_ref:draft.code_ref||"",domaine:dom,critere_reussite:draft.critere||""};
+  if(draft.context==='Recherche'&&draft.demarches&&draft.demarches.length){var dems={};draft.demarches.forEach(function(d,i){if(d.entreprise)dems['d'+i]=d});if(Object.keys(dems).length)pushData.demarches=dems}
+  db.ref('accompagnement/eleves/'+userCode+'/objectifs').push(pushData);closeOv('wizard-overlay')}
 </script>
 </body>
 </html>
