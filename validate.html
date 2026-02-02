@@ -4,99 +4,114 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Validation CPS</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #f8f9fa; font-family: 'Segoe UI', sans-serif; padding-bottom: 80px; }
-        .header-valid { background-color: #2c3e50; color: white; padding: 1.5rem 1rem; border-bottom-left-radius: 1.5rem; border-bottom-right-radius: 1.5rem; }
-        .form-label { font-weight: 600; color: #34495e; }
-        .btn-validate { width: 100%; padding: 15px; font-size: 1.2rem; border-radius: 12px; font-weight: bold; }
-        /* Pour masquer les sections tant que le code élève n'est pas vérifié */
-        #validation-form { display: none; }
-        #loading-msg { display: block; }
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{--bg:#f4f6fb;--surface:#fff;--text:#0f172a;--muted:#64748b;--border:#e5e7ef;--pri:#6366f1;--ok:#22c55e;--radius:14px;--radius-s:8px}
+        body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+        .header{background:linear-gradient(135deg,var(--pri),#8b5cf6);color:#fff;padding:28px 20px;text-align:center;border-radius:0 0 24px 24px}
+        .header h1{font-size:20px;font-weight:800}.header p{font-size:13px;opacity:.8;margin-top:4px}
+        .container{max-width:500px;margin:0 auto;padding:24px 20px}
+        .card{background:var(--surface);border-radius:var(--radius);padding:20px;box-shadow:0 2px 12px rgba(0,0,0,.06);margin-bottom:16px;border:1px solid var(--border)}
+        .student-badge{display:flex;align-items:center;gap:12px}
+        .student-icon{width:48px;height:48px;border-radius:12px;background:#f5f3ff;display:flex;align-items:center;justify-content:center;font-size:22px}
+        .student-label{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+        .student-code{font-size:20px;font-weight:800;color:var(--pri);letter-spacing:1px}
+        .form-label{display:block;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+        .form-select,.form-input{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:var(--radius-s);font-size:14px;font-family:inherit;font-weight:600;outline:none;transition:border .15s;background:var(--surface);margin-bottom:16px;color:var(--text)}
+        .form-select:focus,.form-input:focus{border-color:var(--pri)}
+        .form-select:disabled{background:#f8fafc;color:#94a3b8}
+        textarea.form-input{min-height:70px;resize:vertical}
+        .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+        hr{border:none;border-top:1px solid var(--border);margin:20px 0}
+        .btn-submit{display:block;width:100%;padding:16px;border-radius:var(--radius-s);background:var(--ok);color:#fff;font-weight:800;font-size:16px;border:none;cursor:pointer;font-family:inherit;transition:all .15s}
+        .btn-submit:hover{background:#16a34a}
+        .btn-submit:disabled{background:#94a3b8;cursor:not-allowed}
+        #loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;gap:12px}
+        .spinner{width:36px;height:36px;border:3px solid #c7d2fe;border-top-color:var(--pri);border-radius:50%;animation:spin .7s linear infinite}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        #error{display:none;text-align:center;padding:40px 20px}
+        .error-icon{width:60px;height:60px;border-radius:50%;background:#fef2f2;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 16px}
+        #form-section{display:none}
+        .success-toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:var(--ok);color:#fff;padding:14px 28px;border-radius:99px;font-weight:700;font-size:14px;box-shadow:0 8px 24px rgba(34,197,94,.3);z-index:999;animation:toastIn .3s ease}
+        @keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(-20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
     </style>
 </head>
 <body>
 
-<div class="header-valid text-center shadow-sm">
-    <h2 class="h4 mb-0">✅ Validation CPS</h2>
-    <p class="small opacity-75 mt-1">Accompagnement Personnalisé</p>
+<div class="header">
+    <h1>✅ Validation CPS</h1>
+    <p>Accompagnement personnalisé</p>
 </div>
 
-<div class="container mt-4">
-    
-    <div id="loading-msg" class="text-center py-5">
-        <div class="spinner-border text-primary" role="status"></div>
-        <p class="mt-3">Identification de l'élève...</p>
+<div class="container">
+    <div id="loading">
+        <div class="spinner"></div>
+        <div style="font-weight:700;color:var(--muted)">Identification de l'élève...</div>
     </div>
 
-    <div id="error-msg" class="alert alert-danger text-center" style="display:none;">
-        <strong>Code élève manquant ou inconnu.</strong><br>
-        Veuillez scanner un QR code valide.
+    <div id="error">
+        <div class="error-icon">⚠️</div>
+        <h3 style="font-weight:800;margin-bottom:8px">Code élève manquant</h3>
+        <p style="color:var(--muted);font-size:14px" id="error-text">Veuillez scanner un QR code valide.</p>
     </div>
 
-    <div id="validation-form">
-        <div class="card border-0 shadow-sm mb-4">
-            <div class="card-body d-flex align-items-center">
-                <div class="bg-light rounded-circle p-3 me-3">🎓</div>
+    <div id="form-section">
+        <div class="card">
+            <div class="student-badge">
+                <div class="student-icon">🎓</div>
                 <div>
-                    <h5 class="card-title mb-0">Élève identifié</h5>
-                    <p class="text-primary mb-0 font-monospace" id="display-code-eleve">--</p>
+                    <div class="student-label">Élève identifié</div>
+                    <div class="student-code" id="display-code">--</div>
                 </div>
             </div>
         </div>
 
-        <form id="form-cps">
-            <div class="mb-3">
-                <label for="select-axe" class="form-label">1. Choisir l'Axe</label>
-                <select class="form-select form-select-lg" id="select-axe" required>
-                    <option value="" selected disabled>Sélectionner...</option>
-                    </select>
-            </div>
+        <div class="card">
+            <form id="form-cps">
+                <label class="form-label">1. Axe</label>
+                <select class="form-select" id="select-axe" required>
+                    <option value="" selected disabled>Sélectionner un axe...</option>
+                </select>
 
-            <div class="mb-3">
-                <label for="select-competence" class="form-label">2. Compétence observée</label>
-                <select class="form-select" id="select-competence" disabled required>
+                <label class="form-label">2. Compétence observée</label>
+                <select class="form-select" id="select-comp" disabled required>
                     <option value="" selected>Choisir d'abord un axe...</option>
                 </select>
-            </div>
 
-            <div class="mb-3">
-                <label for="select-indicateur" class="form-label">3. Indicateur précis</label>
-                <select class="form-select" id="select-indicateur" disabled required>
+                <label class="form-label">3. Indicateur précis</label>
+                <select class="form-select" id="select-ind" disabled required>
                     <option value="" selected>--</option>
                 </select>
-            </div>
 
-            <hr class="my-4">
+                <hr>
 
-            <div class="row g-2 mb-3">
-                <div class="col-6">
-                    <label class="form-label small">Contexte</label>
-                    <select class="form-select form-select-sm" id="contexte" required>
-                        <option value="Classe">Classe / Atelier</option>
-                        <option value="Stage">Stage / Entreprise</option>
-                        <option value="Entretien">Entretien individuel</option>
-                        <option value="Autre">Autre</option>
-                    </select>
+                <div class="row">
+                    <div>
+                        <label class="form-label">Contexte</label>
+                        <select class="form-select" id="contexte" required>
+                            <option value="Classe">Classe / Atelier</option>
+                            <option value="Stage">Stage / Entreprise</option>
+                            <option value="Entretien">Entretien individuel</option>
+                            <option value="Autre">Autre</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label">Validateur</label>
+                        <select class="form-select" id="validateur" required>
+                            <option value="Enseignant">Enseignant</option>
+                            <option value="Tuteur">Tuteur Pro</option>
+                            <option value="Educateur">Éducateur</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="col-6">
-                    <label class="form-label small">Validateur</label>
-                    <select class="form-select form-select-sm" id="type-validateur" required>
-                        <option value="Enseignant">Enseignant</option>
-                        <option value="Tuteur">Tuteur Pro</option>
-                        <option value="Educateur">Éducateur</option>
-                    </select>
-                </div>
-            </div>
 
-            <div class="mb-4">
-                <textarea class="form-control" id="commentaire" rows="2" placeholder="Commentaire optionnel (contexte, réussite...)..."></textarea>
-            </div>
+                <label class="form-label">Commentaire (optionnel)</label>
+                <textarea class="form-input" id="commentaire" placeholder="Contexte, réussite observée..."></textarea>
 
-            <button type="submit" class="btn btn-success btn-validate shadow">
-                VALIDER LA COMPÉTENCE
-            </button>
-        </form>
+                <button type="submit" class="btn-submit" id="btn-submit">Valider la compétence</button>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -104,11 +119,91 @@
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 <script src="js/firebase-config.js"></script>
 <script>
-    if (typeof firebaseConfig !== 'undefined') {
-        firebase.initializeApp(firebaseConfig);
-    }
-</script>
-<script src="js/validate-logic.js"></script>
+if(typeof firebaseConfig!=='undefined') firebase.initializeApp(firebaseConfig);
 
+let refData=null, eleveId=new URLSearchParams(location.search).get('id');
+
+window.onload=async function(){
+    if(!eleveId){showError('Code élève manquant ou invalide.');return;}
+    document.getElementById('display-code').textContent=eleveId;
+
+    try{
+        const snap=await firebase.database().ref(`accompagnement/autorisations/${eleveId}`).once('value');
+        if(!snap.exists()) throw new Error("Élève non trouvé dans le dispositif.");
+
+        const r=await fetch('data/referentiel/referentiel_cps.json');
+        refData=await r.json();
+        initAxes();
+
+        document.getElementById('loading').style.display='none';
+        document.getElementById('form-section').style.display='block';
+    }catch(e){showError(e.message);}
+};
+
+function showError(msg){
+    document.getElementById('loading').style.display='none';
+    document.getElementById('error-text').textContent=msg;
+    document.getElementById('error').style.display='block';
+}
+
+function initAxes(){
+    const sel=document.getElementById('select-axe');
+    refData.axes.forEach(a=>{const o=document.createElement('option');o.value=a.id;o.text=a.nom_officiel||a.nom;sel.appendChild(o);});
+    sel.addEventListener('change',e=>fillComps(e.target.value));
+}
+
+function fillComps(axeId){
+    const sel=document.getElementById('select-comp'),ind=document.getElementById('select-ind');
+    sel.innerHTML='<option value="" selected disabled>Sélectionner...</option>';sel.disabled=false;
+    ind.innerHTML='<option value="" selected disabled>--</option>';ind.disabled=true;
+
+    const axe=refData.axes.find(a=>a.id===axeId);if(!axe)return;
+    axe.phases.forEach(ph=>ph.competences_generales.forEach(cg=>cg.competences_specifiques.forEach(cs=>{
+        const o=document.createElement('option');o.value=cs.id;o.text=`${cs.id} — ${cs.nom_officiel||cs.nom}`;o.dataset.indicateurs=JSON.stringify(cs.indicateurs||[]);sel.appendChild(o);
+    })));
+
+    // Remove old listener, add new
+    const newSel=sel.cloneNode(true);sel.parentNode.replaceChild(newSel,sel);
+    newSel.addEventListener('change',e=>{
+        const opt=newSel.options[newSel.selectedIndex];
+        fillInd(JSON.parse(opt.dataset.indicateurs||'[]'));
+    });
+}
+
+function fillInd(list){
+    const sel=document.getElementById('select-ind');
+    sel.innerHTML='<option value="" selected disabled>Sélectionner un indicateur...</option>';sel.disabled=false;
+    list.forEach((t,i)=>{const o=document.createElement('option');o.value=i;o.text=t;sel.appendChild(o);});
+}
+
+document.getElementById('form-cps').addEventListener('submit',async e=>{
+    e.preventDefault();
+    const btn=document.getElementById('btn-submit');btn.disabled=true;btn.textContent='Envoi...';
+
+    try{
+        const selInd=document.getElementById('select-ind');
+        await firebase.database().ref('accompagnement/validations').push({
+            eleve_id:eleveId,
+            axe:document.getElementById('select-axe').value,
+            competence_id:(document.querySelector('#form-section select[id="select-comp"]')||document.querySelectorAll('.form-select')[1]).value,
+            indicateur:selInd.options[selInd.selectedIndex].text,
+            contexte:document.getElementById('contexte').value,
+            validateur:document.getElementById('validateur').value,
+            commentaire:document.getElementById('commentaire').value,
+            timestamp:firebase.database.ServerValue.TIMESTAMP,
+            date_lisible:new Date().toLocaleDateString('fr-FR')
+        });
+
+        // Toast
+        const toast=document.createElement('div');toast.className='success-toast';toast.textContent='✅ Compétence validée !';document.body.appendChild(toast);
+        setTimeout(()=>toast.remove(),2500);
+
+        selInd.value='';document.getElementById('commentaire').value='';
+        btn.disabled=false;btn.textContent='Valider la compétence';
+    }catch(err){
+        alert('Erreur : '+err.message);btn.disabled=false;btn.textContent='Valider la compétence';
+    }
+});
+</script>
 </body>
 </html>
