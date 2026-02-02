@@ -15,64 +15,34 @@
                 "code_spe": "C1.1",
                 "nom_spe": "Accroître sa connaissance de soi",
                 "objectifs_eleve": [
-                  {
-                    "code_ref": "SF-1",
-                    "texte": "Identifier si je retiens mieux en écoutant ou en lisant (mémoire)."
-                  },
-                  {
-                    "code_ref": "SF-3",
-                    "texte": "Repérer ce qui me distrait le plus en classe pour l'éviter."
-                  }
+                  { "code_ref": "SF-1", "texte": "Identifier si je retiens mieux en écoutant ou en lisant (mémoire)." },
+                  { "code_ref": "SF-3", "texte": "Repérer ce qui me distrait le plus en classe pour l'éviter." }
                 ]
               },
               {
                 "code_spe": "C1.2",
                 "nom_spe": "Penser de façon critique",
                 "objectifs_eleve": [
-                  {
-                    "code_ref": "SF-3",
-                    "texte": "Vérifier la source d'une information avant de la croire."
-                  },
-                  {
-                    "code_ref": "SF-3",
-                    "texte": "Distinguer une opinion d'un fait scientifique en cours."
-                  }
+                  { "code_ref": "SF-3", "texte": "Vérifier la source d'une information avant de la croire." },
+                  { "code_ref": "SF-3", "texte": "Distinguer une opinion d'un fait scientifique en cours." }
                 ]
               },
               {
                 "code_spe": "C1.5",
                 "nom_spe": "S'auto-évaluer positivement",
                 "objectifs_eleve": [
-                  {
-                    "code_ref": "SF-1",
-                    "texte": "Identifier une réussite scolaire dans ma journée (même petite)."
-                  },
-                  {
-                    "code_ref": "SF-1",
-                    "texte": "Relire une mauvaise note pour voir ce que je peux améliorer."
-                  },
-                  {
-                    "code_ref": "S-2",
-                    "texte": "Accepter de me tromper pour apprendre (droit à l'erreur)."
-                  }
+                  { "code_ref": "SF-1", "texte": "Identifier une réussite scolaire dans ma journée (même petite)." },
+                  { "code_ref": "SF-1", "texte": "Relire une mauvaise note pour voir ce que je peux améliorer." },
+                  { "code_ref": "S-2", "texte": "Accepter de me tromper pour apprendre (droit à l'erreur)." }
                 ]
               },
               {
                 "code_spe": "C1.6",
                 "nom_spe": "Renforcer sa pleine attention",
                 "objectifs_eleve": [
-                  {
-                    "code_ref": "SF-1",
-                    "texte": "Écouter une consigne jusqu'au bout sans interrompre."
-                  },
-                  {
-                    "code_ref": "SF-3",
-                    "texte": "Rester concentré 15 minutes sur une tâche sans regarder mon téléphone."
-                  },
-                  {
-                    "code_ref": "SF-2",
-                    "texte": "Me remettre au travail immédiatement quand je sens que je rêve."
-                  }
+                  { "code_ref": "SF-1", "texte": "Écouter une consigne jusqu'au bout sans interrompre." },
+                  { "code_ref": "SF-3", "texte": "Rester concentré 15 minutes sur une tâche sans regarder mon téléphone." },
+                  { "code_ref": "SF-2", "texte": "Me remettre au travail immédiatement quand je sens que je rêve." }
                 ]
               }
             ]
@@ -91,64 +61,34 @@
                 "code_spe": "C2.1",
                 "nom_spe": "Atteindre ses buts personnels",
                 "objectifs_eleve": [
-                  {
-                    "code_ref": "SF-1",
-                    "texte": "Noter tous mes devoirs dans mon agenda."
-                  },
-                  {
-                    "code_ref": "SF-2",
-                    "texte": "Préparer mon sac la veille pour ne rien oublier."
-                  },
-                  {
-                    "code_ref": "SF-2",
-                    "texte": "Finir un exercice dans le temps imparti."
-                  }
+                  { "code_ref": "SF-1", "texte": "Noter tous mes devoirs dans mon agenda." },
+                  { "code_ref": "SF-2", "texte": "Préparer mon sac la veille pour ne rien oublier." },
+                  { "code_ref": "SF-2", "texte": "Finir un exercice dans le temps imparti." }
                 ]
               },
               {
                 "code_spe": "C2.2",
                 "nom_spe": "Gérer ses impulsions",
                 "objectifs_eleve": [
-                  {
-                    "code_ref": "SF-4",
-                    "texte": "Lever la main avant de prendre la parole."
-                  },
-                  {
-                    "code_ref": "SF-4",
-                    "texte": "Attendre mon tour pour parler sans couper la parole."
-                  },
-                  {
-                    "code_ref": "SF-3",
-                    "texte": "Éloigner mon téléphone pour ne pas être tenté."
-                  }
+                  { "code_ref": "SF-4", "texte": "Lever la main avant de prendre la parole." },
+                  { "code_ref": "SF-4", "texte": "Attendre mon tour pour parler sans couper la parole." },
+                  { "code_ref": "SF-3", "texte": "Éloigner mon téléphone pour ne pas être tenté." }
                 ]
               },
               {
                 "code_spe": "C2.3",
                 "nom_spe": "Résoudre des problèmes",
                 "objectifs_eleve": [
-                  {
-                    "code_ref": "SF-1",
-                    "texte": "Bien lire l'énoncé en entier avant de dire 'je ne comprends pas'."
-                  },
-                  {
-                    "code_ref": "SF-2",
-                    "texte": "Essayer une solution au brouillon avant d'appeler le professeur."
-                  }
+                  { "code_ref": "SF-1", "texte": "Bien lire l'énoncé en entier avant de dire 'je ne comprends pas'." },
+                  { "code_ref": "SF-2", "texte": "Essayer une solution au brouillon avant d'appeler le professeur." }
                 ]
               },
               {
                 "code_spe": "C2.4",
                 "nom_spe": "Savoir demander de l'aide",
                 "objectifs_eleve": [
-                  {
-                    "code_ref": "SF-3",
-                    "texte": "Oser lever la main pour demander une explication."
-                  },
-                  {
-                    "code_ref": "SF-3",
-                    "texte": "Expliquer précisément ce qui me bloque (un mot, une méthode)."
-                  }
+                  { "code_ref": "SF-3", "texte": "Oser lever la main pour demander une explication." },
+                  { "code_ref": "SF-3", "texte": "Expliquer précisément ce qui me bloque (un mot, une méthode)." }
                 ]
               }
             ]
@@ -173,28 +113,16 @@
                 "code_spe": "E1.1",
                 "nom_spe": "Comprendre les émotions",
                 "objectifs_eleve": [
-                  {
-                    "code_ref": "S-1",
-                    "texte": "Comprendre pourquoi je suis stressé avant un contrôle."
-                  },
-                  {
-                    "code_ref": "S-2",
-                    "texte": "Reconnaître que ma colère vient d'une incompréhension."
-                  }
+                  { "code_ref": "S-1", "texte": "Comprendre pourquoi je suis stressé avant un contrôle." },
+                  { "code_ref": "S-2", "texte": "Reconnaître que ma colère vient d'une incompréhension." }
                 ]
               },
               {
                 "code_spe": "E1.2",
                 "nom_spe": "Identifier ses émotions",
                 "objectifs_eleve": [
-                  {
-                    "code_ref": "SF-2",
-                    "texte": "Nommer précisément l'émotion que je ressens (joie, peur, colère, tristesse)."
-                  },
-                  {
-                    "code_ref": "SF-1",
-                    "texte": "Repérer les signes physiques de mon stress (mains moites, cœur qui bat)."
-                  }
+                  { "code_ref": "SF-2", "texte": "Nommer précisément l'émotion que je ressens (joie, peur, colère, tristesse)." },
+                  { "code_ref": "SF-1", "texte": "Repérer les signes physiques de mon stress (mains moites, cœur qui bat)." }
                 ]
               }
             ]
@@ -213,32 +141,17 @@
                 "code_spe": "E2.2",
                 "nom_spe": "Exprimer ses émotions de façon constructive",
                 "objectifs_eleve": [
-                  {
-                    "code_ref": "SF-1",
-                    "texte": "Dire 'je suis déçu' plutôt que de bouder ou m'énerver."
-                  },
-                  {
-                    "code_ref": "SF-2",
-                    "texte": "Exprimer mon désaccord calmement sans agressivité."
-                  }
+                  { "code_ref": "SF-1", "texte": "Dire 'je suis déçu' plutôt que de bouder ou m'énerver." },
+                  { "code_ref": "SF-2", "texte": "Exprimer mon désaccord calmement sans agressivité." }
                 ]
               },
               {
                 "code_spe": "E2.3",
                 "nom_spe": "Gérer son stress",
                 "objectifs_eleve": [
-                  {
-                    "code_ref": "SF-3",
-                    "texte": "Prendre 3 grandes respirations avant de passer à l'oral."
-                  },
-                  {
-                    "code_ref": "SF-4",
-                    "texte": "Me rassurer intérieurement face à une difficulté ('je peux y arriver')."
-                  },
-                  {
-                    "code_ref": "SF-2",
-                    "texte": "Faire une pause calme si je sens que je vais m'énerver."
-                  }
+                  { "code_ref": "SF-3", "texte": "Prendre 3 grandes respirations avant de passer à l'oral." },
+                  { "code_ref": "SF-4", "texte": "Me rassurer intérieurement face à une difficulté ('je peux y arriver')." },
+                  { "code_ref": "SF-2", "texte": "Faire une pause calme si je sens que je vais m'énerver." }
                 ]
               }
             ]
@@ -263,50 +176,26 @@
                 "code_spe": "S1.1",
                 "nom_spe": "Communiquer de façon efficace",
                 "objectifs_eleve": [
-                  {
-                    "code_ref": "SF-2",
-                    "texte": "Parler avec un volume de voix adapté à la classe."
-                  },
-                  {
-                    "code_ref": "SF-3",
-                    "texte": "Formuler une demande claire au professeur ou à un camarade."
-                  },
-                  {
-                    "code_ref": "SF-1",
-                    "texte": "Utiliser un vocabulaire respectueux."
-                  }
+                  { "code_ref": "SF-2", "texte": "Parler avec un volume de voix adapté à la classe." },
+                  { "code_ref": "SF-3", "texte": "Formuler une demande claire au professeur ou à un camarade." },
+                  { "code_ref": "SF-1", "texte": "Utiliser un vocabulaire respectueux." }
                 ]
               },
               {
                 "code_spe": "S1.2",
                 "nom_spe": "Communiquer de façon empathique",
                 "objectifs_eleve": [
-                  {
-                    "code_ref": "SF-2",
-                    "texte": "Écouter un camarade sans lui couper la parole."
-                  },
-                  {
-                    "code_ref": "SF-3",
-                    "texte": "Reformuler ce que l'autre a dit pour vérifier que j'ai compris."
-                  }
+                  { "code_ref": "SF-2", "texte": "Écouter un camarade sans lui couper la parole." },
+                  { "code_ref": "SF-3", "texte": "Reformuler ce que l'autre a dit pour vérifier que j'ai compris." }
                 ]
               },
               {
                 "code_spe": "S1.3",
                 "nom_spe": "Développer des liens prosociaux",
                 "objectifs_eleve": [
-                  {
-                    "code_ref": "SF-1",
-                    "texte": "Dire bonjour en entrant en classe."
-                  },
-                  {
-                    "code_ref": "SF-3",
-                    "texte": "Proposer mon aide à un camarade en difficulté."
-                  },
-                  {
-                    "code_ref": "SF-3",
-                    "texte": "Remercier quand on m'aide."
-                  }
+                  { "code_ref": "SF-1", "texte": "Dire bonjour en entrant en classe." },
+                  { "code_ref": "SF-3", "texte": "Proposer mon aide à un camarade en difficulté." },
+                  { "code_ref": "SF-3", "texte": "Remercier quand on m'aide." }
                 ]
               }
             ]
@@ -325,32 +214,17 @@
                 "code_spe": "S2.1",
                 "nom_spe": "S'affirmer et résister à la pression",
                 "objectifs_eleve": [
-                  {
-                    "code_ref": "SF-2",
-                    "texte": "Oser dire 'non' poliment si je ne suis pas d'accord."
-                  },
-                  {
-                    "code_ref": "SF-4",
-                    "texte": "Accepter une critique sur mon travail sans me vexer."
-                  }
+                  { "code_ref": "SF-2", "texte": "Oser dire 'non' poliment si je ne suis pas d'accord." },
+                  { "code_ref": "SF-4", "texte": "Accepter une critique sur mon travail sans me vexer." }
                 ]
               },
               {
                 "code_spe": "S2.2",
                 "nom_spe": "Résoudre les conflits",
                 "objectifs_eleve": [
-                  {
-                    "code_ref": "SF-1",
-                    "texte": "Rester calme lors d'un désaccord."
-                  },
-                  {
-                    "code_ref": "SF-2",
-                    "texte": "Chercher une solution (compromis) plutôt que d'accuser l'autre."
-                  },
-                  {
-                    "code_ref": "SF-1",
-                    "texte": "S'excuser si j'ai eu un comportement inapproprié."
-                  }
+                  { "code_ref": "SF-1", "texte": "Rester calme lors d'un désaccord." },
+                  { "code_ref": "SF-2", "texte": "Chercher une solution (compromis) plutôt que d'accuser l'autre." },
+                  { "code_ref": "SF-1", "texte": "S'excuser si j'ai eu un comportement inapproprié." }
                 ]
               }
             ]
