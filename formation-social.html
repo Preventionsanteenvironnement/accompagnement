@@ -128,14 +128,17 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 <script>
 const firebaseConfig={apiKey:"AIzaSyAWdCMvOiAJln3eT9LIAQD3RWJUD0IQcLI",authDomain:"devoirs-pse.firebaseapp.com",databaseURL:"https://devoirs-pse-default-rtdb.europe-west1.firebasedatabase.app",projectId:"devoirs-pse",storageBucket:"devoirs-pse.appspot.com",messagingSenderId:"614730413904",appId:"1:614730413904:web:a5dd478af5de30f6bede55"};
 firebase.initializeApp(firebaseConfig);const db=firebase.database();
-const userCode=new URLSearchParams(window.location.search).get('id')||'';
+const SESSION_CODE_KEY='accompagnement_session_code';
+function sanitizeCode(v){return String(v||'').toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,16)}
+const userCode=sanitizeCode(sessionStorage.getItem(SESSION_CODE_KEY)||'');
+if(!/^[A-Z0-9]{4,16}$/.test(userCode)){window.location.href='index.html';throw new Error('Session élève manquante');}
 function resolveDataCode(loginCode){if(typeof window.trouverEleve!=='function')return String(loginCode||'').toUpperCase();var e=window.trouverEleve(loginCode);return e&&e.userCode?String(e.userCode).toUpperCase():String(loginCode||'').toUpperCase()}
 const dataCode=resolveDataCode(userCode);
 document.getElementById('page-code').textContent=userCode||'—';
 function getAx(g){var t=(g.type||g.domaine||'').toUpperCase();return t.includes('COG')?'COG':t.includes('EMO')?'EMO':t.includes('SOC')?'SOC':'NEU'}
 function dateFr(d){if(!d)return'—';return new Date(d).toLocaleDateString('fr-FR',{day:'numeric',month:'short'})}
 function daysLeft(d){if(!d)return null;var t=new Date();t.setHours(0,0,0,0);var x=new Date(d);x.setHours(0,0,0,0);return Math.ceil((x-t)/864e5)}
-function goBack(){var id=userCode?'?id='+userCode:'';window.location.href='index.html'+id}
+function goBack(){window.location.href='index.html'}
 // Accordion toggle
 document.addEventListener('click',function(e){var head=e.target.closest('.acc-head');if(!head)return;head.classList.toggle('open');var body=head.nextElementSibling;if(body)body.classList.toggle('open')});
 

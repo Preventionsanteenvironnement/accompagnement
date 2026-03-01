@@ -564,6 +564,7 @@ firebase.initializeApp(firebaseConfig);const db=firebase.database();
 let userCode=null;
 let dataCode=null;
 let userData={objectifs:{},meteo:{}},draft={},currentEditId=null,breathRunning=false,breathInterval=null,breathTimeout=null,breathSec=0,attestChart=null,contextData={},wizMode='competence';
+const SESSION_CODE_KEY='accompagnement_session_code';
 
 // ══════════════════════════════════════════
 // CONSTANTS
@@ -610,6 +611,10 @@ function renderHistory(g){const h=g.historique?Object.values(g.historique).sort(
 function escHtml(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
 function escAttr(v){return escHtml(v).replace(/`/g,'&#96;')}
 function safeId(v){return String(v||'').replace(/[^A-Za-z0-9_-]/g,'')}
+function sanitizeCode(v){return String(v||'').toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,16)}
+function setSessionCode(code){sessionStorage.setItem(SESSION_CODE_KEY,sanitizeCode(code))}
+function getSessionCode(){return sanitizeCode(sessionStorage.getItem(SESSION_CODE_KEY)||'')}
+function clearSessionCode(){sessionStorage.removeItem(SESSION_CODE_KEY)}
 function resolveDataCode(loginCode,auth){
   var candidate=(auth&&auth.userCode)?String(auth.userCode).toUpperCase():'';
   if(candidate)return candidate;
@@ -629,13 +634,14 @@ window.addEventListener('load',function(){
   var jours=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
   var mois=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
   var codeInput=document.getElementById('code-input');
+  if(window.location.search){window.history.replaceState({},'',window.location.pathname+window.location.hash)}
   document.getElementById('h-date').textContent=jours[now.getDay()]+' '+now.getDate()+' '+mois[now.getMonth()];
   codeInput.addEventListener('input',function(e){
     e.target.value=e.target.value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,16);
   });
   codeInput.addEventListener('keydown',function(e){if(e.key==='Enter')submitCode()});
-  var urlCode=new URLSearchParams(window.location.search).get('id');
-  if(urlCode){codeInput.value=String(urlCode).toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,16);submitCode()}
+  var sessionCode=getSessionCode();
+  if(sessionCode&&/^[A-Z0-9]{4,16}$/.test(sessionCode)){codeInput.value=sessionCode;submitCode()}
 });
 
 function submitCode(){
@@ -658,7 +664,8 @@ function submitCode(){
       if(!allowed){btn.disabled=false;btn.textContent='Accéder à mon espace';showDenied('outside-hours');return}
       userCode=code;
       dataCode=resolveDataCode(code,auth);
-      window.history.replaceState({},'','?id='+code);
+      setSessionCode(code);
+      window.history.replaceState({},'',window.location.pathname+window.location.hash);
       document.getElementById('welcome').style.display='none';
       document.getElementById('access-denied').style.display='none';
       document.getElementById('display-code').textContent=code;
@@ -678,7 +685,7 @@ function checkSchedule(code,auth,callback){
 }
 function isWithinSchedule(horaires){var joursRef=['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];var now=new Date();var jour=joursRef[now.getDay()];var schedule=horaires[jour];if(!schedule||!schedule.actif)return false;var currentMinutes=now.getHours()*60+now.getMinutes();var parts=schedule.debut.split(':');var debutMinutes=parseInt(parts[0])*60+parseInt(parts[1]);parts=schedule.fin.split(':');var finMinutes=parseInt(parts[0])*60+parseInt(parts[1]);return currentMinutes>=debutMinutes&&currentMinutes<=finMinutes}
 function showDenied(reason){var icon=document.getElementById('denied-icon');var title=document.getElementById('denied-title');var msg=document.getElementById('denied-msg');if(reason==='unknown'){icon.textContent='🔐';title.textContent='Code non reconnu';msg.textContent='Vérifie ton code et réessaie. Il t\u2019a été donné par ton enseignant.'}else if(reason==='outside-hours'){icon.textContent='🕐';title.textContent='Accès fermé pour le moment';msg.textContent='L\u2019espace est disponible uniquement pendant les horaires définis par ton enseignant. Reviens plus tard\u00a0!'}else{icon.textContent='⏳';title.textContent='Ton espace n\u2019est pas encore actif';msg.textContent='Ton enseignant doit d\u2019abord activer ton accès.'}document.getElementById('welcome').style.display='none';document.getElementById('access-denied').style.display='flex'}
-function backToWelcome(){document.getElementById('access-denied').style.display='none';document.getElementById('welcome').style.display='flex';document.getElementById('code-input').value='';document.getElementById('code-input').focus();document.getElementById('welcome-error').textContent='';window.history.replaceState({},'',window.location.pathname)}
+function backToWelcome(){clearSessionCode();document.getElementById('access-denied').style.display='none';document.getElementById('welcome').style.display='flex';document.getElementById('code-input').value='';document.getElementById('code-input').focus();document.getElementById('welcome-error').textContent='';window.history.replaceState({},'',window.location.pathname)}
 function showApp(){var a=document.getElementById('app');a.style.display='block'}
 function loadData(){db.ref('accompagnement/eleves/'+dataCode).on('value',function(snap){userData=snap.val()||{};if(!userData.objectifs)userData.objectifs={};if(!userData.meteo)userData.meteo={};render();checkMood()})}
 
@@ -951,7 +958,7 @@ window.openDetail=function(k){
   c.innerHTML='<div class="mission-header '+cls+'"><div class="mission-cadre">'+cadreIcon+' '+safeContext+'</div><div class="mission-titre">'+safeTitle+'</div><div class="mission-cps">'+(meta.emoji||'')+' '+safeSpeLabel+safeGenLabel+'</div><span class="mission-status '+statusCls+'">'+(statusCls==='valide'?'✅':'⏳')+' '+statusTxt+'</span></div>'
     +'<div class="mission-block"><div class="mission-block-title">Contexte</div><div class="mb-row"><span class="mb-icon">📅</span><span class="mb-label">Échéance</span><span class="mb-val">'+dateFr(g.date_cible)+'</span></div><div class="mb-row"><span class="mb-icon">📍</span><span class="mb-label">'+(g.context==='Scolaire'?'Matière':'Lieu')+'</span><span class="mb-val">'+safeDetail+'</span></div><div class="mb-row"><span class="mb-icon">🧭</span><span class="mb-label">Axe</span><span class="mb-val" style="color:'+domainColor(ax)+'">'+(meta.label||'')+'</span></div>'+tlHtml+'</div>'
     +(g.spe_label?'<button class="mission-cps-link" onclick="openFormationFor(\''+ax+'\',\''+safeSpeCode+'\')">💡 Comprendre cette compétence</button>':'')
-    +(isStage?'<div class="mission-block"><div class="mission-block-title">Pistes de recherche</div><div id="stage-lieux-list"></div><button class="wiz-option" style="margin-top:6px;border-style:dashed;text-align:center;color:var(--primary)" onclick="addStageLieu()">+ Ajouter un lieu / entreprise</button><button class="wiz-option" style="margin-top:4px;text-align:center;color:var(--warn);font-weight:800" onclick="window.location.href=\'stage.html'+(userCode?'?id='+userCode:'')+'\'">🏢 Voir mon espace Stage complet</button></div>':'')
+    +(isStage?'<div class="mission-block"><div class="mission-block-title">Pistes de recherche</div><div id="stage-lieux-list"></div><button class="wiz-option" style="margin-top:6px;border-style:dashed;text-align:center;color:var(--primary)" onclick="addStageLieu()">+ Ajouter un lieu / entreprise</button><button class="wiz-option" style="margin-top:4px;text-align:center;color:var(--warn);font-weight:800" onclick="window.location.href=\'stage.html\'">🏢 Voir mon espace Stage complet</button></div>':'')
     +'<div class="mission-block"><div class="mission-block-title">Modifier</div><label style="font-size:0.75rem;font-weight:700;color:var(--text3);display:block;margin-bottom:3px">Échéance</label><input type="date" class="fi" id="det-date" value="'+(g.date_cible||'')+'"><label style="font-size:0.75rem;font-weight:700;color:var(--text3);display:block;margin-bottom:3px">'+(g.context==='Scolaire'?'Matière':'Détail')+'</label>'+matSelect+'</div>'
     +'<div class="mission-block"><div class="mission-block-title">Historique</div><div class="mission-history">'+renderHistory(g)+'</div></div>'
     +'<div class="mission-actions"><button class="btn-mission primary" onclick="saveDetail()">💾 Enregistrer</button><button class="btn-mission outline" onclick="showQRForGoal()">🔗 Faire valider par un adulte</button>'
@@ -995,8 +1002,8 @@ window.openCpsSpace=async function(ax){
 // ══════════════════════════════════════════
 // FORMATION CPS
 // ══════════════════════════════════════════
-window.openFormation=function(ax){var id=userCode?'?id='+userCode:'';var pages={COG:'formation-cognitif.html',EMO:'formation-emotionnel.html',SOC:'formation-social.html'};window.location.href=(pages[ax]||'formation-cognitif.html')+id}
-window.openFormationFor=function(ax,speCode){var id=userCode?'?id='+userCode:'';var pages={COG:'formation-cognitif.html',EMO:'formation-emotionnel.html',SOC:'formation-social.html'};window.location.href=(pages[ax]||'formation-cognitif.html')+id+'#'+encodeURIComponent(speCode)}
+window.openFormation=function(ax){var pages={COG:'formation-cognitif.html',EMO:'formation-emotionnel.html',SOC:'formation-social.html'};window.location.href=(pages[ax]||'formation-cognitif.html')}
+window.openFormationFor=function(ax,speCode){var pages={COG:'formation-cognitif.html',EMO:'formation-emotionnel.html',SOC:'formation-social.html'};window.location.href=(pages[ax]||'formation-cognitif.html')+'#'+encodeURIComponent(speCode)}
 
 // ══════════════════════════════════════════
 // QR / RECO
@@ -1009,7 +1016,7 @@ function openReco(){document.getElementById('reco-overlay').classList.add('show'
 // ══════════════════════════════════════════
 // ATTESTATION / EVOLUTION
 // ══════════════════════════════════════════
-window.openAttestation=function(){var id=userCode?'?id='+userCode:'';window.location.href='synthese.html'+id}
+window.openAttestation=function(){window.location.href='synthese.html'}
 
 // ══════════════════════════════════════════
 // WIZARD — Start
