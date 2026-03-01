@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Mon Objectif</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script>
@@ -16,6 +16,11 @@ if (location.protocol === 'http:' && !/^(localhost|127\.0\.0\.1)$/.test(location
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+* { -webkit-tap-highlight-color: transparent; }
+button, [role="button"], .act-card, .mission-card, .meteo-card,
+.cps-item, .mood-big-btn, .mood-sec-chip {
+  touch-action: manipulation;
+}
 :root{
   --bg:#f0f0f5;--surface:#fff;--surface2:#f7f7fb;--border:rgba(0,0,0,.06);
   --text:#1a1a2e;--text2:#64748b;--text3:#94a3b8;
@@ -50,7 +55,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .welcome-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
 .welcome-btn .btn-spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:8px}
 @keyframes spin{to{transform:rotate(360deg)}}
-.welcome-error{color:var(--danger);font-size:.78rem;font-weight:600;margin-top:12px;min-height:20px}
+.welcome-error{color:var(--danger);font-size:0.8rem;font-weight:600;margin-top:12px;min-height:20px}
 .welcome-footer{margin-top:48px;font-size:0.75rem;color:var(--text3);font-weight:500}
 
 /* ══ Denied Screen ══ */
@@ -62,15 +67,15 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .denied-retry:hover{background:var(--primary-light);color:var(--primary);border-color:rgba(99,102,241,.2)}
 
 /* ══ APP SHELL ══ */
-.app-container{max-width:440px;margin:0 auto;padding:0 18px;padding-bottom:40px}
+.app-container{max-width:440px;margin:0 auto;padding:0 18px;padding-bottom:calc(40px + env(safe-area-inset-bottom, 0px))}
 
 /* ── TOP BAR ── */
 .top-bar{display:flex;align-items:center;justify-content:space-between;padding:16px 0 8px}
 .tb-left{display:flex;align-items:center;gap:10px}
-.tb-avatar{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:900;color:#fff;box-shadow:0 3px 12px rgba(99,102,241,.25)}
-.tb-code{font-size:0.75rem;font-weight:700;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase}
+.tb-avatar{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:900;color:#fff;box-shadow:0 3px 12px rgba(99,102,241,.25)}
+.tb-code{font-size:0.8rem;font-weight:700;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase}
 .tb-date{font-size:.85rem;font-weight:700;color:var(--text);margin-top:1px}
-.tb-breath{width:42px;height:42px;border-radius:12px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.1rem;transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.tb-breath{width:44px;height:44px;border-radius:12px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.1rem;transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.04)}
 .tb-breath:hover{box-shadow:0 4px 16px rgba(99,102,241,.12)}
 .tb-breath:active{transform:scale(.93)}
 
@@ -85,7 +90,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .ring-box .rfill{fill:none;stroke-width:6;stroke-linecap:round;transition:stroke-dashoffset .8s cubic-bezier(.4,0,.2,1)}
 .ring-box .rfill.cog{stroke:var(--cog)}.ring-box .rfill.emo{stroke:var(--emo)}.ring-box .rfill.soc{stroke:var(--soc)}
 .ring-num{font-size:1.7rem;font-weight:900;position:relative;z-index:1}
-.ring-name{font-size:.78rem;font-weight:800;letter-spacing:.8px;text-transform:uppercase}
+.ring-name{font-size:0.8rem;font-weight:800;letter-spacing:.8px;text-transform:uppercase}
 .ring-name.cog{color:var(--cog)}.ring-name.emo{color:var(--emo)}.ring-name.soc{color:var(--soc)}
 
 /* ── METEO CARD + AURA ── */
@@ -93,7 +98,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .meteo-card:hover{box-shadow:0 6px 24px rgba(0,0,0,.08)}
 .meteo-card::before{content:'';position:absolute;inset:-2px;border-radius:inherit;background:var(--aura-glow);opacity:1;transition:background .6s ease;pointer-events:none;z-index:0}
 .meteo-card::after{content:'';position:absolute;top:-60%;left:50%;transform:translateX(-50%);width:200%;height:120%;background:radial-gradient(ellipse,var(--aura-color) 0%,transparent 60%);pointer-events:none;z-index:0;transition:background .6s ease}
-.meteo-label{font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--text3);margin-bottom:14px;position:relative;z-index:1}
+.meteo-label{font-size:0.8rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--text3);margin-bottom:14px;position:relative;z-index:1}
 .meteo-emoji{font-size:3.2rem;margin-bottom:8px;position:relative;z-index:1;transition:transform .3s}
 .meteo-card:hover .meteo-emoji{transform:scale(1.1)}
 .meteo-primary{font-size:1.4rem;font-weight:900;color:var(--text);position:relative;z-index:1}
@@ -113,14 +118,14 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .act-card.c-objectif:hover,.act-card.c-objectif.lit{border-color:rgba(99,102,241,.25)}
 .act-card.c-evolution:hover,.act-card.c-evolution.lit{border-color:rgba(16,185,129,.25)}
 .act-name{font-size:.95rem;font-weight:900;color:var(--text);line-height:1.3}
-.act-badge{display:inline-block;margin-top:10px;padding:3px 10px;border-radius:999px;font-size:0.75rem;font-weight:800}
+.act-badge{display:inline-block;margin-top:10px;padding:3px 10px;border-radius:999px;font-size:0.8rem;font-weight:800}
 .act-badge.warn{background:rgba(245,158,11,.1);color:#92400e}
 .act-badge.primary-b{background:rgba(99,102,241,.08);color:var(--primary)}
 .act-badge.success{background:rgba(16,185,129,.08);color:#065f46}
 
 /* ── PROCHAINES MISSIONS ── */
 .missions-section{margin-bottom:20px}
-.missions-title{font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3);margin-bottom:12px}
+.missions-title{font-size:0.8rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3);margin-bottom:12px}
 .mission-card{background:var(--surface);border-radius:var(--radius-sm);padding:16px;margin-bottom:10px;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden;cursor:pointer;transition:all .15s;box-shadow:0 1px 4px rgba(0,0,0,.03)}
 .mission-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.06);transform:translateX(2px)}
 .mission-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;border-radius:0 4px 4px 0}
@@ -152,7 +157,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .overlay.show{display:flex}
 .overlay-header{padding:14px 20px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;z-index:10}
 .overlay-title{font-weight:800;font-size:1.05rem}
-.overlay-close{width:38px;height:38px;border-radius:12px;border:none;background:var(--surface2);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .1s;color:var(--text)}
+.overlay-close{width:44px;height:44px;border-radius:12px;border:none;background:var(--surface2);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .1s;color:var(--text)}
 .overlay-close:active{transform:scale(.9)}
 .overlay-body{flex:1;overflow-y:auto;padding:20px}
 .oc{max-width:440px;margin:0 auto}
@@ -339,6 +344,22 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .a1{animation:fadeUp .4s .05s both}.a2{animation:fadeUp .4s .12s both}.a3{animation:fadeUp .4s .2s both}.a4{animation:fadeUp .4s .28s both}.a5{animation:fadeUp .4s .36s both}
 @keyframes pulse-soft{0%,100%{opacity:.7}50%{opacity:1}}
 .pulse{animation:pulse-soft 2s ease-in-out infinite}
+
+@media (max-width: 360px) {
+  .actions-grid { grid-template-columns: repeat(2,1fr); gap:10px; }
+  .cps-row { gap: 12px; }
+  .ring-box { width: 68px; height: 68px; }
+  .ring-num { font-size: 1.4rem; }
+  .meteo-primary { font-size: 1.15rem; }
+  .welcome-brand { font-size: 1.4rem; }
+}
+
+@media (max-width: 320px) {
+  .actions-grid { grid-template-columns: 1fr 1fr; gap:8px; }
+  .act-card { padding: 16px 6px 14px; }
+  .cps-row { gap: 8px; }
+  .ring-box { width: 60px; height: 60px; }
+}
 </style>
 </head>
 <body>

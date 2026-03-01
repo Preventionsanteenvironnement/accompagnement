@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Formation Sociale — Mon Objectif</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script>
@@ -15,6 +15,11 @@ if (location.protocol === 'http:' && !/^(localhost|127\.0\.0\.1)$/.test(location
 
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+* { -webkit-tap-highlight-color: transparent; }
+button, [role="button"], .act-card, .mission-card, .meteo-card,
+.cps-item, .mood-big-btn, .mood-sec-chip {
+  touch-action: manipulation;
+}
 :root{--bg:#faf9f7;--surface:#fff;--border:rgba(0,0,0,.06);--text:#1a1a2e;--text2:#64748b;--text3:#94a3b8;--primary:#6366f1;--primary-light:#eef2ff;--cog:#3b82f6;--cog-bg:rgba(59,130,246,.08);--emo:#f43f5e;--emo-bg:rgba(244,63,94,.08);--soc:#8b5cf6;--soc-bg:rgba(139,92,246,.08);--success:#10b981;--danger:#ef4444;--warn:#f59e0b;--radius:16px;--radius-sm:12px;--shadow:0 2px 8px rgba(0,0,0,.04);--shadow-lg:0 8px 30px rgba(0,0,0,.08);--ease:cubic-bezier(.4,0,.2,1);--font:'Plus Jakarta Sans',system-ui,sans-serif}
 html{scroll-behavior:smooth}
 body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh}
