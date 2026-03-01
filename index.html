@@ -614,7 +614,35 @@ function domainColor(s){return s==='COG'?'#3b82f6':s==='EMO'?'#f43f5e':s==='SOC'
 function domainKey(k){return k.includes('cognitif')?'COG':k.includes('emotionnel')?'EMO':k.includes('social')?'SOC':'NEU'}
 function dateFr(d){if(!d)return'—';return new Date(d).toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'})}
 function daysLeft(d){if(!d)return null;const t=new Date();t.setHours(0,0,0,0);const x=new Date(d);x.setHours(0,0,0,0);return Math.ceil((x-t)/864e5)}
-function closeOv(id){document.getElementById(id).classList.remove('show')}
+// ── Overlay navigation stack ──
+var overlayStack=[];
+function openOv(id,opts){
+  var el=document.getElementById(id);if(!el)return;
+  // opts.replace: close current without pushing to stack (for same-level swap)
+  // opts.over: open on top without hiding the one below
+  if(!opts)opts={};
+  if(!opts.over){
+    // Hide current top overlay (if any) and push it to the stack
+    var current=document.querySelector('.overlay.show');
+    if(current&&current.id!==id){
+      if(opts.replace){current.classList.remove('show')}
+      else{current.classList.remove('show');overlayStack.push(current.id)}
+    }
+  }
+  el.classList.add('show');
+}
+function closeOv(id){
+  var el=document.getElementById(id);if(el)el.classList.remove('show');
+  // Restore previous overlay from stack
+  if(overlayStack.length){
+    var prev=overlayStack.pop();
+    // Refresh overlay content before showing it again
+    if(prev==='objectifs-overlay')openObjectifsOverlay();
+    else if(prev==='stage-overlay')openStageOverlay();
+    else if(prev==='cps-overlay'&&window._lastCpsAx)openCpsSpace(window._lastCpsAx);
+    else{var prevEl=document.getElementById(prev);if(prevEl)prevEl.classList.add('show')}
+  }
+}
 function litCard(el){el.classList.remove('lit');void el.offsetWidth;el.classList.add('lit');setTimeout(function(){el.classList.remove('lit')},500)}
 async function loadContext(key){if(contextData[key])return contextData[key];try{const r=await fetch('data/bibliotheque/'+(CTX_FILES[key]||'autre.json'),{cache:'no-store'});contextData[key]=await r.json();return contextData[key]}catch(e){return null}}
 function addHistory(k,action){db.ref('accompagnement/eleves/'+dataCode+'/objectifs/'+k+'/historique').push({action:action,date:new Date().toISOString()})}
@@ -709,7 +737,18 @@ function checkSchedule(code,auth,callback){
 function isWithinSchedule(horaires){var joursRef=['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];var now=new Date();var jour=joursRef[now.getDay()];var schedule=horaires[jour];if(!schedule||!schedule.actif)return false;var currentMinutes=now.getHours()*60+now.getMinutes();var parts=schedule.debut.split(':');var debutMinutes=parseInt(parts[0])*60+parseInt(parts[1]);parts=schedule.fin.split(':');var finMinutes=parseInt(parts[0])*60+parseInt(parts[1]);return currentMinutes>=debutMinutes&&currentMinutes<=finMinutes}
 function showDenied(reason){var icon=document.getElementById('denied-icon');var title=document.getElementById('denied-title');var msg=document.getElementById('denied-msg');if(reason==='unknown'){icon.textContent='🔐';title.textContent='Code non reconnu';msg.textContent='Vérifie ton code et réessaie. Il t\u2019a été donné par ton enseignant.'}else if(reason==='outside-hours'){icon.textContent='🕐';title.textContent='Accès fermé pour le moment';msg.textContent='L\u2019espace est disponible uniquement pendant les horaires définis par ton enseignant. Reviens plus tard\u00a0!'}else{icon.textContent='⏳';title.textContent='Ton espace n\u2019est pas encore actif';msg.textContent='Ton enseignant doit d\u2019abord activer ton accès.'}document.getElementById('welcome').style.display='none';document.getElementById('access-denied').style.display='flex'}
 function backToWelcome(){clearSessionCode();customBiblioCache={};document.getElementById('access-denied').style.display='none';document.getElementById('welcome').style.display='flex';document.getElementById('code-input').value='';document.getElementById('code-input').focus();document.getElementById('welcome-error').textContent='';window.history.replaceState({},'',window.location.pathname)}
-function showApp(){var a=document.getElementById('app');a.style.display='block'}
+function showApp(){var a=document.getElementById('app');a.style.display='block';
+  // Restore overlay if returning from a sub-page (formation, stage, synthese)
+  var navReturn=sessionStorage.getItem('nav_return_overlay');
+  if(navReturn){sessionStorage.removeItem('nav_return_overlay');
+    var parts=navReturn.split('|'),ovId=parts[0],ax=parts[1]||'';
+    setTimeout(function(){
+      if(ovId==='cps-overlay'&&ax)openCpsSpace(ax);
+      else if(ovId==='detail-overlay'&&currentEditId)openDetail(currentEditId);
+      else{var el=document.getElementById(ovId);if(el)el.classList.add('show')}
+    },300);
+  }
+}
 function loadData(){db.ref('accompagnement/eleves/'+dataCode).on('value',function(snap){userData=snap.val()||{};if(!userData.objectifs)userData.objectifs={};if(!userData.meteo)userData.meteo={};render();checkMood()})}
 
 // ══════════════════════════════════════════
@@ -799,7 +838,7 @@ function openObjectifsOverlay(){
   });
   activeList.sort(function(a,b){return new Date(a.date_cible||'2099-01-01')-new Date(b.date_cible||'2099-01-01')});
 
-  var html='<button class="add-btn" onclick="closeOv(\'objectifs-overlay\');startWizard()">+ Ajouter un objectif</button>';
+  var html='<button class="add-btn" onclick="startWizardFrom(\'objectifs-overlay\')">+ Ajouter un objectif</button>';
   html+='<div class="obj-section-title">En cours <span class="count">'+activeList.length+'</span></div>';
   if(!activeList.length)html+='<div class="empty-msg">Aucun objectif — appuie sur + pour commencer</div>';
   else html+=activeList.map(function(g){return renderObjCard(g,false)}).join('');
@@ -821,7 +860,7 @@ function openStageOverlay(){
     if(g.context==='Recherche'){if(g.done)doneRech.push(Object.assign({k:k},g));else rechList.push(Object.assign({k:k},g))}
   });
 
-  var html='<button class="add-btn stage-add" onclick="closeOv(\'stage-overlay\');startWizardStage()">+ Ajouter un objectif stage</button>';
+  var html='<button class="add-btn stage-add" onclick="startWizardStageFrom(\'stage-overlay\')">+ Ajouter un objectif stage</button>';
 
   html+='<div class="obj-section-title">Objectifs PFMP <span class="count">'+pfmpList.length+'</span></div>';
   if(!pfmpList.length)html+='<div class="empty-msg">Aucun objectif PFMP</div>';
@@ -960,7 +999,8 @@ window.markDone=function(k){if(confirm("Objectif atteint ? 🎉")){db.ref('accom
 // ══════════════════════════════════════════
 // DETAIL OVERLAY
 // ══════════════════════════════════════════
-window.openDetail=function(k){
+window.openDetailFrom=function(fromId,k){openOv('detail-overlay');openDetail(k,true)};
+window.openDetail=function(k,skipShow){
   currentEditId=k;var g=userData.objectifs[k];if(!g)return;
   var ax=getAx(g),cls=axCls(ax),meta=AX[ax]||{emoji:'📋',label:'Autre',color:'var(--text3)'};
   var detailKey=safeId(k);
@@ -992,14 +1032,14 @@ window.openDetail=function(k){
   c.innerHTML='<div class="mission-header '+cls+'"><div class="mission-cadre">'+cadreIcon+' '+safeContext+'</div><div class="mission-titre">'+safeTitle+'</div>'+compBlocHtml+'<div class="mission-cps">'+(meta.emoji||'')+' '+safeSpeLabel+safeGenLabel+'</div><span class="mission-status '+statusCls+'">'+(statusCls==='valide'?'✅':'⏳')+' '+statusTxt+'</span></div>'
     +'<div class="mission-block"><div class="mission-block-title">Contexte</div><div class="mb-row"><span class="mb-icon">📅</span><span class="mb-label">Échéance</span><span class="mb-val">'+dateFr(g.date_cible)+'</span></div><div class="mb-row"><span class="mb-icon">📍</span><span class="mb-label">'+(g.context==='Scolaire'?'Matière':'Lieu')+'</span><span class="mb-val">'+safeDetail+'</span></div><div class="mb-row"><span class="mb-icon">🧭</span><span class="mb-label">Axe</span><span class="mb-val" style="color:'+domainColor(ax)+'">'+(meta.label||'')+'</span></div>'+tlHtml+'</div>'
     +(g.spe_label?'<button class="mission-cps-link" onclick="openFormationFor(\''+ax+'\',\''+safeSpeCode+'\')">💡 Comprendre cette compétence</button>':'')
-    +(isStage?'<div class="mission-block"><div class="mission-block-title">Pistes de recherche</div><div id="stage-lieux-list"></div><button class="wiz-option" style="margin-top:6px;border-style:dashed;text-align:center;color:var(--primary)" onclick="addStageLieu()">+ Ajouter un lieu / entreprise</button><button class="wiz-option" style="margin-top:4px;text-align:center;color:var(--warn);font-weight:800" onclick="window.location.href=\'stage.html\'">🏢 Voir mon espace Stage complet</button></div>':'')
+    +(isStage?'<div class="mission-block"><div class="mission-block-title">Pistes de recherche</div><div id="stage-lieux-list"></div><button class="wiz-option" style="margin-top:6px;border-style:dashed;text-align:center;color:var(--primary)" onclick="addStageLieu()">+ Ajouter un lieu / entreprise</button><button class="wiz-option" style="margin-top:4px;text-align:center;color:var(--warn);font-weight:800" onclick="var ov=document.querySelector(\'.overlay.show\');if(ov)sessionStorage.setItem(\'nav_return_overlay\',ov.id);window.location.href=\'stage.html\'">🏢 Voir mon espace Stage complet</button></div>':'')
     +'<div class="mission-block"><div class="mission-block-title">Modifier</div><label style="font-size:0.8rem;font-weight:700;color:var(--text3);display:block;margin-bottom:3px">Échéance</label><input type="date" class="fi" id="det-date" value="'+(g.date_cible||'')+'"><label style="font-size:0.8rem;font-weight:700;color:var(--text3);display:block;margin-bottom:3px">'+(g.context==='Scolaire'?'Matière':'Détail')+'</label>'+matSelect+'</div>'
     +'<div class="mission-block"><div class="mission-block-title">Historique</div><div class="mission-history">'+renderHistory(g)+'</div></div>'
     +'<div class="mission-actions"><button class="btn-mission primary" onclick="saveDetail()">💾 Enregistrer</button><button class="btn-mission outline" onclick="showQRForGoal()">🔗 Faire valider par un adulte</button>'
     +(!g.done?'<button class="btn-mission success" onclick="markDone(\''+detailKey+'\');closeOv(\'detail-overlay\')">✅ Marquer comme atteint</button>':'')
     +'<button class="btn-mission danger" onclick="deleteGoal()">Supprimer</button></div>';
   if(isStage)renderStageLieux(k);
-  document.getElementById('detail-overlay').classList.add('show');
+  if(!skipShow)document.getElementById('detail-overlay').classList.add('show');
 };
 
 window.saveDetail=function(){db.ref('accompagnement/eleves/'+dataCode+'/objectifs/'+currentEditId).update({date_cible:document.getElementById('det-date').value,detail:document.getElementById('det-context').value});addHistory(currentEditId,'Modifié');closeOv('detail-overlay')}
@@ -1017,6 +1057,7 @@ window.updateStageLieu=function(gId,lId,statut){db.ref('accompagnement/eleves/'+
 // CPS SPACE
 // ══════════════════════════════════════════
 window.openCpsSpace=async function(ax){
+  window._lastCpsAx=ax;
   var meta=AX[ax];document.getElementById('cps-space-title').textContent=meta.emoji+' '+meta.label;
   var goals=Object.entries(userData.objectifs||{}).filter(function(e){return getAx(e[1])===ax});
   var doneC=goals.filter(function(e){return e[1].done}).length,activeC=goals.filter(function(e){return!e[1].done}).length;
@@ -1026,7 +1067,7 @@ window.openCpsSpace=async function(ax){
   var c=document.getElementById('cps-space-content');
   c.innerHTML='<div class="cps-space-hero '+meta.cls+'"><div class="cps-space-emoji">'+meta.emoji+'</div><div class="cps-space-name">'+meta.label+'</div><div class="cps-space-sub">'+meta.desc+'</div></div>'
     +'<div class="cps-space-stats"><div class="cps-stat"><div class="cps-stat-val" style="color:'+domainColor(ax)+'">'+goals.length+'</div><div class="cps-stat-lbl">Total</div></div><div class="cps-stat"><div class="cps-stat-val" style="color:var(--success)">'+doneC+'</div><div class="cps-stat-lbl">Validés</div></div><div class="cps-stat"><div class="cps-stat-val" style="color:var(--warn)">'+activeC+'</div><div class="cps-stat-lbl">En cours</div></div></div>';
-  if(activeC){c.innerHTML+='<div class="cps-space-section"><h4>⏳ En cours</h4>'+goals.filter(function(e){return!e[1].done}).map(function(e){var dl=daysLeft(e[1].date_cible);var lbl=dl!==null?(dl<0?'Dépassé':dl===0?"Auj.":'J-'+dl):'';return '<div class="cps-comp-card" onclick="closeOv(\'cps-overlay\');openDetail(\''+safeId(e[0])+'\')"><div class="cps-comp-title">'+escHtml(e[1].titre||'')+'</div><div class="cps-comp-gen">'+escHtml(e[1].detail||'')+' '+(lbl?'· '+lbl:'')+'</div></div>'}).join('')+'</div>'}
+  if(activeC){c.innerHTML+='<div class="cps-space-section"><h4>⏳ En cours</h4>'+goals.filter(function(e){return!e[1].done}).map(function(e){var dl=daysLeft(e[1].date_cible);var lbl=dl!==null?(dl<0?'Dépassé':dl===0?"Auj.":'J-'+dl):'';return '<div class="cps-comp-card" onclick="openDetailFrom(\'cps-overlay\',\''+safeId(e[0])+'\')"><div class="cps-comp-title">'+escHtml(e[1].titre||'')+'</div><div class="cps-comp-gen">'+escHtml(e[1].detail||'')+' '+(lbl?'· '+lbl:'')+'</div></div>'}).join('')+'</div>'}
   if(doneC){c.innerHTML+='<div class="cps-space-section"><h4>✅ Validés</h4>'+goals.filter(function(e){return e[1].done}).map(function(e){return '<div class="cps-comp-card" style="opacity:.6"><div class="cps-comp-title">'+escHtml(e[1].titre||'')+'</div><div class="cps-comp-gen">Validé le '+dateFr(e[1].date_done)+'</div></div>'}).join('')+'</div>'}
   c.innerHTML+='<div class="cps-space-section"><h4>📚 Référentiel</h4>'+comps.map(function(s){return '<div class="cps-comp-card" onclick="openFormationFor(\''+ax+'\',\''+String(s.code_spe||'').replace(/['\\]/g,'')+'\')">'+'<div class="cps-comp-title">'+escHtml(s.nom_spe)+'</div><div class="cps-comp-gen">'+escHtml(s.gen_label)+'</div></div>'}).join('')+'</div>'
     +'<button class="cps-formation-btn" onclick="openFormation(\''+ax+'\')">📖 Explorer l\'espace '+meta.label+'</button>';
@@ -1036,8 +1077,15 @@ window.openCpsSpace=async function(ax){
 // ══════════════════════════════════════════
 // FORMATION CPS
 // ══════════════════════════════════════════
-window.openFormation=function(ax){var pages={COG:'formation-cognitif.html',EMO:'formation-emotionnel.html',SOC:'formation-social.html'};window.location.href=(pages[ax]||'formation-cognitif.html')}
-window.openFormationFor=function(ax,speCode){var pages={COG:'formation-cognitif.html',EMO:'formation-emotionnel.html',SOC:'formation-social.html'};window.location.href=(pages[ax]||'formation-cognitif.html')+'#'+encodeURIComponent(speCode)}
+window.openFormation=function(ax){var pages={COG:'formation-cognitif.html',EMO:'formation-emotionnel.html',SOC:'formation-social.html'};
+  // Remember which overlay to reopen on return
+  var visibleOv=document.querySelector('.overlay.show');
+  if(visibleOv)sessionStorage.setItem('nav_return_overlay',visibleOv.id+'|'+ax);
+  window.location.href=(pages[ax]||'formation-cognitif.html')}
+window.openFormationFor=function(ax,speCode){var pages={COG:'formation-cognitif.html',EMO:'formation-emotionnel.html',SOC:'formation-social.html'};
+  var visibleOv=document.querySelector('.overlay.show');
+  if(visibleOv)sessionStorage.setItem('nav_return_overlay',visibleOv.id+'|'+ax);
+  window.location.href=(pages[ax]||'formation-cognitif.html')+'#'+encodeURIComponent(speCode)}
 
 // ══════════════════════════════════════════
 // QR / RECO
@@ -1055,8 +1103,13 @@ window.openAttestation=function(){window.location.href='synthese.html'}
 // ══════════════════════════════════════════
 // WIZARD — Start
 // ══════════════════════════════════════════
-window.startWizard=function(){draft={};document.getElementById('wizard-overlay').classList.add('show');wizStep(1)}
-window.startWizardStage=function(){draft={};document.getElementById('wizard-overlay').classList.add('show');
+window.startWizardFrom=function(fromId){draft={};openOv('wizard-overlay');wizStep(1)}
+window.startWizard=function(){draft={};overlayStack=[];document.getElementById('wizard-overlay').classList.add('show');wizStep(1)}
+window.startWizardStageFrom=function(fromId){draft={};openOv('wizard-overlay');
+  var c=document.getElementById('wizard-content');c.innerHTML='';
+  c.innerHTML='<div class="wiz-title">Quel type d\'objectif stage ?</div><button class="wiz-option" onclick="draft.context=\'PFMP\';wizStep(2)">🏢 PFMP / Stage</button><button class="wiz-option" onclick="draft.context=\'Recherche\';wizStep(2)">🔍 Recherche de stage</button>';
+}
+window.startWizardStage=function(){draft={};overlayStack=[];document.getElementById('wizard-overlay').classList.add('show');
   // Pre-select stage context choices
   var c=document.getElementById('wizard-content');c.innerHTML='';
   c.innerHTML='<div class="wiz-title">Quel type d\'objectif stage ?</div><button class="wiz-option" onclick="draft.context=\'PFMP\';wizStep(2)">🏢 PFMP / Stage</button><button class="wiz-option" onclick="draft.context=\'Recherche\';wizStep(2)">🔍 Recherche de stage</button>';
