@@ -207,6 +207,8 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .wiz-title{font-size:1rem;font-weight:800;margin-bottom:14px}
 .wiz-option{width:100%;text-align:left;padding:15px 16px;margin-bottom:8px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);font-family:var(--font);font-weight:600;font-size:0.9rem;color:var(--text);cursor:pointer;transition:all .15s}
 .wiz-option:hover{border-color:var(--primary);background:var(--primary-light)}
+.wiz-option-label{display:block;font-size:0.9rem;font-weight:700;color:var(--text);line-height:1.4;margin-bottom:4px}
+.wiz-option-comp{display:block;font-size:0.75rem;font-weight:600;color:var(--text3);font-style:italic}
 .wiz-back{display:inline-flex;align-items:center;gap:4px;font-size:.8rem;font-weight:700;color:var(--text2);cursor:pointer;margin-bottom:14px;background:none;border:none;font-family:var(--font)}
 .wiz-search{width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-family:var(--font);font-size:.8rem;margin-bottom:14px;outline:none}
 .wiz-search:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(99,102,241,.08)}
@@ -262,6 +264,11 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .mission-header.cog{background:linear-gradient(135deg,rgba(59,130,246,.08),rgba(59,130,246,.02))}.mission-header.emo{background:linear-gradient(135deg,rgba(244,63,94,.08),rgba(244,63,94,.02))}.mission-header.soc{background:linear-gradient(135deg,rgba(139,92,246,.08),rgba(139,92,246,.02))}.mission-header.neu{background:var(--bg)}
 .mission-cadre{display:inline-flex;align-items:center;gap:6px;font-size:0.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);margin-bottom:8px}
 .mission-titre{font-weight:800;font-size:1.05rem;line-height:1.35;margin-bottom:6px}
+.mission-comp-bloc{display:flex;align-items:flex-start;gap:10px;background:var(--primary-light);border:1px solid rgba(99,102,241,.15);border-radius:var(--radius-sm);padding:10px 14px;margin:8px 0 12px}
+.mission-comp-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px}
+.mission-comp-text{flex:1}
+.mission-comp-name{font-size:0.88rem;font-weight:800;color:var(--primary);line-height:1.3}
+.mission-comp-code{font-size:0.75rem;font-weight:600;color:var(--text3);margin-top:2px}
 .mission-cps{font-size:0.85rem;color:var(--text2);font-weight:600}
 .mission-status{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;font-size:0.8rem;font-weight:700;margin-top:6px}
 .mission-status.en-cours{background:rgba(245,158,11,.1);color:#92400e}.mission-status.valide{background:rgba(16,185,129,.1);color:#065f46}
@@ -747,14 +754,18 @@ function renderMissions(active){
     var ax=getAx(g),dotCls=axCls(ax);
     var gKey=safeId(g.k);
     var gTitle=escHtml(g.titre||'Sans titre');
-    var gDetail=escHtml(g.detail||g.context||'');
+    var gContext=escHtml(g.context||'Autre');
+    var rawCompName=(g.cps&&(g.cps.spe_label||g.cps.nom_spe))||g.spe_label||g.nom_spe||'';
+    var compName=String(rawCompName||'').trim();
+    if(compName.length>30)compName=compName.slice(0,29)+'…';
+    var compPart=compName?' · '+escHtml(compName):'';
     // Stars (validations count — placeholder, uses 0-5)
     var valCount=g.validations_count||0;
     var stars='';for(var i=0;i<5;i++)stars+='<span class="mission-star '+(i<valCount?'on':'off')+'">★</span>';
     return '<div class="mission-card '+cls+'" onclick="openDetail(\''+gKey+'\')">'+
       '<div class="mission-time"><div class="mission-time-icon '+(cls==='urgent'?'pulse':'')+'">'+ icon+'</div><div class="mission-time-label">'+timeLabel+'</div><div class="mission-encourage">'+encourage+'</div></div>'+
       '<div class="mission-info"><div class="mission-name">'+gTitle+'</div>'+
-      '<div class="mission-detail"><span class="mission-dot '+dotCls+'"></span>'+gDetail+'</div>'+
+      '<div class="mission-detail"><span class="mission-dot '+dotCls+'"></span>'+gContext+compPart+'</div>'+
       '<div class="mission-stars">'+stars+'<span class="mission-valid">'+valCount+'/5</span></div></div></div>';
   }).join('');
 }
@@ -943,6 +954,13 @@ window.openDetail=function(k){
   var safeGenLabel=g.gen_label?' · '+escHtml(g.gen_label):'';
   var safeDetail=escHtml(g.detail||'Non précisé');
   var safeSpeCode=String(g.spe_code||'').replace(/['\\]/g,'');
+  var compBlocHtml='';
+  if(g.cps){
+    var compName=escHtml((g.cps.spe_label||g.cps.label||''));
+    var compCode=escHtml((g.cps.spe_code||g.cps.code||''));
+    var compDesc=compCode?(compCode+' · Ce savoir-faire contribue à cette compétence'):'Ce savoir-faire contribue à cette compétence';
+    compBlocHtml='<div class="mission-comp-bloc"><span class="mission-comp-icon">🎯</span><div class="mission-comp-text"><div class="mission-comp-name">'+compName+'</div><div class="mission-comp-code">'+compDesc+'</div></div></div>';
+  }
   var dl=daysLeft(g.date_cible),created=new Date(g.created||Date.now()),target=g.date_cible?new Date(g.date_cible):null;
   var pct=0;if(target){var total=Math.max((target-created)/864e5,1);var elapsed=Math.max((new Date()-created)/864e5,0);pct=Math.min(Math.round((elapsed/total)*100),100)}
   var statusTxt=g.done?'Validé':'En cours',statusCls=g.done?'valide':'en-cours';
@@ -955,7 +973,7 @@ window.openDetail=function(k){
   if(g.context==='Scolaire'){matSelect='<select class="fi" id="det-context">'+MATIERES.map(function(m){return '<option value="'+m+'"'+(m===g.detail?' selected':'')+'>'+m+'</option>'}).join('')+'<option value="__autre"'+(MATIERES.indexOf(g.detail)===-1?' selected':'')+'>Autre…</option></select>'}
   else{matSelect='<input type="text" class="fi" id="det-context" value="'+escAttr(g.detail||'')+'">'}
   var c=document.getElementById('detail-content');
-  c.innerHTML='<div class="mission-header '+cls+'"><div class="mission-cadre">'+cadreIcon+' '+safeContext+'</div><div class="mission-titre">'+safeTitle+'</div><div class="mission-cps">'+(meta.emoji||'')+' '+safeSpeLabel+safeGenLabel+'</div><span class="mission-status '+statusCls+'">'+(statusCls==='valide'?'✅':'⏳')+' '+statusTxt+'</span></div>'
+  c.innerHTML='<div class="mission-header '+cls+'"><div class="mission-cadre">'+cadreIcon+' '+safeContext+'</div><div class="mission-titre">'+safeTitle+'</div>'+compBlocHtml+'<div class="mission-cps">'+(meta.emoji||'')+' '+safeSpeLabel+safeGenLabel+'</div><span class="mission-status '+statusCls+'">'+(statusCls==='valide'?'✅':'⏳')+' '+statusTxt+'</span></div>'
     +'<div class="mission-block"><div class="mission-block-title">Contexte</div><div class="mb-row"><span class="mb-icon">📅</span><span class="mb-label">Échéance</span><span class="mb-val">'+dateFr(g.date_cible)+'</span></div><div class="mb-row"><span class="mb-icon">📍</span><span class="mb-label">'+(g.context==='Scolaire'?'Matière':'Lieu')+'</span><span class="mb-val">'+safeDetail+'</span></div><div class="mb-row"><span class="mb-icon">🧭</span><span class="mb-label">Axe</span><span class="mb-val" style="color:'+domainColor(ax)+'">'+(meta.label||'')+'</span></div>'+tlHtml+'</div>'
     +(g.spe_label?'<button class="mission-cps-link" onclick="openFormationFor(\''+ax+'\',\''+safeSpeCode+'\')">💡 Comprendre cette compétence</button>':'')
     +(isStage?'<div class="mission-block"><div class="mission-block-title">Pistes de recherche</div><div id="stage-lieux-list"></div><button class="wiz-option" style="margin-top:6px;border-style:dashed;text-align:center;color:var(--primary)" onclick="addStageLieu()">+ Ajouter un lieu / entreprise</button><button class="wiz-option" style="margin-top:4px;text-align:center;color:var(--warn);font-weight:800" onclick="window.location.href=\'stage.html\'">🏢 Voir mon espace Stage complet</button></div>':'')
@@ -1037,12 +1055,12 @@ function wizStep(s){
     loadContext(draft.context).then(function(data){if(!data){c.innerHTML+='<div class="empty-msg">Bibliothèque non disponible</div>';return}var q=(document.getElementById('cps-search')?document.getElementById('cps-search').value:'').toLowerCase();window.__CPS_MAP={};window.__OBJ_MAP={};
     Object.entries(data).forEach(function(entry){var domK=entry[0],dom=entry[1],ax=domainKey(domK),color=domainColor(ax);
       if(wizMode==='competence'){var chips=[];(dom.categories||[]).forEach(function(cat){(cat.competences_generales||[]).forEach(function(gen){(gen.competences_specifiques||[]).forEach(function(spe){if(q&&(spe.nom_spe+' '+gen.nom_gen+' '+cat.nom_cat).toLowerCase().indexOf(q)===-1)return;var uid=ax+'_'+spe.code_spe;window.__CPS_MAP[uid]={domain:ax,cat_code:cat.code_cat,cat_label:cat.nom_cat,gen_code:gen.code_gen,gen_label:gen.nom_gen,spe_code:spe.code_spe,spe_label:spe.nom_spe,objectifs:spe.objectifs_eleve||[],color:color};chips.push('<div class="wiz-chip" onclick="selectCps(\''+uid+'\')"><span class="dot" style="background:'+color+'"></span><span>'+spe.nom_spe+'</span></div>')})})});if(chips.length)c.innerHTML+='<div class="wiz-section-h" style="color:'+color+'">'+domainLabel(ax)+'</div>'+chips.join('')}
-      else{var items=[];(dom.categories||[]).forEach(function(cat){(cat.competences_generales||[]).forEach(function(gen){(gen.competences_specifiques||[]).forEach(function(spe){(spe.objectifs_eleve||[]).forEach(function(obj,i){if(q&&(obj.texte+' '+spe.nom_spe).toLowerCase().indexOf(q)===-1)return;var uid='OBJ_'+ax+'_'+spe.code_spe+'_'+i;window.__OBJ_MAP[uid]=Object.assign({},obj,{domain:ax,cat_code:cat.code_cat,cat_label:cat.nom_cat,gen_code:gen.code_gen,gen_label:gen.nom_gen,spe_code:spe.code_spe,spe_label:spe.nom_spe,color:color});items.push('<button class="wiz-option" style="border-left:4px solid '+color+'" onclick="selectObj(\''+uid+'\')">'+obj.texte+'</button>')})})})});if(items.length)c.innerHTML+='<div class="wiz-section-h" style="color:'+color+'">'+domainLabel(ax)+'</div>'+items.join('')}
+      else{var items=[];(dom.categories||[]).forEach(function(cat){(cat.competences_generales||[]).forEach(function(gen){(gen.competences_specifiques||[]).forEach(function(spe){(spe.objectifs_eleve||[]).forEach(function(obj,i){if(q&&(obj.texte+' '+spe.nom_spe).toLowerCase().indexOf(q)===-1)return;var uid='OBJ_'+ax+'_'+spe.code_spe+'_'+i;window.__OBJ_MAP[uid]=Object.assign({},obj,{domain:ax,cat_code:cat.code_cat,cat_label:cat.nom_cat,gen_code:gen.code_gen,gen_label:gen.nom_gen,spe_code:spe.code_spe,spe_label:spe.nom_spe,color:color});items.push('<button class="wiz-option" style="border-left:4px solid '+color+'" onclick="selectObj(\''+uid+'\')"><span class="wiz-option-label">'+escHtml(obj.texte||'')+'</span><span class="wiz-option-comp">'+escHtml(spe.nom_spe||'')+'</span></button>')})})})});if(items.length)c.innerHTML+='<div class="wiz-section-h" style="color:'+color+'">'+domainLabel(ax)+'</div>'+items.join('')}
     });c.innerHTML+='<div style="font-size:0.8rem;color:var(--text3);margin-top:10px;text-align:center">Référentiel : Santé publique France</div>'})}
   else if(s===3){
     if(draft.context==='Autre'||!draft.cps){c.innerHTML+='<div class="wiz-title">Objectif libre</div><p style="font-size:.8rem;color:var(--text2);margin-bottom:12px">Écris ton propre objectif :</p><input type="text" class="fi" id="free-goal" placeholder="Mon objectif…"><button class="wiz-confirm" onclick="if(document.getElementById(\'free-goal\').value){draft.titre=document.getElementById(\'free-goal\').value;draft.code_ref=\'\';draft._backTo=3;wizStep(6)}">Continuer</button>';return}
     c.innerHTML+='<div class="wiz-title">Choisis un objectif</div><div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin-bottom:14px;border-left:4px solid '+(draft.cps.color||domainColor(draft.cps.domain))+'"><div style="font-weight:700;font-size:.82rem">'+draft.cps.spe_label+'</div><div style="font-size:0.8rem;color:var(--text2);margin-top:3px">'+domainLabel(draft.cps.domain)+' · '+draft.cps.gen_label+'</div></div>';
-    (draft.cps.objectifs||[]).forEach(function(o,i){var uid='SEL_'+draft.cps.spe_code+'_'+i;window.__OBJ_MAP=window.__OBJ_MAP||{};window.__OBJ_MAP[uid]=Object.assign({},o,{domain:draft.cps.domain,spe_code:draft.cps.spe_code,spe_label:draft.cps.spe_label,gen_code:draft.cps.gen_code,gen_label:draft.cps.gen_label,cat_code:draft.cps.cat_code,cat_label:draft.cps.cat_label});c.innerHTML+='<button class="wiz-option" onclick="selectObj(\''+uid+'\')">'+o.texte+'</button>'});
+    (draft.cps.objectifs||[]).forEach(function(o,i){var uid='SEL_'+draft.cps.spe_code+'_'+i;window.__OBJ_MAP=window.__OBJ_MAP||{};window.__OBJ_MAP[uid]=Object.assign({},o,{domain:draft.cps.domain,spe_code:draft.cps.spe_code,spe_label:draft.cps.spe_label,gen_code:draft.cps.gen_code,gen_label:draft.cps.gen_label,cat_code:draft.cps.cat_code,cat_label:draft.cps.cat_label});c.innerHTML+='<button class="wiz-option" onclick="selectObj(\''+uid+'\')"><span class="wiz-option-label">'+escHtml(o.texte||'')+'</span><span class="wiz-option-comp">'+escHtml(draft.cps.spe_label||'')+'</span></button>'});
     c.innerHTML+='<button class="wiz-option" style="color:var(--primary);border-style:dashed" onclick="var t=prompt(\'Ton objectif ?\');if(t){draft.titre=t;draft.code_ref=\'\';draft._backTo=3;wizStep(6)}">✏️ Écrire mon propre objectif</button>'}
   else if(s===4){c.innerHTML+='<div class="wiz-title">Pour quand ?</div><input type="date" class="fi" id="w-date" value="'+(draft.date||new Date().toISOString().split('T')[0])+'"><button class="wiz-confirm" onclick="draft.date=document.getElementById(\'w-date\').value;wizStep(5)">Continuer</button>'}
   else if(s===5){
