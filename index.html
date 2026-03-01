@@ -350,7 +350,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
     <h1 class="welcome-brand">mon<span>objectif</span>.fr</h1>
     <p class="welcome-sub">Bienvenue sur ton espace personnel</p>
     <div class="welcome-form">
-      <input type="text" class="welcome-input" id="code-input" placeholder="Code secret" maxlength="8" autocomplete="off" spellcheck="false" autofocus>
+      <input type="text" class="welcome-input" id="code-input" placeholder="Code secret" maxlength="16" autocomplete="off" spellcheck="false" autofocus>
       <button class="welcome-btn" id="code-btn" onclick="submitCode()">Accéder à mon espace</button>
     </div>
     <p class="welcome-error" id="welcome-error"></p>
@@ -610,28 +610,26 @@ window.addEventListener('load',function(){
   var codeInput=document.getElementById('code-input');
   document.getElementById('h-date').textContent=jours[now.getDay()]+' '+now.getDate()+' '+mois[now.getMonth()];
   codeInput.addEventListener('input',function(e){
-    e.target.value=e.target.value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,8);
+    e.target.value=e.target.value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,16);
   });
   codeInput.addEventListener('keydown',function(e){if(e.key==='Enter')submitCode()});
   var urlCode=new URLSearchParams(window.location.search).get('id');
-  if(urlCode){codeInput.value=String(urlCode).toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,8);submitCode()}
+  if(urlCode){codeInput.value=String(urlCode).toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,16);submitCode()}
 });
 
 function submitCode(){
   var input=document.getElementById('code-input');var btn=document.getElementById('code-btn');var err=document.getElementById('welcome-error');
-  var raw=input.value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,8);
+  var raw=input.value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,16);
   var aliases={PROFPSE:'PROFPSE',INVITE:'INVITE',INVITES:'INVITE'};
   var code=aliases[raw]||raw;
   var isSpecial=(code==='PROFPSE'||code==='INVITE');
   input.value=code;
-  if(!(code==='PROFPSE'||code==='INVITE'||/^[A-Z0-9]{4}$/.test(code))){err.textContent='Code secret invalide.';return}
+  if(!/^[A-Z0-9]{4,16}$/.test(code)){err.textContent='Code secret invalide.';return}
   err.textContent='';btn.disabled=true;btn.innerHTML='<span class="btn-spinner"></span> Vérification…';
   db.ref('accompagnement/autorisations/'+code).once('value',function(snap){
     var auth=snap.val();
-    if(isSpecial){
-      if(!auth)auth={};
-      auth.autorise=true;
-      auth.userCode=code;
+    if(!auth&&isSpecial){
+      auth={autorise:true,userCode:code,bypass_schedule:true,special:true};
     }
     if(!auth){btn.disabled=false;btn.textContent='Accéder à mon espace';err.textContent='Code incorrect.';return}
     if(auth.autorise!==true){btn.disabled=false;btn.textContent='Accéder à mon espace';showDenied('not-authorized');return}
@@ -646,16 +644,13 @@ function submitCode(){
       document.getElementById('tb-avatar').textContent=code.substring(0,2);
       showApp();loadData();
       if(authListener)db.ref('accompagnement/autorisations/'+code).off('value',authListener);
-      if(!isSpecial){
-        authListener=db.ref('accompagnement/autorisations/'+code).on('value',function(s){var d=s.val();if(!d||d.autorise!==true){document.getElementById('app').style.display='none';showDenied('not-authorized')}});
-      }else{
-        authListener=null;
-      }
+      authListener=db.ref('accompagnement/autorisations/'+code).on('value',function(s){var d=s.val();if(!d||d.autorise!==true){document.getElementById('app').style.display='none';showDenied('not-authorized')}});
     });
   });
 }
 
 function checkSchedule(code,auth,callback){
+  if(auth&&auth.bypass_schedule===true){callback(true);return}
   if(code==='PROFPSE'||code==='INVITE'){callback(true);return}
   if(auth.horaires){callback(isWithinSchedule(auth.horaires));return}
   db.ref('accompagnement/config/horaires_global').once('value',function(snap){var global=snap.val();if(!global){callback(true);return}callback(isWithinSchedule(global))});
