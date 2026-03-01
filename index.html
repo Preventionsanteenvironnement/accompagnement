@@ -614,11 +614,13 @@ function submitCode(){
   var raw=input.value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,8);
   var aliases={PROFPSE:'PROFPSE',INVITE:'INVITE',INVITES:'INVITE'};
   var code=aliases[raw]||raw;
+  var isSpecial=(code==='PROFPSE'||code==='INVITE');
   input.value=code;
   if(!(code==='PROFPSE'||code==='INVITE'||/^[A-Z0-9]{4}$/.test(code))){err.textContent='Code secret invalide.';return}
   err.textContent='';btn.disabled=true;btn.innerHTML='<span class="btn-spinner"></span> Vérification…';
   db.ref('accompagnement/autorisations/'+code).once('value',function(snap){
     var auth=snap.val();
+    if(!auth&&isSpecial){auth={autorise:true,userCode:code}}
     if(!auth){btn.disabled=false;btn.textContent='Accéder à mon espace';err.textContent='Code incorrect.';return}
     if(auth.autorise!==true){btn.disabled=false;btn.textContent='Accéder à mon espace';showDenied('not-authorized');return}
     checkSchedule(code,auth,function(allowed){
@@ -638,6 +640,7 @@ function submitCode(){
 }
 
 function checkSchedule(code,auth,callback){
+  if(code==='PROFPSE'||code==='INVITE'){callback(true);return}
   if(auth.horaires){callback(isWithinSchedule(auth.horaires));return}
   db.ref('accompagnement/config/horaires_global').once('value',function(snap){var global=snap.val();if(!global){callback(true);return}callback(isWithinSchedule(global))});
 }
