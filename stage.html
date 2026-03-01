@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Stage & PFMP — Mon Objectif</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<title>Ma Recherche de Stage — Mon Objectif</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script>
 if (location.protocol === 'http:' && !/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) {
   location.replace('https://' + location.host + location.pathname + location.search + location.hash);
@@ -15,187 +15,918 @@ if (location.protocol === 'http:' && !/^(localhost|127\.0\.0\.1)$/.test(location
 
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-* { -webkit-tap-highlight-color: transparent; }
-button, [role="button"], .act-card, .mission-card, .meteo-card,
-.cps-item, .mood-big-btn, .mood-sec-chip {
-  touch-action: manipulation;
+*{-webkit-tap-highlight-color:transparent}
+button,[role="button"]{touch-action:manipulation}
+:root{
+  --bg:#faf9f7;--surface:#fff;--border:rgba(0,0,0,.06);
+  --text:#1a1a2e;--text2:#64748b;--text3:#94a3b8;
+  --primary:#6366f1;--primary-light:#eef2ff;
+  --success:#10b981;--success-bg:rgba(16,185,129,.08);
+  --danger:#ef4444;--danger-bg:rgba(239,68,68,.08);
+  --warn:#f59e0b;--warn-bg:rgba(245,158,11,.08);
+  --stage:#f59e0b;--stage-bg:rgba(245,158,11,.06);
+  --radius:16px;--radius-sm:12px;
+  --shadow:0 2px 8px rgba(0,0,0,.04);--shadow-lg:0 8px 30px rgba(0,0,0,.08);
+  --font:'Plus Jakarta Sans',system-ui,sans-serif
 }
-:root{--bg:#faf9f7;--surface:#fff;--border:rgba(0,0,0,.06);--text:#1a1a2e;--text2:#64748b;--text3:#94a3b8;--primary:#6366f1;--primary-light:#eef2ff;--cog:#3b82f6;--cog-bg:rgba(59,130,246,.08);--emo:#f43f5e;--emo-bg:rgba(244,63,94,.08);--soc:#8b5cf6;--soc-bg:rgba(139,92,246,.08);--success:#10b981;--danger:#ef4444;--warn:#f59e0b;--radius:16px;--radius-sm:12px;--shadow:0 2px 8px rgba(0,0,0,.04);--shadow-lg:0 8px 30px rgba(0,0,0,.08);--ease:cubic-bezier(.4,0,.2,1);--font:'Outfit',system-ui,sans-serif}
-html{scroll-behavior:smooth}
-body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh}
-.page-header{background:var(--surface);padding:14px 20px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
-.back-btn{width:36px;height:36px;border-radius:10px;border:none;background:var(--bg);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;text-decoration:none;color:var(--text)}
-.page-title{font-weight:800;font-size:.95rem;flex:1}
-.page-code{font-size:0.75rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px}
-.page-body{max-width:520px;margin:0 auto;padding:20px 16px 80px}
-.hero{text-align:center;padding:28px 20px;border-radius:var(--radius);margin-bottom:20px}
-.hero-emoji{font-size:3rem;margin-bottom:8px}
-.hero-title{font-weight:800;font-size:1.2rem;margin-bottom:4px}
-.hero-sub{font-size:.82rem;color:var(--text2);line-height:1.5}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:12px;box-shadow:var(--shadow)}
-.card-title{font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.card h4{font-size:.88rem;font-weight:800;margin-bottom:8px}
-.card p{font-size:.82rem;color:var(--text2);line-height:1.6}
-.tag{display:inline-flex;padding:5px 12px;border-radius:8px;font-size:0.75rem;font-weight:700;margin:0 4px 6px 0}
-.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
-.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;text-align:center}
-.stat-val{font-weight:800;font-size:1.4rem}
-.stat-lbl{font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);margin-top:3px}
-.accordion{margin-bottom:8px}
-.acc-head{width:100%;text-align:left;padding:14px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);font-family:var(--font);font-weight:700;font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:all .15s}
-.acc-head:hover{border-color:var(--primary);box-shadow:var(--shadow)}
-.acc-head .arrow{transition:transform .2s;font-size:0.75rem;color:var(--text3)}
-.acc-head.open .arrow{transform:rotate(90deg)}
-.acc-body{display:none;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-top:none;border-radius:0 0 var(--radius-sm) var(--radius-sm)}
-.acc-body.open{display:block}
-.spe-item{padding:10px 0;border-bottom:1px solid var(--border)}
-.spe-item:last-child{border-bottom:none}
-.spe-name{font-weight:700;font-size:.82rem;margin-bottom:4px}
-.spe-desc{font-size:0.75rem;color:var(--text3)}
-.obj-chip{display:inline-block;padding:5px 12px;background:var(--bg);border-radius:8px;font-size:0.75rem;font-weight:600;color:var(--text2);margin:2px 3px 2px 0}
-.goal-mini{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:6px;display:flex;align-items:center;gap:8px}
-.goal-mini .gm-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.goal-mini .gm-title{font-weight:700;font-size:.78rem;flex:1}
-.goal-mini .gm-badge{font-size:0.75rem;font-weight:800;padding:2px 6px;border-radius:4px}
-.empty{text-align:center;color:var(--text3);font-size:.8rem;font-style:italic;padding:20px 0}
-.section-h{font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);margin:20px 0 10px;display:flex;align-items:center;gap:6px}
-.resource-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .15s}
-.resource-card:hover{box-shadow:var(--shadow);transform:translateY(-1px)}
-.resource-card .rc-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
-.resource-card .rc-name{font-weight:700;font-size:.8rem}
-.resource-card .rc-sub{font-size:0.75rem;color:var(--text3)}
-.placeholder-box{background:linear-gradient(135deg,rgba(99,102,241,.04),rgba(139,92,246,.04));border:2px dashed rgba(99,102,241,.15);border-radius:var(--radius);padding:28px 20px;text-align:center;margin-bottom:12px}
-.placeholder-box .pb-icon{font-size:2rem;margin-bottom:8px}
-.placeholder-box p{font-size:.8rem;color:var(--text3);line-height:1.5}
-.ref-footer{font-size:0.75rem;color:var(--text3);text-align:center;margin-top:24px;font-style:italic;padding:12px;border-top:1px solid var(--border)}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;margin:0}
 
-.stage-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:10px}
-.stage-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.stage-card-name{font-weight:800;font-size:.88rem}
-.stage-status{padding:4px 10px;border-radius:999px;font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.3px}
-.stage-status.contacte{background:rgba(59,130,246,.1);color:var(--cog)}
-.stage-status.relance{background:rgba(245,158,11,.1);color:var(--warn)}
-.stage-status.reponse{background:rgba(139,92,246,.1);color:var(--soc)}
-.stage-status.trouve{background:rgba(16,185,129,.1);color:var(--success)}
-.stage-meta{font-size:0.75rem;color:var(--text3)}
-.stage-actions{display:flex;gap:6px;margin-top:8px}
-.stage-actions select{padding:5px 10px;border:1px solid var(--border);border-radius:8px;font-family:var(--font);font-size:0.75rem;font-weight:700}
-.add-btn{width:100%;padding:14px;background:transparent;border:2px dashed rgba(99,102,241,.2);border-radius:var(--radius);font-family:var(--font);font-weight:700;font-size:.82rem;color:var(--primary);cursor:pointer;margin-bottom:12px}
-.add-btn:hover{background:var(--primary-light)}
-.tab-bar{display:flex;gap:0;background:var(--bg);border-radius:var(--radius-sm);padding:3px;margin-bottom:16px}
-.tab-btn{flex:1;padding:10px;border:none;border-radius:10px;font-family:var(--font);font-size:0.75rem;font-weight:700;cursor:pointer;background:transparent;color:var(--text2);transition:all .15s;text-align:center}
-.tab-btn.active{background:var(--surface);color:var(--primary);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+/* ── Header ── */
+.page-header{background:var(--surface);padding:14px 20px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;max-width:100vw}
+.back-btn{width:36px;height:36px;border-radius:10px;border:none;background:var(--bg);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--text)}
+.page-title{font-weight:800;font-size:.95rem;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.page-code{font-size:.75rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px}
+.page-body{max-width:520px;margin:0 auto;padding:16px 16px 100px;overflow-x:hidden;word-wrap:break-word}
 
+/* ── Progress Bar ── */
+.progress-bar{display:flex;align-items:center;justify-content:space-between;padding:20px 8px 24px;position:relative}
+.progress-line{position:absolute;top:32px;left:36px;right:36px;height:3px;background:#e8e8ef;border-radius:2px;z-index:0}
+.progress-fill{height:100%;background:var(--stage);border-radius:2px;transition:width .4s ease}
+.step-dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:800;position:relative;z-index:1;transition:all .3s;cursor:pointer;border:3px solid #e8e8ef;background:var(--surface);color:var(--text3)}
+.step-dot.done{border-color:var(--success);background:var(--success);color:#fff}
+.step-dot.active{border-color:var(--stage);background:var(--stage);color:#fff;transform:scale(1.15);box-shadow:0 3px 12px rgba(245,158,11,.3)}
+.step-dot.future{border-color:#e8e8ef;background:var(--surface);color:var(--text3)}
+.step-label{position:absolute;top:40px;left:50%;transform:translateX(-50%);font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap;color:var(--text3)}
+.step-dot.active .step-label{color:var(--stage)}
+.step-dot.done .step-label{color:var(--success)}
+
+/* ── Status Banner ── */
+.status-banner{text-align:center;padding:12px 16px;border-radius:var(--radius-sm);margin-bottom:16px;font-size:.82rem;font-weight:700}
+.status-banner.searching{background:var(--warn-bg);color:var(--warn)}
+.status-banner.found{background:var(--success-bg);color:var(--success)}
+
+/* ── Step Sections ── */
+.step-section{display:none;animation:fadeIn .3s ease}
+.step-section.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.step-title{font-size:1rem;font-weight:800;margin-bottom:4px}
+.step-sub{font-size:.8rem;color:var(--text2);margin-bottom:16px;line-height:1.5}
+
+/* ── Checklist ── */
+.check-item{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:8px;cursor:pointer;transition:all .15s}
+.check-item:hover{box-shadow:var(--shadow)}
+.check-item.done{opacity:.7}
+.check-box{width:24px;height:24px;border-radius:8px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.8rem;transition:all .2s;margin-top:1px}
+.check-item.done .check-box{border-color:var(--success);background:var(--success);color:#fff}
+.check-label{flex:1}
+.check-label .cl-title{font-weight:700;font-size:.85rem}
+.check-label .cl-sub{font-size:.75rem;color:var(--text3);margin-top:2px}
+.check-detail{display:none;margin-top:8px;padding:10px 12px;background:var(--bg);border-radius:8px;font-size:.78rem;color:var(--text2);line-height:1.6}
+.check-item.expanded .check-detail{display:block}
+.check-expand{font-size:.7rem;color:var(--primary);font-weight:700;cursor:pointer;margin-top:4px}
+
+/* ── Date inputs in checklist ── */
+.check-dates{display:flex;gap:8px;margin-top:8px}
+.check-dates input[type="date"]{flex:1;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-family:var(--font);font-size:.78rem;font-weight:600}
+.check-input{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-family:var(--font);font-size:.8rem;font-weight:600;margin-top:6px}
+
+/* ── Entreprise Cards ── */
+.ent-counter{text-align:center;font-size:.82rem;font-weight:700;color:var(--text2);margin-bottom:12px}
+.ent-counter strong{color:var(--stage);font-size:1.1rem}
+.ent-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden;transition:all .15s}
+.ent-card:hover{box-shadow:var(--shadow)}
+.ent-head{padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px}
+.ent-icon{width:36px;height:36px;border-radius:10px;background:var(--stage-bg);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.ent-info{flex:1;min-width:0}
+.ent-name{font-weight:800;font-size:.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ent-meta{font-size:.73rem;color:var(--text3);margin-top:1px}
+.ent-status{padding:4px 10px;border-radius:999px;font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.3px;flex-shrink:0}
+.ent-status.a_contacter{background:var(--bg);color:var(--text3)}
+.ent-status.contacte{background:rgba(59,130,246,.1);color:#3b82f6}
+.ent-status.en_attente{background:var(--warn-bg);color:var(--warn)}
+.ent-status.relance{background:rgba(139,92,246,.1);color:#8b5cf6}
+.ent-status.accepte{background:var(--success-bg);color:var(--success)}
+.ent-status.refuse{background:var(--danger-bg);color:var(--danger)}
+.ent-body{display:none;padding:0 16px 16px;border-top:1px solid var(--border)}
+.ent-card.open .ent-body{display:block}
+.ent-field{margin-top:10px}
+.ent-field-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);margin-bottom:4px}
+.ent-field-value{font-size:.82rem;font-weight:600}
+.ent-field-value a{color:var(--primary);text-decoration:none}
+.ent-actions-row{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
+.ent-btn{padding:8px 14px;border:1px solid var(--border);border-radius:10px;font-family:var(--font);font-weight:700;font-size:.75rem;cursor:pointer;background:var(--surface);color:var(--text2);transition:all .15s}
+.ent-btn:hover{background:var(--primary-light);color:var(--primary);border-color:rgba(99,102,241,.2)}
+.ent-btn.primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+.ent-btn.danger{color:var(--danger);border-color:rgba(239,68,68,.2)}
+.ent-btn.danger:hover{background:var(--danger-bg)}
+
+/* ── Status select ── */
+.status-select{width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-family:var(--font);font-size:.8rem;font-weight:700;margin-top:4px;background:var(--surface)}
+
+/* ── Action timeline ── */
+.action-timeline{margin-top:10px}
+.action-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:.78rem}
+.action-item:last-child{border-bottom:none}
+.action-date{font-weight:700;color:var(--text3);flex-shrink:0;width:50px}
+.action-type{font-weight:700;flex-shrink:0}
+.action-result{color:var(--text2);flex:1}
+
+/* ── Add forms ── */
+.form-overlay{display:none;position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.3);align-items:flex-end;justify-content:center}
+.form-overlay.show{display:flex}
+.form-sheet{background:var(--surface);border-radius:var(--radius) var(--radius) 0 0;padding:24px 20px 40px;width:100%;max-width:520px;max-height:85vh;overflow-y:auto;animation:slideUp .3s ease}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:none}}
+.form-title{font-weight:800;font-size:1rem;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
+.form-close{width:32px;height:32px;border-radius:8px;border:none;background:var(--bg);cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center}
+.form-group{margin-bottom:12px}
+.form-label{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);margin-bottom:4px}
+.form-input{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-family:var(--font);font-size:.85rem;font-weight:600;outline:none;transition:border-color .2s}
+.form-input:focus{border-color:var(--primary)}
+.form-select{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-family:var(--font);font-size:.85rem;font-weight:600;background:var(--surface)}
+textarea.form-input{resize:vertical;min-height:60px}
+.form-submit{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:12px;font-family:var(--font);font-weight:800;font-size:.88rem;cursor:pointer;margin-top:8px;transition:all .15s}
+.form-submit:hover{box-shadow:0 4px 16px rgba(99,102,241,.3)}
+.form-required{color:var(--danger);font-weight:800}
+
+/* ── Contact mode chips ── */
+.contact-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.contact-chip{padding:6px 12px;border:1px solid var(--border);border-radius:8px;font-family:var(--font);font-size:.75rem;font-weight:700;cursor:pointer;background:var(--surface);transition:all .15s}
+.contact-chip.active{background:var(--primary-light);color:var(--primary);border-color:rgba(99,102,241,.3)}
+
+/* ── Relance cards ── */
+.relance-card{background:var(--warn-bg);border:1px solid rgba(245,158,11,.15);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:8px}
+.relance-card .rc-name{font-weight:800;font-size:.85rem}
+.relance-card .rc-info{font-size:.78rem;color:var(--text2);margin-top:2px}
+.relance-card .rc-actions{margin-top:8px;display:flex;gap:6px}
+
+/* ── Finalisation ── */
+.final-card{background:var(--surface);border:2px solid var(--success);border-radius:var(--radius);padding:24px 20px;text-align:center;margin-bottom:16px}
+.final-card .fc-emoji{font-size:3rem;margin-bottom:8px}
+.final-card .fc-title{font-weight:800;font-size:1.1rem;color:var(--success)}
+.final-card .fc-sub{font-size:.82rem;color:var(--text2);margin-top:4px}
+
+/* ── Aide accordions ── */
+.aide-acc{margin-bottom:8px}
+.aide-head{width:100%;text-align:left;padding:14px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);font-family:var(--font);font-weight:700;font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:all .15s}
+.aide-head:hover{border-color:var(--primary);box-shadow:var(--shadow)}
+.aide-head .arrow{transition:transform .2s;font-size:.75rem;color:var(--text3)}
+.aide-head.open .arrow{transform:rotate(90deg)}
+.aide-body{display:none;padding:14px 16px;background:var(--surface);border:1px solid var(--border);border-top:none;border-radius:0 0 var(--radius-sm) var(--radius-sm);font-size:.82rem;color:var(--text2);line-height:1.7}
+.aide-body.open{display:block}
+.aide-body strong{color:var(--text);font-weight:700}
+.aide-body .script-box{background:var(--bg);border-radius:8px;padding:12px;margin:8px 0;font-style:italic;border-left:3px solid var(--stage)}
+
+/* ── Empty ── */
+.empty{text-align:center;color:var(--text3);font-size:.82rem;font-style:italic;padding:24px 16px}
+
+/* ── Add floating btn ── */
+.fab{position:fixed;bottom:24px;right:50%;transform:translateX(50%);padding:14px 28px;background:var(--primary);color:#fff;border:none;border-radius:999px;font-family:var(--font);font-weight:800;font-size:.85rem;cursor:pointer;box-shadow:0 4px 20px rgba(99,102,241,.35);z-index:40;transition:all .15s}
+.fab:hover{box-shadow:0 6px 28px rgba(99,102,241,.45);transform:translateX(50%) translateY(-2px)}
+
+/* ── Footer ── */
+.ref-footer{font-size:.75rem;color:var(--text3);text-align:center;margin-top:24px;font-style:italic;padding:12px;border-top:1px solid var(--border)}
 </style>
 </head>
 <body>
+
 <header class="page-header">
-  <a class="back-btn" onclick="goBack()">←</a>
-  <span class="page-title">🏢 Stage & PFMP</span>
+  <button class="back-btn" onclick="goBack()">←</button>
+  <span class="page-title">🔍 Ma Recherche de Stage</span>
   <span class="page-code" id="page-code">—</span>
 </header>
+
 <div class="page-body">
-  <div class="hero" style="background:linear-gradient(135deg,rgba(245,158,11,.06),rgba(16,185,129,.04))">
-    <div class="hero-emoji">🏢</div>
-    <div class="hero-title">Mon espace Stage</div>
-    <div class="hero-sub">Recherche de stage, suivi PFMP, objectifs professionnels et rapport de stage.</div>
+  <!-- Status Banner -->
+  <div id="status-banner" class="status-banner searching">Recherche en cours...</div>
+
+  <!-- Progress Bar -->
+  <div class="progress-bar">
+    <div class="progress-line"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    <div class="step-dot" data-step="1" onclick="goStep(1)">1<span class="step-label">Préparer</span></div>
+    <div class="step-dot" data-step="2" onclick="goStep(2)">2<span class="step-label">Lister</span></div>
+    <div class="step-dot" data-step="3" onclick="goStep(3)">3<span class="step-label">Contacter</span></div>
+    <div class="step-dot" data-step="4" onclick="goStep(4)">4<span class="step-label">Suivre</span></div>
+    <div class="step-dot" data-step="5" onclick="goStep(5)">5<span class="step-label">Finaliser</span></div>
   </div>
 
-  <div class="tab-bar">
-    <button class="tab-btn active" onclick="switchTab('recherche',this)">🔍 Recherche</button>
-    <button class="tab-btn" onclick="switchTab('objectifs',this)">🎯 Objectifs</button>
-    <button class="tab-btn" onclick="switchTab('rapport',this)">📋 Rapport</button>
-  </div>
+  <!-- ════ STEP 1: ME PREPARER ════ -->
+  <div class="step-section" id="step-1">
+    <div class="step-title">① Me préparer</div>
+    <div class="step-sub">Avant de chercher, je prépare mes outils. Chaque élément est un petit objectif à atteindre.</div>
 
-  <!-- TAB: Recherche -->
-  <div id="tab-recherche">
-    <div class="section-h">📍 Mes pistes de stage</div>
-    <div id="stage-lieux"></div>
-    <button class="add-btn" onclick="addLieu()">+ Ajouter un lieu / entreprise</button>
+    <div class="check-item" data-key="cv" onclick="togglePrep(this,'cv')">
+      <div class="check-box"></div>
+      <div class="check-label">
+        <div class="cl-title">Rédiger mon CV</div>
+        <div class="cl-sub">Quand ? Où ? (en classe, à la maison...)</div>
+        <div class="check-detail">
+          <strong>Conseils CV :</strong><br>
+          - 1 page maximum, pas plus<br>
+          - Nom, prénom, age, classe, lycée<br>
+          - Tes expériences (même bénévoles ou stages précédents)<br>
+          - Tes qualités et compétences<br>
+          - Demande à ton prof de le relire
+        </div>
+        <div class="check-expand" onclick="event.stopPropagation();this.parentNode.parentNode.classList.toggle('expanded')">Voir les conseils</div>
+      </div>
+    </div>
 
-    <div class="card">
-      <h4>💡 Conseils pour chercher un stage</h4>
-      <p><strong>1. Cible bien</strong> — Choisis des entreprises en rapport avec ta formation.</p>
-      <p><strong>2. Prépare-toi</strong> — CV à jour, lettre de motivation adaptée, tenue correcte.</p>
-      <p><strong>3. Relance</strong> — Si pas de réponse après 1 semaine, rappelle ou repasse.</p>
-      <p><strong>4. Note tout</strong> — Ajoute chaque entreprise contactée ici pour ne rien oublier.</p>
+    <div class="check-item" data-key="lettre" onclick="togglePrep(this,'lettre')">
+      <div class="check-box"></div>
+      <div class="check-label">
+        <div class="cl-title">Préparer ma lettre / email type</div>
+        <div class="cl-sub">Un modèle à adapter pour chaque entreprise</div>
+        <div class="check-detail">
+          <strong>Structure email :</strong><br>
+          - Objet : "Demande de stage - [ta classe] - [dates]"<br>
+          - Bonjour Madame/Monsieur,<br>
+          - Je suis en [classe] au lycée [nom]...<br>
+          - Je recherche un stage de [X semaines] du [date] au [date]...<br>
+          - En pièce jointe mon CV...<br>
+          - Formule de politesse + signature
+        </div>
+        <div class="check-expand" onclick="event.stopPropagation();this.parentNode.parentNode.classList.toggle('expanded')">Voir le modèle</div>
+      </div>
+    </div>
+
+    <div class="check-item" data-key="oral" onclick="togglePrep(this,'oral')">
+      <div class="check-box"></div>
+      <div class="check-label">
+        <div class="cl-title">Préparer mon oral / entretien</div>
+        <div class="cl-sub">Savoir me présenter et répondre aux questions</div>
+        <div class="check-detail">
+          <strong>Mon pitch :</strong><br>
+          <div class="script-box">"Bonjour, je m'appelle [prénom], je suis en [classe] au lycée [nom]. Je cherche un stage de [X] semaines à partir du [date]. Je suis motivé(e) et je souhaite découvrir votre métier."</div>
+          <strong>Questions fréquentes :</strong><br>
+          - Pourquoi cette entreprise ? → "Parce que votre activité correspond à ma formation..."<br>
+          - Quelles sont tes qualités ? → "Je suis ponctuel(le), sérieux(se)..."<br>
+          - Que sais-tu faire ? → "En cours, j'ai appris à..."
+        </div>
+        <div class="check-expand" onclick="event.stopPropagation();this.parentNode.parentNode.classList.toggle('expanded')">Voir les conseils</div>
+      </div>
+    </div>
+
+    <div class="check-item" data-key="dates_connues" onclick="togglePrep(this,'dates_connues')">
+      <div class="check-box"></div>
+      <div class="check-label">
+        <div class="cl-title">Saisir mes dates de PFMP</div>
+        <div class="cl-sub">Les dates données par le lycée</div>
+        <div class="check-dates">
+          <input type="date" id="pfmp-debut" placeholder="Début" onchange="savePfmpDates()" onclick="event.stopPropagation()">
+          <input type="date" id="pfmp-fin" placeholder="Fin" onchange="savePfmpDates()" onclick="event.stopPropagation()">
+        </div>
+      </div>
+    </div>
+
+    <div class="check-item" data-key="secteur" onclick="togglePrep(this,'secteur')">
+      <div class="check-box"></div>
+      <div class="check-label">
+        <div class="cl-title">Définir mon secteur / métier</div>
+        <div class="cl-sub">En lien avec ma filière</div>
+        <input type="text" class="check-input" id="secteur-input" placeholder="Ex: Commerce, Restauration, BTP..." onchange="saveSecteur()" onclick="event.stopPropagation()">
+      </div>
     </div>
   </div>
 
-  <!-- TAB: Objectifs -->
-  <div id="tab-objectifs" style="display:none">
-    <div class="section-h">🎯 Objectifs PFMP / Stage</div>
-    <div id="stage-goals"></div>
+  <!-- ════ STEP 2: MES ENTREPRISES ════ -->
+  <div class="step-section" id="step-2">
+    <div class="step-title">② Mes entreprises</div>
+    <div class="step-sub">Liste au moins 10 entreprises à contacter. Plus tu en as, plus tu as de chances !</div>
+    <div class="ent-counter" id="ent-counter">Chargement...</div>
+    <div id="ent-list"></div>
+    <button class="fab" id="fab-add" onclick="openAddForm()" style="display:none">+ Nouvelle entreprise</button>
   </div>
 
-  <!-- TAB: Rapport -->
-  <div id="tab-rapport" style="display:none">
-    <div class="placeholder-box">
-      <div class="pb-icon">📋</div>
-      <p><strong>Rapport de stage numérique</strong><br><br>Tu pourras bientôt remplir ton rapport de stage directement ici, jour par jour. Chaque journée sera enregistrée et tu pourras générer un document complet à la fin de ton stage.<br><br>Fonctionnalité en préparation.</p>
+  <!-- ════ STEP 3: CONTACTER ════ -->
+  <div class="step-section" id="step-3">
+    <div class="step-title">③ Contacter</div>
+    <div class="step-sub">Contacte chaque entreprise de ta liste. Note la date, le mode et le résultat.</div>
+    <div id="contact-counter" class="ent-counter"></div>
+    <div id="contact-list"></div>
+  </div>
+
+  <!-- ════ STEP 4: SUIVRE ════ -->
+  <div class="step-section" id="step-4">
+    <div class="step-title">④ Suivre et relancer</div>
+    <div class="step-sub">Pas de réponse après 1 semaine ? Relance ! C'est normal et ça montre ta motivation.</div>
+    <div id="relance-section"></div>
+    <div id="reponses-section"></div>
+  </div>
+
+  <!-- ════ STEP 5: FINALISER ════ -->
+  <div class="step-section" id="step-5">
+    <div class="step-title">⑤ Finaliser</div>
+    <div class="step-sub">Bravo ! Une entreprise a accepté. Vérifie que tout est en ordre.</div>
+    <div id="final-content"></div>
+  </div>
+
+  <!-- AIDE (toujours visible en bas) -->
+  <div style="margin-top:28px">
+    <div style="font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);margin-bottom:10px">Aide et conseils</div>
+
+    <div class="aide-acc">
+      <button class="aide-head" onclick="toggleAide(this)">Comment appeler une entreprise ? <span class="arrow">▶</span></button>
+      <div class="aide-body">
+        <div class="script-box">"Bonjour, je m'appelle [prénom], je suis élève en [classe] au lycée [nom]. Je vous appelle car je cherche un stage de [durée] à partir du [date]. Est-ce que vous acceptez des stagiaires ?"</div>
+        <strong>Conseils :</strong><br>
+        - Parle clairement, pas trop vite<br>
+        - Souris : ça s'entend au téléphone<br>
+        - Aie un stylo et papier prêt pour noter<br>
+        - Si la personne n'est pas disponible, demande quand rappeler<br>
+        - Remercie toujours, même si c'est non
+      </div>
     </div>
 
-    <div class="card">
-      <h4>📝 Ce que contiendra ton rapport</h4>
-      <p>• Présentation de l'entreprise et du service</p>
-      <p>• Activités réalisées chaque jour</p>
-      <p>• Compétences développées (liées aux CPS)</p>
-      <p>• Bilan personnel et professionnel</p>
-      <p>• Validation par le tuteur (QR code)</p>
+    <div class="aide-acc">
+      <button class="aide-head" onclick="toggleAide(this)">Comment écrire un email / courrier ? <span class="arrow">▶</span></button>
+      <div class="aide-body">
+        <strong>Objet :</strong> Demande de stage - [Classe] - [Dates PFMP]<br><br>
+        <div class="script-box">Madame, Monsieur,<br><br>Actuellement élève en [classe] au lycée [nom] à [ville], je recherche un stage de [durée] du [date début] au [date fin] dans le cadre de ma formation.<br><br>Votre entreprise m'intéresse car [1 raison concrète].<br><br>Je me tiens à votre disposition pour un entretien. Vous trouverez mon CV en pièce jointe.<br><br>Je vous prie d'agréer, Madame, Monsieur, mes salutations distinguées.<br><br>[Prénom Nom]<br>[Téléphone]</div>
+      </div>
+    </div>
+
+    <div class="aide-acc">
+      <button class="aide-head" onclick="toggleAide(this)">Comment se présenter en personne ? <span class="arrow">▶</span></button>
+      <div class="aide-body">
+        <strong>Avant d'entrer :</strong><br>
+        - Tenue correcte (pas de casquette, écouteurs rangés)<br>
+        - Avoir son CV imprime dans une pochette propre<br>
+        - Éteindre ou mettre son téléphone en silencieux<br><br>
+        <strong>En entrant :</strong><br>
+        - Saluer, regarder la personne dans les yeux<br>
+        - Se présenter calmement avec son pitch<br>
+        - Si le responsable n'est pas là : demander son nom et quand repasser<br>
+        - Laisser son CV même si on ne peut pas voir quelqu'un
+      </div>
+    </div>
+
+    <div class="aide-acc">
+      <button class="aide-head" onclick="toggleAide(this)">Après le premier contact ? <span class="arrow">▶</span></button>
+      <div class="aide-body">
+        <strong>Si pas de réponse :</strong><br>
+        - Attends 5 à 7 jours puis relance<br>
+        - "Bonjour, je me permets de vous recontacter suite à ma demande de stage..."<br>
+        - C'est normal de relancer, ça montre ta motivation !<br><br>
+        <strong>Si refus :</strong><br>
+        - Remercie quand même poliment<br>
+        - Demande s'ils connaissent une autre entreprise qui accepte des stagiaires<br>
+        - Ne te décourage pas : il faut souvent 10+ contacts pour trouver<br><br>
+        <strong>Si accepté :</strong><br>
+        - Confirme les dates et les horaires<br>
+        - Demande qui sera ton tuteur<br>
+        - Préviens ton lycée pour la convention
+      </div>
     </div>
   </div>
 
-  <div class="ref-footer">monobjectif.fr — Espace Stage & PFMP</div>
+  <div class="ref-footer">monobjectif.fr — Ma Recherche de Stage</div>
+</div>
+
+<!-- ════ FORM: Ajouter entreprise ════ -->
+<div class="form-overlay" id="form-add-ent">
+  <div class="form-sheet">
+    <div class="form-title">Ajouter une entreprise <button class="form-close" onclick="closeForm('form-add-ent')">✕</button></div>
+    <div class="form-group"><div class="form-label">Nom <span class="form-required">*</span></div><input type="text" class="form-input" id="f-nom" placeholder="Nom de l'entreprise"></div>
+    <div class="form-group"><div class="form-label">Ville <span class="form-required">*</span></div><input type="text" class="form-input" id="f-ville" placeholder="Ville"></div>
+    <div class="form-group"><div class="form-label">Secteur</div>
+      <select class="form-select" id="f-secteur">
+        <option value="">Choisir...</option>
+        <option>Commerce / Vente</option>
+        <option>Restauration / Hôtellerie</option>
+        <option>Artisanat</option>
+        <option>BTP / Construction</option>
+        <option>Industrie / Production</option>
+        <option>Services à la personne</option>
+        <option>Santé / Social</option>
+        <option>Automobile / Mécanique</option>
+        <option>Logistique / Transport</option>
+        <option>Administration / Bureau</option>
+        <option>Informatique / Numérique</option>
+        <option value="__autre">Autre...</option>
+      </select>
+      <input type="text" class="form-input" id="f-secteur-autre" placeholder="Préciser le secteur..." style="display:none;margin-top:6px">
+    </div>
+    <div class="form-group"><div class="form-label">Personne à contacter</div><input type="text" class="form-input" id="f-contact" placeholder="Nom du responsable (optionnel)"></div>
+    <div class="form-group"><div class="form-label">Téléphone</div><input type="tel" class="form-input" id="f-tel" placeholder="Numéro de téléphone"></div>
+    <div class="form-group"><div class="form-label">Email</div><input type="email" class="form-input" id="f-email" placeholder="Adresse email (optionnel)"></div>
+    <div class="form-group"><div class="form-label">Notes</div><textarea class="form-input" id="f-notes" placeholder="Informations supplémentaires..."></textarea></div>
+    <button class="form-submit" onclick="saveEntreprise()">Enregistrer</button>
+  </div>
+</div>
+
+<!-- ════ FORM: Ajouter action ════ -->
+<div class="form-overlay" id="form-add-action">
+  <div class="form-sheet">
+    <div class="form-title">Ajouter une action <button class="form-close" onclick="closeForm('form-add-action')">✕</button></div>
+    <input type="hidden" id="fa-ent-id">
+    <div class="form-group"><div class="form-label">Type de contact</div>
+      <div class="contact-chips" id="fa-type-chips">
+        <button class="contact-chip" data-v="appel" onclick="selectChip(this)">📞 Appel</button>
+        <button class="contact-chip" data-v="visite" onclick="selectChip(this)">🚶 En personne</button>
+        <button class="contact-chip" data-v="email" onclick="selectChip(this)">📧 Email</button>
+        <button class="contact-chip" data-v="courrier" onclick="selectChip(this)">✉️ Courrier</button>
+        <button class="contact-chip" data-v="autre" onclick="selectChip(this)">Autre</button>
+      </div>
+    </div>
+    <div class="form-group"><div class="form-label">Date</div><input type="date" class="form-input" id="fa-date"></div>
+    <div class="form-group"><div class="form-label">Résultat / Remarque</div><input type="text" class="form-input" id="fa-resultat" placeholder="Ex: Pas de réponse, Envoyer CV, Rappeler..."></div>
+    <button class="form-submit" onclick="saveAction()">Enregistrer</button>
+  </div>
 </div>
 
 <script src="js/data_eleves.js"></script>
 <script>
-const firebaseConfig={apiKey:"AIzaSyAWdCMvOiAJln3eT9LIAQD3RWJUD0IQcLI",authDomain:"devoirs-pse.firebaseapp.com",databaseURL:"https://devoirs-pse-default-rtdb.europe-west1.firebasedatabase.app",projectId:"devoirs-pse",storageBucket:"devoirs-pse.appspot.com",messagingSenderId:"614730413904",appId:"1:614730413904:web:a5dd478af5de30f6bede55"};
-firebase.initializeApp(firebaseConfig);const db=firebase.database();
-const SESSION_CODE_KEY='accompagnement_session_code';
+/* ════════════════════════════════════════════
+   INIT
+   ════════════════════════════════════════════ */
+var firebaseConfig={apiKey:"AIzaSyAWdCMvOiAJln3eT9LIAQD3RWJUD0IQcLI",authDomain:"devoirs-pse.firebaseapp.com",databaseURL:"https://devoirs-pse-default-rtdb.europe-west1.firebasedatabase.app",projectId:"devoirs-pse",storageBucket:"devoirs-pse.appspot.com",messagingSenderId:"614730413904",appId:"1:614730413904:web:a5dd478af5de30f6bede55"};
+firebase.initializeApp(firebaseConfig);var db=firebase.database();
+var SESSION_CODE_KEY='accompagnement_session_code';
 function sanitizeCode(v){return String(v||'').toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,16)}
-const userCode=sanitizeCode(sessionStorage.getItem(SESSION_CODE_KEY)||'');
-if(!/^[A-Z0-9]{4,16}$/.test(userCode)){window.location.href='index.html';throw new Error('Session élève manquante');}
-function resolveDataCode(loginCode){if(typeof window.trouverEleve!=='function')return String(loginCode||'').toUpperCase();var e=window.trouverEleve(loginCode);return e&&e.userCode?String(e.userCode).toUpperCase():String(loginCode||'').toUpperCase()}
-const dataCode=resolveDataCode(userCode);
-document.getElementById('page-code').textContent=userCode||'—';
-function getAx(g){var t=(g.type||g.domaine||'').toUpperCase();return t.includes('COG')?'COG':t.includes('EMO')?'EMO':t.includes('SOC')?'SOC':'NEU'}
+var userCode=sanitizeCode(sessionStorage.getItem(SESSION_CODE_KEY)||'');
+if(!/^[A-Z0-9]{4,16}$/.test(userCode)){window.location.href='index.html';throw new Error('no session')}
+function resolveDataCode(lc){if(typeof window.trouverEleve!=='function')return String(lc||'').toUpperCase();var e=window.trouverEleve(lc);return e&&e.userCode?String(e.userCode).toUpperCase():String(lc||'').toUpperCase()}
+var dataCode=resolveDataCode(userCode);
+document.getElementById('page-code').textContent=userCode;
+function escHtml(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML}
+function goBack(){window.location.href='index.html'}
+
+/* ════════════════════════════════════════════
+   STATE
+   ════════════════════════════════════════════ */
+var stageData={};
+var currentStep=1;
+var REF=db.ref('accompagnement/eleves/'+dataCode+'/recherche_stage');
+
+/* ════════════════════════════════════════════
+   DATA LISTENER
+   ════════════════════════════════════════════ */
+db.ref('accompagnement/eleves/'+dataCode).on('value',function(snap){
+  var allData=snap.val()||{};
+  // Migration
+  if(!allData.recherche_stage||!allData.recherche_stage._migrated){
+    migrateOldData(allData);return;
+  }
+  stageData=allData.recherche_stage||{};
+  render();
+});
+
+/* ════════════════════════════════════════════
+   MIGRATION
+   ════════════════════════════════════════════ */
+function migrateOldData(allData){
+  var nd={_migrated:true,etape_courante:1,preparation:{cv:false,lettre:false,oral:false,dates_connues:false,secteur:false},config:{},finalisation:{},entreprises:{}};
+  var lieux=allData.stage_lieux||{};
+  var statusMap={'contacte':'contacte','relance':'relance','reponse recue':'en_attente','reponse reçue':'en_attente','stage trouve':'accepte','stage trouvé':'accepte'};
+  Object.values(lieux).forEach(function(l){
+    var k=db.ref().push().key;
+    nd.entreprises[k]={nom:l.nom||'',ville:l.ville||'',secteur:'',contact_nom:'',telephone:'',email:'',statut:statusMap[(l.statut||'').toLowerCase()]||'a_contacter',notes:'',date_premier_contact:'',date_relance:'',created:l.created||new Date().toISOString()};
+  });
+  var objs=allData.objectifs||{};
+  Object.values(objs).forEach(function(o){
+    if(o.context!=='Recherche'||!o.demarches)return;
+    Object.values(o.demarches).forEach(function(d){
+      if(!d.entreprise)return;
+      var k=db.ref().push().key;
+      nd.entreprises[k]={nom:d.entreprise,ville:d.ville||'',secteur:'',contact_nom:'',telephone:'',email:'',statut:'contacte',notes:'',date_premier_contact:d.date_demarche||'',date_relance:'',created:new Date().toISOString()};
+    });
+  });
+  REF.set(nd);
+}
+
+/* ════════════════════════════════════════════
+   RENDER
+   ════════════════════════════════════════════ */
+function render(){
+  var step=stageData.etape_courante||1;
+  currentStep=step;
+  renderProgress();
+  renderBanner();
+  renderStep1();
+  renderStep2();
+  renderStep3();
+  renderStep4();
+  renderStep5();
+  goStep(step);
+}
+
+function renderProgress(){
+  var prep=stageData.preparation||{};
+  var ents=stageData.entreprises||{};
+  var entArr=Object.values(ents);
+  var contacted=entArr.filter(function(e){return e.statut&&e.statut!=='a_contacter'}).length;
+  var accepted=entArr.filter(function(e){return e.statut==='accepte'}).length;
+  var prepDone=Object.values(prep).filter(function(v){return v===true}).length;
+  var prepTotal=5;
+  var step=stageData.etape_courante||1;
+
+  var dots=document.querySelectorAll('.step-dot');
+  dots.forEach(function(d){
+    var s=parseInt(d.dataset.step);
+    d.className='step-dot'+(s<step?' done':s===step?' active':' future');
+  });
+  var pct=Math.max(0,Math.min(100,((step-1)/4)*100));
+  document.getElementById('progress-fill').style.width=pct+'%';
+}
+
+function renderBanner(){
+  var b=document.getElementById('status-banner');
+  var conf=stageData.config||{};
+  var accepted=Object.values(stageData.entreprises||{}).filter(function(e){return e.statut==='accepte'}).length;
+  if(accepted||conf.stage_trouve){
+    b.className='status-banner found';
+    b.textContent='Stage trouvé !';
+  }else{
+    var deb=conf.pfmp_debut;
+    if(deb){
+      var jours=daysLeft(deb);
+      b.className='status-banner searching';
+      b.textContent=jours>0?'PFMP dans '+jours+' jours — Recherche en cours':'Recherche en cours...';
+    }else{
+      b.className='status-banner searching';
+      b.textContent='Recherche en cours...';
+    }
+  }
+}
+
+/* ── Step 1: Preparation ── */
+function renderStep1(){
+  var prep=stageData.preparation||{};
+  var conf=stageData.config||{};
+  var items=document.querySelectorAll('#step-1 .check-item');
+  items.forEach(function(it){
+    var key=it.dataset.key;
+    if(prep[key]){it.classList.add('done')}else{it.classList.remove('done')}
+  });
+  if(conf.pfmp_debut)document.getElementById('pfmp-debut').value=conf.pfmp_debut;
+  if(conf.pfmp_fin)document.getElementById('pfmp-fin').value=conf.pfmp_fin;
+  if(conf.secteur_vise)document.getElementById('secteur-input').value=conf.secteur_vise;
+}
+
+/* ── Step 2: Entreprises ── */
+function renderStep2(){
+  var ents=stageData.entreprises||{};
+  var keys=Object.keys(ents);
+  var el=document.getElementById('ent-list');
+  document.getElementById('ent-counter').innerHTML='<strong>'+keys.length+'</strong> / 10 entreprises';
+  if(!keys.length){el.innerHTML='<div class="empty">Aucune entreprise ajoutée. Clique sur le bouton ci-dessous pour commencer !</div>';return}
+  el.innerHTML=keys.map(function(k){return renderEntCard(k,ents[k])}).join('');
+}
+
+function renderEntCard(k,e){
+  var statusLabels={a_contacter:'À contacter',contacte:'Contacté',en_attente:'En attente',relance:'Relancée',accepte:'Accepté',refuse:'Refusé'};
+  var actions=e.actions?Object.values(e.actions).sort(function(a,b){return(b.date||'').localeCompare(a.date||'')}):[];
+  var lastAction=actions.length?actions[0]:null;
+  var metaParts=[e.secteur,e.ville].filter(Boolean);
+  if(lastAction)metaParts.push(lastAction.type+' le '+dateFr(lastAction.date));
+
+  var h='<div class="ent-card" id="ent-'+k+'">';
+  h+='<div class="ent-head" onclick="toggleEnt(\''+k+'\')">';
+  h+='<div class="ent-icon">🏢</div>';
+  h+='<div class="ent-info"><div class="ent-name">'+escHtml(e.nom||'—')+'</div><div class="ent-meta">'+escHtml(metaParts.join(' · '))+'</div></div>';
+  h+='<span class="ent-status '+escHtml(e.statut||'a_contacter')+'">'+(statusLabels[e.statut]||'À contacter')+'</span>';
+  h+='</div>';
+  h+='<div class="ent-body">';
+  // Details
+  if(e.contact_nom)h+='<div class="ent-field"><div class="ent-field-label">Contact</div><div class="ent-field-value">'+escHtml(e.contact_nom)+'</div></div>';
+  if(e.telephone)h+='<div class="ent-field"><div class="ent-field-label">Téléphone</div><div class="ent-field-value"><a href="tel:'+escHtml(e.telephone)+'">'+escHtml(e.telephone)+'</a></div></div>';
+  if(e.email)h+='<div class="ent-field"><div class="ent-field-label">Email</div><div class="ent-field-value"><a href="mailto:'+escHtml(e.email)+'">'+escHtml(e.email)+'</a></div></div>';
+  // Status
+  h+='<div class="ent-field"><div class="ent-field-label">Statut</div><select class="status-select" onchange="updateEntStatus(\''+k+'\',this.value)">';
+  ['a_contacter','contacte','en_attente','relance','accepte','refuse'].forEach(function(s){
+    h+='<option value="'+s+'"'+(s===e.statut?' selected':'')+'>'+statusLabels[s]+'</option>';
+  });
+  h+='</select></div>';
+  if(e.notes)h+='<div class="ent-field"><div class="ent-field-label">Notes</div><div class="ent-field-value">'+escHtml(e.notes)+'</div></div>';
+  // Actions timeline
+  if(actions.length){
+    h+='<div class="ent-field"><div class="ent-field-label">Historique</div><div class="action-timeline">';
+    actions.forEach(function(a){
+      var typeIcons={appel:'📞',visite:'🚶',email:'📧',courrier:'✉️',relance:'🔄',autre:'📝'};
+      h+='<div class="action-item"><div class="action-date">'+dateFr(a.date)+'</div><div class="action-type">'+(typeIcons[a.type]||'📝')+'</div><div class="action-result">'+escHtml(a.resultat||'—')+'</div></div>';
+    });
+    h+='</div></div>';
+  }
+  // Buttons
+  h+='<div class="ent-actions-row">';
+  h+='<button class="ent-btn primary" onclick="openActionForm(\''+k+'\')">+ Action</button>';
+  if(e.statut!=='accepte')h+='<button class="ent-btn" onclick="planRelance(\''+k+'\')">Planifier relance</button>';
+  h+='<button class="ent-btn danger" onclick="deleteEnt(\''+k+'\')">Supprimer</button>';
+  h+='</div>';
+  h+='</div></div>';
+  return h;
+}
+
+/* ── Step 3: Contacter ── */
+function renderStep3(){
+  var ents=stageData.entreprises||{};
+  var keys=Object.keys(ents);
+  var aContacter=keys.filter(function(k){return ents[k].statut==='a_contacter'});
+  var contacted=keys.filter(function(k){return ents[k].statut&&ents[k].statut!=='a_contacter'});
+  var el=document.getElementById('contact-list');
+  document.getElementById('contact-counter').innerHTML='<strong>'+contacted.length+'</strong> contactées / '+keys.length+' au total';
+
+  var h='';
+  if(aContacter.length){
+    h+='<div style="font-size:.75rem;font-weight:800;text-transform:uppercase;color:var(--warn);margin:12px 0 8px">À contacter ('+aContacter.length+')</div>';
+    aContacter.forEach(function(k){
+      var e=ents[k];
+      h+='<div class="ent-card"><div class="ent-head">';
+      h+='<div class="ent-icon">🏢</div>';
+      h+='<div class="ent-info"><div class="ent-name">'+escHtml(e.nom)+'</div><div class="ent-meta">'+escHtml([e.ville,e.telephone].filter(Boolean).join(' · '))+'</div></div>';
+      h+='<button class="ent-btn primary" style="flex-shrink:0" onclick="event.stopPropagation();openActionForm(\''+k+'\')">Contacte !</button>';
+      h+='</div></div>';
+    });
+  }
+  if(contacted.length){
+    h+='<div style="font-size:.75rem;font-weight:800;text-transform:uppercase;color:var(--success);margin:12px 0 8px">Déjà contactées ('+contacted.length+')</div>';
+    contacted.forEach(function(k){
+      var e=ents[k];var statusLabels={contacte:'Contacté',en_attente:'En attente',relance:'Relancée',accepte:'Accepté',refuse:'Refusé'};
+      h+='<div class="ent-card"><div class="ent-head" onclick="toggleEnt(\''+k+'\')">';
+      h+='<div class="ent-icon">🏢</div>';
+      h+='<div class="ent-info"><div class="ent-name">'+escHtml(e.nom)+'</div><div class="ent-meta">'+escHtml(e.ville||'')+'</div></div>';
+      h+='<span class="ent-status '+escHtml(e.statut)+'">'+(statusLabels[e.statut]||e.statut)+'</span>';
+      h+='</div></div>';
+    });
+  }
+  if(!keys.length)h='<div class="empty">Ajoute d\'abord des entreprises dans l\'étape 2</div>';
+  el.innerHTML=h;
+}
+
+/* ── Step 4: Suivre ── */
+function renderStep4(){
+  var ents=stageData.entreprises||{};
+  var keys=Object.keys(ents);
+  var now=new Date();now.setHours(0,0,0,0);
+
+  // A relancer: contacte ou en_attente depuis > 5 jours, ou date_relance passee
+  var toRelance=keys.filter(function(k){
+    var e=ents[k];
+    if(e.statut==='accepte'||e.statut==='refuse'||e.statut==='a_contacter')return false;
+    if(e.date_relance){var dr=new Date(e.date_relance);dr.setHours(0,0,0,0);if(dr<=now)return true}
+    if(e.date_premier_contact){var dp=new Date(e.date_premier_contact);dp.setHours(0,0,0,0);var diff=(now-dp)/(1000*60*60*24);if(diff>=5&&e.statut!=='relance')return true}
+    return false;
+  });
+
+  var accepted=keys.filter(function(k){return ents[k].statut==='accepte'});
+  var refused=keys.filter(function(k){return ents[k].statut==='refuse'});
+  var enAttente=keys.filter(function(k){return ents[k].statut==='en_attente'||ents[k].statut==='contacte'});
+
+  var h='';
+  if(toRelance.length){
+    h+='<div style="font-size:.75rem;font-weight:800;text-transform:uppercase;color:var(--warn);margin:8px 0">À relancer ('+toRelance.length+')</div>';
+    toRelance.forEach(function(k){
+      var e=ents[k];
+      var ago=e.date_premier_contact?daysSince(e.date_premier_contact):null;
+      h+='<div class="relance-card"><div class="rc-name">'+escHtml(e.nom)+'</div><div class="rc-info">'+escHtml(e.ville||'')+(ago!==null?' · contactée il y a '+ago+' jours':'')+'</div>';
+      h+='<div class="rc-actions"><button class="ent-btn primary" onclick="openActionForm(\''+k+'\')">J\'ai relancé</button><button class="ent-btn" onclick="planRelance(\''+k+'\')">Reporter</button></div></div>';
+    });
+  }
+  if(accepted.length){
+    h+='<div style="font-size:.75rem;font-weight:800;text-transform:uppercase;color:var(--success);margin:16px 0 8px">Réponses positives ('+accepted.length+')</div>';
+    accepted.forEach(function(k){
+      var e=ents[k];
+      h+='<div class="ent-card" style="border-color:var(--success)"><div class="ent-head"><div class="ent-icon" style="background:var(--success-bg)">✅</div><div class="ent-info"><div class="ent-name">'+escHtml(e.nom)+'</div><div class="ent-meta">'+escHtml(e.ville||'')+'</div></div></div></div>';
+    });
+  }
+  if(enAttente.length){
+    h+='<div style="font-size:.75rem;font-weight:800;text-transform:uppercase;color:var(--text3);margin:16px 0 8px">En attente ('+enAttente.length+')</div>';
+    enAttente.forEach(function(k){
+      var e=ents[k];
+      h+='<div class="ent-card"><div class="ent-head"><div class="ent-icon">⏳</div><div class="ent-info"><div class="ent-name">'+escHtml(e.nom)+'</div><div class="ent-meta">'+escHtml(e.ville||'')+'</div></div></div></div>';
+    });
+  }
+  if(refused.length){
+    h+='<div style="font-size:.75rem;font-weight:800;text-transform:uppercase;color:var(--danger);margin:16px 0 8px">Refus ('+refused.length+')</div>';
+    refused.forEach(function(k){
+      var e=ents[k];
+      h+='<div class="ent-card" style="opacity:.5"><div class="ent-head"><div class="ent-icon">❌</div><div class="ent-info"><div class="ent-name">'+escHtml(e.nom)+'</div></div></div></div>';
+    });
+  }
+  if(!keys.length||(!toRelance.length&&!accepted.length&&!enAttente.length&&!refused.length)){
+    h='<div class="empty">Contacte d\'abord des entreprises pour voir ton suivi ici</div>';
+  }
+  document.getElementById('relance-section').innerHTML=h;
+}
+
+/* ── Step 5: Finaliser ── */
+function renderStep5(){
+  var ents=stageData.entreprises||{};
+  var accepted=Object.keys(ents).filter(function(k){return ents[k].statut==='accepte'});
+  var fin=stageData.finalisation||{};
+  var conf=stageData.config||{};
+  var el=document.getElementById('final-content');
+
+  if(!accepted.length){
+    el.innerHTML='<div class="empty" style="padding:40px 20px"><div style="font-size:2.5rem;margin-bottom:12px">💪</div><div style="font-style:normal;font-weight:700;color:var(--text)">Continue tes recherches !</div><div style="margin-top:8px">Aucune entreprise n\'a encore accepté. C\'est normal, ça prend du temps. Relance et contacte d\'autres entreprises.</div></div>';
+    return;
+  }
+  var entAccepted=ents[accepted[0]];
+  var h='<div class="final-card"><div class="fc-emoji">🎉</div><div class="fc-title">Stage trouvé !</div><div class="fc-sub">'+escHtml(entAccepted.nom)+' — '+escHtml(entAccepted.ville||'')+'</div>';
+  if(conf.pfmp_debut&&conf.pfmp_fin)h+='<div class="fc-sub">Du '+dateFr(conf.pfmp_debut)+' au '+dateFr(conf.pfmp_fin)+'</div>';
+  h+='</div>';
+
+  h+='<div class="check-item'+(fin.convention_envoyee?' done':'')+'" onclick="toggleFinal(\'convention_envoyee\')"><div class="check-box">'+(fin.convention_envoyee?'✓':'')+'</div><div class="check-label"><div class="cl-title">Convention envoyée à l\'entreprise</div></div></div>';
+  h+='<div class="check-item'+(fin.convention_signee_entreprise?' done':'')+'" onclick="toggleFinal(\'convention_signee_entreprise\')"><div class="check-box">'+(fin.convention_signee_entreprise?'✓':'')+'</div><div class="check-label"><div class="cl-title">Convention signée par l\'entreprise</div></div></div>';
+  h+='<div class="check-item'+(fin.convention_signee_lycee?' done':'')+'" onclick="toggleFinal(\'convention_signee_lycee\')"><div class="check-box">'+(fin.convention_signee_lycee?'✓':'')+'</div><div class="check-label"><div class="cl-title">Convention signée par le lycée</div></div></div>';
+  el.innerHTML=h;
+}
+
+/* ════════════════════════════════════════════
+   NAVIGATION
+   ════════════════════════════════════════════ */
+function goStep(s){
+  currentStep=s;
+  document.querySelectorAll('.step-section').forEach(function(el){el.classList.remove('active')});
+  var target=document.getElementById('step-'+s);
+  if(target)target.classList.add('active');
+  // Show FAB only on step 2
+  var fab=document.getElementById('fab-add');
+  if(fab)fab.style.display=(s===2)?'block':'none';
+  // Update dots visually (current view, not saved step)
+  document.querySelectorAll('.step-dot').forEach(function(d){
+    var ds=parseInt(d.dataset.step);
+    var saved=stageData.etape_courante||1;
+    if(ds<saved)d.className='step-dot done';
+    else if(ds===s)d.className='step-dot active';
+    else d.className='step-dot future';
+  });
+}
+
+function autoAdvanceStep(){
+  var prep=stageData.preparation||{};
+  var ents=Object.values(stageData.entreprises||{});
+  var prepDone=[prep.cv,prep.lettre,prep.oral,prep.dates_connues,prep.secteur].filter(Boolean).length;
+  var contacted=ents.filter(function(e){return e.statut&&e.statut!=='a_contacter'}).length;
+  var accepted=ents.filter(function(e){return e.statut==='accepte'}).length;
+
+  var newStep=1;
+  if(prepDone>=3)newStep=2;
+  if(ents.length>=3)newStep=Math.max(newStep,2);
+  if(contacted>=1)newStep=Math.max(newStep,3);
+  if(contacted>=2)newStep=Math.max(newStep,4);
+  if(accepted>=1)newStep=5;
+
+  var current=stageData.etape_courante||1;
+  if(newStep>current){
+    REF.child('etape_courante').set(newStep);
+  }
+}
+
+/* ════════════════════════════════════════════
+   STEP 1 HANDLERS
+   ════════════════════════════════════════════ */
+function togglePrep(el,key){
+  var prep=stageData.preparation||{};
+  var newVal=!prep[key];
+  REF.child('preparation/'+key).set(newVal);
+  autoAdvanceStep();
+}
+
+function savePfmpDates(){
+  var d=document.getElementById('pfmp-debut').value;
+  var f=document.getElementById('pfmp-fin').value;
+  if(d)REF.child('config/pfmp_debut').set(d);
+  if(f)REF.child('config/pfmp_fin').set(f);
+  if(d&&f)REF.child('preparation/dates_connues').set(true);
+  autoAdvanceStep();
+}
+
+function saveSecteur(){
+  var v=document.getElementById('secteur-input').value.trim();
+  if(v){
+    REF.child('config/secteur_vise').set(v);
+    REF.child('preparation/secteur').set(true);
+    autoAdvanceStep();
+  }
+}
+
+/* ════════════════════════════════════════════
+   STEP 2 HANDLERS — ENTREPRISES
+   ════════════════════════════════════════════ */
+function openAddForm(){
+  document.getElementById('form-add-ent').classList.add('show');
+  document.getElementById('f-nom').value='';
+  document.getElementById('f-ville').value='';
+  document.getElementById('f-secteur').value='';
+  document.getElementById('f-secteur-autre').style.display='none';
+  document.getElementById('f-contact').value='';
+  document.getElementById('f-tel').value='';
+  document.getElementById('f-email').value='';
+  document.getElementById('f-notes').value='';
+  setTimeout(function(){document.getElementById('f-nom').focus()},100);
+}
+
+function saveEntreprise(){
+  var nom=document.getElementById('f-nom').value.trim();
+  var ville=document.getElementById('f-ville').value.trim();
+  if(!nom){alert('Le nom est obligatoire');return}
+  if(!ville){alert('La ville est obligatoire');return}
+  var sectSel=document.getElementById('f-secteur');
+  var secteur=sectSel.value==='__autre'?document.getElementById('f-secteur-autre').value.trim():sectSel.value;
+  REF.child('entreprises').push({
+    nom:nom,ville:ville,secteur:secteur||'',
+    contact_nom:document.getElementById('f-contact').value.trim(),
+    telephone:document.getElementById('f-tel').value.trim(),
+    email:document.getElementById('f-email').value.trim(),
+    statut:'a_contacter',
+    notes:document.getElementById('f-notes').value.trim(),
+    date_premier_contact:'',date_relance:'',
+    created:new Date().toISOString()
+  });
+  closeForm('form-add-ent');
+  autoAdvanceStep();
+}
+
+function toggleEnt(k){
+  var card=document.getElementById('ent-'+k);
+  if(card)card.classList.toggle('open');
+}
+
+function updateEntStatus(k,val){
+  REF.child('entreprises/'+k+'/statut').set(val);
+  if(val==='contacte'||val==='en_attente'||val==='relance'){
+    var e=stageData.entreprises&&stageData.entreprises[k];
+    if(e&&!e.date_premier_contact){
+      REF.child('entreprises/'+k+'/date_premier_contact').set(new Date().toISOString().split('T')[0]);
+    }
+  }
+  if(val==='accepte'){
+    REF.child('config/stage_trouve').set(true);
+    REF.child('finalisation/entreprise_id').set(k);
+  }
+  autoAdvanceStep();
+}
+
+function deleteEnt(k){
+  if(confirm('Supprimer cette entreprise ?')){
+    REF.child('entreprises/'+k).remove();
+  }
+}
+
+function planRelance(k){
+  var dateStr=prompt('Date de relance (JJ/MM) ?');
+  if(!dateStr)return;
+  // Try to parse JJ/MM or use as-is
+  var parts=dateStr.split('/');
+  var d;
+  if(parts.length===2){
+    var yr=new Date().getFullYear();
+    d=yr+'-'+(parts[1].length===1?'0':'')+parts[1]+'-'+(parts[0].length===1?'0':'')+parts[0];
+  }else{d=dateStr}
+  REF.child('entreprises/'+k+'/date_relance').set(d);
+}
+
+/* ════════════════════════════════════════════
+   ACTIONS
+   ════════════════════════════════════════════ */
+function openActionForm(k){
+  document.getElementById('fa-ent-id').value=k;
+  document.getElementById('fa-date').value=new Date().toISOString().split('T')[0];
+  document.getElementById('fa-resultat').value='';
+  document.querySelectorAll('#fa-type-chips .contact-chip').forEach(function(c){c.classList.remove('active')});
+  document.getElementById('form-add-action').classList.add('show');
+}
+
+function selectChip(el){
+  el.parentNode.querySelectorAll('.contact-chip').forEach(function(c){c.classList.remove('active')});
+  el.classList.add('active');
+}
+
+function saveAction(){
+  var k=document.getElementById('fa-ent-id').value;
+  var typeEl=document.querySelector('#fa-type-chips .contact-chip.active');
+  var type=typeEl?typeEl.dataset.v:'autre';
+  var date=document.getElementById('fa-date').value;
+  var resultat=document.getElementById('fa-resultat').value.trim();
+
+  REF.child('entreprises/'+k+'/actions').push({
+    type:type,date:date||new Date().toISOString().split('T')[0],
+    resultat:resultat,created:new Date().toISOString()
+  });
+  // Auto-update status if still a_contacter
+  var e=stageData.entreprises&&stageData.entreprises[k];
+  if(e&&e.statut==='a_contacter'){
+    REF.child('entreprises/'+k+'/statut').set('contacte');
+    REF.child('entreprises/'+k+'/date_premier_contact').set(date||new Date().toISOString().split('T')[0]);
+  }
+  closeForm('form-add-action');
+  autoAdvanceStep();
+}
+
+/* ════════════════════════════════════════════
+   STEP 5 HANDLERS
+   ════════════════════════════════════════════ */
+function toggleFinal(key){
+  var fin=stageData.finalisation||{};
+  REF.child('finalisation/'+key).set(!fin[key]);
+}
+
+/* ════════════════════════════════════════════
+   UTILITIES
+   ════════════════════════════════════════════ */
+function closeForm(id){document.getElementById(id).classList.remove('show')}
 function dateFr(d){if(!d)return'—';return new Date(d).toLocaleDateString('fr-FR',{day:'numeric',month:'short'})}
 function daysLeft(d){if(!d)return null;var t=new Date();t.setHours(0,0,0,0);var x=new Date(d);x.setHours(0,0,0,0);return Math.ceil((x-t)/864e5)}
-function goBack(){window.location.href='index.html'}
-// Accordion toggle
-document.addEventListener('click',function(e){var head=e.target.closest('.acc-head');if(!head)return;head.classList.toggle('open');var body=head.nextElementSibling;if(body)body.classList.toggle('open')});
+function daysSince(d){if(!d)return null;var t=new Date();t.setHours(0,0,0,0);var x=new Date(d);x.setHours(0,0,0,0);return Math.floor((t-x)/864e5)}
+function toggleAide(btn){btn.classList.toggle('open');var body=btn.nextElementSibling;if(body)body.classList.toggle('open')}
 
-function switchTab(tab,btn){
-  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active')});
-  btn.classList.add('active');
-  ['recherche','objectifs','rapport'].forEach(function(t){document.getElementById('tab-'+t).style.display=t===tab?'block':'none'});
-}
-var STATUSES=['contacté','relancé','réponse reçue','stage trouvé'];
-var STATUS_CLS=['contacte','relance','reponse','trouve'];
-function renderLieux(data){
-  var lieux=data.stage_lieux||{};var keys=Object.keys(lieux);var el=document.getElementById('stage-lieux');
-  if(!keys.length){el.innerHTML='<div class="empty">Aucune piste ajoutée pour le moment</div>';return}
-  el.innerHTML=keys.map(function(k){var l=lieux[k];var sIdx=STATUSES.indexOf(l.statut||'contacté');
-    return '<div class="stage-card"><div class="stage-card-header"><div class="stage-card-name">'+(l.nom||'—')+'</div><span class="stage-status '+STATUS_CLS[sIdx>=0?sIdx:0]+'">'+(l.statut||'contacté')+'</span></div><div class="stage-meta">'+(l.ville||'Non précisé')+(l.created?' · Ajouté le '+dateFr(l.created):'')+'</div><div class="stage-actions"><select onchange="updateLieu(\''+k+'\',this.value)">'+STATUSES.map(function(s){return '<option value="'+s+'"'+(s===l.statut?' selected':'')+'>'+s+'</option>'}).join('')+'</select></div></div>'}).join('');
-}
-function renderStageGoals(data){
-  var goals=data.objectifs||{};var mine=Object.entries(goals).filter(function(e){return e[1].context==='PFMP'||e[1].context==='Recherche'});
-  var el=document.getElementById('stage-goals');
-  if(!mine.length){el.innerHTML='<div class="empty">Pas encore d\'objectif stage. Crée-en un depuis l\'accueil !</div>';return}
-  el.innerHTML=mine.map(function(e){var g=e[1];var dl=daysLeft(g.date_cible);
-    var badge=g.done?'<span class="gm-badge" style="background:rgba(16,185,129,.1);color:var(--success)">Validé</span>':'<span class="gm-badge" style="background:rgba(245,158,11,.1);color:var(--warn)">'+(dl!==null&&dl>=0?'J-'+dl:'En cours')+'</span>';
-    return '<div class="goal-mini"><span class="gm-dot" style="background:var(--warn)"></span><span class="gm-title">'+(g.titre||'')+'</span>'+badge+'</div>'}).join('');
-}
-db.ref('accompagnement/eleves/'+dataCode).on('value',function(snap){
-  var data=snap.val()||{};if(!data.stage_lieux)data.stage_lieux={};renderLieux(data);renderStageGoals(data);
+// Secteur "Autre" toggle
+document.getElementById('f-secteur').addEventListener('change',function(){
+  document.getElementById('f-secteur-autre').style.display=this.value==='__autre'?'block':'none';
 });
-window.addLieu=function(){
-  var nom=prompt("Nom de l'entreprise ou du lieu ?");if(!nom)return;
-  var ville=prompt("Ville / zone ?");
-  db.ref('accompagnement/eleves/'+dataCode+'/stage_lieux').push({nom:nom,ville:ville||'',statut:'contacté',created:new Date().toISOString()});
-};
-window.updateLieu=function(k,statut){db.ref('accompagnement/eleves/'+dataCode+'/stage_lieux/'+k+'/statut').set(statut)};
 </script>
 </body>
 </html>

@@ -449,7 +449,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 
     <!-- 3 BOUTONS -->
     <div class="actions-grid a4">
-      <div class="act-card c-stage" onclick="litCard(this);openStageOverlay()">
+      <div class="act-card c-stage" onclick="litCard(this);window.location.href='stage.html'">
         <div class="act-name">Mon<br>Stage</div>
         <div class="act-badge warn" id="badge-stage">0</div>
       </div>
@@ -478,12 +478,6 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 <div class="overlay" id="objectifs-overlay">
   <div class="overlay-header"><span class="overlay-title">🎯 Mon Objectif</span><button class="overlay-close" onclick="closeOv('objectifs-overlay')">✕</button></div>
   <div class="overlay-body"><div class="oc" id="objectifs-content"></div></div>
-</div>
-
-<!-- STAGE -->
-<div class="overlay" id="stage-overlay">
-  <div class="overlay-header"><span class="overlay-title">🏢 Mon Stage</span><button class="overlay-close" onclick="closeOv('stage-overlay')">✕</button></div>
-  <div class="overlay-body"><div class="oc" id="stage-content"></div></div>
 </div>
 
 <!-- WIZARD -->
@@ -638,7 +632,6 @@ function closeOv(id){
     var prev=overlayStack.pop();
     // Refresh overlay content before showing it again
     if(prev==='objectifs-overlay')openObjectifsOverlay();
-    else if(prev==='stage-overlay')openStageOverlay();
     else if(prev==='cps-overlay'&&window._lastCpsAx)openCpsSpace(window._lastCpsAx);
     else{var prevEl=document.getElementById(prev);if(prevEl)prevEl.classList.add('show')}
   }
@@ -783,8 +776,11 @@ function render(){
     if(val)val.textContent=counts[ax];
   });
 
-  // Badges on 3 buttons
-  document.getElementById('badge-stage').textContent=stageActive.length?stageActive.length+' en cours':'0';
+  // Badge stage — reads from recherche_stage/entreprises
+  var stageEnts=userData.recherche_stage&&userData.recherche_stage.entreprises?Object.values(userData.recherche_stage.entreprises):[];
+  var stageActiveCount=stageEnts.filter(function(e){return e.statut&&e.statut!=='accepte'&&e.statut!=='refuse'}).length;
+  var stageFound=stageEnts.some(function(e){return e.statut==='accepte'});
+  document.getElementById('badge-stage').textContent=stageFound?'Trouvé':stageActiveCount?stageActiveCount+' piste'+(stageActiveCount>1?'s':''):'0';
   document.getElementById('badge-objectif').textContent=objActive?objActive+' actif'+(objActive>1?'s':''):'0';
 
   // Prochaines Missions (next 2 active, non-done)
@@ -851,33 +847,7 @@ function openObjectifsOverlay(){
   document.getElementById('objectifs-overlay').classList.add('show');
 }
 
-function openStageOverlay(){
-  var c=document.getElementById('stage-content');
-  var goals=userData.objectifs||{},pfmpList=[],rechList=[],donePfmp=[],doneRech=[];
-  Object.entries(goals).forEach(function(e){
-    var k=e[0],g=e[1];
-    if(g.context==='PFMP'){if(g.done)donePfmp.push(Object.assign({k:k},g));else pfmpList.push(Object.assign({k:k},g))}
-    if(g.context==='Recherche'){if(g.done)doneRech.push(Object.assign({k:k},g));else rechList.push(Object.assign({k:k},g))}
-  });
-
-  var html='<button class="add-btn stage-add" onclick="startWizardStageFrom(\'stage-overlay\')">+ Ajouter un objectif stage</button>';
-
-  html+='<div class="obj-section-title">Objectifs PFMP <span class="count">'+pfmpList.length+'</span></div>';
-  if(!pfmpList.length)html+='<div class="empty-msg">Aucun objectif PFMP</div>';
-  else html+=pfmpList.map(function(g){return renderObjCard(g,false)}).join('');
-
-  html+='<div class="obj-section-title" style="margin-top:20px">Recherche de stage <span class="count">'+rechList.length+'</span></div>';
-  if(!rechList.length)html+='<div class="empty-msg">Aucune recherche de stage</div>';
-  else html+=rechList.map(function(g){return renderObjCard(g,false)}).join('');
-
-  var allDone=donePfmp.concat(doneRech);
-  if(allDone.length){
-    html+='<div class="obj-section-title" style="margin-top:20px">Atteints <span class="count">'+allDone.length+'</span></div>';
-    html+=allDone.map(function(g){return renderObjCard(g,true)}).join('');
-  }
-  c.innerHTML=html;
-  document.getElementById('stage-overlay').classList.add('show');
-}
+// openStageOverlay removed — Mon Stage navigates directly to stage.html
 
 function renderObjCard(g,isDone){
   var ax=getAx(g),cls=axCls(ax);
@@ -1105,20 +1075,12 @@ window.openAttestation=function(){window.location.href='synthese.html'}
 // ══════════════════════════════════════════
 window.startWizardFrom=function(fromId){draft={};openOv('wizard-overlay');wizStep(1)}
 window.startWizard=function(){draft={};overlayStack=[];document.getElementById('wizard-overlay').classList.add('show');wizStep(1)}
-window.startWizardStageFrom=function(fromId){draft={};openOv('wizard-overlay');
-  var c=document.getElementById('wizard-content');c.innerHTML='';
-  c.innerHTML='<div class="wiz-title">Quel type d\'objectif stage ?</div><button class="wiz-option" onclick="draft.context=\'PFMP\';wizStep(2)">🏢 PFMP / Stage</button><button class="wiz-option" onclick="draft.context=\'Recherche\';wizStep(2)">🔍 Recherche de stage</button>';
-}
-window.startWizardStage=function(){draft={};overlayStack=[];document.getElementById('wizard-overlay').classList.add('show');
-  // Pre-select stage context choices
-  var c=document.getElementById('wizard-content');c.innerHTML='';
-  c.innerHTML='<div class="wiz-title">Quel type d\'objectif stage ?</div><button class="wiz-option" onclick="draft.context=\'PFMP\';wizStep(2)">🏢 PFMP / Stage</button><button class="wiz-option" onclick="draft.context=\'Recherche\';wizStep(2)">🔍 Recherche de stage</button>';
-}
+// startWizardStageFrom/startWizardStage removed — stage search is now in stage.html
 
 function wizStep(s){
   draft._step=s;var c=document.getElementById('wizard-content');c.innerHTML='';
   var backMap={2:1,3:2,4:3,5:4};if(backMap[s])c.innerHTML+='<button class="wiz-back" onclick="wizStep('+backMap[s]+')">← Retour</button>';
-  if(s===1){c.innerHTML+='<div class="wiz-title">Dans quel cadre ?</div><button class="wiz-option" onclick="draft.context=\'Scolaire\';wizStep(2)">📚 Scolaire</button><button class="wiz-option" onclick="draft.context=\'PFMP\';wizStep(2)">🏢 PFMP / Stage</button><button class="wiz-option" onclick="draft.context=\'Recherche\';wizStep(2)">🔍 Recherche de stage</button><button class="wiz-option" onclick="draft.context=\'Autre\';draft.type=\'NEU\';draft.cps=null;wizStep(3)">✏️ Autre (libre)</button>'}
+  if(s===1){c.innerHTML+='<div class="wiz-title">Dans quel cadre ?</div><button class="wiz-option" onclick="draft.context=\'Scolaire\';wizStep(2)">📚 Scolaire</button><button class="wiz-option" onclick="draft.context=\'PFMP\';wizStep(2)">🏢 PFMP / Stage</button><button class="wiz-option" onclick="draft.context=\'Autre\';draft.type=\'NEU\';draft.cps=null;wizStep(3)">✏️ Autre (libre)</button>'}
   else if(s===2){
     c.innerHTML+='<div class="wiz-title">Choisis ton entrée</div><div class="wiz-switch"><button class="wiz-switch-btn '+(wizMode==='competence'?'active':'')+'" onclick="wizMode=\'competence\';wizStep(2)">Par compétence</button><button class="wiz-switch-btn '+(wizMode==='objectif'?'active':'')+'" onclick="wizMode=\'objectif\';wizStep(2)">Par savoir-faire</button></div><input type="text" class="wiz-search" id="cps-search" placeholder="Rechercher…" oninput="wizStep(2)">';
     var contextSnapshot=draft.context,modeSnapshot=wizMode;
