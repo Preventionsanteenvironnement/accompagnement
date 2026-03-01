@@ -620,7 +620,11 @@ function submitCode(){
   err.textContent='';btn.disabled=true;btn.innerHTML='<span class="btn-spinner"></span> Vérification…';
   db.ref('accompagnement/autorisations/'+code).once('value',function(snap){
     var auth=snap.val();
-    if(!auth&&isSpecial){auth={autorise:true,userCode:code}}
+    if(isSpecial){
+      if(!auth)auth={};
+      auth.autorise=true;
+      auth.userCode=code;
+    }
     if(!auth){btn.disabled=false;btn.textContent='Accéder à mon espace';err.textContent='Code incorrect.';return}
     if(auth.autorise!==true){btn.disabled=false;btn.textContent='Accéder à mon espace';showDenied('not-authorized');return}
     checkSchedule(code,auth,function(allowed){
@@ -634,7 +638,11 @@ function submitCode(){
       document.getElementById('tb-avatar').textContent=code.substring(0,2);
       showApp();loadData();
       if(authListener)db.ref('accompagnement/autorisations/'+code).off('value',authListener);
-      authListener=db.ref('accompagnement/autorisations/'+code).on('value',function(s){var d=s.val();if(!d||d.autorise!==true){document.getElementById('app').style.display='none';showDenied('not-authorized')}});
+      if(!isSpecial){
+        authListener=db.ref('accompagnement/autorisations/'+code).on('value',function(s){var d=s.val();if(!d||d.autorise!==true){document.getElementById('app').style.display='none';showDenied('not-authorized')}});
+      }else{
+        authListener=null;
+      }
     });
   });
 }
