@@ -540,9 +540,9 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
   <div class="overlay-body"><div class="oc">
     <p style="font-size:.82rem;color:var(--text2);text-align:center;margin-bottom:8px">Quel type de réussite ?</p>
     <div class="reco-choice">
-      <div class="reco-card" onclick="genRecoQR('COG')"><div class="rc-icon" style="background:rgba(59,130,246,.1)">🧠</div><div><div class="rc-text" style="color:var(--cog)">Cognitif</div><div class="rc-sub">Réflexion, analyse, décision</div></div></div>
-      <div class="reco-card" onclick="genRecoQR('EMO')"><div class="rc-icon" style="background:rgba(244,63,94,.1)">❤️</div><div><div class="rc-text" style="color:var(--emo)">Émotionnel</div><div class="rc-sub">Gestion des émotions, stress</div></div></div>
-      <div class="reco-card" onclick="genRecoQR('SOC')"><div class="rc-icon" style="background:rgba(139,92,246,.1)">🤝</div><div><div class="rc-text" style="color:var(--soc)">Social</div><div class="rc-sub">Communication, entraide</div></div></div>
+      <div class="reco-card" onclick="genRecoQR('COG')"><div class="rc-icon" style="background:rgba(59,130,246,.1)">💭</div><div><div class="rc-text" style="color:var(--cog)">Cognitif</div><div class="rc-sub">Réflexion, analyse, décision</div></div></div>
+      <div class="reco-card" onclick="genRecoQR('EMO')"><div class="rc-icon" style="background:rgba(244,63,94,.1)">🌟</div><div><div class="rc-text" style="color:var(--emo)">Émotionnel</div><div class="rc-sub">Gestion des émotions, stress</div></div></div>
+      <div class="reco-card" onclick="genRecoQR('SOC')"><div class="rc-icon" style="background:rgba(139,92,246,.1)">💬</div><div><div class="rc-text" style="color:var(--soc)">Social</div><div class="rc-sub">Communication, entraide</div></div></div>
     </div>
   </div></div>
 </div>
@@ -553,9 +553,9 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
   <div class="overlay-body"><div class="oc">
     <h3 style="text-align:center;font-weight:800;margin-bottom:20px;font-size:1rem">Mon profil de compétences</h3>
     <div class="attest-radar"><canvas id="attest-radar"></canvas></div>
-    <div class="attest-card cog"><h4 style="color:var(--cog)">🧠 Cognitif</h4><p id="syn-cog">—</p></div>
-    <div class="attest-card emo"><h4 style="color:var(--emo)">❤️ Émotionnel</h4><p id="syn-emo">—</p></div>
-    <div class="attest-card soc"><h4 style="color:var(--soc)">🤝 Social</h4><p id="syn-soc">—</p></div>
+    <div class="attest-card cog"><h4 style="color:var(--cog)">💭 Cognitif</h4><p id="syn-cog">—</p></div>
+    <div class="attest-card emo"><h4 style="color:var(--emo)">🌟 Émotionnel</h4><p id="syn-emo">—</p></div>
+    <div class="attest-card soc"><h4 style="color:var(--soc)">💬 Social</h4><p id="syn-soc">—</p></div>
   </div></div>
 </div>
 
@@ -598,7 +598,7 @@ const MOOD_COLORS={
   "Dégoût":{aura:'rgba(249,115,22,.08)',border:'rgba(249,115,22,.15)',glow:'rgba(249,115,22,.06)'}
 };
 
-const AX={COG:{emoji:'🧠',label:'Cognitif',color:'var(--cog)',cls:'cog',desc:'Réflexion, analyse, prise de décision, pensée critique'},EMO:{emoji:'❤️',label:'Émotionnel',color:'var(--emo)',cls:'emo',desc:'Gestion des émotions, du stress, conscience émotionnelle'},SOC:{emoji:'🤝',label:'Social',color:'var(--soc)',cls:'soc',desc:'Communication, coopération, résolution de conflits'}};
+const AX={COG:{emoji:'💭',label:'Cognitif',color:'var(--cog)',cls:'cog',desc:'Réflexion, analyse, prise de décision, pensée critique'},EMO:{emoji:'🌟',label:'Émotionnel',color:'var(--emo)',cls:'emo',desc:'Gestion des émotions, du stress, conscience émotionnelle'},SOC:{emoji:'💬',label:'Social',color:'var(--soc)',cls:'soc',desc:'Communication, coopération, résolution de conflits'}};
 const CTX_FILES={Scolaire:'scolaire.json',PFMP:'pfmp_stage.json',Recherche:'recherche_stage.json',Autre:'autre.json'};
 const REF_CUSTOM_GLOBAL='accompagnement/bibliotheque_custom/global';
 const REF_CUSTOM_PAR_ELEVE='accompagnement/bibliotheque_custom/par_eleve';
