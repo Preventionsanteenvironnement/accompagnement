@@ -92,17 +92,17 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
   </div>
 
   <div class="card" style="border-left:4px solid var(--cog)">
-    <h4 style="color:var(--cog)">💭 Cognitif</h4>
+    <h4 style="color:var(--cog)">💭 Ma tête</h4>
     <p id="syn-cog">Chargement…</p>
     <div id="list-cog" style="margin-top:8px"></div>
   </div>
   <div class="card" style="border-left:4px solid var(--emo)">
-    <h4 style="color:var(--emo)">🌟 Émotionnel</h4>
+    <h4 style="color:var(--emo)">🌟 Mes émotions</h4>
     <p id="syn-emo">Chargement…</p>
     <div id="list-emo" style="margin-top:8px"></div>
   </div>
   <div class="card" style="border-left:4px solid var(--soc)">
-    <h4 style="color:var(--soc)">💬 Social</h4>
+    <h4 style="color:var(--soc)">💬 Mes relations</h4>
     <p id="syn-soc">Chargement…</p>
     <div id="list-soc" style="margin-top:8px"></div>
   </div>
@@ -142,11 +142,11 @@ db.ref('accompagnement/eleves/'+dataCode).on('value',function(snap){
   var counts={COG:0,EMO:0,SOC:0},totals={COG:0,EMO:0,SOC:0},examples={COG:[],EMO:[],SOC:[]};
   Object.values(goals).forEach(function(g){var ax=getAx(g);if(ax==='NEU')return;totals[ax]++;if(g.done){counts[ax]++;if(examples[ax].length<3)examples[ax].push(g.titre||'')}});
   var totalAll=counts.COG+counts.EMO+counts.SOC;
-  document.getElementById('my-stats').innerHTML='<div class="stats-grid"><div class="stat"><div class="stat-val" style="color:var(--primary)">'+totalAll+'</div><div class="stat-lbl">Validés</div></div><div class="stat"><div class="stat-val" style="color:var(--cog)">'+counts.COG+'</div><div class="stat-lbl">Cognitif</div></div><div class="stat"><div class="stat-val" style="color:var(--emo)">'+counts.EMO+'</div><div class="stat-lbl">Émotionnel</div></div></div><div class="stats-grid" style="grid-template-columns:repeat(2,1fr)"><div class="stat"><div class="stat-val" style="color:var(--soc)">'+counts.SOC+'</div><div class="stat-lbl">Social</div></div><div class="stat"><div class="stat-val" style="color:var(--warn)">'+(totals.COG+totals.EMO+totals.SOC-totalAll)+'</div><div class="stat-lbl">En cours</div></div></div>';
+  document.getElementById('my-stats').innerHTML='<div class="stats-grid"><div class="stat"><div class="stat-val" style="color:var(--primary)">'+totalAll+'</div><div class="stat-lbl">Validés</div></div><div class="stat"><div class="stat-val" style="color:var(--cog)">'+counts.COG+'</div><div class="stat-lbl">Ma tête</div></div><div class="stat"><div class="stat-val" style="color:var(--emo)">'+counts.EMO+'</div><div class="stat-lbl">Mes émotions</div></div></div><div class="stats-grid" style="grid-template-columns:repeat(2,1fr)"><div class="stat"><div class="stat-val" style="color:var(--soc)">'+counts.SOC+'</div><div class="stat-lbl">Mes relations</div></div><div class="stat"><div class="stat-val" style="color:var(--warn)">'+(totals.COG+totals.EMO+totals.SOC-totalAll)+'</div><div class="stat-lbl">En cours</div></div></div>';
   // Radar
   var ctx=document.getElementById('radar-chart');
   if(radarChart)radarChart.destroy();
-  radarChart=new Chart(ctx,{type:'radar',data:{labels:['Cognitif','Émotionnel','Social'],datasets:[{data:[counts.COG,counts.EMO,counts.SOC],backgroundColor:'rgba(99,102,241,.12)',borderColor:'rgba(99,102,241,.5)',borderWidth:2,pointBackgroundColor:'#6366f1',pointRadius:5}]},options:{scales:{r:{beginAtZero:true,ticks:{display:false},grid:{color:'rgba(0,0,0,.05)'},pointLabels:{font:{size:13,weight:'700',family:'Outfit'}}}},plugins:{legend:{display:false}}}});
+  radarChart=new Chart(ctx,{type:'radar',data:{labels:['Ma tête','Mes émotions','Mes relations'],datasets:[{data:[counts.COG,counts.EMO,counts.SOC],backgroundColor:'rgba(99,102,241,.12)',borderColor:'rgba(99,102,241,.5)',borderWidth:2,pointBackgroundColor:'#6366f1',pointRadius:5}]},options:{scales:{r:{beginAtZero:true,ticks:{display:false},grid:{color:'rgba(0,0,0,.05)'},pointLabels:{font:{size:13,weight:'700',family:'Outfit'}}}},plugins:{legend:{display:false}}}});
   // Summaries
   ['COG','EMO','SOC'].forEach(function(ax){
     var id=ax.toLowerCase();

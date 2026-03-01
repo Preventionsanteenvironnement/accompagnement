@@ -246,6 +246,10 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .recap-suggestions{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .recap-sugg{padding:7px 13px;background:var(--bg);border:1px solid var(--border);border-radius:999px;font-size:0.8rem;font-weight:600;cursor:pointer;transition:all .15s;font-family:var(--font);color:var(--text2)}
 .recap-sugg:hover,.recap-sugg:active{border-color:var(--primary);color:var(--primary);background:var(--primary-light)}
+.niveau-scale{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.niveau-btn{display:flex;align-items:center;gap:8px;padding:12px 16px;background:var(--surface);border:2px solid var(--border);border-radius:12px;font-size:.88rem;font-weight:600;cursor:pointer;transition:all .15s;font-family:var(--font);color:var(--text);text-align:left;width:100%}
+.niveau-btn:hover{border-color:var(--primary);background:var(--primary-light)}
+.niveau-btn.active{border-color:var(--primary);background:var(--primary-light);color:var(--primary);box-shadow:0 0 0 3px rgba(79,70,229,.15)}
 .recap-demarche{background:var(--bg);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:10px;position:relative;border:1px solid var(--border)}
 .recap-demarche-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 .recap-demarche-num{font-size:0.8rem;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.5px}
@@ -419,21 +423,21 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
           <svg viewBox="0 0 82 82"><circle class="rbg" cx="41" cy="41" r="36"/><circle class="rfill cog" cx="41" cy="41" r="36" stroke-dasharray="226.19" id="ring-cog-circle" stroke-dashoffset="226.19"/></svg>
           <span class="ring-num" style="color:var(--cog)" id="val-cog">0</span>
         </div>
-        <div class="ring-name cog">Cognitif</div>
+        <div class="ring-name cog">Ma tête</div>
       </div>
       <div class="cps-item" onclick="openCpsSpace('EMO')">
         <div class="ring-box">
           <svg viewBox="0 0 82 82"><circle class="rbg" cx="41" cy="41" r="36"/><circle class="rfill emo" cx="41" cy="41" r="36" stroke-dasharray="226.19" id="ring-emo-circle" stroke-dashoffset="226.19"/></svg>
           <span class="ring-num" style="color:var(--emo)" id="val-emo">0</span>
         </div>
-        <div class="ring-name emo">Émotion</div>
+        <div class="ring-name emo">Mes émotions</div>
       </div>
       <div class="cps-item" onclick="openCpsSpace('SOC')">
         <div class="ring-box">
           <svg viewBox="0 0 82 82"><circle class="rbg" cx="41" cy="41" r="36"/><circle class="rfill soc" cx="41" cy="41" r="36" stroke-dasharray="226.19" id="ring-soc-circle" stroke-dashoffset="226.19"/></svg>
           <span class="ring-num" style="color:var(--soc)" id="val-soc">0</span>
         </div>
-        <div class="ring-name soc">Social</div>
+        <div class="ring-name soc">Mes relations</div>
       </div>
     </div>
 
@@ -534,9 +538,9 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
   <div class="overlay-body"><div class="oc">
     <p style="font-size:.82rem;color:var(--text2);text-align:center;margin-bottom:8px">Quel type de réussite ?</p>
     <div class="reco-choice">
-      <div class="reco-card" onclick="genRecoQR('COG')"><div class="rc-icon" style="background:rgba(59,130,246,.1)">💭</div><div><div class="rc-text" style="color:var(--cog)">Cognitif</div><div class="rc-sub">Réflexion, analyse, décision</div></div></div>
-      <div class="reco-card" onclick="genRecoQR('EMO')"><div class="rc-icon" style="background:rgba(244,63,94,.1)">🌟</div><div><div class="rc-text" style="color:var(--emo)">Émotionnel</div><div class="rc-sub">Gestion des émotions, stress</div></div></div>
-      <div class="reco-card" onclick="genRecoQR('SOC')"><div class="rc-icon" style="background:rgba(139,92,246,.1)">💬</div><div><div class="rc-text" style="color:var(--soc)">Social</div><div class="rc-sub">Communication, entraide</div></div></div>
+      <div class="reco-card" onclick="genRecoQR('COG')"><div class="rc-icon" style="background:rgba(59,130,246,.1)">💭</div><div><div class="rc-text" style="color:var(--cog)">Ma tête</div><div class="rc-sub">Réfléchir, m'organiser, décider</div></div></div>
+      <div class="reco-card" onclick="genRecoQR('EMO')"><div class="rc-icon" style="background:rgba(244,63,94,.1)">🌟</div><div><div class="rc-text" style="color:var(--emo)">Mes émotions</div><div class="rc-sub">Gérer mon stress, comprendre mes émotions</div></div></div>
+      <div class="reco-card" onclick="genRecoQR('SOC')"><div class="rc-icon" style="background:rgba(139,92,246,.1)">💬</div><div><div class="rc-text" style="color:var(--soc)">Mes relations</div><div class="rc-sub">Communiquer, coopérer, m'affirmer</div></div></div>
     </div>
   </div></div>
 </div>
@@ -547,9 +551,9 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
   <div class="overlay-body"><div class="oc">
     <h3 style="text-align:center;font-weight:800;margin-bottom:20px;font-size:1rem">Mon profil de compétences</h3>
     <div class="attest-radar"><canvas id="attest-radar"></canvas></div>
-    <div class="attest-card cog"><h4 style="color:var(--cog)">💭 Cognitif</h4><p id="syn-cog">—</p></div>
-    <div class="attest-card emo"><h4 style="color:var(--emo)">🌟 Émotionnel</h4><p id="syn-emo">—</p></div>
-    <div class="attest-card soc"><h4 style="color:var(--soc)">💬 Social</h4><p id="syn-soc">—</p></div>
+    <div class="attest-card cog"><h4 style="color:var(--cog)">💭 Ma tête</h4><p id="syn-cog">—</p></div>
+    <div class="attest-card emo"><h4 style="color:var(--emo)">🌟 Mes émotions</h4><p id="syn-emo">—</p></div>
+    <div class="attest-card soc"><h4 style="color:var(--soc)">💬 Mes relations</h4><p id="syn-soc">—</p></div>
   </div></div>
 </div>
 
@@ -566,7 +570,7 @@ firebase.initializeApp(firebaseConfig);const db=firebase.database();
 // ══════════════════════════════════════════
 let userCode=null;
 let dataCode=null;
-let userData={objectifs:{},meteo:{}},draft={},currentEditId=null,breathRunning=false,breathInterval=null,breathTimeout=null,breathSec=0,attestChart=null,contextData={},wizMode='competence',customBiblioCache={};
+let userData={objectifs:{},meteo:{}},draft={},currentEditId=null,breathRunning=false,breathInterval=null,breathTimeout=null,breathSec=0,attestChart=null,contextData={},customBiblioCache={};
 const SESSION_CODE_KEY='accompagnement_session_code';
 
 // ══════════════════════════════════════════
@@ -592,7 +596,7 @@ const MOOD_COLORS={
   "Dégoût":{aura:'rgba(249,115,22,.08)',border:'rgba(249,115,22,.15)',glow:'rgba(249,115,22,.06)'}
 };
 
-const AX={COG:{emoji:'💭',label:'Cognitif',color:'var(--cog)',cls:'cog',desc:'Réflexion, analyse, prise de décision, pensée critique'},EMO:{emoji:'🌟',label:'Émotionnel',color:'var(--emo)',cls:'emo',desc:'Gestion des émotions, du stress, conscience émotionnelle'},SOC:{emoji:'💬',label:'Social',color:'var(--soc)',cls:'soc',desc:'Communication, coopération, résolution de conflits'}};
+const AX={COG:{emoji:'💭',label:'Ma tête',color:'var(--cog)',cls:'cog',desc:'Réfléchir, m\'organiser, décider'},EMO:{emoji:'🌟',label:'Mes émotions',color:'var(--emo)',cls:'emo',desc:'Gérer mon stress, comprendre mes émotions'},SOC:{emoji:'💬',label:'Mes relations',color:'var(--soc)',cls:'soc',desc:'Communiquer, coopérer, m\'affirmer'}};
 const CTX_FILES={Scolaire:'scolaire.json',PFMP:'pfmp_stage.json',Recherche:'recherche_stage.json',Autre:'autre.json'};
 const REF_CUSTOM_GLOBAL='accompagnement/bibliotheque_custom/global';
 const REF_CUSTOM_PAR_ELEVE='accompagnement/bibliotheque_custom/par_eleve';
@@ -1082,25 +1086,21 @@ function wizStep(s){
   var backMap={2:1,3:2,4:3,5:4};if(backMap[s])c.innerHTML+='<button class="wiz-back" onclick="wizStep('+backMap[s]+')">← Retour</button>';
   if(s===1){c.innerHTML+='<div class="wiz-title">Dans quel cadre ?</div><button class="wiz-option" onclick="draft.context=\'Scolaire\';wizStep(2)">📚 Scolaire</button><button class="wiz-option" onclick="draft.context=\'PFMP\';wizStep(2)">🏢 PFMP / Stage</button><button class="wiz-option" onclick="draft.context=\'Autre\';draft.type=\'NEU\';draft.cps=null;wizStep(3)">✏️ Autre (libre)</button>'}
   else if(s===2){
-    c.innerHTML+='<div class="wiz-title">Choisis ton entrée</div><div class="wiz-switch"><button class="wiz-switch-btn '+(wizMode==='competence'?'active':'')+'" onclick="wizMode=\'competence\';wizStep(2)">Par compétence</button><button class="wiz-switch-btn '+(wizMode==='objectif'?'active':'')+'" onclick="wizMode=\'objectif\';wizStep(2)">Par savoir-faire</button></div><input type="text" class="wiz-search" id="cps-search" placeholder="Rechercher…" oninput="wizStep(2)">';
-    var contextSnapshot=draft.context,modeSnapshot=wizMode;
+    c.innerHTML+='<div class="wiz-title">Choisis un objectif</div><input type="text" class="wiz-search" id="cps-search" placeholder="Rechercher…" oninput="wizStep(2)">';
+    var contextSnapshot=draft.context;
     loadContext(contextSnapshot).then(async function(data){
       if(!data){c.innerHTML+='<div class="empty-msg">Bibliothèque non disponible</div>';return}
-      if(draft._step!==2||contextSnapshot!==draft.context||modeSnapshot!==wizMode)return;
+      if(draft._step!==2||contextSnapshot!==draft.context)return;
       var q=(document.getElementById('cps-search')?document.getElementById('cps-search').value:'').toLowerCase();
-      window.__CPS_MAP={};window.__OBJ_MAP={};
+      window.__OBJ_MAP={};
       var compIndex=buildCompetenceIndex(data);
-      if(wizMode==='competence'){
-        Object.entries(data).forEach(function(entry){var domK=entry[0],dom=entry[1],ax=domainKey(domK),color=domainColor(ax),chips=[];(dom.categories||[]).forEach(function(cat){(cat.competences_generales||[]).forEach(function(gen){(gen.competences_specifiques||[]).forEach(function(spe){if(q&&(spe.nom_spe+' '+gen.nom_gen+' '+cat.nom_cat).toLowerCase().indexOf(q)===-1)return;var uid=ax+'_'+spe.code_spe;window.__CPS_MAP[uid]={domain:ax,cat_code:cat.code_cat,cat_label:cat.nom_cat,gen_code:gen.code_gen,gen_label:gen.nom_gen,spe_code:spe.code_spe,spe_label:spe.nom_spe,objectifs:spe.objectifs_eleve||[],color:color};chips.push('<div class="wiz-chip" onclick="selectCps(\''+uid+'\')"><span class="dot" style="background:'+color+'"></span><span>'+spe.nom_spe+'</span></div>')})})});if(chips.length)c.innerHTML+='<div class="wiz-section-h" style="color:'+color+'">'+domainLabel(ax)+'</div>'+chips.join('')});
-      }else{
-        var staticItems=[];Object.entries(data).forEach(function(entry){var domK=entry[0],dom=entry[1],ax=domainKey(domK),color=domainColor(ax);(dom.categories||[]).forEach(function(cat){(cat.competences_generales||[]).forEach(function(gen){(gen.competences_specifiques||[]).forEach(function(spe){(spe.objectifs_eleve||[]).forEach(function(obj,i){var txt=String(obj.texte||'');if(q&&(txt+' '+spe.nom_spe).toLowerCase().indexOf(q)===-1)return;var uid='OBJ_'+ax+'_'+spe.code_spe+'_'+i;staticItems.push({uid:uid,texte:txt,code_ref:obj.code_ref||'',domain:ax,cat_code:cat.code_cat,cat_label:cat.nom_cat,gen_code:gen.code_gen,gen_label:gen.nom_gen,spe_code:spe.code_spe,spe_label:spe.nom_spe,color:color,is_custom:false})})})})})});
+      var staticItems=[];Object.entries(data).forEach(function(entry){var domK=entry[0],dom=entry[1],ax=domainKey(domK),color=domainColor(ax);(dom.categories||[]).forEach(function(cat){(cat.competences_generales||[]).forEach(function(gen){(gen.competences_specifiques||[]).forEach(function(spe){(spe.objectifs_eleve||[]).forEach(function(obj,i){var txt=String(obj.texte||'');if(q&&(txt+' '+spe.nom_spe).toLowerCase().indexOf(q)===-1)return;var uid='OBJ_'+ax+'_'+spe.code_spe+'_'+i;staticItems.push({uid:uid,texte:txt,code_ref:obj.code_ref||'',domain:ax,cat_code:cat.code_cat,cat_label:cat.nom_cat,gen_code:gen.code_gen,gen_label:gen.nom_gen,spe_code:spe.code_spe,spe_label:spe.nom_spe,color:color,is_custom:false})})})})})});
         var customPack=await loadCustomEntriesForContext(contextSnapshot);
-        if(draft._step!==2||contextSnapshot!==draft.context||modeSnapshot!==wizMode)return;
+        if(draft._step!==2||contextSnapshot!==draft.context)return;
         var customItems=customPack.eleve.concat(customPack.global).map(function(raw){return mapCustomToWizardItem(raw,compIndex)}).filter(function(it){return!q||(String(it.texte||'')+' '+String(it.spe_label||'')).toLowerCase().indexOf(q)!==-1});
         var merged=mergeWizardItems(customItems,staticItems,contextSnapshot),groups={COG:[],EMO:[],SOC:[],NEU:[]};
         merged.forEach(function(it){var ax=it.domain||'NEU';if(!groups[ax])groups[ax]=[];groups[ax].push(it)});
         ['COG','EMO','SOC','NEU'].forEach(function(ax){var list=groups[ax]||[];if(!list.length)return;var color=domainColor(ax);c.innerHTML+='<div class="wiz-section-h" style="color:'+color+'">'+domainLabel(ax)+'</div>'+list.map(function(it){window.__OBJ_MAP[it.uid]=Object.assign({},it);return'<button class="wiz-option" style="border-left:4px solid '+(it.color||color)+'" onclick="selectObj(\''+it.uid+'\')">'+wizOptionContentHtml(it)+'</button>'}).join('')});
-      }
       c.innerHTML+='<div style="font-size:0.8rem;color:var(--text3);margin-top:10px;text-align:center">Référentiel : Santé publique France</div>';
     });
   }
@@ -1133,7 +1133,7 @@ window.selectObj=function(uid){var o=window.__OBJ_MAP&&window.__OBJ_MAP[uid];if(
 // ══════════════════════════════════════════
 // RECAP STEP
 // ══════════════════════════════════════════
-function getRecapSuggestions(){var s=[],ctx=draft.context||'',dom=draft.type||(draft.cps&&draft.cps.domain)||'';if(ctx==='Scolaire'){s.push("Quand le prof me le confirmera","Quand j'aurai réussi l'évaluation","Quand j'y arriverai seul(e)")}else if(ctx==='PFMP'){s.push("Quand mon tuteur me le dira","Quand je réaliserai la tâche seul(e)")}else if(ctx==='Recherche'){s.push("Quand j'aurai trouvé mon stage","Quand j'aurai ma convention signée","Quand j'aurai contacté 5 entreprises")}if(dom==='COG'&&ctx!=='Recherche')s.push("Quand j'aurai compris le sujet");if(dom==='EMO')s.push("Quand je me sentirai plus à l'aise");if(dom==='SOC')s.push("Quand j'aurai amélioré mes échanges");if(s.length<2)s.push("Quand j'aurai atteint mon objectif");return s.slice(0,4)}
+function getRecapSuggestions(){return["J'y arrive plus souvent qu'avant","Un adulte me l'a confirmé","Je le fais sans y penser","Je me sens plus à l'aise"]}
 
 function renderRecapStep(c){
   var dom=draft.type||(draft.cps&&draft.cps.domain)||'NEU',color=domainColor(dom),ax=AX[dom]||{cls:'neu',emoji:'📋',label:'Autre'};
@@ -1150,14 +1150,16 @@ function renderRecapStep(c){
   h+='<div class="recap-field"><div class="recap-field-label">🎯 Objectif</div><input type="text" class="fi" id="r-titre" value="'+(draft.titre||'').replace(/"/g,'&quot;')+'">';
   if(draft.code_ref)h+='<div class="recap-info-text">Issu du référentiel CPS — modifiable</div>';
   h+='</div>';
-  h+='<div class="recap-field"><div class="recap-field-label">📅 Pour quand ?</div><input type="date" class="fi" id="r-date" value="'+(draft.date||new Date().toISOString().split('T')[0])+'"></div>';
+  h+='<div class="recap-field"><div class="recap-field-label">📅 Je veux y arriver avant le…</div><input type="date" class="fi" id="r-date" value="'+(draft.date||new Date().toISOString().split('T')[0])+'"></div>';
+  var nSel=draft.niveau_depart||0;
+  h+='<div class="recap-field"><div class="recap-field-label">📊 Où j\'en suis aujourd\'hui ?</div><div class="niveau-scale"><button type="button" class="niveau-btn'+(nSel==1?' active':'')+'" data-niveau="1" onclick="this.parentNode.querySelectorAll(\'.niveau-btn\').forEach(function(b){b.classList.remove(\'active\')});this.classList.add(\'active\')">😤 Je n\'y arrive pas encore</button><button type="button" class="niveau-btn'+(nSel==2?' active':'')+'" data-niveau="2" onclick="this.parentNode.querySelectorAll(\'.niveau-btn\').forEach(function(b){b.classList.remove(\'active\')});this.classList.add(\'active\')">😐 J\'y arrive parfois</button><button type="button" class="niveau-btn'+(nSel==3?' active':'')+'" data-niveau="3" onclick="this.parentNode.querySelectorAll(\'.niveau-btn\').forEach(function(b){b.classList.remove(\'active\')});this.classList.add(\'active\')">🙂 J\'y arrive souvent</button><button type="button" class="niveau-btn'+(nSel==4?' active':'')+'" data-niveau="4" onclick="this.parentNode.querySelectorAll(\'.niveau-btn\').forEach(function(b){b.classList.remove(\'active\')});this.classList.add(\'active\')">💪 C\'est devenu un réflexe</button></div></div>';
   if(!isStage){
     if(isScolaire){h+='<div class="recap-field"><div class="recap-field-label">📚 Matière / Discipline</div><select class="fi" id="r-matiere">'+MATIERES.map(function(m){return '<option value="'+m+'"'+(m===(draft.detail||'')?' selected':'')+'>'+m+'</option>'}).join('')+'<option value="__autre"'+(MATIERES.indexOf(draft.detail||'')===-1&&draft.detail?' selected':'')+'>Autre…</option></select><input type="text" class="fi" id="r-matiere-autre" placeholder="Précise ta matière…" style="display:'+(MATIERES.indexOf(draft.detail||'')===-1&&draft.detail?'block':'none')+';margin-top:8px" value="'+(MATIERES.indexOf(draft.detail||'')===-1?(draft.detail||'').replace(/"/g,'&quot;'):'')+'"></div>'}
     else if(draft.context==='PFMP'){h+='<div class="recap-field"><div class="recap-field-label">🏢 Lieu / Activité</div><input type="text" class="fi" id="r-detail" value="'+(draft.detail||'').replace(/"/g,'&quot;')+'" placeholder="Atelier, chantier, service…"></div>'}
     else{h+='<div class="recap-field"><div class="recap-field-label">📍 Contexte</div><input type="text" class="fi" id="r-detail" value="'+(draft.detail||'').replace(/"/g,'&quot;')+'" placeholder="Précise…"></div>'}
   }
   var suggs=getRecapSuggestions();
-  h+='<div class="recap-field"><div class="recap-field-label">📏 Comment je saurai que c\'est réussi ?</div><input type="text" class="fi" id="r-critere" value="'+(draft.critere||'').replace(/"/g,'&quot;')+'" placeholder="Ex : Quand j\'aurai…"><div class="recap-suggestions">'+suggs.map(function(sg){return '<button type="button" class="recap-sugg" onclick="document.getElementById(\'r-critere\').value=this.textContent">'+sg+'</button>'}).join('')+'</div></div>';
+  h+='<div class="recap-field"><div class="recap-field-label">📏 Comment je saurai que j\'ai réussi ? (optionnel)</div><input type="text" class="fi" id="r-critere" value="'+(draft.critere||'').replace(/"/g,'&quot;')+'" placeholder="Ex : Quand j\'aurai…"><div class="recap-suggestions">'+suggs.map(function(sg){return '<button type="button" class="recap-sugg" onclick="document.getElementById(\'r-critere\').value=this.textContent">'+sg+'</button>'}).join('')+'</div></div>';
   if(isStage){h+='<div class="recap-field"><div class="recap-field-label">🏢 Mes démarches de recherche</div><div id="r-demarches-list">'+renderDemarchesHTML(draft.demarches)+'</div><button type="button" class="recap-add-btn" onclick="addDemarcheUI()">+ Ajouter une démarche</button></div>'}
   h+='</div></div>';
   h+='<div id="r-warnings"></div>';
@@ -1179,14 +1181,14 @@ window.removeDemarcheUI=function(idx){collectDemarches();draft.demarches.splice(
 
 function collectDemarches(){var cards=document.querySelectorAll('.recap-demarche');draft.demarches=[];cards.forEach(function(card){var ent=card.querySelector('.dem-entreprise'),vil=card.querySelector('.dem-ville'),dat=card.querySelector('.dem-date');var activeBtn=card.querySelector('.recap-contact-btn.active');draft.demarches.push({entreprise:ent?ent.value.trim():'',ville:vil?vil.value.trim():'',contact_mode:activeBtn?activeBtn.dataset.mode:'',date_demarche:dat?dat.value:'',statut:'a_faire'})})}
 
-window.collectRecapDraft=function(){var t=document.getElementById('r-titre');if(t)draft.titre=t.value;var d=document.getElementById('r-date');if(d)draft.date=d.value;var cr=document.getElementById('r-critere');if(cr)draft.critere=cr.value;var ms=document.getElementById('r-matiere');if(ms)draft.detail=ms.value==='__autre'?(document.getElementById('r-matiere-autre')||{}).value||'':ms.value;var det=document.getElementById('r-detail');if(det)draft.detail=det.value;if(draft.context==='Recherche')collectDemarches()}
+window.collectRecapDraft=function(){var t=document.getElementById('r-titre');if(t)draft.titre=t.value;var d=document.getElementById('r-date');if(d)draft.date=d.value;var cr=document.getElementById('r-critere');if(cr)draft.critere=cr.value;var nBtn=document.querySelector('.niveau-btn.active');if(nBtn)draft.niveau_depart=parseInt(nBtn.dataset.niveau)||1;var ms=document.getElementById('r-matiere');if(ms)draft.detail=ms.value==='__autre'?(document.getElementById('r-matiere-autre')||{}).value||'':ms.value;var det=document.getElementById('r-detail');if(det)draft.detail=det.value;if(draft.context==='Recherche')collectDemarches()}
 
 window.validateRecap=function(){
   collectRecapDraft();
   var missing=[],isStage=draft.context==='Recherche';
   if(!draft.date)missing.push('la date');
   if(!isStage&&!draft.detail)missing.push(draft.context==='Scolaire'?'la matière':'le lieu / contexte');
-  if(!draft.critere)missing.push('le critère de réussite');
+
   if(isStage){var validDem=(draft.demarches||[]).filter(function(d){return d.entreprise});if(!validDem.length)missing.push('au moins une démarche');
     var noVille=(draft.demarches||[]).filter(function(d){return d.entreprise&&!d.ville});if(noVille.length){var vMsg=noVille.length===1?'la ville pour « '+escHtml(noVille[0].entreprise)+' »':'la ville pour '+noVille.length+' démarches';missing.push(vMsg)}}
   if(missing.length){var w=document.getElementById('r-warnings');w.innerHTML='<div class="recap-warn">💡 Tu n\'as pas renseigné : '+missing.map(escHtml).join(', ')+'. Tu peux enregistrer quand même et compléter plus tard.</div><div class="recap-warn-btns"><button onclick="saveWizard()" style="background:var(--primary);color:#fff">Enregistrer quand même</button><button onclick="document.getElementById(\'r-warnings\').innerHTML=\'\'" style="background:var(--bg);color:var(--text);border:1px solid var(--border)">Compléter</button></div>';return}
@@ -1196,7 +1198,7 @@ window.saveWizard=function(){
   collectRecapDraft();
   if(!draft.date)draft.date=new Date().toISOString().split('T')[0];
   var dom=draft.type||(draft.cps&&draft.cps.domain)||'NEU';
-  var pushData={context:draft.context||'Autre',type:dom,titre:draft.titre||'',date_cible:draft.date,detail:(draft.detail&&draft.detail.trim())||'Non précisé',done:false,created:new Date().toISOString(),ref_source:"Santé publique France",cat_code:(draft.cps&&draft.cps.cat_code)||"",cat_label:(draft.cps&&draft.cps.cat_label)||"",gen_code:(draft.cps&&draft.cps.gen_code)||"",gen_label:(draft.cps&&draft.cps.gen_label)||"",spe_code:(draft.cps&&draft.cps.spe_code)||"",spe_label:(draft.cps&&draft.cps.spe_label)||"",code_ref:draft.code_ref||"",domaine:dom,critere_reussite:draft.critere||""};
+  var pushData={context:draft.context||'Autre',type:dom,titre:draft.titre||'',date_cible:draft.date,detail:(draft.detail&&draft.detail.trim())||'Non précisé',done:false,created:new Date().toISOString(),ref_source:"Santé publique France",cat_code:(draft.cps&&draft.cps.cat_code)||"",cat_label:(draft.cps&&draft.cps.cat_label)||"",gen_code:(draft.cps&&draft.cps.gen_code)||"",gen_label:(draft.cps&&draft.cps.gen_label)||"",spe_code:(draft.cps&&draft.cps.spe_code)||"",spe_label:(draft.cps&&draft.cps.spe_label)||"",code_ref:draft.code_ref||"",domaine:dom,critere_reussite:draft.critere||"",niveau_depart:draft.niveau_depart||1};
   if(draft.context==='Recherche'&&draft.demarches&&draft.demarches.length){var dems={};draft.demarches.forEach(function(d,i){if(d.entreprise)dems['d'+i]=d});if(Object.keys(dems).length)pushData.demarches=dems}
   db.ref('accompagnement/eleves/'+dataCode+'/objectifs').push(pushData);closeOv('wizard-overlay')}
 </script>
