@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mon Objectif</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script>
+if (location.protocol === 'http:' && !/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) {
+  location.replace('https://' + location.host + location.pathname + location.search + location.hash);
+}
+</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -580,7 +585,10 @@ function closeOv(id){document.getElementById(id).classList.remove('show')}
 function litCard(el){el.classList.remove('lit');void el.offsetWidth;el.classList.add('lit');setTimeout(function(){el.classList.remove('lit')},500)}
 async function loadContext(key){if(contextData[key])return contextData[key];try{const r=await fetch('data/bibliotheque/'+(CTX_FILES[key]||'autre.json'),{cache:'no-store'});contextData[key]=await r.json();return contextData[key]}catch(e){return null}}
 function addHistory(k,action){db.ref('accompagnement/eleves/'+dataCode+'/objectifs/'+k+'/historique').push({action:action,date:new Date().toISOString()})}
-function renderHistory(g){const h=g.historique?Object.values(g.historique).sort(function(a,b){return new Date(b.date)-new Date(a.date)}):[];const entries=[{action:'Créé',date:g.created||''}].concat(h);return entries.map(function(e){return '<div class="mh-entry"><span class="mh-dot"></span><span class="mh-text">'+dateFr(e.date)+' — '+e.action+'</span></div>'}).join('')}
+function renderHistory(g){const h=g.historique?Object.values(g.historique).sort(function(a,b){return new Date(b.date)-new Date(a.date)}):[];const entries=[{action:'Créé',date:g.created||''}].concat(h);return entries.map(function(e){return '<div class="mh-entry"><span class="mh-dot"></span><span class="mh-text">'+dateFr(e.date)+' — '+escHtml(e.action||'')+'</span></div>'}).join('')}
+function escHtml(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
+function escAttr(v){return escHtml(v).replace(/`/g,'&#96;')}
+function safeId(v){return String(v||'').replace(/[^A-Za-z0-9_-]/g,'')}
 function resolveDataCode(loginCode,auth){
   var candidate=(auth&&auth.userCode)?String(auth.userCode).toUpperCase():'';
   if(candidate)return candidate;
@@ -714,13 +722,16 @@ function renderMissions(active){
       else{cls='ok';timeLabel='J-'+dl;icon='📅';encourage='Tranquille !'}
     }
     var ax=getAx(g),dotCls=axCls(ax);
+    var gKey=safeId(g.k);
+    var gTitle=escHtml(g.titre||'Sans titre');
+    var gDetail=escHtml(g.detail||g.context||'');
     // Stars (validations count — placeholder, uses 0-5)
     var valCount=g.validations_count||0;
     var stars='';for(var i=0;i<5;i++)stars+='<span class="mission-star '+(i<valCount?'on':'off')+'">★</span>';
-    return '<div class="mission-card '+cls+'" onclick="openDetail(\''+g.k+'\')">'+
+    return '<div class="mission-card '+cls+'" onclick="openDetail(\''+gKey+'\')">'+
       '<div class="mission-time"><div class="mission-time-icon '+(cls==='urgent'?'pulse':'')+'">'+ icon+'</div><div class="mission-time-label">'+timeLabel+'</div><div class="mission-encourage">'+encourage+'</div></div>'+
-      '<div class="mission-info"><div class="mission-name">'+(g.titre||'Sans titre')+'</div>'+
-      '<div class="mission-detail"><span class="mission-dot '+dotCls+'"></span>'+(g.detail||g.context||'')+'</div>'+
+      '<div class="mission-info"><div class="mission-name">'+gTitle+'</div>'+
+      '<div class="mission-detail"><span class="mission-dot '+dotCls+'"></span>'+gDetail+'</div>'+
       '<div class="mission-stars">'+stars+'<span class="mission-valid">'+valCount+'/5</span></div></div></div>';
   }).join('');
 }
@@ -781,15 +792,19 @@ function openStageOverlay(){
 
 function renderObjCard(g,isDone){
   var ax=getAx(g),cls=axCls(ax);
+  var gKey=safeId(g.k);
+  var gTitle=escHtml(g.titre||'Sans titre');
+  var gContext=escHtml(g.context||'Autre');
+  var gDetail=escHtml(g.detail||'');
   var dl=daysLeft(g.date_cible);var timeStr='',urgCls='';
   if(dl!==null&&!isDone){if(dl<0){timeStr='Dépassé';urgCls='urgent'}else if(dl===0){timeStr="Aujourd'hui";urgCls='ok'}else{timeStr='J-'+dl;urgCls=dl<=3?'urgent':'ok'}}
   var valCount=g.validations_count||0;
   var stars='';for(var i=0;i<5;i++)stars+='<span class="obj-star '+(i<valCount?'on':'off')+'">★</span>';
 
   if(isDone){
-    return '<div class="obj-card done '+cls+'" onclick="openDetail(\''+g.k+'\')"><div class="obj-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div><div class="obj-body"><div class="obj-title">'+(g.titre||'')+'</div><div class="obj-meta"><span>Validé le '+dateFr(g.date_done)+'</span></div></div></div>';
+    return '<div class="obj-card done '+cls+'" onclick="openDetail(\''+gKey+'\')"><div class="obj-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div><div class="obj-body"><div class="obj-title">'+gTitle+'</div><div class="obj-meta"><span>Validé le '+dateFr(g.date_done)+'</span></div></div></div>';
   }
-  return '<div class="obj-card '+cls+'" onclick="openDetail(\''+g.k+'\')"><div class="obj-check" onclick="event.stopPropagation();markDone(\''+g.k+'\')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div><div class="obj-body"><div class="obj-title">'+(g.titre||'Sans titre')+'</div><div class="obj-meta"><span class="obj-badge">'+(g.context||'Autre')+'</span><span>'+(g.detail||'')+'</span>'+(timeStr?'<span class="obj-time '+urgCls+'">'+timeStr+'</span>':'')+'</div><div class="obj-stars">'+stars+'<span class="obj-valid">'+valCount+'/5</span></div></div></div>';
+  return '<div class="obj-card '+cls+'" onclick="openDetail(\''+gKey+'\')"><div class="obj-check" onclick="event.stopPropagation();markDone(\''+gKey+'\')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div><div class="obj-body"><div class="obj-title">'+gTitle+'</div><div class="obj-meta"><span class="obj-badge">'+gContext+'</span><span>'+gDetail+'</span>'+(timeStr?'<span class="obj-time '+urgCls+'">'+timeStr+'</span>':'')+'</div><div class="obj-stars">'+stars+'<span class="obj-valid">'+valCount+'/5</span></div></div></div>';
 }
 
 // ══════════════════════════════════════════
@@ -898,6 +913,13 @@ window.markDone=function(k){if(confirm("Objectif atteint ? 🎉")){db.ref('accom
 window.openDetail=function(k){
   currentEditId=k;var g=userData.objectifs[k];if(!g)return;
   var ax=getAx(g),cls=axCls(ax),meta=AX[ax]||{emoji:'📋',label:'Autre',color:'var(--text3)'};
+  var detailKey=safeId(k);
+  var safeContext=escHtml(g.context||'Autre');
+  var safeTitle=escHtml(g.titre||'Sans titre');
+  var safeSpeLabel=escHtml(g.spe_label||'Objectif libre');
+  var safeGenLabel=g.gen_label?' · '+escHtml(g.gen_label):'';
+  var safeDetail=escHtml(g.detail||'Non précisé');
+  var safeSpeCode=String(g.spe_code||'').replace(/['\\]/g,'');
   var dl=daysLeft(g.date_cible),created=new Date(g.created||Date.now()),target=g.date_cible?new Date(g.date_cible):null;
   var pct=0;if(target){var total=Math.max((target-created)/864e5,1);var elapsed=Math.max((new Date()-created)/864e5,0);pct=Math.min(Math.round((elapsed/total)*100),100)}
   var statusTxt=g.done?'Validé':'En cours',statusCls=g.done?'valide':'en-cours';
@@ -908,16 +930,16 @@ window.openDetail=function(k){
   var isStage=g.context==='Recherche';
   var matSelect='';
   if(g.context==='Scolaire'){matSelect='<select class="fi" id="det-context">'+MATIERES.map(function(m){return '<option value="'+m+'"'+(m===g.detail?' selected':'')+'>'+m+'</option>'}).join('')+'<option value="__autre"'+(MATIERES.indexOf(g.detail)===-1?' selected':'')+'>Autre…</option></select>'}
-  else{matSelect='<input type="text" class="fi" id="det-context" value="'+(g.detail||'')+'">'}
+  else{matSelect='<input type="text" class="fi" id="det-context" value="'+escAttr(g.detail||'')+'">'}
   var c=document.getElementById('detail-content');
-  c.innerHTML='<div class="mission-header '+cls+'"><div class="mission-cadre">'+cadreIcon+' '+(g.context||'Autre')+'</div><div class="mission-titre">'+(g.titre||'Sans titre')+'</div><div class="mission-cps">'+(meta.emoji||'')+' '+(g.spe_label||'Objectif libre')+(g.gen_label?' · '+g.gen_label:'')+'</div><span class="mission-status '+statusCls+'">'+(statusCls==='valide'?'✅':'⏳')+' '+statusTxt+'</span></div>'
-    +'<div class="mission-block"><div class="mission-block-title">Contexte</div><div class="mb-row"><span class="mb-icon">📅</span><span class="mb-label">Échéance</span><span class="mb-val">'+dateFr(g.date_cible)+'</span></div><div class="mb-row"><span class="mb-icon">📍</span><span class="mb-label">'+(g.context==='Scolaire'?'Matière':'Lieu')+'</span><span class="mb-val">'+(g.detail||'Non précisé')+'</span></div><div class="mb-row"><span class="mb-icon">🧭</span><span class="mb-label">Axe</span><span class="mb-val" style="color:'+domainColor(ax)+'">'+(meta.label||'')+'</span></div>'+tlHtml+'</div>'
-    +(g.spe_label?'<button class="mission-cps-link" onclick="openFormationFor(\''+ax+'\',\''+(g.spe_code||'').replace(/'/g,"\\'")+'\')">💡 Comprendre cette compétence</button>':'')
+  c.innerHTML='<div class="mission-header '+cls+'"><div class="mission-cadre">'+cadreIcon+' '+safeContext+'</div><div class="mission-titre">'+safeTitle+'</div><div class="mission-cps">'+(meta.emoji||'')+' '+safeSpeLabel+safeGenLabel+'</div><span class="mission-status '+statusCls+'">'+(statusCls==='valide'?'✅':'⏳')+' '+statusTxt+'</span></div>'
+    +'<div class="mission-block"><div class="mission-block-title">Contexte</div><div class="mb-row"><span class="mb-icon">📅</span><span class="mb-label">Échéance</span><span class="mb-val">'+dateFr(g.date_cible)+'</span></div><div class="mb-row"><span class="mb-icon">📍</span><span class="mb-label">'+(g.context==='Scolaire'?'Matière':'Lieu')+'</span><span class="mb-val">'+safeDetail+'</span></div><div class="mb-row"><span class="mb-icon">🧭</span><span class="mb-label">Axe</span><span class="mb-val" style="color:'+domainColor(ax)+'">'+(meta.label||'')+'</span></div>'+tlHtml+'</div>'
+    +(g.spe_label?'<button class="mission-cps-link" onclick="openFormationFor(\''+ax+'\',\''+safeSpeCode+'\')">💡 Comprendre cette compétence</button>':'')
     +(isStage?'<div class="mission-block"><div class="mission-block-title">Pistes de recherche</div><div id="stage-lieux-list"></div><button class="wiz-option" style="margin-top:6px;border-style:dashed;text-align:center;color:var(--primary)" onclick="addStageLieu()">+ Ajouter un lieu / entreprise</button><button class="wiz-option" style="margin-top:4px;text-align:center;color:var(--warn);font-weight:800" onclick="window.location.href=\'stage.html'+(userCode?'?id='+userCode:'')+'\'">🏢 Voir mon espace Stage complet</button></div>':'')
     +'<div class="mission-block"><div class="mission-block-title">Modifier</div><label style="font-size:0.75rem;font-weight:700;color:var(--text3);display:block;margin-bottom:3px">Échéance</label><input type="date" class="fi" id="det-date" value="'+(g.date_cible||'')+'"><label style="font-size:0.75rem;font-weight:700;color:var(--text3);display:block;margin-bottom:3px">'+(g.context==='Scolaire'?'Matière':'Détail')+'</label>'+matSelect+'</div>'
     +'<div class="mission-block"><div class="mission-block-title">Historique</div><div class="mission-history">'+renderHistory(g)+'</div></div>'
     +'<div class="mission-actions"><button class="btn-mission primary" onclick="saveDetail()">💾 Enregistrer</button><button class="btn-mission outline" onclick="showQRForGoal()">🔗 Faire valider par un adulte</button>'
-    +(!g.done?'<button class="btn-mission success" onclick="markDone(\''+k+'\');closeOv(\'detail-overlay\')">✅ Marquer comme atteint</button>':'')
+    +(!g.done?'<button class="btn-mission success" onclick="markDone(\''+detailKey+'\');closeOv(\'detail-overlay\')">✅ Marquer comme atteint</button>':'')
     +'<button class="btn-mission danger" onclick="deleteGoal()">Supprimer</button></div>';
   if(isStage)renderStageLieux(k);
   document.getElementById('detail-overlay').classList.add('show');
@@ -930,7 +952,7 @@ window.deleteGoal=function(){if(confirm('Supprimer ?')){db.ref('accompagnement/e
 // STAGE LIEUX
 // ══════════════════════════════════════════
 function renderStageLieux(goalId){var el=document.getElementById('stage-lieux-list');if(!el)return;var lieux=userData.objectifs[goalId]&&userData.objectifs[goalId].lieux||{};var keys=Object.keys(lieux);if(!keys.length){el.innerHTML='<div class="empty-msg" style="padding:8px 0">Aucune piste</div>';return}
-  el.innerHTML=keys.map(function(lk){var l=lieux[lk];var statuses=['contacté','relancé','réponse reçue','stage trouvé'];return '<div class="stage-lieu"><div><div class="stage-lieu-name">'+(l.nom||'—')+'</div><div class="stage-lieu-meta">'+(l.ville||'')+'</div></div><select onchange="updateStageLieu(\''+goalId+'\',\''+lk+'\',this.value)" style="padding:4px 8px;border:1px solid var(--border);border-radius:8px;font-family:var(--font);font-size:0.75rem;font-weight:700">'+statuses.map(function(s){return '<option value="'+s+'"'+(s===l.statut?' selected':'')+'>'+s+'</option>'}).join('')+'</select></div>'}).join('')}
+  el.innerHTML=keys.map(function(lk){var l=lieux[lk];var statuses=['contacté','relancé','réponse reçue','stage trouvé'];return '<div class="stage-lieu"><div><div class="stage-lieu-name">'+escHtml(l.nom||'—')+'</div><div class="stage-lieu-meta">'+escHtml(l.ville||'')+'</div></div><select onchange="updateStageLieu(\''+safeId(goalId)+'\',\''+safeId(lk)+'\',this.value)" style="padding:4px 8px;border:1px solid var(--border);border-radius:8px;font-family:var(--font);font-size:0.75rem;font-weight:700">'+statuses.map(function(s){return '<option value="'+s+'"'+(s===l.statut?' selected':'')+'>'+s+'</option>'}).join('')+'</select></div>'}).join('')}
 window.addStageLieu=function(){var nom=prompt("Nom de l'entreprise ?");if(!nom)return;var ville=prompt("Ville ?");db.ref('accompagnement/eleves/'+dataCode+'/objectifs/'+currentEditId+'/lieux').push({nom:nom,ville:ville||'',statut:'contacté',created:new Date().toISOString()});addHistory(currentEditId,'Piste ajoutée : '+nom)}
 window.updateStageLieu=function(gId,lId,statut){db.ref('accompagnement/eleves/'+dataCode+'/objectifs/'+gId+'/lieux/'+lId+'/statut').set(statut);addHistory(gId,'Statut : '+statut)}
 
@@ -947,9 +969,9 @@ window.openCpsSpace=async function(ax){
   var c=document.getElementById('cps-space-content');
   c.innerHTML='<div class="cps-space-hero '+meta.cls+'"><div class="cps-space-emoji">'+meta.emoji+'</div><div class="cps-space-name">'+meta.label+'</div><div class="cps-space-sub">'+meta.desc+'</div></div>'
     +'<div class="cps-space-stats"><div class="cps-stat"><div class="cps-stat-val" style="color:'+domainColor(ax)+'">'+goals.length+'</div><div class="cps-stat-lbl">Total</div></div><div class="cps-stat"><div class="cps-stat-val" style="color:var(--success)">'+doneC+'</div><div class="cps-stat-lbl">Validés</div></div><div class="cps-stat"><div class="cps-stat-val" style="color:var(--warn)">'+activeC+'</div><div class="cps-stat-lbl">En cours</div></div></div>';
-  if(activeC){c.innerHTML+='<div class="cps-space-section"><h4>⏳ En cours</h4>'+goals.filter(function(e){return!e[1].done}).map(function(e){var dl=daysLeft(e[1].date_cible);var lbl=dl!==null?(dl<0?'Dépassé':dl===0?"Auj.":'J-'+dl):'';return '<div class="cps-comp-card" onclick="closeOv(\'cps-overlay\');openDetail(\''+e[0]+'\')"><div class="cps-comp-title">'+(e[1].titre||'')+'</div><div class="cps-comp-gen">'+(e[1].detail||'')+' '+(lbl?'· '+lbl:'')+'</div></div>'}).join('')+'</div>'}
-  if(doneC){c.innerHTML+='<div class="cps-space-section"><h4>✅ Validés</h4>'+goals.filter(function(e){return e[1].done}).map(function(e){return '<div class="cps-comp-card" style="opacity:.6"><div class="cps-comp-title">'+(e[1].titre||'')+'</div><div class="cps-comp-gen">Validé le '+dateFr(e[1].date_done)+'</div></div>'}).join('')+'</div>'}
-  c.innerHTML+='<div class="cps-space-section"><h4>📚 Référentiel</h4>'+comps.map(function(s){return '<div class="cps-comp-card" onclick="openFormationFor(\''+ax+'\',\''+(s.code_spe||'').replace(/'/g,"\\'")+'\')">'+'<div class="cps-comp-title">'+s.nom_spe+'</div><div class="cps-comp-gen">'+s.gen_label+'</div></div>'}).join('')+'</div>'
+  if(activeC){c.innerHTML+='<div class="cps-space-section"><h4>⏳ En cours</h4>'+goals.filter(function(e){return!e[1].done}).map(function(e){var dl=daysLeft(e[1].date_cible);var lbl=dl!==null?(dl<0?'Dépassé':dl===0?"Auj.":'J-'+dl):'';return '<div class="cps-comp-card" onclick="closeOv(\'cps-overlay\');openDetail(\''+safeId(e[0])+'\')"><div class="cps-comp-title">'+escHtml(e[1].titre||'')+'</div><div class="cps-comp-gen">'+escHtml(e[1].detail||'')+' '+(lbl?'· '+lbl:'')+'</div></div>'}).join('')+'</div>'}
+  if(doneC){c.innerHTML+='<div class="cps-space-section"><h4>✅ Validés</h4>'+goals.filter(function(e){return e[1].done}).map(function(e){return '<div class="cps-comp-card" style="opacity:.6"><div class="cps-comp-title">'+escHtml(e[1].titre||'')+'</div><div class="cps-comp-gen">Validé le '+dateFr(e[1].date_done)+'</div></div>'}).join('')+'</div>'}
+  c.innerHTML+='<div class="cps-space-section"><h4>📚 Référentiel</h4>'+comps.map(function(s){return '<div class="cps-comp-card" onclick="openFormationFor(\''+ax+'\',\''+String(s.code_spe||'').replace(/['\\]/g,'')+'\')">'+'<div class="cps-comp-title">'+escHtml(s.nom_spe)+'</div><div class="cps-comp-gen">'+escHtml(s.gen_label)+'</div></div>'}).join('')+'</div>'
     +'<button class="cps-formation-btn" onclick="openFormation(\''+ax+'\')">📖 Explorer l\'espace '+meta.label+'</button>';
   document.getElementById('cps-overlay').classList.add('show');
 };
@@ -1020,12 +1042,13 @@ function renderRecapStep(c){
   var dom=draft.type||(draft.cps&&draft.cps.domain)||'NEU',color=domainColor(dom),ax=AX[dom]||{cls:'neu',emoji:'📋',label:'Autre'};
   var isStage=draft.context==='Recherche',isScolaire=draft.context==='Scolaire';
   var cadreIcons={'Scolaire':'📚','PFMP':'🏢','Recherche':'🔍','Autre':'✏️'};
+  var recapTitle=escHtml(draft.titre||'Mon objectif');
   if(!draft.demarches)draft.demarches=[];
   if(draft._backTo)c.innerHTML+='<button class="wiz-back" onclick="collectRecapDraft();wizStep('+draft._backTo+')">← Retour</button>';
   var h='<div class="recap-card"><div class="recap-header '+(ax.cls||'neu')+'">';
   h+='<div class="recap-badge">'+(cadreIcons[draft.context]||'✏️')+' '+(draft.context||'Autre')+'</div>';
-  h+='<div class="recap-titre-display">'+(draft.titre||'Mon objectif')+'</div>';
-  if(draft.cps){h+='<div class="recap-cps-tree">';h+='<div class="recap-cps-node level-1"><span class="recap-cps-dot" style="background:'+color+'"></span>'+(ax.emoji||'')+' '+(draft.cps.cat_label||ax.label)+'</div>';if(draft.cps.gen_label)h+='<div class="recap-cps-node level-2">↳ '+(draft.cps.gen_label)+'</div>';if(draft.cps.spe_label)h+='<div class="recap-cps-node level-3">↳ '+(draft.cps.spe_label)+'</div>';h+='</div>'}else{h+='<div class="recap-cps-tree" style="color:var(--text3)">Objectif libre — hors référentiel</div>'}
+  h+='<div class="recap-titre-display">'+recapTitle+'</div>';
+  if(draft.cps){h+='<div class="recap-cps-tree">';h+='<div class="recap-cps-node level-1"><span class="recap-cps-dot" style="background:'+color+'"></span>'+(ax.emoji||'')+' '+escHtml(draft.cps.cat_label||ax.label)+'</div>';if(draft.cps.gen_label)h+='<div class="recap-cps-node level-2">↳ '+escHtml(draft.cps.gen_label)+'</div>';if(draft.cps.spe_label)h+='<div class="recap-cps-node level-3">↳ '+escHtml(draft.cps.spe_label)+'</div>';h+='</div>'}else{h+='<div class="recap-cps-tree" style="color:var(--text3)">Objectif libre — hors référentiel</div>'}
   h+='</div><div class="recap-body">';
   h+='<div class="recap-field"><div class="recap-field-label">🎯 Objectif</div><input type="text" class="fi" id="r-titre" value="'+(draft.titre||'').replace(/"/g,'&quot;')+'">';
   if(draft.code_ref)h+='<div class="recap-info-text">Issu du référentiel CPS — modifiable</div>';
@@ -1068,8 +1091,8 @@ window.validateRecap=function(){
   if(!isStage&&!draft.detail)missing.push(draft.context==='Scolaire'?'la matière':'le lieu / contexte');
   if(!draft.critere)missing.push('le critère de réussite');
   if(isStage){var validDem=(draft.demarches||[]).filter(function(d){return d.entreprise});if(!validDem.length)missing.push('au moins une démarche');
-    var noVille=(draft.demarches||[]).filter(function(d){return d.entreprise&&!d.ville});if(noVille.length){var vMsg=noVille.length===1?'la ville pour « '+noVille[0].entreprise+' »':'la ville pour '+noVille.length+' démarches';missing.push(vMsg)}}
-  if(missing.length){var w=document.getElementById('r-warnings');w.innerHTML='<div class="recap-warn">💡 Tu n\'as pas renseigné : '+missing.join(', ')+'. Tu peux enregistrer quand même et compléter plus tard.</div><div class="recap-warn-btns"><button onclick="saveWizard()" style="background:var(--primary);color:#fff">Enregistrer quand même</button><button onclick="document.getElementById(\'r-warnings\').innerHTML=\'\'" style="background:var(--bg);color:var(--text);border:1px solid var(--border)">Compléter</button></div>';return}
+    var noVille=(draft.demarches||[]).filter(function(d){return d.entreprise&&!d.ville});if(noVille.length){var vMsg=noVille.length===1?'la ville pour « '+escHtml(noVille[0].entreprise)+' »':'la ville pour '+noVille.length+' démarches';missing.push(vMsg)}}
+  if(missing.length){var w=document.getElementById('r-warnings');w.innerHTML='<div class="recap-warn">💡 Tu n\'as pas renseigné : '+missing.map(escHtml).join(', ')+'. Tu peux enregistrer quand même et compléter plus tard.</div><div class="recap-warn-btns"><button onclick="saveWizard()" style="background:var(--primary);color:#fff">Enregistrer quand même</button><button onclick="document.getElementById(\'r-warnings\').innerHTML=\'\'" style="background:var(--bg);color:var(--text);border:1px solid var(--border)">Compléter</button></div>';return}
   saveWizard()}
 
 window.saveWizard=function(){
