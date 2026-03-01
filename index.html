@@ -199,7 +199,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .obj-stars{display:flex;gap:2px;align-items:center}
 .obj-star{font-size:.9rem}.obj-star.on{color:#fbbf24}.obj-star.off{color:#e2e8f0}
 .obj-valid{font-size:0.8rem;color:var(--text3);margin-left:4px;font-weight:700}
-.obj-card.done{opacity:.5}
+.obj-card.done{opacity:.75;cursor:pointer}
 .obj-card.done .obj-title{text-decoration:line-through;color:var(--text3)}
 .obj-card.done .obj-check{background:var(--success);border-color:var(--success)}
 
@@ -423,7 +423,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
           <svg viewBox="0 0 82 82"><circle class="rbg" cx="41" cy="41" r="36"/><circle class="rfill cog" cx="41" cy="41" r="36" stroke-dasharray="226.19" id="ring-cog-circle" stroke-dashoffset="226.19"/></svg>
           <span class="ring-num" style="color:var(--cog)" id="val-cog">0</span>
         </div>
-        <div class="ring-name cog">Ma tête</div>
+        <div class="ring-name cog">Cognitif</div>
       </div>
       <div class="cps-item" onclick="openCpsSpace('EMO')">
         <div class="ring-box">
@@ -538,7 +538,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
   <div class="overlay-body"><div class="oc">
     <p style="font-size:.82rem;color:var(--text2);text-align:center;margin-bottom:8px">Quel type de réussite ?</p>
     <div class="reco-choice">
-      <div class="reco-card" onclick="genRecoQR('COG')"><div class="rc-icon" style="background:rgba(59,130,246,.1)">💭</div><div><div class="rc-text" style="color:var(--cog)">Ma tête</div><div class="rc-sub">Réfléchir, m'organiser, décider</div></div></div>
+      <div class="reco-card" onclick="genRecoQR('COG')"><div class="rc-icon" style="background:rgba(59,130,246,.1)">💭</div><div><div class="rc-text" style="color:var(--cog)">Cognitif</div><div class="rc-sub">Réfléchir, m'organiser, décider</div></div></div>
       <div class="reco-card" onclick="genRecoQR('EMO')"><div class="rc-icon" style="background:rgba(244,63,94,.1)">🌟</div><div><div class="rc-text" style="color:var(--emo)">Mes émotions</div><div class="rc-sub">Gérer mon stress, comprendre mes émotions</div></div></div>
       <div class="reco-card" onclick="genRecoQR('SOC')"><div class="rc-icon" style="background:rgba(139,92,246,.1)">💬</div><div><div class="rc-text" style="color:var(--soc)">Mes relations</div><div class="rc-sub">Communiquer, coopérer, m'affirmer</div></div></div>
     </div>
@@ -551,7 +551,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
   <div class="overlay-body"><div class="oc">
     <h3 style="text-align:center;font-weight:800;margin-bottom:20px;font-size:1rem">Mon profil de compétences</h3>
     <div class="attest-radar"><canvas id="attest-radar"></canvas></div>
-    <div class="attest-card cog"><h4 style="color:var(--cog)">💭 Ma tête</h4><p id="syn-cog">—</p></div>
+    <div class="attest-card cog"><h4 style="color:var(--cog)">💭 Cognitif</h4><p id="syn-cog">—</p></div>
     <div class="attest-card emo"><h4 style="color:var(--emo)">🌟 Mes émotions</h4><p id="syn-emo">—</p></div>
     <div class="attest-card soc"><h4 style="color:var(--soc)">💬 Mes relations</h4><p id="syn-soc">—</p></div>
   </div></div>
@@ -596,7 +596,7 @@ const MOOD_COLORS={
   "Dégoût":{aura:'rgba(249,115,22,.08)',border:'rgba(249,115,22,.15)',glow:'rgba(249,115,22,.06)'}
 };
 
-const AX={COG:{emoji:'💭',label:'Ma tête',color:'var(--cog)',cls:'cog',desc:'Réfléchir, m\'organiser, décider'},EMO:{emoji:'🌟',label:'Mes émotions',color:'var(--emo)',cls:'emo',desc:'Gérer mon stress, comprendre mes émotions'},SOC:{emoji:'💬',label:'Mes relations',color:'var(--soc)',cls:'soc',desc:'Communiquer, coopérer, m\'affirmer'}};
+const AX={COG:{emoji:'💭',label:'Cognitif',color:'var(--cog)',cls:'cog',desc:'Réfléchir, m\'organiser, décider'},EMO:{emoji:'🌟',label:'Mes émotions',color:'var(--emo)',cls:'emo',desc:'Gérer mon stress, comprendre mes émotions'},SOC:{emoji:'💬',label:'Mes relations',color:'var(--soc)',cls:'soc',desc:'Communiquer, coopérer, m\'affirmer'}};
 const CTX_FILES={Scolaire:'scolaire.json',PFMP:'pfmp_stage.json',Recherche:'recherche_stage.json',Autre:'autre.json'};
 const REF_CUSTOM_GLOBAL='accompagnement/bibliotheque_custom/global';
 const REF_CUSTOM_PAR_ELEVE='accompagnement/bibliotheque_custom/par_eleve';
@@ -969,6 +969,7 @@ function breathCycle(){
 // MARK DONE
 // ══════════════════════════════════════════
 window.markDone=function(k){if(confirm("Objectif atteint ? 🎉")){db.ref('accompagnement/eleves/'+dataCode+'/objectifs/'+k).update({done:true,date_done:new Date().toISOString()});addHistory(k,'Marqué comme atteint')}}
+window.unmarkDone=function(k){if(confirm("Remettre cet objectif en cours ?")){db.ref('accompagnement/eleves/'+dataCode+'/objectifs/'+k).update({done:false,date_done:null});addHistory(k,'Remis en cours')}}
 
 // ══════════════════════════════════════════
 // DETAIL OVERLAY
@@ -1010,7 +1011,7 @@ window.openDetail=function(k,skipShow){
     +'<div class="mission-block"><div class="mission-block-title">Modifier</div><label style="font-size:0.8rem;font-weight:700;color:var(--text3);display:block;margin-bottom:3px">Échéance</label><input type="date" class="fi" id="det-date" value="'+(g.date_cible||'')+'"><label style="font-size:0.8rem;font-weight:700;color:var(--text3);display:block;margin-bottom:3px">'+(g.context==='Scolaire'?'Matière':'Détail')+'</label>'+matSelect+'</div>'
     +'<div class="mission-block"><div class="mission-block-title">Historique</div><div class="mission-history">'+renderHistory(g)+'</div></div>'
     +'<div class="mission-actions"><button class="btn-mission primary" onclick="saveDetail()">💾 Enregistrer</button><button class="btn-mission outline" onclick="showQRForGoal()">🔗 Faire valider par un adulte</button>'
-    +(!g.done?'<button class="btn-mission success" onclick="markDone(\''+detailKey+'\');closeOv(\'detail-overlay\')">✅ Marquer comme atteint</button>':'')
+    +(!g.done?'<button class="btn-mission success" onclick="markDone(\''+detailKey+'\');closeOv(\'detail-overlay\')">✅ Marquer comme atteint</button>':'<button class="btn-mission outline" onclick="unmarkDone(\''+detailKey+'\');closeOv(\'detail-overlay\')">↩️ Remettre en cours</button>')
     +'<button class="btn-mission danger" onclick="deleteGoal()">Supprimer</button></div>';
   if(isStage)renderStageLieux(k);
   if(!skipShow)document.getElementById('detail-overlay').classList.add('show');
