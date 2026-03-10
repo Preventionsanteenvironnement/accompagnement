@@ -378,9 +378,9 @@ textarea.form-input{resize:vertical;min-height:60px}
 <div class="form-overlay" id="form-add-ent">
   <div class="form-sheet">
     <div class="form-title">Ajouter une entreprise <button class="form-close" onclick="closeForm('form-add-ent')">✕</button></div>
-    <div class="form-group"><div class="form-label">Nom <span class="form-required">*</span></div><input type="text" class="form-input" id="f-nom" placeholder="Nom de l'entreprise"></div>
-    <div class="form-group"><div class="form-label">Ville <span class="form-required">*</span></div><input type="text" class="form-input" id="f-ville" placeholder="Ville"></div>
-    <div class="form-group"><div class="form-label">Secteur</div>
+    <div class="form-group"><label class="form-label" for="f-nom">Nom <span class="form-required">*</span></label><input type="text" class="form-input" id="f-nom" placeholder="Nom de l'entreprise"></div>
+    <div class="form-group"><label class="form-label" for="f-ville">Ville <span class="form-required">*</span></label><input type="text" class="form-input" id="f-ville" placeholder="Ville"></div>
+    <div class="form-group"><label class="form-label" for="f-secteur">Secteur</label>
       <select class="form-select" id="f-secteur">
         <option value="">Choisir...</option>
         <option>Commerce / Vente</option>
@@ -398,10 +398,10 @@ textarea.form-input{resize:vertical;min-height:60px}
       </select>
       <input type="text" class="form-input" id="f-secteur-autre" placeholder="Préciser le secteur..." style="display:none;margin-top:6px">
     </div>
-    <div class="form-group"><div class="form-label">Personne à contacter</div><input type="text" class="form-input" id="f-contact" placeholder="Nom du responsable (optionnel)"></div>
-    <div class="form-group"><div class="form-label">Téléphone</div><input type="tel" class="form-input" id="f-tel" placeholder="Numéro de téléphone"></div>
-    <div class="form-group"><div class="form-label">Email</div><input type="email" class="form-input" id="f-email" placeholder="Adresse email (optionnel)"></div>
-    <div class="form-group"><div class="form-label">Notes</div><textarea class="form-input" id="f-notes" placeholder="Informations supplémentaires..."></textarea></div>
+    <div class="form-group"><label class="form-label" for="f-contact">Personne à contacter</label><input type="text" class="form-input" id="f-contact" placeholder="Nom du responsable (optionnel)"></div>
+    <div class="form-group"><label class="form-label" for="f-tel">Téléphone</label><input type="tel" class="form-input" id="f-tel" placeholder="Numéro de téléphone"></div>
+    <div class="form-group"><label class="form-label" for="f-email">Email</label><input type="email" class="form-input" id="f-email" placeholder="Adresse email (optionnel)"></div>
+    <div class="form-group"><label class="form-label" for="f-notes">Notes</label><textarea class="form-input" id="f-notes" placeholder="Informations supplémentaires..."></textarea></div>
     <button class="form-submit" onclick="saveEntreprise()">Enregistrer</button>
   </div>
 </div>
@@ -411,7 +411,7 @@ textarea.form-input{resize:vertical;min-height:60px}
   <div class="form-sheet">
     <div class="form-title">Ajouter une action <button class="form-close" onclick="closeForm('form-add-action')">✕</button></div>
     <input type="hidden" id="fa-ent-id">
-    <div class="form-group"><div class="form-label">Type de contact</div>
+    <div class="form-group"><label class="form-label">Type de contact</label>
       <div class="contact-chips" id="fa-type-chips">
         <button class="contact-chip" data-v="appel" onclick="selectChip(this)">📞 Appel</button>
         <button class="contact-chip" data-v="visite" onclick="selectChip(this)">🚶 En personne</button>
@@ -420,9 +420,19 @@ textarea.form-input{resize:vertical;min-height:60px}
         <button class="contact-chip" data-v="autre" onclick="selectChip(this)">Autre</button>
       </div>
     </div>
-    <div class="form-group"><div class="form-label">Date</div><input type="date" class="form-input" id="fa-date"></div>
-    <div class="form-group"><div class="form-label">Résultat / Remarque</div><input type="text" class="form-input" id="fa-resultat" placeholder="Ex: Pas de réponse, Envoyer CV, Rappeler..."></div>
+    <div class="form-group"><label class="form-label" for="fa-date">Date</label><input type="date" class="form-input" id="fa-date"></div>
+    <div class="form-group"><label class="form-label" for="fa-resultat">Résultat / Remarque</label><input type="text" class="form-input" id="fa-resultat" placeholder="Ex: Pas de réponse, Envoyer CV, Rappeler..."></div>
     <button class="form-submit" onclick="saveAction()">Enregistrer</button>
+  </div>
+</div>
+
+<!-- ════ APP DIALOG ════ -->
+<div class="form-overlay" id="app-dialog">
+  <div class="form-sheet" style="text-align:center;padding:30px 24px">
+    <div class="form-title" id="dialog-title" style="justify-content:center"></div>
+    <p id="dialog-msg" style="font-size:.85rem;color:var(--text2);margin-bottom:16px"></p>
+    <input type="text" class="form-input" id="dialog-input" style="display:none;margin-bottom:12px">
+    <div id="dialog-btns" style="display:flex;gap:8px;justify-content:center"></div>
   </div>
 </div>
 
@@ -812,8 +822,8 @@ function openAddForm(){
 function saveEntreprise(){
   var nom=document.getElementById('f-nom').value.trim();
   var ville=document.getElementById('f-ville').value.trim();
-  if(!nom){alert('Le nom est obligatoire');return}
-  if(!ville){alert('La ville est obligatoire');return}
+  if(!nom){showDialog({title:'Champ manquant',msg:'Le nom est obligatoire',okLabel:'OK'});return}
+  if(!ville){showDialog({title:'Champ manquant',msg:'La ville est obligatoire',okLabel:'OK'});return}
   var sectSel=document.getElementById('f-secteur');
   var secteur=sectSel.value==='__autre'?document.getElementById('f-secteur-autre').value.trim():sectSel.value;
   REF.child('entreprises').push({
@@ -851,22 +861,16 @@ function updateEntStatus(k,val){
 }
 
 function deleteEnt(k){
-  if(confirm('Supprimer cette entreprise ?')){
-    REF.child('entreprises/'+k).remove();
-  }
+  showDialog({title:'Confirmer',msg:'Supprimer cette entreprise ?',okLabel:'Supprimer',onOk:function(){REF.child('entreprises/'+k).remove()},onCancel:function(){}});
 }
 
 function planRelance(k){
-  var dateStr=prompt('Date de relance (JJ/MM) ?');
-  if(!dateStr)return;
-  // Try to parse JJ/MM or use as-is
-  var parts=dateStr.split('/');
-  var d;
-  if(parts.length===2){
-    var yr=new Date().getFullYear();
-    d=yr+'-'+(parts[1].length===1?'0':'')+parts[1]+'-'+(parts[0].length===1?'0':'')+parts[0];
-  }else{d=dateStr}
-  REF.child('entreprises/'+k+'/date_relance').set(d);
+  showDialog({title:'Relance',msg:'Date de relance :',input:true,placeholder:'JJ/MM',okLabel:'Enregistrer',onOk:function(dateStr){
+    if(!dateStr)return;
+    var parts=dateStr.split('/');var d;
+    if(parts.length===2){var yr=new Date().getFullYear();d=yr+'-'+(parts[1].length===1?'0':'')+parts[1]+'-'+(parts[0].length===1?'0':'')+parts[0]}else{d=dateStr}
+    REF.child('entreprises/'+k+'/date_relance').set(d);
+  },onCancel:function(){}});
 }
 
 /* ════════════════════════════════════════════
@@ -918,6 +922,18 @@ function toggleFinal(key){
    UTILITIES
    ════════════════════════════════════════════ */
 function closeForm(id){document.getElementById(id).classList.remove('show')}
+function showDialog(opts){
+  document.getElementById('dialog-title').textContent=opts.title||'';
+  document.getElementById('dialog-msg').textContent=opts.msg||'';
+  var inp=document.getElementById('dialog-input');
+  inp.style.display=opts.input?'block':'none';inp.placeholder=opts.placeholder||'';inp.value=opts.defaultVal||'';
+  var btns=document.getElementById('dialog-btns');btns.innerHTML='';
+  if(opts.onCancel){var cb=document.createElement('button');cb.className='form-submit';cb.style.cssText='background:var(--bg);color:var(--text);border:1px solid var(--border)';cb.textContent='Annuler';cb.onclick=function(){closeForm('app-dialog');opts.onCancel()};btns.appendChild(cb)}
+  var ob=document.createElement('button');ob.className='form-submit';ob.textContent=opts.okLabel||'OK';
+  ob.onclick=function(){closeForm('app-dialog');if(opts.onOk)opts.onOk(opts.input?inp.value:true)};btns.appendChild(ob);
+  document.getElementById('app-dialog').classList.add('show');
+  if(opts.input)setTimeout(function(){inp.focus()},100);
+}
 function dateFr(d){if(!d)return'—';return new Date(d).toLocaleDateString('fr-FR',{day:'numeric',month:'short'})}
 function daysLeft(d){if(!d)return null;var t=new Date();t.setHours(0,0,0,0);var x=new Date(d);x.setHours(0,0,0,0);return Math.ceil((x-t)/864e5)}
 function daysSince(d){if(!d)return null;var t=new Date();t.setHours(0,0,0,0);var x=new Date(d);x.setHours(0,0,0,0);return Math.floor((t-x)/864e5)}

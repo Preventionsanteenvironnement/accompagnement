@@ -357,6 +357,11 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .a1{animation:fadeUp .4s .05s both}.a2{animation:fadeUp .4s .12s both}.a3{animation:fadeUp .4s .2s both}.a4{animation:fadeUp .4s .28s both}.a5{animation:fadeUp .4s .36s both}
 @keyframes pulse-soft{0%,100%{opacity:.7}50%{opacity:1}}
 .pulse{animation:pulse-soft 2s ease-in-out infinite}
+/* ── TOAST ── */
+.app-toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--primary);color:#fff;padding:12px 24px;border-radius:12px;font-weight:700;font-size:.85rem;z-index:9999;opacity:0;transition:all .3s ease;pointer-events:none;font-family:var(--font)}
+.app-toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+/* ── MATIERE CHIPS ── */
+.matiere-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
 
 @media (max-width: 360px) {
   .actions-grid { grid-template-columns: repeat(2,1fr); gap:10px; }
@@ -384,7 +389,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
     <h1 class="welcome-brand">mon<span>objectif</span>.fr</h1>
     <p class="welcome-sub">Bienvenue sur ton espace personnel</p>
     <div class="welcome-form">
-      <input type="text" class="welcome-input" id="code-input" placeholder="Code secret" maxlength="16" autocomplete="off" spellcheck="false" autofocus>
+      <input type="text" class="welcome-input" id="code-input" placeholder="Mon code (ex : AB34)" maxlength="16" autocomplete="off" spellcheck="false" autofocus>
       <button class="welcome-btn" id="code-btn" onclick="submitCode()">Accéder à mon espace</button>
     </div>
     <p class="welcome-error" id="welcome-error"></p>
@@ -640,6 +645,7 @@ function closeOv(id){
     else{var prevEl=document.getElementById(prev);if(prevEl)prevEl.classList.add('show')}
   }
 }
+function showToast(msg,duration){var t=document.getElementById('app-toast');if(!t)return;t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show')},duration||2400)}
 function litCard(el){el.classList.remove('lit');void el.offsetWidth;el.classList.add('lit');setTimeout(function(){el.classList.remove('lit')},500)}
 async function loadContext(key){if(contextData[key])return contextData[key];try{const r=await fetch('data/bibliotheque/'+(CTX_FILES[key]||'autre.json'),{cache:'no-store'});contextData[key]=await r.json();return contextData[key]}catch(e){return null}}
 function addHistory(k,action){db.ref('accompagnement/eleves/'+dataCode+'/objectifs/'+k+'/historique').push({action:action,date:new Date().toISOString()})}
@@ -700,7 +706,9 @@ function submitCode(){
   input.value=code;
   if(!/^[A-Z0-9]{4,16}$/.test(code)){err.textContent='Code secret invalide.';return}
   err.textContent='';btn.disabled=true;btn.innerHTML='<span class="btn-spinner"></span> Vérification…';
+  var submitTimeout=setTimeout(function(){btn.disabled=false;btn.textContent='Accéder à mon espace';err.textContent='Erreur réseau — vérifie ta connexion.'},8000);
   db.ref('accompagnement/autorisations/'+code).once('value',function(snap){
+    clearTimeout(submitTimeout);
     var auth=snap.val();
     if(!auth&&isSpecial){
       auth={autorise:true,userCode:code,bypass_schedule:true,special:true};
@@ -722,6 +730,10 @@ function submitCode(){
       if(authListener)db.ref('accompagnement/autorisations/'+code).off('value',authListener);
       authListener=db.ref('accompagnement/autorisations/'+code).on('value',function(s){var d=s.val();if(!d||d.autorise!==true){document.getElementById('app').style.display='none';showDenied('not-authorized')}});
     });
+  },function(error){
+    clearTimeout(submitTimeout);
+    btn.disabled=false;btn.textContent='Accéder à mon espace';
+    err.textContent='Erreur de connexion. Réessaie.';console.error('submitCode error:',error);
   });
 }
 
@@ -889,7 +901,7 @@ function checkMood(){
     document.getElementById('m-hint').textContent='Clique pour dire comment tu te sens';
     applyAura(null);
     // Auto-open mood on first visit
-    setTimeout(function(){openMood()},600);
+    setTimeout(function(){openMood();var mc=document.getElementById('mood-content');if(mc){mc.innerHTML='<div style="text-align:center;margin-bottom:12px"><button class="recap-contact-btn" onclick="closeOv(\'mood-overlay\')" style="font-size:.85rem;padding:8px 20px">Plus tard</button></div>'+mc.innerHTML}},600);
   }
 }
 
@@ -926,7 +938,7 @@ window.moodStep2=function(primary){
 
 window.saveMood=function(p,s,emoji){
   db.ref('accompagnement/eleves/'+dataCode+'/meteo/'+new Date().toISOString().split('T')[0]).set({primary:p,secondary:s,emoji:emoji});
-  closeOv('mood-overlay');
+  closeOv('mood-overlay');showToast('Météo enregistrée ✓');
 };
 
 // ══════════════════════════════════════════
@@ -968,7 +980,7 @@ function breathCycle(){
 // ══════════════════════════════════════════
 // MARK DONE
 // ══════════════════════════════════════════
-window.markDone=function(k){if(confirm("Objectif atteint ? 🎉")){db.ref('accompagnement/eleves/'+dataCode+'/objectifs/'+k).update({done:true,date_done:new Date().toISOString()});addHistory(k,'Marqué comme atteint')}}
+window.markDone=function(k){if(confirm("Objectif atteint ? 🎉")){db.ref('accompagnement/eleves/'+dataCode+'/objectifs/'+k).update({done:true,date_done:new Date().toISOString()});addHistory(k,'Marqué comme atteint');showToast('Objectif validé !')}}
 window.unmarkDone=function(k){if(confirm("Remettre cet objectif en cours ?")){db.ref('accompagnement/eleves/'+dataCode+'/objectifs/'+k).update({done:false,date_done:null});addHistory(k,'Remis en cours')}}
 
 // ══════════════════════════════════════════
@@ -1001,7 +1013,7 @@ window.openDetail=function(k,skipShow){
   var cadreIcon=g.context==='Scolaire'?'📚':g.context==='PFMP'?'🏢':g.context==='Recherche'?'🔍':'✏️';
   var isStage=g.context==='Recherche';
   var matSelect='';
-  if(g.context==='Scolaire'){matSelect='<select class="fi" id="det-context">'+MATIERES.map(function(m){return '<option value="'+m+'"'+(m===g.detail?' selected':'')+'>'+m+'</option>'}).join('')+'<option value="__autre"'+(MATIERES.indexOf(g.detail)===-1?' selected':'')+'>Autre…</option></select>'}
+  if(g.context==='Scolaire'){matSelect='<div id="det-matiere-chips">'+buildMatiereChipsHTML(g.detail||'','det-matiere-autre')+'</div>'}
   else{matSelect='<input type="text" class="fi" id="det-context" value="'+escAttr(g.detail||'')+'">'}
   var c=document.getElementById('detail-content');
   c.innerHTML='<div class="mission-header '+cls+'"><div class="mission-cadre">'+cadreIcon+' '+safeContext+'</div><div class="mission-titre">'+safeTitle+'</div>'+compBlocHtml+'<div class="mission-cps">'+(meta.emoji||'')+' '+safeSpeLabel+safeGenLabel+'</div><span class="mission-status '+statusCls+'">'+(statusCls==='valide'?'✅':'⏳')+' '+statusTxt+'</span></div>'
@@ -1017,7 +1029,13 @@ window.openDetail=function(k,skipShow){
   if(!skipShow)document.getElementById('detail-overlay').classList.add('show');
 };
 
-window.saveDetail=function(){db.ref('accompagnement/eleves/'+dataCode+'/objectifs/'+currentEditId).update({date_cible:document.getElementById('det-date').value,detail:document.getElementById('det-context').value});addHistory(currentEditId,'Modifié');closeOv('detail-overlay')}
+window.saveDetail=function(){
+  var detailVal;
+  var chips=document.querySelectorAll('#det-matiere-chips .recap-contact-btn.active');
+  if(chips.length){var sel=[];chips.forEach(function(btn){if(btn.dataset.matiere==='__autre'){var v=(document.getElementById('det-matiere-autre')||{}).value;if(v&&v.trim())sel.push(v.trim())}else{sel.push(btn.dataset.matiere)}});detailVal=sel.join(', ')}
+  else{var det=document.getElementById('det-context');detailVal=det?det.value:''}
+  db.ref('accompagnement/eleves/'+dataCode+'/objectifs/'+currentEditId).update({date_cible:document.getElementById('det-date').value,detail:detailVal});addHistory(currentEditId,'Modifié');closeOv('detail-overlay');showToast('Modifications enregistrées')
+}
 window.deleteGoal=function(){if(confirm('Supprimer ?')){db.ref('accompagnement/eleves/'+dataCode+'/objectifs/'+currentEditId).remove();closeOv('detail-overlay')}}
 
 // ══════════════════════════════════════════
@@ -1078,6 +1096,10 @@ window.openAttestation=function(){window.location.href='synthese.html'}
 // ══════════════════════════════════════════
 // WIZARD — Start
 // ══════════════════════════════════════════
+window.toggleMatiereChip=function(btn){btn.classList.toggle('active');if(btn.dataset.matiere==='__autre'){var inp=btn.parentNode.parentNode.querySelector('[id$="-autre"]')||document.getElementById('w-det-autre')||document.getElementById('r-matiere-autre')||document.getElementById('det-matiere-autre');if(inp)inp.style.display=btn.classList.contains('active')?'block':'none'}}
+function collectMatiereChipsFrom(container,autreId){var sel=[];var chips=container?container.querySelectorAll('.recap-contact-btn.active'):[];chips.forEach(function(btn){if(btn.dataset.matiere==='__autre'){var v=(document.getElementById(autreId)||{}).value;if(v&&v.trim())sel.push(v.trim())}else{sel.push(btn.dataset.matiere)}});return sel.join(', ')}
+function buildMatiereChipsHTML(selectedStr,autreInputId){var prevSelected=(selectedStr||'').split(', ').filter(Boolean);var knownSelected=prevSelected.filter(function(s){return MATIERES.indexOf(s)!==-1});var customSelected=prevSelected.filter(function(s){return MATIERES.indexOf(s)===-1&&s});var hasCustom=customSelected.length>0;var h='<div class="matiere-chips">';h+=MATIERES.map(function(m){return '<button type="button" class="recap-contact-btn'+(knownSelected.indexOf(m)!==-1?' active':'')+'" data-matiere="'+m+'" onclick="toggleMatiereChip(this)">'+m+'</button>'}).join('');h+='<button type="button" class="recap-contact-btn'+(hasCustom?' active':'')+'" data-matiere="__autre" onclick="toggleMatiereChip(this)">Autre…</button>';h+='</div>';h+='<input type="text" class="fi" id="'+autreInputId+'" placeholder="Précise ta matière…" style="display:'+(hasCustom?'block':'none')+';margin-top:4px" value="'+customSelected.join(', ').replace(/"/g,'&quot;')+'">';return h}
+var _wizSearchTimer=null;function wizSearchDebounced(){clearTimeout(_wizSearchTimer);_wizSearchTimer=setTimeout(function(){wizStep(2)},250)}
 window.startWizardFrom=function(fromId){draft={};openOv('wizard-overlay');wizStep(1)}
 window.startWizard=function(){draft={};overlayStack=[];document.getElementById('wizard-overlay').classList.add('show');wizStep(1)}
 // startWizardStageFrom/startWizardStage removed — stage search is now in stage.html
@@ -1087,7 +1109,7 @@ function wizStep(s){
   var backMap={2:1,3:2,4:3,5:4};if(backMap[s])c.innerHTML+='<button class="wiz-back" onclick="wizStep('+backMap[s]+')">← Retour</button>';
   if(s===1){c.innerHTML+='<div class="wiz-title">Dans quel cadre ?</div><button class="wiz-option" onclick="draft.context=\'Scolaire\';wizStep(2)">📚 Scolaire</button><button class="wiz-option" onclick="draft.context=\'PFMP\';wizStep(2)">🏢 PFMP / Stage</button><button class="wiz-option" onclick="draft.context=\'Autre\';draft.type=\'NEU\';draft.cps=null;wizStep(3)">✏️ Autre (libre)</button>'}
   else if(s===2){
-    c.innerHTML+='<div class="wiz-title">Choisis un objectif</div><input type="text" class="wiz-search" id="cps-search" placeholder="Rechercher…" oninput="wizStep(2)">';
+    c.innerHTML+='<div class="wiz-title">Choisis un objectif</div><input type="text" class="wiz-search" id="cps-search" placeholder="Rechercher…" oninput="wizSearchDebounced()">';
     var contextSnapshot=draft.context;
     loadContext(contextSnapshot).then(async function(data){
       if(!data){c.innerHTML+='<div class="empty-msg">Bibliothèque non disponible</div>';return}
@@ -1121,7 +1143,7 @@ function wizStep(s){
   }
   else if(s===4){c.innerHTML+='<div class="wiz-title">Pour quand ?</div><input type="date" class="fi" id="w-date" value="'+(draft.date||new Date().toISOString().split('T')[0])+'"><button class="wiz-confirm" onclick="draft.date=document.getElementById(\'w-date\').value;wizStep(5)">Continuer</button>'}
   else if(s===5){
-    if(draft.context==='Scolaire'){c.innerHTML+='<div class="wiz-title">Matière</div><select class="fi" id="w-det">'+MATIERES.map(function(m){return '<option value="'+m+'">'+m+'</option>'}).join('')+'<option value="__autre">Autre…</option></select><input type="text" class="fi" id="w-det-autre" placeholder="Précise…" style="display:none"><button class="wiz-confirm" onclick="var v=document.getElementById(\'w-det\').value;draft.detail=v===\'__autre\'?document.getElementById(\'w-det-autre\').value:v;wizStep(6)">Continuer</button>';setTimeout(function(){var sel=document.getElementById('w-det');if(sel)sel.onchange=function(){document.getElementById('w-det-autre').style.display=sel.value==='__autre'?'block':'none'}},50)}
+    if(draft.context==='Scolaire'){c.innerHTML+='<div class="wiz-title">Matières</div><p style="font-size:.8rem;color:var(--text2);margin-bottom:10px">Sélectionne une ou plusieurs matières :</p>'+buildMatiereChipsHTML(draft.detail||'','w-det-autre')+'<button class="wiz-confirm" onclick="draft.detail=collectMatiereChipsFrom(document.querySelector(\'#wizard-content .matiere-chips\'),\'w-det-autre\');wizStep(6)">Continuer</button>'}
     else if(draft.context==='PFMP'){c.innerHTML+='<div class="wiz-title">Lieu / Activité</div><input type="text" class="fi" id="w-det" placeholder="Atelier, chantier, service…"><button class="wiz-confirm" onclick="draft.detail=document.getElementById(\'w-det\').value;wizStep(6)">Continuer</button>'}
     else if(draft.context==='Recherche'){c.innerHTML+='<div class="wiz-title">Cible</div><input type="text" class="fi" id="w-det" placeholder="Métier, secteur, zone…"><button class="wiz-confirm" onclick="draft.detail=document.getElementById(\'w-det\').value;wizStep(6)">Continuer</button>'}
     else{c.innerHTML+='<div class="wiz-title">Contexte</div><input type="text" class="fi" id="w-det" placeholder="Précise…"><button class="wiz-confirm" onclick="draft.detail=document.getElementById(\'w-det\').value;wizStep(6)">Continuer</button>'}}
@@ -1155,7 +1177,7 @@ function renderRecapStep(c){
   var nSel=draft.niveau_depart||0;
   h+='<div class="recap-field"><div class="recap-field-label">📊 Où j\'en suis aujourd\'hui ?</div><div class="niveau-scale"><button type="button" class="niveau-btn'+(nSel==1?' active':'')+'" data-niveau="1" onclick="this.parentNode.querySelectorAll(\'.niveau-btn\').forEach(function(b){b.classList.remove(\'active\')});this.classList.add(\'active\')">😤 Je n\'y arrive pas encore</button><button type="button" class="niveau-btn'+(nSel==2?' active':'')+'" data-niveau="2" onclick="this.parentNode.querySelectorAll(\'.niveau-btn\').forEach(function(b){b.classList.remove(\'active\')});this.classList.add(\'active\')">😐 J\'y arrive parfois</button><button type="button" class="niveau-btn'+(nSel==3?' active':'')+'" data-niveau="3" onclick="this.parentNode.querySelectorAll(\'.niveau-btn\').forEach(function(b){b.classList.remove(\'active\')});this.classList.add(\'active\')">🙂 J\'y arrive souvent</button><button type="button" class="niveau-btn'+(nSel==4?' active':'')+'" data-niveau="4" onclick="this.parentNode.querySelectorAll(\'.niveau-btn\').forEach(function(b){b.classList.remove(\'active\')});this.classList.add(\'active\')">💪 C\'est devenu un réflexe</button></div></div>';
   if(!isStage){
-    if(isScolaire){h+='<div class="recap-field"><div class="recap-field-label">📚 Matière / Discipline</div><select class="fi" id="r-matiere">'+MATIERES.map(function(m){return '<option value="'+m+'"'+(m===(draft.detail||'')?' selected':'')+'>'+m+'</option>'}).join('')+'<option value="__autre"'+(MATIERES.indexOf(draft.detail||'')===-1&&draft.detail?' selected':'')+'>Autre…</option></select><input type="text" class="fi" id="r-matiere-autre" placeholder="Précise ta matière…" style="display:'+(MATIERES.indexOf(draft.detail||'')===-1&&draft.detail?'block':'none')+';margin-top:8px" value="'+(MATIERES.indexOf(draft.detail||'')===-1?(draft.detail||'').replace(/"/g,'&quot;'):'')+'"></div>'}
+    if(isScolaire){h+='<div class="recap-field"><div class="recap-field-label">📚 Matières / Disciplines</div>'+buildMatiereChipsHTML(draft.detail||'','r-matiere-autre')+'</div>'}
     else if(draft.context==='PFMP'){h+='<div class="recap-field"><div class="recap-field-label">🏢 Lieu / Activité</div><input type="text" class="fi" id="r-detail" value="'+(draft.detail||'').replace(/"/g,'&quot;')+'" placeholder="Atelier, chantier, service…"></div>'}
     else{h+='<div class="recap-field"><div class="recap-field-label">📍 Contexte</div><input type="text" class="fi" id="r-detail" value="'+(draft.detail||'').replace(/"/g,'&quot;')+'" placeholder="Précise…"></div>'}
   }
@@ -1166,7 +1188,6 @@ function renderRecapStep(c){
   h+='<div id="r-warnings"></div>';
   h+='<button class="wiz-confirm" onclick="validateRecap()">✅ Valider mon objectif</button>';
   c.innerHTML+=h;
-  setTimeout(function(){var sel=document.getElementById('r-matiere');if(sel)sel.onchange=function(){document.getElementById('r-matiere-autre').style.display=sel.value==='__autre'?'block':'none'}},50);
 }
 
 function renderDemarchesHTML(list){if(!list||!list.length)return '<div style="font-size:.85rem;color:var(--text3);padding:8px 0;font-style:italic">Aucune démarche pour le moment</div>';
@@ -1182,7 +1203,7 @@ window.removeDemarcheUI=function(idx){collectDemarches();draft.demarches.splice(
 
 function collectDemarches(){var cards=document.querySelectorAll('.recap-demarche');draft.demarches=[];cards.forEach(function(card){var ent=card.querySelector('.dem-entreprise'),vil=card.querySelector('.dem-ville'),dat=card.querySelector('.dem-date');var activeBtn=card.querySelector('.recap-contact-btn.active');draft.demarches.push({entreprise:ent?ent.value.trim():'',ville:vil?vil.value.trim():'',contact_mode:activeBtn?activeBtn.dataset.mode:'',date_demarche:dat?dat.value:'',statut:'a_faire'})})}
 
-window.collectRecapDraft=function(){var t=document.getElementById('r-titre');if(t)draft.titre=t.value;var d=document.getElementById('r-date');if(d)draft.date=d.value;var cr=document.getElementById('r-critere');if(cr)draft.critere=cr.value;var nBtn=document.querySelector('.niveau-btn.active');if(nBtn)draft.niveau_depart=parseInt(nBtn.dataset.niveau)||1;var ms=document.getElementById('r-matiere');if(ms)draft.detail=ms.value==='__autre'?(document.getElementById('r-matiere-autre')||{}).value||'':ms.value;var det=document.getElementById('r-detail');if(det)draft.detail=det.value;if(draft.context==='Recherche')collectDemarches()}
+window.collectRecapDraft=function(){var t=document.getElementById('r-titre');if(t)draft.titre=t.value;var d=document.getElementById('r-date');if(d)draft.date=d.value;var cr=document.getElementById('r-critere');if(cr)draft.critere=cr.value;var nBtn=document.querySelector('.niveau-btn.active');if(nBtn)draft.niveau_depart=parseInt(nBtn.dataset.niveau)||1;var recapChips=document.querySelector('#wizard-content .matiere-chips');if(recapChips){var chipVal=collectMatiereChipsFrom(recapChips,'r-matiere-autre');if(chipVal)draft.detail=chipVal}var det=document.getElementById('r-detail');if(det)draft.detail=det.value;if(draft.context==='Recherche')collectDemarches()}
 
 window.validateRecap=function(){
   collectRecapDraft();
@@ -1201,7 +1222,8 @@ window.saveWizard=function(){
   var dom=draft.type||(draft.cps&&draft.cps.domain)||'NEU';
   var pushData={context:draft.context||'Autre',type:dom,titre:draft.titre||'',date_cible:draft.date,detail:(draft.detail&&draft.detail.trim())||'Non précisé',done:false,created:new Date().toISOString(),ref_source:"Santé publique France",cat_code:(draft.cps&&draft.cps.cat_code)||"",cat_label:(draft.cps&&draft.cps.cat_label)||"",gen_code:(draft.cps&&draft.cps.gen_code)||"",gen_label:(draft.cps&&draft.cps.gen_label)||"",spe_code:(draft.cps&&draft.cps.spe_code)||"",spe_label:(draft.cps&&draft.cps.spe_label)||"",code_ref:draft.code_ref||"",domaine:dom,critere_reussite:draft.critere||"",niveau_depart:draft.niveau_depart||1};
   if(draft.context==='Recherche'&&draft.demarches&&draft.demarches.length){var dems={};draft.demarches.forEach(function(d,i){if(d.entreprise)dems['d'+i]=d});if(Object.keys(dems).length)pushData.demarches=dems}
-  db.ref('accompagnement/eleves/'+dataCode+'/objectifs').push(pushData);closeOv('wizard-overlay')}
+  db.ref('accompagnement/eleves/'+dataCode+'/objectifs').push(pushData);closeOv('wizard-overlay');showToast('Objectif enregistré !')}
 </script>
+<div class="app-toast" id="app-toast"></div>
 </body>
 </html>
