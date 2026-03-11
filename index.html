@@ -1107,7 +1107,7 @@ window.startWizard=function(){draft={};overlayStack=[];document.getElementById('
 function wizStep(s){
   draft._step=s;var c=document.getElementById('wizard-content');c.innerHTML='';
   var backMap={2:1,3:2,4:3,5:4};if(backMap[s])c.innerHTML+='<button class="wiz-back" onclick="wizStep('+backMap[s]+')">← Retour</button>';
-  if(s===1){c.innerHTML+='<div class="wiz-title">Dans quel cadre ?</div><button class="wiz-option" onclick="draft.context=\'Scolaire\';wizStep(2)">📚 Scolaire</button><button class="wiz-option" onclick="draft.context=\'PFMP\';wizStep(2)">🏢 PFMP / Stage</button><button class="wiz-option" onclick="draft.context=\'Autre\';draft.type=\'NEU\';draft.cps=null;wizStep(3)">✏️ Autre (libre)</button>'}
+  if(s===1){c.innerHTML+='<div class="wiz-title">Dans quel cadre ?</div><button class="wiz-option" onclick="draft.context=\'Scolaire\';wizStep(2)">📚 Scolaire</button><button class="wiz-option" onclick="draft.context=\'PFMP\';wizStep(2)">🏢 PFMP / Stage</button>'}
   else if(s===2){
     c.innerHTML+='<div class="wiz-title">Choisis un objectif</div><input type="text" class="wiz-search" id="cps-search" placeholder="Rechercher…" oninput="wizSearchDebounced()">';
     var contextSnapshot=draft.context;
@@ -1128,7 +1128,7 @@ function wizStep(s){
     });
   }
   else if(s===3){
-    if(draft.context==='Autre'||!draft.cps){c.innerHTML+='<div class="wiz-title">Objectif libre</div><p style="font-size:.8rem;color:var(--text2);margin-bottom:12px">Écris ton propre objectif :</p><input type="text" class="fi" id="free-goal" placeholder="Mon objectif…"><button class="wiz-confirm" onclick="if(document.getElementById(\'free-goal\').value){draft.titre=document.getElementById(\'free-goal\').value;draft.code_ref=\'\';draft._backTo=3;wizStep(6)}">Continuer</button>';return}
+    if(!draft.cps){wizStep(2);return}
     c.innerHTML+='<div class="wiz-title">Choisis un objectif</div><div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin-bottom:14px;border-left:4px solid '+(draft.cps.color||domainColor(draft.cps.domain))+'"><div style="font-weight:700;font-size:.82rem">'+draft.cps.spe_label+'</div><div style="font-size:0.8rem;color:var(--text2);margin-top:3px">'+domainLabel(draft.cps.domain)+' · '+draft.cps.gen_label+'</div></div>';
     var speCode=upper(draft.cps.spe_code),contextSnapshot3=draft.context,speSnapshot=speCode;
     window.__OBJ_MAP=window.__OBJ_MAP||{};
@@ -1138,15 +1138,14 @@ function wizStep(s){
       var customItems=customPack.eleve.concat(customPack.global).filter(function(raw){return upper(raw.competence_code)===speSnapshot}).map(function(raw){var item=mapCustomToWizardItem(raw,{});item.domain=draft.cps.domain||item.domain;item.cat_code=draft.cps.cat_code||item.cat_code;item.cat_label=draft.cps.cat_label||item.cat_label;item.gen_code=draft.cps.gen_code||item.gen_code;item.gen_label=draft.cps.gen_label||item.gen_label;item.spe_code=draft.cps.spe_code||item.spe_code;item.spe_label=draft.cps.spe_label||item.spe_label;item.color=draft.cps.color||item.color||domainColor(item.domain);return item});
       var merged=mergeWizardItems(customItems,staticItems,contextSnapshot3);
       c.innerHTML+=merged.map(function(it){window.__OBJ_MAP[it.uid]=Object.assign({},it);return'<button class="wiz-option" onclick="selectObj(\''+it.uid+'\')">'+wizOptionContentHtml(it)+'</button>'}).join('');
-      c.innerHTML+='<button class="wiz-option" style="color:var(--primary);border-style:dashed" onclick="var t=prompt(\'Ton objectif ?\');if(t){draft.titre=t;draft.code_ref=\'\';draft._backTo=3;wizStep(6)}">✏️ Écrire mon propre objectif</button>';
-    }).catch(function(){c.innerHTML+=staticItems.map(function(it){window.__OBJ_MAP[it.uid]=Object.assign({},it);return'<button class="wiz-option" onclick="selectObj(\''+it.uid+'\')">'+wizOptionContentHtml(it)+'</button>'}).join('')+'<button class="wiz-option" style="color:var(--primary);border-style:dashed" onclick="var t=prompt(\'Ton objectif ?\');if(t){draft.titre=t;draft.code_ref=\'\';draft._backTo=3;wizStep(6)}">✏️ Écrire mon propre objectif</button>'});
+    }).catch(function(){c.innerHTML+=staticItems.map(function(it){window.__OBJ_MAP[it.uid]=Object.assign({},it);return'<button class="wiz-option" onclick="selectObj(\''+it.uid+'\')">'+wizOptionContentHtml(it)+'</button>'}).join('')});
   }
   else if(s===4){c.innerHTML+='<div class="wiz-title">Pour quand ?</div><input type="date" class="fi" id="w-date" value="'+(draft.date||new Date().toISOString().split('T')[0])+'"><button class="wiz-confirm" onclick="draft.date=document.getElementById(\'w-date\').value;wizStep(5)">Continuer</button>'}
   else if(s===5){
     if(draft.context==='Scolaire'){c.innerHTML+='<div class="wiz-title">Matières</div><p style="font-size:.8rem;color:var(--text2);margin-bottom:10px">Sélectionne une ou plusieurs matières :</p>'+buildMatiereChipsHTML(draft.detail||'','w-det-autre')+'<button class="wiz-confirm" onclick="draft.detail=collectMatiereChipsFrom(document.querySelector(\'#wizard-content .matiere-chips\'),\'w-det-autre\');wizStep(6)">Continuer</button>'}
     else if(draft.context==='PFMP'){c.innerHTML+='<div class="wiz-title">Lieu / Activité</div><input type="text" class="fi" id="w-det" placeholder="Atelier, chantier, service…"><button class="wiz-confirm" onclick="draft.detail=document.getElementById(\'w-det\').value;wizStep(6)">Continuer</button>'}
     else if(draft.context==='Recherche'){c.innerHTML+='<div class="wiz-title">Cible</div><input type="text" class="fi" id="w-det" placeholder="Métier, secteur, zone…"><button class="wiz-confirm" onclick="draft.detail=document.getElementById(\'w-det\').value;wizStep(6)">Continuer</button>'}
-    else{c.innerHTML+='<div class="wiz-title">Contexte</div><input type="text" class="fi" id="w-det" placeholder="Précise…"><button class="wiz-confirm" onclick="draft.detail=document.getElementById(\'w-det\').value;wizStep(6)">Continuer</button>'}}
+}
   else if(s===6){renderRecapStep(c)}
 }
 
