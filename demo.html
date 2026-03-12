@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Demo — monobjectif.fr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#111827;--surface:#1f2937;--text:#f9fafb;--text2:#9ca3af;
+  --primary:#6366f1;--cog:#3b82f6;--emo:#f43f5e;--soc:#8b5cf6;
+  --success:#10b981;--warn:#f59e0b;--anno:#fbbf24;
+  --phone-bg:#f0f0f5;--phone-surface:#fff;
+}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* HEADER */
+.demo-header{text-align:center;padding:24px 16px 8px}
+.demo-header h1{font-size:1.4rem;font-weight:800}
+.demo-header h1 span{color:var(--primary)}
+.demo-header p{font-size:.85rem;color:var(--text2);margin-top:4px}
+
+/* PROGRESS DOTS */
+.progress{display:flex;justify-content:center;gap:8px;padding:12px 16px}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--surface);transition:all .3s}
+.dot.active{background:var(--primary);transform:scale(1.3)}
+.dot.done{background:var(--primary);opacity:.5}
+
+/* SLIDE CONTAINER */
+.slides{position:relative;max-width:480px;margin:0 auto;padding:0 16px}
+.slide{display:none;animation:fadeIn .4s}
+.slide.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* SLIDE TITLE + DESCRIPTION */
+.slide-title{font-size:1.1rem;font-weight:800;text-align:center;margin:8px 0 4px;color:var(--anno)}
+.slide-num{font-size:.75rem;color:var(--text2);text-align:center;margin-bottom:6px}
+.slide-desc{font-size:.85rem;color:var(--text2);text-align:center;margin-bottom:14px;line-height:1.5;padding:0 8px}
+
+/* PHONE FRAME */
+.phone{background:var(--phone-bg);border-radius:28px;padding:16px;box-shadow:0 8px 40px rgba(0,0,0,.4);border:3px solid #374151;max-width:340px;margin:0 auto;min-height:400px;position:relative;overflow:hidden;color:#1a1a2e}
+
+/* ANNOTATIONS */
+.anno{position:absolute;z-index:10;pointer-events:none}
+.anno-bubble{background:var(--anno);color:#1a1a2e;font-size:.72rem;font-weight:700;padding:6px 10px;border-radius:10px;white-space:nowrap;box-shadow:0 2px 8px rgba(251,191,36,.3)}
+.anno-circle{border:3px solid var(--anno);border-radius:50%;position:absolute;box-shadow:0 0 0 4px rgba(251,191,36,.15)}
+.anno-arrow{position:absolute;color:var(--anno);font-size:1.2rem}
+
+/* MOCKUP COMMON */
+.m-card{background:var(--phone-surface);border-radius:14px;padding:12px;box-shadow:0 2px 8px rgba(0,0,0,.04);margin-bottom:10px}
+.m-btn{display:inline-block;padding:8px 16px;border-radius:10px;font-weight:700;font-size:.8rem;text-align:center;cursor:default}
+.m-btn-primary{background:var(--primary);color:#fff}
+.m-btn-outline{border:2px solid #e5e7eb;color:#374151;background:transparent}
+.m-input{width:100%;padding:10px 14px;border:2px solid #e5e7eb;border-radius:10px;font-size:.85rem;background:#f9fafb;text-align:center;letter-spacing:2px;font-weight:700;text-transform:uppercase;color:#374151}
+.m-badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:.65rem;font-weight:700;color:#fff}
+.m-text{font-size:.78rem;color:#64748b;line-height:1.4}
+.m-title{font-weight:800;font-size:.9rem;color:#1a1a2e}
+
+/* WELCOME MOCKUP */
+.m-welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:360px;text-align:center}
+.m-logo{width:60px;height:60px;border-radius:16px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:1.6rem;color:#fff;margin-bottom:12px}
+.m-brand{font-size:1.2rem;font-weight:800;color:#1a1a2e;margin-bottom:4px}
+.m-brand span{color:var(--primary)}
+
+/* DASHBOARD MOCKUP */
+.m-topbar{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.m-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--soc));display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;color:#fff}
+.m-code{font-family:monospace;font-weight:800;font-size:.85rem;color:#1a1a2e}
+.m-date{font-size:.7rem;color:#94a3b8;margin-left:auto}
+
+.m-cps-row{display:flex;justify-content:space-around;margin-bottom:12px}
+.m-cps-item{text-align:center;width:80px}
+.m-cps-circle{width:56px;height:56px;border-radius:50%;border:4px solid;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin:0 auto 4px}
+.m-cps-label{font-size:.6rem;font-weight:700;color:#64748b}
+.m-cps-num{font-size:.75rem;font-weight:800}
+
+.m-meteo{display:flex;align-items:center;gap:10px;background:var(--phone-surface);border-radius:14px;padding:10px 12px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.m-meteo-emoji{font-size:1.8rem}
+.m-meteo-text{font-size:.7rem;color:#64748b}
+.m-meteo-primary{font-weight:800;font-size:.85rem;color:#1a1a2e}
+
+.m-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.m-act{background:var(--phone-surface);border-radius:14px;padding:12px 6px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.m-act-name{font-size:.7rem;font-weight:800;color:#1a1a2e;line-height:1.3}
+.m-act-badge{margin-top:4px;font-size:.6rem}
+
+/* WIZARD MOCKUP */
+.m-wiz-title{font-weight:800;font-size:.9rem;color:#1a1a2e;margin-bottom:10px}
+.m-wiz-option{display:block;width:100%;padding:12px 14px;border:2px solid #e5e7eb;border-radius:12px;margin-bottom:8px;font-size:.82rem;font-weight:600;color:#374151;text-align:left;background:var(--phone-surface)}
+.m-wiz-option:hover{border-color:var(--primary)}
+.m-wiz-option.highlight{border-color:var(--primary);background:rgba(99,102,241,.05)}
+.m-wiz-section{font-size:.7rem;font-weight:800;margin:10px 0 6px;text-transform:uppercase;letter-spacing:.5px}
+
+/* OBJECTIFS LIST MOCKUP */
+.m-obj{display:flex;gap:8px;align-items:flex-start;padding:10px;border-radius:12px;background:var(--phone-surface);margin-bottom:8px;border-left:4px solid var(--cog)}
+.m-obj-check{width:20px;height:20px;border:2px solid #d1d5db;border-radius:4px;flex-shrink:0;margin-top:2px}
+.m-obj-title{font-weight:700;font-size:.78rem;color:#1a1a2e}
+.m-obj-meta{font-size:.65rem;color:#94a3b8;margin-top:2px}
+.m-obj-stars{color:var(--warn);font-size:.7rem;margin-top:2px}
+.m-obj-time{font-size:.6rem;font-weight:700;padding:2px 6px;border-radius:4px;display:inline-block}
+.m-obj-time.ok{background:#d1fae5;color:#065f46}
+.m-obj-time.soon{background:#fef3c7;color:#92400e}
+
+/* QR MOCKUP */
+.m-qr-center{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;text-align:center}
+.m-qr-box{width:160px;height:160px;background:#fff;border-radius:16px;box-shadow:0 4px 16px rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;margin:16px auto;position:relative;overflow:hidden}
+.m-qr-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:2px;width:120px;height:120px}
+.m-qr-cell{border-radius:1px}
+.m-qr-cell.b{background:#1a1a2e}
+.m-qr-cell.w{background:#fff}
+
+/* RECAP MOCKUP */
+.m-recap-header{border-radius:14px 14px 0 0;padding:14px;color:#fff;text-align:center}
+.m-recap-body{padding:12px}
+.m-recap-field{margin-bottom:8px}
+.m-recap-label{font-size:.65rem;font-weight:700;color:#64748b;margin-bottom:3px}
+.m-recap-value{font-size:.8rem;font-weight:600;color:#1a1a2e;padding:6px 10px;background:#f9fafb;border-radius:8px;border:1px solid #e5e7eb}
+.m-niveau{display:flex;gap:6px;margin-top:4px}
+.m-niveau-btn{padding:4px 8px;border-radius:8px;font-size:.7rem;border:1px solid #e5e7eb;background:#fff}
+.m-niveau-btn.selected{background:var(--primary);color:#fff;border-color:var(--primary)}
+
+/* SYNTHESE MOCKUP */
+.m-radar{width:160px;height:140px;margin:0 auto 12px}
+.m-stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px}
+.m-stat{text-align:center;background:#f9fafb;border-radius:10px;padding:8px 4px}
+.m-stat-num{font-size:1.1rem;font-weight:800}
+.m-stat-label{font-size:.55rem;color:#64748b;font-weight:600}
+.m-domain-card{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:10px;background:#f9fafb;margin-bottom:6px;border-left:4px solid}
+
+/* NAV BUTTONS */
+.nav{display:flex;justify-content:center;gap:12px;padding:16px;max-width:480px;margin:0 auto}
+.nav-btn{padding:10px 28px;border-radius:12px;font-weight:700;font-size:.9rem;border:none;cursor:pointer;transition:all .2s}
+.nav-btn:active{transform:scale(.96)}
+.nav-prev{background:var(--surface);color:var(--text)}
+.nav-next{background:var(--primary);color:#fff}
+.nav-btn:disabled{opacity:.3;cursor:default}
+
+/* FOOTER */
+.demo-footer{text-align:center;padding:16px;font-size:.7rem;color:#4b5563}
+.demo-footer a{color:var(--primary);text-decoration:none}
+
+@media(max-width:400px){
+  .phone{padding:12px;border-radius:22px}
+  .m-actions{gap:5px}
+  .anno-bubble{font-size:.65rem;padding:4px 8px}
+}
+</style>
+</head>
+<body>
+
+<div class="demo-header">
+  <h1>&#9672; mon<span>objectif</span>.fr</h1>
+  <p>Decouvre comment tes eleves utilisent l'application</p>
+</div>
+
+<div class="progress" id="progress"></div>
+
+<div class="slides" id="slides">
+
+  <!-- ========== SLIDE 1 : ECRAN D'ACCUEIL ========== -->
+  <div class="slide" data-title="Ecran d'accueil" data-desc="L'eleve se connecte avec le code que tu lui as fourni depuis le cockpit enseignant.">
+    <div class="phone">
+      <div class="m-welcome">
+        <div class="m-logo">&#9672;</div>
+        <div class="m-brand">mon<span>objectif</span>.fr</div>
+        <p class="m-text" style="margin-bottom:16px">Bienvenue sur ton espace personnel</p>
+        <input class="m-input" type="text" value="AB34" readonly style="max-width:200px;margin-bottom:10px">
+        <div class="m-btn m-btn-primary" style="width:200px">Acceder a mon espace</div>
+        <p class="m-text" style="margin-top:16px;font-size:.65rem">&#128274; Espace securise · Code fourni par ton enseignant</p>
+      </div>
+      <div class="anno" style="top:42%;left:52%;transform:translateX(-50%)">
+        <div class="anno-bubble">&#128071; L'eleve entre son code ici</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 2 : DASHBOARD ========== -->
+  <div class="slide" data-title="Le tableau de bord" data-desc="L'ecran principal. L'eleve voit sa progression, son humeur et peut acceder a ses objectifs, son stage et son evolution.">
+    <div class="phone" style="padding:12px">
+      <div class="m-topbar">
+        <div class="m-avatar">AB</div>
+        <div class="m-code">AB34</div>
+        <div class="m-date">Lundi 12 mars</div>
+      </div>
+      <div class="m-cps-row">
+        <div class="m-cps-item">
+          <div class="m-cps-circle" style="border-color:var(--cog)">&#128173;</div>
+          <div class="m-cps-num" style="color:var(--cog)">2</div>
+          <div class="m-cps-label">Cognitif</div>
+        </div>
+        <div class="m-cps-item">
+          <div class="m-cps-circle" style="border-color:var(--emo)">&#127775;</div>
+          <div class="m-cps-num" style="color:var(--emo)">1</div>
+          <div class="m-cps-label">Emotions</div>
+        </div>
+        <div class="m-cps-item">
+          <div class="m-cps-circle" style="border-color:var(--soc)">&#128172;</div>
+          <div class="m-cps-num" style="color:var(--soc)">0</div>
+          <div class="m-cps-label">Relations</div>
+        </div>
+      </div>
+      <div class="m-meteo">
+        <div class="m-meteo-emoji">&#128522;</div>
+        <div>
+          <div class="m-meteo-primary">Joie</div>
+          <div class="m-meteo-text">A l'aise · Super journee !</div>
+        </div>
+      </div>
+      <div class="m-actions">
+        <div class="m-act">
+          <div class="m-act-name">Mon<br>Stage</div>
+          <div class="m-act-badge"><span class="m-badge" style="background:var(--warn)">2 pistes</span></div>
+        </div>
+        <div class="m-act" style="box-shadow:0 0 0 2px var(--primary)">
+          <div class="m-act-name">Mon<br>Objectif</div>
+          <div class="m-act-badge"><span class="m-badge" style="background:var(--primary)">3 actifs</span></div>
+        </div>
+        <div class="m-act">
+          <div class="m-act-name">Mon<br>Evolution</div>
+          <div class="m-act-badge"><span class="m-badge" style="background:var(--success)">Voir</span></div>
+        </div>
+      </div>
+      <div class="anno" style="top:22%;right:4px">
+        <div class="anno-bubble">&#127919; Progression CPS</div>
+      </div>
+      <div class="anno" style="bottom:28%;right:4px">
+        <div class="anno-bubble">&#128073; Clic ici !</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 3 : WIZARD STEP 1 ========== -->
+  <div class="slide" data-title="Creer un objectif — Le cadre" data-desc="Premiere etape : l'eleve choisit dans quel contexte se situe son objectif. Pas de saisie libre — tout est encadre.">
+    <div class="phone">
+      <div class="m-card">
+        <div class="m-wiz-title">&#127919; Dans quel cadre ?</div>
+        <div class="m-wiz-option highlight">&#128218; Scolaire</div>
+        <div class="m-wiz-option">&#127970; PFMP / Stage</div>
+      </div>
+      <div style="text-align:center;margin-top:16px">
+        <p class="m-text">L'eleve choisit entre le cadre <strong style="color:#1a1a2e">scolaire</strong> ou <strong style="color:#1a1a2e">professionnel</strong>.</p>
+        <p class="m-text" style="margin-top:8px;color:var(--emo);font-weight:700">&#128274; Aucun objectif libre — uniquement le referentiel CPS.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 4 : WIZARD STEP 2 ========== -->
+  <div class="slide" data-title="Choisir dans le referentiel" data-desc="L'eleve parcourt les objectifs du referentiel CPS (Sante publique France) classes par domaine. Il peut aussi voir les objectifs personnalises que tu as ajoutes depuis le cockpit.">
+    <div class="phone" style="padding:12px">
+      <div class="m-card" style="padding:8px 10px">
+        <input class="m-input" type="text" value="" placeholder="Rechercher..." readonly style="text-align:left;letter-spacing:0;font-weight:400;font-size:.75rem;text-transform:none;padding:8px 10px">
+      </div>
+      <div class="m-wiz-section" style="color:var(--cog)">&#128173; Cognitif</div>
+      <div class="m-wiz-option" style="border-left:4px solid var(--cog)">
+        <div style="font-weight:700;font-size:.75rem">Identifier mes forces et mes faiblesses</div>
+        <div style="font-size:.65rem;color:#94a3b8">C1.1 — Accroitre sa connaissance de soi</div>
+      </div>
+      <div class="m-wiz-option highlight" style="border-left:4px solid var(--cog)">
+        <div style="font-weight:700;font-size:.75rem">Analyser une situation avant d'agir</div>
+        <div style="font-size:.65rem;color:#94a3b8">C1.2 — Penser de facon critique</div>
+      </div>
+      <div class="m-wiz-section" style="color:var(--emo)">&#127775; Mes emotions</div>
+      <div class="m-wiz-option" style="border-left:4px solid var(--emo)">
+        <div style="font-weight:700;font-size:.75rem">Nommer ce que je ressens au quotidien</div>
+        <div style="font-size:.65rem;color:#94a3b8">E1.2 — Identifier ses emotions</div>
+      </div>
+      <div class="m-wiz-section" style="color:var(--soc)">&#128172; Mes relations</div>
+      <div class="m-wiz-option" style="border-left:4px solid var(--soc)">
+        <div style="font-weight:700;font-size:.75rem">Exprimer mon point de vue calmement</div>
+        <div style="font-size:.65rem;color:#94a3b8">S1.1 — Communiquer de facon efficace</div>
+      </div>
+      <p class="m-text" style="text-align:center;margin-top:8px;font-size:.6rem">Referentiel : Sante publique France</p>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 5 : RECAP ========== -->
+  <div class="slide" data-title="Recapitulatif et validation" data-desc="Avant de valider, l'eleve voit un resume complet de son objectif. Il peut ajuster le titre, la date et evaluer son niveau de depart.">
+    <div class="phone" style="padding:10px">
+      <div class="m-card" style="padding:0;overflow:hidden">
+        <div class="m-recap-header" style="background:linear-gradient(135deg,var(--cog),#60a5fa)">
+          <span class="m-badge" style="background:rgba(255,255,255,.2)">&#128218; Scolaire</span>
+          <div style="font-weight:800;font-size:.9rem;margin-top:6px">Analyser une situation avant d'agir</div>
+          <div style="font-size:.6rem;opacity:.8;margin-top:2px">C1.2 — Penser de facon critique</div>
+        </div>
+        <div class="m-recap-body">
+          <div class="m-recap-field">
+            <div class="m-recap-label">&#127919; Objectif</div>
+            <div class="m-recap-value">Analyser une situation avant d'agir</div>
+          </div>
+          <div class="m-recap-field">
+            <div class="m-recap-label">&#128197; Je veux y arriver avant le...</div>
+            <div class="m-recap-value">2026-04-15</div>
+          </div>
+          <div class="m-recap-field">
+            <div class="m-recap-label">&#128200; Mon niveau de depart</div>
+            <div class="m-niveau">
+              <div class="m-niveau-btn">&#128548;</div>
+              <div class="m-niveau-btn selected">&#128528;</div>
+              <div class="m-niveau-btn">&#128578;</div>
+              <div class="m-niveau-btn">&#128170;</div>
+            </div>
+          </div>
+          <div class="m-recap-field">
+            <div class="m-recap-label">&#128218; Matieres</div>
+            <div style="display:flex;flex-wrap:wrap;gap:4px">
+              <span class="m-badge" style="background:var(--cog)">Francais</span>
+              <span class="m-badge" style="background:var(--cog)">PSE</span>
+            </div>
+          </div>
+          <div style="text-align:center;margin-top:10px">
+            <div class="m-btn m-btn-primary" style="width:100%">&#10004; Valider mon objectif</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 6 : SUIVI DES OBJECTIFS ========== -->
+  <div class="slide" data-title="Suivi des objectifs" data-desc="L'eleve retrouve ici tous ses objectifs en cours avec leur echeance et leur avancement (etoiles de validation par les adultes).">
+    <div class="phone" style="padding:12px">
+      <div style="text-align:center;margin-bottom:10px">
+        <div class="m-btn m-btn-primary" style="width:100%;background:linear-gradient(135deg,var(--primary),var(--soc))">+ Ajouter un objectif</div>
+      </div>
+      <div style="font-weight:800;font-size:.8rem;color:#1a1a2e;margin-bottom:8px">En cours <span class="m-badge" style="background:var(--primary)">3</span></div>
+      <div class="m-obj" style="border-left-color:var(--cog)">
+        <div class="m-obj-check"></div>
+        <div>
+          <div class="m-obj-title">Analyser une situation avant d'agir</div>
+          <div class="m-obj-meta">&#128218; Scolaire · C1.2</div>
+          <div class="m-obj-stars">&#11088;&#11088;&#11088;&#9734;&#9734; 3/5</div>
+          <span class="m-obj-time ok">J-15</span>
+        </div>
+      </div>
+      <div class="m-obj" style="border-left-color:var(--emo)">
+        <div class="m-obj-check"></div>
+        <div>
+          <div class="m-obj-title">Nommer ce que je ressens</div>
+          <div class="m-obj-meta">&#128218; Scolaire · E1.2</div>
+          <div class="m-obj-stars">&#11088;&#9734;&#9734;&#9734;&#9734; 1/5</div>
+          <span class="m-obj-time soon">J-3</span>
+        </div>
+      </div>
+      <div class="m-obj" style="border-left-color:var(--soc)">
+        <div class="m-obj-check"></div>
+        <div>
+          <div class="m-obj-title">Exprimer mon point de vue</div>
+          <div class="m-obj-meta">&#127970; PFMP · S1.1</div>
+          <div class="m-obj-stars">&#9734;&#9734;&#9734;&#9734;&#9734; 0/5</div>
+          <span class="m-obj-time ok">J-22</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 7 : QR CODE ========== -->
+  <div class="slide" data-title="Faire valider par un adulte" data-desc="L'eleve genere un QR code que l'enseignant scanne avec le cockpit. Chaque validation ajoute une etoile (5 etoiles = objectif atteint).">
+    <div class="phone">
+      <div class="m-qr-center">
+        <div class="m-title">&#128279; Faire valider</div>
+        <div class="m-qr-box">
+          <div class="m-qr-grid" id="qr-grid"></div>
+        </div>
+        <p class="m-text" style="margin-top:8px">Presente ce code a l'adulte.</p>
+        <p class="m-text" style="font-size:.65rem;margin-top:12px">L'enseignant scanne ce QR depuis<br>le <strong style="color:#1a1a2e">Cockpit Accompagnement</strong>.</p>
+      </div>
+      <div class="anno" style="top:35%;right:10px">
+        <div class="anno-bubble">&#128247; Scanne par le prof</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 8 : SYNTHESE ========== -->
+  <div class="slide" data-title="Synthese et evolution" data-desc="L'eleve peut voir sa progression globale : nombre de competences validees par domaine et son profil radar.">
+    <div class="phone" style="padding:12px">
+      <div style="text-align:center;margin-bottom:10px">
+        <div style="font-size:2rem">&#128202;</div>
+        <div class="m-title">Mon profil de competences</div>
+        <p class="m-text">Vue d'ensemble de ta progression</p>
+      </div>
+      <div class="m-stat-grid">
+        <div class="m-stat">
+          <div class="m-stat-num" style="color:var(--success)">6</div>
+          <div class="m-stat-label">Valides</div>
+        </div>
+        <div class="m-stat">
+          <div class="m-stat-num" style="color:var(--primary)">3</div>
+          <div class="m-stat-label">En cours</div>
+        </div>
+        <div class="m-stat">
+          <div class="m-stat-num">9</div>
+          <div class="m-stat-label">Total</div>
+        </div>
+      </div>
+      <svg class="m-radar" viewBox="0 0 200 180">
+        <polygon points="100,20 170,140 30,140" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+        <polygon points="100,50 150,120 50,120" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+        <polygon points="100,80 130,110 70,110" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+        <polygon points="100,35 155,130 45,130" fill="rgba(99,102,241,.15)" stroke="var(--primary)" stroke-width="2"/>
+        <circle cx="100" cy="35" r="4" fill="var(--cog)"/>
+        <circle cx="155" cy="130" r="4" fill="var(--emo)"/>
+        <circle cx="45" cy="130" r="4" fill="var(--soc)"/>
+        <text x="100" y="14" text-anchor="middle" font-size="10" font-weight="700" fill="var(--cog)">Cognitif</text>
+        <text x="180" y="148" text-anchor="middle" font-size="10" font-weight="700" fill="var(--emo)">Emotions</text>
+        <text x="20" y="148" text-anchor="middle" font-size="10" font-weight="700" fill="var(--soc)">Relations</text>
+      </svg>
+      <div class="m-domain-card" style="border-left-color:var(--cog)">
+        <div>&#128173;</div>
+        <div><div style="font-weight:700;font-size:.75rem">Cognitif</div><div class="m-text">3 valides · 1 en cours</div></div>
+      </div>
+      <div class="m-domain-card" style="border-left-color:var(--emo)">
+        <div>&#127775;</div>
+        <div><div style="font-weight:700;font-size:.75rem">Mes emotions</div><div class="m-text">2 valides · 1 en cours</div></div>
+      </div>
+      <div class="m-domain-card" style="border-left-color:var(--soc)">
+        <div>&#128172;</div>
+        <div><div style="font-weight:700;font-size:.75rem">Mes relations</div><div class="m-text">1 valide · 1 en cours</div></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="nav">
+  <button class="nav-btn nav-prev" id="btn-prev" onclick="go(-1)">&#8592; Precedent</button>
+  <button class="nav-btn nav-next" id="btn-next" onclick="go(1)">Suivant &#8594;</button>
+</div>
+
+<div class="demo-footer">
+  <p>monobjectif.fr — Referentiel CPS · Sante publique France</p>
+  <p style="margin-top:4px"><a href="index.html">Acceder a l'application</a></p>
+</div>
+
+<script>
+(function () {
+  var slides = document.querySelectorAll('.slide');
+  var total = slides.length;
+  var current = 0;
+
+  // Build progress dots
+  var prog = document.getElementById('progress');
+  for (var i = 0; i < total; i++) {
+    var d = document.createElement('div');
+    d.className = 'dot';
+    d.setAttribute('data-i', i);
+    d.onclick = (function (idx) { return function () { goTo(idx); }; })(i);
+    d.style.cursor = 'pointer';
+    prog.appendChild(d);
+  }
+
+  // Generate fake QR grid
+  var grid = document.getElementById('qr-grid');
+  if (grid) {
+    for (var j = 0; j < 64; j++) {
+      var cell = document.createElement('div');
+      cell.className = 'm-qr-cell ' + (Math.random() > 0.45 ? 'b' : 'w');
+      grid.appendChild(cell);
+    }
+    // Make corners solid (QR pattern)
+    var cells = grid.children;
+    [0,1,2,8,9,10,16,17,18, 5,6,7,13,14,15,21,22,23, 40,41,42,48,49,50,56,57,58].forEach(function(idx){
+      if(cells[idx]) cells[idx].className = 'm-qr-cell b';
+    });
+  }
+
+  function goTo(idx) {
+    if (idx < 0 || idx >= total) return;
+    slides[current].classList.remove('active');
+    current = idx;
+    slides[current].classList.add('active');
+    updateUI();
+  }
+
+  function go(dir) { goTo(current + dir); }
+  window.go = go;
+
+  function updateUI() {
+    var dots = prog.children;
+    for (var i = 0; i < total; i++) {
+      dots[i].className = 'dot' + (i === current ? ' active' : (i < current ? ' done' : ''));
+    }
+    document.getElementById('btn-prev').disabled = (current === 0);
+    var nextBtn = document.getElementById('btn-next');
+    nextBtn.disabled = (current === total - 1);
+    nextBtn.textContent = current === total - 1 ? 'Termine !' : 'Suivant \u2192';
+
+    // Update slide title/desc
+    var slide = slides[current];
+    var titleEl = document.querySelector('.slide-title');
+    var numEl = document.querySelector('.slide-num');
+    var descEl = document.querySelector('.slide-desc');
+    if (!titleEl) {
+      titleEl = document.createElement('div'); titleEl.className = 'slide-title';
+      numEl = document.createElement('div'); numEl.className = 'slide-num';
+      descEl = document.createElement('div'); descEl.className = 'slide-desc';
+      var container = document.getElementById('slides');
+      container.insertBefore(descEl, container.firstChild);
+      container.insertBefore(titleEl, container.firstChild);
+      container.insertBefore(numEl, container.firstChild);
+    }
+    numEl.textContent = 'Etape ' + (current + 1) + ' / ' + total;
+    titleEl.textContent = slide.getAttribute('data-title') || '';
+    descEl.textContent = slide.getAttribute('data-desc') || '';
+  }
+
+  // Keyboard navigation
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); go(1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+  });
+
+  // Swipe navigation
+  var startX = 0;
+  document.addEventListener('touchstart', function (e) { startX = e.touches[0].clientX; });
+  document.addEventListener('touchend', function (e) {
+    var diff = startX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) go(diff > 0 ? 1 : -1);
+  });
+
+  // Init
+  slides[0].classList.add('active');
+  updateUI();
+})();
+</script>
+</body>
+</html>
