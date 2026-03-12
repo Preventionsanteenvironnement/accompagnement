@@ -57,6 +57,10 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 @keyframes spin{to{transform:rotate(360deg)}}
 .welcome-error{color:var(--danger);font-size:0.8rem;font-weight:600;margin-top:12px;min-height:20px}
 .welcome-footer{margin-top:48px;font-size:0.8rem;color:var(--text3);font-weight:500}
+.guide-link{display:inline-block;margin-top:16px;padding:8px 18px;border-radius:12px;background:rgba(99,102,241,.1);color:var(--primary);font-size:0.78rem;font-weight:600;text-decoration:none;transition:all .2s;border:1px solid rgba(99,102,241,.2)}
+.guide-link:hover{background:rgba(99,102,241,.2)}
+.guide-link-mini{position:fixed;bottom:16px;right:16px;padding:6px 12px;border-radius:10px;background:var(--surface);color:var(--text3);font-size:0.7rem;font-weight:600;text-decoration:none;border:1px solid var(--border);z-index:99999;transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.guide-link-mini:hover{color:var(--primary);border-color:var(--primary)}
 
 /* ══ Denied Screen ══ */
 .denied-screen{position:fixed;inset:0;z-index:9998;display:none;flex-direction:column;align-items:center;justify-content:center;background:var(--bg);padding:40px;text-align:center}
@@ -394,6 +398,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
     </div>
     <p class="welcome-error" id="welcome-error"></p>
     <p class="welcome-footer">Espace sécurisé · Code fourni par ton enseignant</p>
+    <a href="guide.html" class="guide-link">📖 Découvrir l'app</a>
   </div>
 </div>
 
@@ -480,6 +485,8 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 
   </div>
 </div>
+
+<a href="guide.html" class="guide-link-mini" id="guide-btn" style="display:none">📖 Guide</a>
 
 <!-- ═══ OVERLAYS ═══ -->
 
@@ -724,6 +731,7 @@ function submitCode(){
       window.history.replaceState({},'',window.location.pathname+window.location.hash);
       document.getElementById('welcome').style.display='none';
       document.getElementById('access-denied').style.display='none';
+      document.getElementById('guide-btn').style.display='block';
       document.getElementById('display-code').textContent=code;
       document.getElementById('tb-avatar').textContent=code.substring(0,2);
       showApp();loadData();
@@ -744,8 +752,8 @@ function checkSchedule(code,auth,callback){
   db.ref('accompagnement/config/horaires_global').once('value',function(snap){var global=snap.val();if(!global){callback(true);return}callback(isWithinSchedule(global))});
 }
 function isWithinSchedule(horaires){var joursRef=['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];var now=new Date();var jour=joursRef[now.getDay()];var schedule=horaires[jour];if(!schedule||!schedule.actif)return false;var currentMinutes=now.getHours()*60+now.getMinutes();var parts=schedule.debut.split(':');var debutMinutes=parseInt(parts[0])*60+parseInt(parts[1]);parts=schedule.fin.split(':');var finMinutes=parseInt(parts[0])*60+parseInt(parts[1]);return currentMinutes>=debutMinutes&&currentMinutes<=finMinutes}
-function showDenied(reason){var icon=document.getElementById('denied-icon');var title=document.getElementById('denied-title');var msg=document.getElementById('denied-msg');if(reason==='unknown'){icon.textContent='🔐';title.textContent='Code non reconnu';msg.textContent='Vérifie ton code et réessaie. Il t\u2019a été donné par ton enseignant.'}else if(reason==='outside-hours'){icon.textContent='🕐';title.textContent='Accès fermé pour le moment';msg.textContent='L\u2019espace est disponible uniquement pendant les horaires définis par ton enseignant. Reviens plus tard\u00a0!'}else{icon.textContent='⏳';title.textContent='Ton espace n\u2019est pas encore actif';msg.textContent='Ton enseignant doit d\u2019abord activer ton accès.'}document.getElementById('welcome').style.display='none';document.getElementById('access-denied').style.display='flex'}
-function backToWelcome(){clearSessionCode();customBiblioCache={};document.getElementById('access-denied').style.display='none';document.getElementById('welcome').style.display='flex';document.getElementById('code-input').value='';document.getElementById('code-input').focus();document.getElementById('welcome-error').textContent='';window.history.replaceState({},'',window.location.pathname)}
+function showDenied(reason){var icon=document.getElementById('denied-icon');var title=document.getElementById('denied-title');var msg=document.getElementById('denied-msg');if(reason==='unknown'){icon.textContent='🔐';title.textContent='Code non reconnu';msg.textContent='Vérifie ton code et réessaie. Il t\u2019a été donné par ton enseignant.'}else if(reason==='outside-hours'){icon.textContent='🕐';title.textContent='Accès fermé pour le moment';msg.textContent='L\u2019espace est disponible uniquement pendant les horaires définis par ton enseignant. Reviens plus tard\u00a0!'}else{icon.textContent='⏳';title.textContent='Ton espace n\u2019est pas encore actif';msg.textContent='Ton enseignant doit d\u2019abord activer ton accès.'}document.getElementById('welcome').style.display='none';document.getElementById('access-denied').style.display='flex';document.getElementById('guide-btn').style.display='block'}
+function backToWelcome(){clearSessionCode();customBiblioCache={};document.getElementById('access-denied').style.display='none';document.getElementById('guide-btn').style.display='none';document.getElementById('welcome').style.display='flex';document.getElementById('code-input').value='';document.getElementById('code-input').focus();document.getElementById('welcome-error').textContent='';window.history.replaceState({},'',window.location.pathname)}
 function showApp(){var a=document.getElementById('app');a.style.display='block';
   // Restore overlay if returning from a sub-page (formation, stage, synthese)
   var navReturn=sessionStorage.getItem('nav_return_overlay');
