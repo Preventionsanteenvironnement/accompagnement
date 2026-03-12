@@ -76,10 +76,10 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .m-cps-label{font-size:.6rem;font-weight:700;color:#64748b}
 .m-cps-num{font-size:.75rem;font-weight:800}
 
-.m-meteo{display:flex;align-items:center;gap:10px;background:var(--phone-surface);border-radius:14px;padding:10px 12px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
-.m-meteo-emoji{font-size:1.8rem}
-.m-meteo-text{font-size:.7rem;color:#64748b}
-.m-meteo-primary{font-weight:800;font-size:.85rem;color:#1a1a2e}
+.m-météo{display:flex;align-items:center;gap:10px;background:var(--phone-surface);border-radius:14px;padding:10px 12px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.m-météo-emoji{font-size:1.8rem}
+.m-météo-text{font-size:.7rem;color:#64748b}
+.m-météo-primary{font-weight:800;font-size:.85rem;color:#1a1a2e}
 
 .m-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
 .m-act{background:var(--phone-surface);border-radius:14px;padding:12px 6px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.04)}
@@ -172,7 +172,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 
 <div class="demo-header">
   <h1>&#9672; mon<span>objectif</span>.fr</h1>
-  <p>Decouvre comment tes eleves developpent leurs competences psychosociales en autonomie</p>
+  <p>Découvre comment tes élèves développent leurs compétences psychosociales en autonomie</p>
 </div>
 
 <div class="progress" id="progress"></div>
@@ -180,60 +180,60 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 <div class="slides" id="slides">
 
   <!-- ========== SLIDE 0 : POURQUOI MONOBJECTIF ? ========== -->
-  <div class="slide" data-title="Pourquoi monobjectif.fr ?" data-desc="Un outil numerique pour accompagner les eleves vers l'autonomie, la responsabilisation et l'acquisition de competences psychosociales.">
+  <div class="slide" data-title="Pourquoi monobjectif.fr ?" data-desc="Un outil numérique pour accompagner les élèves vers l'autonomie, la responsabilisation et l'acquisition de compétences psychosociales.">
     <div class="info-grid">
       <div class="info-card">
         <div class="info-card-icon">&#128274;</div>
         <div class="info-card-title">100% conforme RGPD</div>
-        <div class="info-card-text">L'eleve se connecte uniquement avec un <strong>code anonyme</strong>. Aucun nom, prenom, classe ou etablissement n'est enregistre sur le serveur. Vie privee totalement respectee.</div>
-        <div class="info-badge rgpd">&#10003; Donnees anonymisees</div>
+        <div class="info-card-text">L'élève se connecte uniquement avec un <strong>code anonyme</strong>. Aucun nom, prénom, classe ou établissement n'est enregistré sur le serveur. Vie privée totalement respectée.</div>
+        <div class="info-badge rgpd">&#10003; Données anonymisées</div>
       </div>
       <div class="info-card">
         <div class="info-card-icon">&#127891;</div>
-        <div class="info-card-title">Referentiel Sante publique France</div>
-        <div class="info-card-text">Les objectifs s'appuient sur le referentiel des <strong>Competences Psycho-Sociales</strong> (CPS) : savoir-faire, savoir-etre, comportements. Vision a long terme vers un passeport competences.</div>
+        <div class="info-card-title">Référentiel Santé publique France</div>
+        <div class="info-card-text">Les objectifs s'appuient sur le référentiel des <strong>Compétences Psycho-Sociales</strong> (CPS) : savoir-faire, savoir-être, comportements. Vision a long terme vers un passeport compétences.</div>
         <div class="info-badge cps">CPS · Cognitif · Emotions · Relations</div>
       </div>
       <div class="info-card">
         <div class="info-card-icon">&#128170;</div>
-        <div class="info-card-title">L'eleve se responsabilise</div>
-        <div class="info-card-text">C'est l'eleve qui choisit ses objectifs, qui decide de les suivre et qui demande a les faire valider. Il est <strong>acteur de sa progression</strong>. L'enseignant guide et constate.</div>
+        <div class="info-card-title">L'élève se responsabilise</div>
+        <div class="info-card-text">C'est l'élève qui choisit ses objectifs, qui décide de les suivre et qui demande à les faire valider. Il est <strong>acteur de sa progression</strong>. L'enseignant guide et constate.</div>
       </div>
       <div class="info-card">
         <div class="info-card-icon">&#128300;</div>
-        <div class="info-card-title">Phase d'experimentation</div>
-        <div class="info-card-text">L'application est actuellement <strong>en phase d'experimentation</strong> avec certains eleves. Vos retours sont precieux pour faire evoluer l'outil.</div>
-        <div class="info-badge exp">&#9888; Experimentation en cours</div>
+        <div class="info-card-title">Phase d'expérimentation</div>
+        <div class="info-card-text">L'application est actuellement <strong>en phase d'expérimentation</strong> avec certains élèves. Vos retours sont précieux pour faire evoluer l'outil.</div>
+        <div class="info-badge exp">&#9888; Expérimentation en cours</div>
       </div>
       <div class="info-card full">
         <div style="text-align:center">
           <div class="info-card-icon">&#127919;</div>
-          <div class="info-card-title" style="font-size:.85rem">A travers les comportements, on vise l'acquisition de competences</div>
-          <div class="info-card-text" style="max-width:360px;margin:6px auto 0">Les objectifs sont <strong>precis et mesurables</strong>. Chaque comportement travaille par l'eleve contribue a developper des savoir-faire durables : analyser, communiquer, gerer ses emotions, cooperer...</div>
+          <div class="info-card-title" style="font-size:.85rem">À travers les comportements, on vise l'acquisition de compétences</div>
+          <div class="info-card-text" style="max-width:360px;margin:6px auto 0">Les objectifs sont <strong>précis et mesurables</strong>. Chaque comportement travaille par l'élève contribue a developper des savoir-faire durables : analyser, communiquer, gérer ses émotions, coopérer...</div>
         </div>
       </div>
     </div>
   </div>
 
   <!-- ========== SLIDE 1 : ECRAN D'ACCUEIL ========== -->
-  <div class="slide" data-title="Ecran d'accueil" data-desc="L'eleve se connecte avec un simple code anonyme fourni par l'enseignant. Aucun nom, prenom ou classe n'est demande — conforme RGPD.">
+  <div class="slide" data-title="Écran d'accueil" data-desc="L'élève se connecte avec un simple code anonyme fourni par l'enseignant. Aucun nom, prénom ou classe n'est demandé — conforme RGPD.">
     <div class="phone">
       <div class="m-welcome">
         <div class="m-logo">&#9672;</div>
         <div class="m-brand">mon<span>objectif</span>.fr</div>
         <p class="m-text" style="margin-bottom:16px">Bienvenue sur ton espace personnel</p>
         <input class="m-input" type="text" value="AB34" readonly style="max-width:200px;margin-bottom:10px">
-        <div class="m-btn m-btn-primary" style="width:200px">Acceder a mon espace</div>
-        <p class="m-text" style="margin-top:16px;font-size:.65rem">&#128274; Espace securise · Code fourni par ton enseignant</p>
+        <div class="m-btn m-btn-primary" style="width:200px">Accéder a mon espace</div>
+        <p class="m-text" style="margin-top:16px;font-size:.65rem">&#128274; Espace sécurisé · Code fourni par ton enseignant</p>
       </div>
       <div class="anno" style="top:42%;left:52%;transform:translateX(-50%)">
-        <div class="anno-bubble">&#128071; L'eleve entre son code ici</div>
+        <div class="anno-bubble">&#128071; L'élève entre son code ici</div>
       </div>
     </div>
   </div>
 
   <!-- ========== SLIDE 2 : DASHBOARD ========== -->
-  <div class="slide" data-title="Le tableau de bord" data-desc="L'ecran principal. L'eleve voit sa progression, son humeur et peut acceder a ses objectifs, son stage et son evolution.">
+  <div class="slide" data-title="Le tableau de bord" data-desc="L'ecran principal. L'élève voit sa progression, son humeur et peut accéder à ses objectifs, son stage et son évolution.">
     <div class="phone" style="padding:12px">
       <div class="m-topbar">
         <div class="m-avatar">AB</div>
@@ -257,11 +257,11 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
           <div class="m-cps-label">Relations</div>
         </div>
       </div>
-      <div class="m-meteo">
-        <div class="m-meteo-emoji">&#128522;</div>
+      <div class="m-météo">
+        <div class="m-météo-emoji">&#128522;</div>
         <div>
-          <div class="m-meteo-primary">Joie</div>
-          <div class="m-meteo-text">A l'aise · Super journee !</div>
+          <div class="m-météo-primary">Joie</div>
+          <div class="m-météo-text">A l'aise · Super journee !</div>
         </div>
       </div>
       <div class="m-actions">
@@ -274,7 +274,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
           <div class="m-act-badge"><span class="m-badge" style="background:var(--primary)">3 actifs</span></div>
         </div>
         <div class="m-act">
-          <div class="m-act-name">Mon<br>Evolution</div>
+          <div class="m-act-name">Mon<br>Évolution</div>
           <div class="m-act-badge"><span class="m-badge" style="background:var(--success)">Voir</span></div>
         </div>
       </div>
@@ -288,7 +288,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
   </div>
 
   <!-- ========== SLIDE 3 : WIZARD STEP 1 ========== -->
-  <div class="slide" data-title="Creer un objectif — Le cadre" data-desc="L'eleve choisit lui-meme dans quel contexte se situe son objectif. C'est lui qui se responsabilise. Pas de saisie libre — tout est encadre par le referentiel.">
+  <div class="slide" data-title="Créer un objectif — Le cadre" data-desc="L'élève choisit lui-meme dans quel contexte se situe son objectif. C'est lui qui se responsabilise. Pas de saisie libre — tout est encadré par le référentiel.">
     <div class="phone">
       <div class="m-card">
         <div class="m-wiz-title">&#127919; Dans quel cadre ?</div>
@@ -296,14 +296,14 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
         <div class="m-wiz-option">&#127970; PFMP / Stage</div>
       </div>
       <div style="text-align:center;margin-top:16px">
-        <p class="m-text">L'eleve choisit entre le cadre <strong style="color:#1a1a2e">scolaire</strong> ou <strong style="color:#1a1a2e">professionnel</strong>.</p>
-        <p class="m-text" style="margin-top:8px;color:var(--emo);font-weight:700">&#128274; Aucun objectif libre — uniquement le referentiel CPS.</p>
+        <p class="m-text">L'élève choisit entre le cadre <strong style="color:#1a1a2e">scolaire</strong> ou <strong style="color:#1a1a2e">professionnel</strong>.</p>
+        <p class="m-text" style="margin-top:8px;color:var(--emo);font-weight:700">&#128274; Aucun objectif libre — uniquement le référentiel CPS.</p>
       </div>
     </div>
   </div>
 
   <!-- ========== SLIDE 4 : WIZARD STEP 2 ========== -->
-  <div class="slide" data-title="Choisir dans le referentiel CPS" data-desc="L'eleve parcourt les objectifs du referentiel Competences Psycho-Sociales de Sante publique France. Des savoir-faire concrets : analyser, communiquer, gerer ses emotions. L'enseignant peut aussi ajouter des objectifs depuis le cockpit.">
+  <div class="slide" data-title="Choisir dans le référentiel CPS" data-desc="L'élève parcourt les objectifs du référentiel Compétences Psycho-Sociales de Santé publique France. Des savoir-faire concrets : analyser, communiquer, gérer ses émotions. L'enseignant peut aussi ajouter des objectifs depuis le cockpit.">
     <div class="phone" style="padding:12px">
       <div class="m-card" style="padding:8px 10px">
         <input class="m-input" type="text" value="" placeholder="Rechercher..." readonly style="text-align:left;letter-spacing:0;font-weight:400;font-size:.75rem;text-transform:none;padding:8px 10px">
@@ -311,34 +311,34 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
       <div class="m-wiz-section" style="color:var(--cog)">&#128173; Cognitif</div>
       <div class="m-wiz-option" style="border-left:4px solid var(--cog)">
         <div style="font-weight:700;font-size:.75rem">Identifier mes forces et mes faiblesses</div>
-        <div style="font-size:.65rem;color:#94a3b8">C1.1 — Accroitre sa connaissance de soi</div>
+        <div style="font-size:.65rem;color:#94a3b8">C1.1 — Accroître sa connaissance de soi</div>
       </div>
       <div class="m-wiz-option highlight" style="border-left:4px solid var(--cog)">
         <div style="font-weight:700;font-size:.75rem">Analyser une situation avant d'agir</div>
-        <div style="font-size:.65rem;color:#94a3b8">C1.2 — Penser de facon critique</div>
+        <div style="font-size:.65rem;color:#94a3b8">C1.2 — Penser de façon critique</div>
       </div>
       <div class="m-wiz-section" style="color:var(--emo)">&#127775; Mes emotions</div>
       <div class="m-wiz-option" style="border-left:4px solid var(--emo)">
         <div style="font-weight:700;font-size:.75rem">Nommer ce que je ressens au quotidien</div>
-        <div style="font-size:.65rem;color:#94a3b8">E1.2 — Identifier ses emotions</div>
+        <div style="font-size:.65rem;color:#94a3b8">E1.2 — Identifier ses émotions</div>
       </div>
       <div class="m-wiz-section" style="color:var(--soc)">&#128172; Mes relations</div>
       <div class="m-wiz-option" style="border-left:4px solid var(--soc)">
         <div style="font-weight:700;font-size:.75rem">Exprimer mon point de vue calmement</div>
-        <div style="font-size:.65rem;color:#94a3b8">S1.1 — Communiquer de facon efficace</div>
+        <div style="font-size:.65rem;color:#94a3b8">S1.1 — Communiquer de façon efficace</div>
       </div>
-      <p class="m-text" style="text-align:center;margin-top:8px;font-size:.6rem">Referentiel : Sante publique France</p>
+      <p class="m-text" style="text-align:center;margin-top:8px;font-size:.6rem">Référentiel : Santé publique France</p>
     </div>
   </div>
 
   <!-- ========== SLIDE 5 : RECAP ========== -->
-  <div class="slide" data-title="Recapitulatif et validation" data-desc="Avant de valider, l'eleve voit un resume complet de son objectif. Il peut ajuster le titre, la date et evaluer son niveau de depart.">
+  <div class="slide" data-title="Récapitulatif et validation" data-desc="Avant de valider, l'élève voit un résumé complet de son objectif. Il peut ajuster le titre, la date et évaluer son niveau de départ.">
     <div class="phone" style="padding:10px">
       <div class="m-card" style="padding:0;overflow:hidden">
         <div class="m-recap-header" style="background:linear-gradient(135deg,var(--cog),#60a5fa)">
           <span class="m-badge" style="background:rgba(255,255,255,.2)">&#128218; Scolaire</span>
           <div style="font-weight:800;font-size:.9rem;margin-top:6px">Analyser une situation avant d'agir</div>
-          <div style="font-size:.6rem;opacity:.8;margin-top:2px">C1.2 — Penser de facon critique</div>
+          <div style="font-size:.6rem;opacity:.8;margin-top:2px">C1.2 — Penser de façon critique</div>
         </div>
         <div class="m-recap-body">
           <div class="m-recap-field">
@@ -350,7 +350,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
             <div class="m-recap-value">2026-04-15</div>
           </div>
           <div class="m-recap-field">
-            <div class="m-recap-label">&#128200; Mon niveau de depart</div>
+            <div class="m-recap-label">&#128200; Mon niveau de départ</div>
             <div class="m-niveau">
               <div class="m-niveau-btn">&#128548;</div>
               <div class="m-niveau-btn selected">&#128528;</div>
@@ -359,9 +359,9 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
             </div>
           </div>
           <div class="m-recap-field">
-            <div class="m-recap-label">&#128218; Matieres</div>
+            <div class="m-recap-label">&#128218; Matières</div>
             <div style="display:flex;flex-wrap:wrap;gap:4px">
-              <span class="m-badge" style="background:var(--cog)">Francais</span>
+              <span class="m-badge" style="background:var(--cog)">Français</span>
               <span class="m-badge" style="background:var(--cog)">PSE</span>
             </div>
           </div>
@@ -374,7 +374,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
   </div>
 
   <!-- ========== SLIDE 6 : SUIVI DES OBJECTIFS ========== -->
-  <div class="slide" data-title="Suivi des objectifs" data-desc="L'eleve retrouve ici tous ses objectifs en cours avec leur echeance et leur avancement (etoiles de validation par les adultes).">
+  <div class="slide" data-title="Suivi des objectifs" data-desc="L'élève retrouve ici tous ses objectifs en cours avec leur échéance et leur avancement (étoiles de validation par les adultes).">
     <div class="phone" style="padding:12px">
       <div style="text-align:center;margin-bottom:10px">
         <div class="m-btn m-btn-primary" style="width:100%;background:linear-gradient(135deg,var(--primary),var(--soc))">+ Ajouter un objectif</div>
@@ -411,18 +411,18 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
   </div>
 
   <!-- ========== SLIDE 7 : QR CODE ========== -->
-  <div class="slide" data-title="Faire valider par un adulte" data-desc="Option a venir : l'eleve pourra presenter un QR code a l'enseignant. Ce n'est pas obligatoire — l'enseignant peut aussi valider une competence qu'il a constatee. Toujours sous son autorisation (sortie du telephone en fin de cours).">
+  <div class="slide" data-title="Faire valider par un adulte" data-desc="Option à venir : l'élève pourra présenter un QR code à l'enseignant. Ce n'est pas obligatoire — l'enseignant peut aussi valider une compétence qu'il a constatée. Toujours sous son autorisation (sortie du téléphone en fin de cours).">
     <div class="phone">
       <div class="m-qr-center">
         <div class="m-title">&#128279; Faire valider</div>
         <div class="m-qr-box">
           <div class="m-qr-grid" id="qr-grid"></div>
         </div>
-        <p class="m-text" style="margin-top:8px">Presente ce code a l'adulte.</p>
+        <p class="m-text" style="margin-top:8px">Présente ce code a l'adulte.</p>
         <p class="m-text" style="font-size:.65rem;margin-top:12px">L'enseignant scanne ce QR depuis<br>le <strong style="color:#1a1a2e">Cockpit Accompagnement</strong>.</p>
       </div>
       <div class="anno" style="top:35%;right:10px">
-        <div class="anno-bubble">&#128247; Scanne par le prof</div>
+        <div class="anno-bubble">&#128247; Scanné par le prof</div>
       </div>
     </div>
   </div>
@@ -434,48 +434,48 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
         <div class="pratique-icon">&#9200;</div>
         <div>
           <div class="pratique-title">Cadre horaire strict</div>
-          <div class="pratique-text">L'eleve ne peut utiliser l'application que <strong>du lundi au vendredi</strong>, dans un <strong>creneau horaire precis</strong>. En dehors de ces heures, l'acces est bloque.</div>
-          <span class="pratique-tag" style="background:rgba(99,102,241,.15);color:var(--primary)">Lun–Ven · Horaires definis</span>
+          <div class="pratique-text">L'élève ne peut utiliser l'application que <strong>du lundi au vendredi</strong>, dans un <strong>créneau horaire précis</strong>. En dehors de ces heures, l'acces est bloqué.</div>
+          <span class="pratique-tag" style="background:rgba(99,102,241,.15);color:var(--primary)">Lun–Ven · Horaires définis</span>
         </div>
       </div>
       <div class="pratique-item">
         <div class="pratique-icon">&#128241;</div>
         <div>
           <div class="pratique-title">Sous autorite de l'enseignant</div>
-          <div class="pratique-text">La sortie du telephone se fait <strong>avec l'accord de l'enseignant</strong> (en fin de cours par exemple). L'eleve ne sort pas le telephone quand il veut.</div>
+          <div class="pratique-text">La sortie du téléphone se fait <strong>avec l'accord de l'enseignant</strong> (en fin de cours par exemple). L'élève ne sort pas le téléphone quand il veut.</div>
         </div>
       </div>
       <div class="pratique-item">
         <div class="pratique-icon">&#128246;</div>
         <div>
-          <div class="pratique-title">Validation QR code (a venir)</div>
-          <div class="pratique-text">L'option QR code permettra a l'eleve de presenter son objectif. L'enseignant scanne <strong>s'il le souhaite</strong>. Ce n'est <strong>pas obligatoire</strong> pour valider — l'enseignant peut aussi constater la competence directement.</div>
-          <span class="pratique-tag" style="background:rgba(251,191,36,.15);color:var(--anno)">&#128312; Fonctionnalite a venir</span>
+          <div class="pratique-title">Validation QR code (à venir)</div>
+          <div class="pratique-text">L'option QR code permettra à l'élève de présenter son objectif. L'enseignant scanne <strong>s'il le souhaite</strong>. Ce n'est <strong>pas obligatoire</strong> pour valider — l'enseignant peut aussi constater la compétence directement.</div>
+          <span class="pratique-tag" style="background:rgba(251,191,36,.15);color:var(--anno)">&#128312; Fonctionnalité à venir</span>
         </div>
       </div>
       <div class="pratique-item">
         <div class="pratique-icon">&#128203;</div>
         <div>
-          <div class="pratique-title">Bilans reguliers</div>
-          <div class="pratique-text">Des <strong>points reguliers</strong> seront organises avec les eleves pour faire un bilan sur leurs objectifs, ajuster et valoriser les progres.</div>
+          <div class="pratique-title">Bilans réguliers</div>
+          <div class="pratique-text">Des <strong>points réguliers</strong> seront organisés avec les élèves pour faire un bilan sur leurs objectifs, ajuster et valoriser les progres.</div>
         </div>
       </div>
       <div class="pratique-item">
         <div class="pratique-icon">&#127942;</div>
         <div>
-          <div class="pratique-title">Vers un passeport competences</div>
-          <div class="pratique-text">Les competences validees au fil du temps pourront contribuer a un <strong>passeport competences</strong>. Les objectifs vises sont precis, mesurables et axes sur des savoir-faire concrets.</div>
+          <div class="pratique-title">Vers un passeport compétences</div>
+          <div class="pratique-text">Les compétences validées au fil du temps pourront contribuer à un <strong>passeport compétences</strong>. Les objectifs visés sont précis, mesurables et axés sur des savoir-faire concrets.</div>
         </div>
       </div>
     </div>
   </div>
 
   <!-- ========== SLIDE 9 : SYNTHESE ========== -->
-  <div class="slide" data-title="Synthese et evolution" data-desc="L'eleve visualise sa progression globale. A terme, ces competences validees pourront constituer un veritable passeport competences psychosociales.">
+  <div class="slide" data-title="Synthèse et évolution" data-desc="L'élève visualise sa progression globale. À terme, ces compétences validées pourront constituer un veritable passeport compétences psychosociales.">
     <div class="phone" style="padding:12px">
       <div style="text-align:center;margin-bottom:10px">
         <div style="font-size:2rem">&#128202;</div>
-        <div class="m-title">Mon profil de competences</div>
+        <div class="m-title">Mon profil de compétences</div>
         <p class="m-text">Vue d'ensemble de ta progression</p>
       </div>
       <div class="m-stat-grid">
@@ -522,13 +522,13 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 </div>
 
 <div class="nav">
-  <button class="nav-btn nav-prev" id="btn-prev" onclick="go(-1)">&#8592; Precedent</button>
+  <button class="nav-btn nav-prev" id="btn-prev" onclick="go(-1)">&#8592; Précédent</button>
   <button class="nav-btn nav-next" id="btn-next" onclick="go(1)">Suivant &#8594;</button>
 </div>
 
 <div class="demo-footer">
-  <p>monobjectif.fr — Referentiel CPS · Sante publique France</p>
-  <p style="margin-top:4px"><a href="index.html">Acceder a l'application</a></p>
+  <p>monobjectif.fr — Référentiel CPS · Santé publique France</p>
+  <p style="margin-top:4px"><a href="index.html">Accéder à l'application</a></p>
 </div>
 
 <script>
@@ -582,7 +582,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
     document.getElementById('btn-prev').disabled = (current === 0);
     var nextBtn = document.getElementById('btn-next');
     nextBtn.disabled = (current === total - 1);
-    nextBtn.textContent = current === total - 1 ? 'Termine !' : 'Suivant \u2192';
+    nextBtn.textContent = current === total - 1 ? 'Terminé !' : 'Suivant \u2192';
 
     // Update slide title/desc
     var slide = slides[current];
@@ -598,7 +598,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
       container.insertBefore(titleEl, container.firstChild);
       container.insertBefore(numEl, container.firstChild);
     }
-    numEl.textContent = 'Etape ' + (current + 1) + ' / ' + total;
+    numEl.textContent = 'Étape ' + (current + 1) + ' / ' + total;
     titleEl.textContent = slide.getAttribute('data-title') || '';
     descEl.textContent = slide.getAttribute('data-desc') || '';
   }
