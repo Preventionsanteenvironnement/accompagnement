@@ -73,7 +73,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .m-cps-row{display:flex;justify-content:space-around;margin-bottom:12px}
 .m-cps-item{text-align:center;width:80px}
 .m-cps-circle{width:56px;height:56px;border-radius:50%;border:4px solid;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin:0 auto 4px}
-.m-cps-label{font-size:.6rem;font-weight:700;color:#64748b}
+.m-cps-label{font-size:.68rem;font-weight:700;color:#64748b}
 .m-cps-num{font-size:.75rem;font-weight:800}
 
 .m-meteo{display:flex;align-items:center;gap:10px;background:var(--phone-surface);border-radius:14px;padding:10px 12px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
@@ -97,7 +97,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .m-obj{display:flex;gap:8px;align-items:flex-start;padding:10px;border-radius:12px;background:var(--phone-surface);margin-bottom:8px;border-left:4px solid var(--cog)}
 .m-obj-check{width:20px;height:20px;border:2px solid #d1d5db;border-radius:4px;flex-shrink:0;margin-top:2px}
 .m-obj-title{font-weight:700;font-size:.78rem;color:#1a1a2e}
-.m-obj-meta{font-size:.65rem;color:#94a3b8;margin-top:2px}
+.m-obj-meta{font-size:.7rem;color:#94a3b8;margin-top:2px}
 .m-obj-stars{color:var(--warn);font-size:.7rem;margin-top:2px}
 .m-obj-time{font-size:.6rem;font-weight:700;padding:2px 6px;border-radius:4px;display:inline-block}
 .m-obj-time.ok{background:#d1fae5;color:#065f46}
@@ -126,7 +126,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .m-stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px}
 .m-stat{text-align:center;background:#f9fafb;border-radius:10px;padding:8px 4px}
 .m-stat-num{font-size:1.1rem;font-weight:800}
-.m-stat-label{font-size:.55rem;color:#64748b;font-weight:600}
+.m-stat-label{font-size:.62rem;color:#64748b;font-weight:600}
 .m-domain-card{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:10px;background:#f9fafb;margin-bottom:6px;border-left:4px solid}
 
 /* INFO CARDS (intro slide) */
@@ -161,10 +161,19 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .demo-footer{text-align:center;padding:16px;font-size:.7rem;color:#4b5563}
 .demo-footer a{color:var(--primary);text-decoration:none}
 
+@media(max-width:480px){
+  .info-card-text{font-size:.74rem}
+  .pratique-text{font-size:.76rem}
+  .m-text{font-size:.72rem}
+}
 @media(max-width:400px){
   .phone{padding:12px;border-radius:22px}
   .m-actions{gap:5px}
   .anno-bubble{font-size:.65rem;padding:4px 8px}
+  .info-card-text{font-size:.76rem;line-height:1.5}
+  .info-card-title{font-size:.82rem}
+  .pratique-text{font-size:.78rem;line-height:1.5}
+  .slide-desc{font-size:.82rem}
 }
 </style>
 </head>
@@ -195,9 +204,9 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
         <div class="info-badge cps">CPS · Cognitif · Émotions · Relations</div>
       </div>
       <div class="info-card">
-        <div class="info-card-icon">&#128170;</div>
+        <div class="info-card-icon">🌱</div>
         <div class="info-card-title">L'élève se responsabilise</div>
-        <div class="info-card-text">C'est l'élève qui choisit ses objectifs, qui décide de les suivre et qui demande à les faire valider. Il est <strong>acteur de sa progression</strong>. L'enseignant guide et constate.</div>
+        <div class="info-card-text">C'est l'élève qui choisit ses objectifs, qui décide de les suivre et qui évalue lui-même sa progression. Il est <strong>acteur de sa progression</strong>. L'enseignant guide et constate.</div>
       </div>
       <div class="info-card">
         <div class="info-card-icon">&#128300;</div>
@@ -355,7 +364,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
               <div class="m-niveau-btn">&#128548;</div>
               <div class="m-niveau-btn selected">&#128528;</div>
               <div class="m-niveau-btn">&#128578;</div>
-              <div class="m-niveau-btn">&#128170;</div>
+              <div class="m-niveau-btn">✨</div>
             </div>
           </div>
           <div class="m-recap-field">
@@ -374,7 +383,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
   </div>
 
   <!-- ========== SLIDE 6 : SUIVI DES OBJECTIFS ========== -->
-  <div class="slide" data-title="Suivi des objectifs" data-desc="L'élève retrouve ici tous ses objectifs en cours avec leur échéance et leur avancement (étoiles de validation par les adultes).">
+  <div class="slide" data-title="Suivi des objectifs" data-desc="L'élève retrouve ici tous ses objectifs en cours avec leur échéance et leur avancement (étoiles d'auto-évaluation).">
     <div class="phone" style="padding:12px">
       <div style="text-align:center;margin-bottom:10px">
         <div class="m-btn m-btn-primary" style="width:100%;background:linear-gradient(135deg,var(--primary),var(--soc))">+ Ajouter un objectif</div>
@@ -411,14 +420,14 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
   </div>
 
   <!-- ========== SLIDE 7 : QR CODE ========== -->
-  <div class="slide" data-title="Faire valider par un adulte" data-desc="Option à venir : l'élève pourra présenter un QR code à l'enseignant. Ce n'est pas obligatoire — l'enseignant peut aussi valider une compétence qu'il a constatée. Toujours sous son autorisation (sortie du téléphone en fin de cours).">
+  <div class="slide" data-title="Validation par un adulte (optionnel)" data-desc="En option, l'élève peut présenter un QR code à l'enseignant. Ce n'est pas obligatoire — l'enseignant peut aussi valider une compétence qu'il a constatée. Toujours sous son autorisation (sortie du téléphone en fin de cours).">
     <div class="phone">
       <div class="m-qr-center">
-        <div class="m-title">&#128279; Faire valider</div>
+        <div class="m-title">🔗 Option : faire valider</div>
         <div class="m-qr-box">
           <div class="m-qr-grid" id="qr-grid"></div>
         </div>
-        <p class="m-text" style="margin-top:8px">Présente ce code à l'adulte.</p>
+        <p class="m-text" style="margin-top:8px">Option : présente ce code à un adulte.</p>
         <p class="m-text" style="font-size:.65rem;margin-top:12px">L'enseignant scanne ce QR depuis<br>le <strong style="color:#1a1a2e">Cockpit Accompagnement</strong>.</p>
       </div>
       <div class="anno" style="top:35%;right:10px">
@@ -448,16 +457,16 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
       <div class="pratique-item">
         <div class="pratique-icon">&#128246;</div>
         <div>
-          <div class="pratique-title">Validation QR code (à venir)</div>
-          <div class="pratique-text">L'option QR code permettra à l'élève de présenter son objectif. L'enseignant scanne <strong>s'il le souhaite</strong>. Ce n'est <strong>pas obligatoire</strong> pour valider — l'enseignant peut aussi constater la compétence directement.</div>
-          <span class="pratique-tag" style="background:rgba(251,191,36,.15);color:var(--anno)">&#128312; Fonctionnalité à venir</span>
+          <div class="pratique-title">Validation QR code (optionnel)</div>
+          <div class="pratique-text">L'option QR code permet à l'élève de présenter son objectif. L'enseignant scanne <strong>s'il le souhaite</strong>. Ce n'est <strong>pas obligatoire</strong> pour valider — l'enseignant peut aussi constater la compétence directement.</div>
+          <span class="pratique-tag" style="background:rgba(99,102,241,.15);color:var(--primary)">&#9989; Fonctionnalité disponible</span>
         </div>
       </div>
       <div class="pratique-item">
         <div class="pratique-icon">&#128203;</div>
         <div>
-          <div class="pratique-title">Bilans réguliers</div>
-          <div class="pratique-text">Des <strong>points réguliers</strong> seront organisés avec les élèves pour faire un bilan sur leurs objectifs, ajuster et valoriser les progrès.</div>
+          <div class="pratique-title">Enseignant référent</div>
+          <div class="pratique-text">L'enseignant référent <strong>échange régulièrement</strong> avec chaque élève lors d'entretiens de dialogue. C'est un accompagnement, pas du contrôle.</div>
         </div>
       </div>
       <div class="pratique-item">

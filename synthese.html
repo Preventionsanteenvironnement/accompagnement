@@ -67,6 +67,12 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .placeholder-box{background:linear-gradient(135deg,rgba(99,102,241,.04),rgba(139,92,246,.04));border:2px dashed rgba(99,102,241,.15);border-radius:var(--radius);padding:28px 20px;text-align:center;margin-bottom:12px}
 .placeholder-box .pb-icon{font-size:2rem;margin-bottom:8px}
 .placeholder-box p{font-size:.8rem;color:var(--text3);line-height:1.5}
+.passport-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:10px}
+.passport-comp{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.passport-comp-name{font-weight:700;font-size:.82rem;flex:1}
+.passport-cycle-badge{background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#fff;padding:3px 12px;border-radius:8px;font-weight:800;font-size:.78rem;white-space:nowrap}
+.passport-objs{border-top:1px solid var(--border);padding-top:8px;margin-top:4px}
+.passport-objs .obj-chip{background:rgba(16,185,129,.08);color:var(--success);font-weight:600}
 .ref-footer{font-size:0.75rem;color:var(--text3);text-align:center;margin-top:24px;font-style:italic;padding:12px;border-top:1px solid var(--border)}
 
 </style>
@@ -110,10 +116,8 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
   <div class="section-h">📅 Historique émotionnel</div>
   <div id="mood-history"></div>
 
-  <div class="placeholder-box" style="margin-top:20px">
-    <div class="pb-icon">🏅</div>
-    <p><strong>Attestation de compétences</strong><br><br>Quand tu auras validé suffisamment d'objectifs, une attestation officielle de tes compétences psychosociales pourra être générée ici.<br><br>Continue tes efforts !</p>
-  </div>
+  <div class="section-h">🏅 Mon passeport de compétences</div>
+  <div id="passport-content"><div class="empty">Chargement du passeport…</div></div>
 
   <div class="ref-footer">Référentiel des compétences psychosociales — Santé publique France</div>
 </div>
@@ -156,6 +160,20 @@ db.ref('accompagnement/eleves/'+dataCode).on('value',function(snap){
       listHtml+='<div class="goal-mini"><span class="gm-dot" style="background:'+(ax==='COG'?'var(--cog)':ax==='EMO'?'var(--emo)':'var(--soc)')+'"></span><span class="gm-title">'+(g.titre||'')+'</span><span class="gm-badge" style="background:rgba(16,185,129,.1);color:var(--success)">'+dateFr(g.date_done)+'</span></div>'});
     document.getElementById('list-'+id).innerHTML=listHtml;
   });
+  // Passeport compétences
+  var passport=data.passeport||{};
+  var passKeys=Object.keys(passport);
+  if(!passKeys.length){document.getElementById('passport-content').innerHTML='<div class="empty">Pas encore de compétence validée — complète 5 étoiles sur un objectif pour débloquer ton passeport !</div>'}
+  else{
+    passKeys.sort(function(a,b){return(passport[b].cycles_count||0)-(passport[a].cycles_count||0)});
+    var passHtml='';
+    passKeys.forEach(function(k){
+      var p=passport[k];var cycles=p.cycles_count||0;var objs=p.objectifs_completes||[];
+      passHtml+='<div class="passport-card"><div class="passport-comp"><span class="passport-comp-name">'+k.replace(/_/g,' ')+'</span><span class="passport-cycle-badge">'+cycles+' cycle'+(cycles>1?'s':'')+'</span></div>';
+      if(objs.length){passHtml+='<div class="passport-objs">';objs.forEach(function(o){passHtml+='<span class="obj-chip">✅ '+o+'</span>'});passHtml+='</div>'}
+      passHtml+='</div>'});
+    document.getElementById('passport-content').innerHTML=passHtml;
+  }
   // Mood history
   var meteo=data.meteo||{};var mKeys=Object.keys(meteo).sort().reverse().slice(0,14);
   if(!mKeys.length){document.getElementById('mood-history').innerHTML='<div class="empty">Pas encore de météo émotionnelle</div>';return}

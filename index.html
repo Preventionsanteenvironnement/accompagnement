@@ -300,6 +300,20 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .btn-mission{width:100%;padding:14px;border:none;border-radius:var(--radius-sm);font-family:var(--font);font-weight:700;font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
 .btn-mission.primary{background:var(--primary);color:#fff}.btn-mission.outline{background:transparent;border:2px dashed rgba(99,102,241,.3);color:var(--primary)}
 .btn-mission.danger{background:transparent;border:1px solid rgba(239,68,68,.2);color:var(--emo);font-size:0.85rem}
+.btn-mission.success{background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#fff}
+.star-block{text-align:center;padding:16px 0}
+.star-block-stars{font-size:1.6rem;letter-spacing:6px;margin-bottom:8px}
+.star-block-count{font-weight:900;font-size:1.1rem;margin-bottom:14px;color:var(--text)}
+.star-daily-msg{font-size:.82rem;color:var(--text3);font-style:italic;padding:8px 0}
+.celebration-overlay{position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(15,15,26,.85);animation:celebIn .3s ease;cursor:pointer}
+.celebration-content{text-align:center;animation:celebBounce .6s ease}
+.celebration-emoji{font-size:4rem;margin-bottom:12px}
+.celebration-title{font-size:1.5rem;font-weight:900;color:#fff;margin-bottom:8px;font-family:var(--font)}
+.celebration-sub{font-size:1rem;color:rgba(255,255,255,.85);font-family:var(--font);line-height:1.6}
+.celebration-badge{display:inline-block;margin-top:20px;padding:8px 20px;border-radius:12px;background:rgba(251,191,36,.15);color:#fbbf24;font-weight:700;font-size:.85rem;font-family:var(--font)}
+@keyframes celebIn{from{opacity:0}to{opacity:1}}
+@keyframes celebBounce{0%{transform:scale(.5);opacity:0}60%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+@keyframes celebStars{0%{opacity:0;transform:translateY(0) scale(0)}50%{opacity:1}100%{opacity:0;transform:translateY(-80px) scale(1.5)}}
 
 /* ── CPS SPACE ── */
 .cps-space-hero{text-align:center;padding:20px;border-radius:var(--radius);margin-bottom:16px}
@@ -887,7 +901,7 @@ function renderObjCard(g,isDone){
   if(isDone){
     return '<div class="obj-card done '+cls+'" onclick="openDetail(\''+gKey+'\')"><div class="obj-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div><div class="obj-body"><div class="obj-title">'+gTitle+'</div><div class="obj-meta"><span>Validé le '+dateFr(g.date_done)+'</span></div></div></div>';
   }
-  return '<div class="obj-card '+cls+'" onclick="openDetail(\''+gKey+'\')"><div class="obj-check" onclick="event.stopPropagation();markDone(\''+gKey+'\')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div><div class="obj-body"><div class="obj-title">'+gTitle+'</div><div class="obj-meta"><span class="obj-badge">'+gContext+'</span><span>'+gDetail+'</span>'+(timeStr?'<span class="obj-time '+urgCls+'">'+timeStr+'</span>':'')+'</div><div class="obj-stars">'+stars+'<span class="obj-valid">'+valCount+'/5</span></div></div></div>';
+  return '<div class="obj-card '+cls+'" onclick="openDetail(\''+gKey+'\')"><div class="obj-check" onclick="event.stopPropagation();addStar(\''+gKey+'\')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div><div class="obj-body"><div class="obj-title">'+gTitle+'</div><div class="obj-meta"><span class="obj-badge">'+gContext+'</span><span>'+gDetail+'</span>'+(timeStr?'<span class="obj-time '+urgCls+'">'+timeStr+'</span>':'')+'</div><div class="obj-stars">'+stars+'<span class="obj-valid">'+valCount+'/5</span></div></div></div>';
 }
 
 // ══════════════════════════════════════════
@@ -989,7 +1003,50 @@ function breathCycle(){
 // MARK DONE
 // ══════════════════════════════════════════
 window.markDone=function(k){if(confirm("Objectif atteint ? 🎉")){db.ref('accompagnement/eleves/'+dataCode+'/objectifs/'+k).update({done:true,date_done:new Date().toISOString()});addHistory(k,'Marqué comme atteint');showToast('Objectif validé !')}}
-window.unmarkDone=function(k){if(confirm("Remettre cet objectif en cours ?")){db.ref('accompagnement/eleves/'+dataCode+'/objectifs/'+k).update({done:false,date_done:null});addHistory(k,'Remis en cours')}}
+window.unmarkDone=function(k){if(confirm("Remettre cet objectif en cours ?")){db.ref('accompagnement/eleves/'+dataCode+'/objectifs/'+k).update({done:false,date_done:null,validations_count:0,last_star_date:null});addHistory(k,'Remis en cours')}}
+
+// ══════════════════════════════════════════
+// AUTO-EVALUATION — ETOILES
+// ══════════════════════════════════════════
+window.addStar=function(k){
+  var g=userData.objectifs[k];if(!g)return;
+  var valCount=g.validations_count||0;
+  if(valCount>=5){showToast('Objectif déjà complété !');return}
+  var today=new Date().toISOString().split('T')[0];
+  if(g.last_star_date===today){showToast('Tu as déjà ajouté une étoile aujourd\'hui. Reviens demain !',3000);return}
+  var newCount=valCount+1;
+  var patch={validations_count:newCount,last_star_date:today};
+  if(newCount>=5){patch.done=true;patch.date_done=new Date().toISOString()}
+  db.ref('accompagnement/eleves/'+dataCode+'/objectifs/'+k).update(patch);
+  addHistory(k,'Auto-évaluation : +1 étoile ('+newCount+'/5)');
+  if(newCount>=5){
+    writeCycleToPassport(g);
+    showCelebration(g.titre||'Mon objectif');
+    closeOv('detail-overlay');
+  }else{
+    showToast('⭐ '+newCount+'/5 — Continue !');
+    openDetail(k,false);
+  }
+};
+
+function writeCycleToPassport(g){
+  var speCode=String(g.spe_code||(g.cps&&g.cps.spe_code)||'libre').replace(/[^A-Za-z0-9_.\-]/g,'_');
+  var passRef=db.ref('accompagnement/eleves/'+dataCode+'/passeport/'+speCode);
+  passRef.once('value',function(snap){
+    var data=snap.val()||{};
+    passRef.update({cycles_count:(data.cycles_count||0)+1,derniere_validation:new Date().toISOString()});
+    passRef.child('objectifs_completes').push({titre:g.titre||'Sans titre',date:new Date().toISOString(),context:g.context||'Autre'});
+  });
+}
+
+function showCelebration(title){
+  var div=document.createElement('div');
+  div.className='celebration-overlay';
+  div.onclick=function(){div.remove()};
+  div.innerHTML='<div class="celebration-content"><div class="celebration-emoji">🎉🌟🎉</div><div class="celebration-title">Bravo !</div><div class="celebration-sub">'+escHtml(title)+'<br>Objectif atteint — 5/5 étoiles !</div><div class="celebration-badge">🏅 Enregistré dans ton passeport compétences</div></div>';
+  document.body.appendChild(div);
+  setTimeout(function(){if(div.parentNode)div.remove()},6000);
+}
 
 // ══════════════════════════════════════════
 // DETAIL OVERLAY
@@ -1030,8 +1087,21 @@ window.openDetail=function(k,skipShow){
     +(isStage?'<div class="mission-block"><div class="mission-block-title">Pistes de recherche</div><div id="stage-lieux-list"></div><button class="wiz-option" style="margin-top:6px;border-style:dashed;text-align:center;color:var(--primary)" onclick="addStageLieu()">+ Ajouter un lieu / entreprise</button><button class="wiz-option" style="margin-top:4px;text-align:center;color:var(--warn);font-weight:800" onclick="var ov=document.querySelector(\'.overlay.show\');if(ov)sessionStorage.setItem(\'nav_return_overlay\',ov.id);window.location.href=\'stage.html\'">🏢 Voir mon espace Stage complet</button></div>':'')
     +'<div class="mission-block"><div class="mission-block-title">Modifier</div><label style="font-size:0.8rem;font-weight:700;color:var(--text3);display:block;margin-bottom:3px">Échéance</label><input type="date" class="fi" id="det-date" value="'+(g.date_cible||'')+'"><label style="font-size:0.8rem;font-weight:700;color:var(--text3);display:block;margin-bottom:3px">'+(g.context==='Scolaire'?'Matière':'Détail')+'</label>'+matSelect+'</div>'
     +'<div class="mission-block"><div class="mission-block-title">Historique</div><div class="mission-history">'+renderHistory(g)+'</div></div>'
-    +'<div class="mission-actions"><button class="btn-mission primary" onclick="saveDetail()">💾 Enregistrer</button><button class="btn-mission outline" onclick="showQRForGoal()">🔗 Faire valider par un adulte</button>'
-    +(!g.done?'<button class="btn-mission success" onclick="markDone(\''+detailKey+'\');closeOv(\'detail-overlay\')">✅ Marquer comme atteint</button>':'<button class="btn-mission outline" onclick="unmarkDone(\''+detailKey+'\');closeOv(\'detail-overlay\')">↩️ Remettre en cours</button>')
+    +(function(){
+      var valCount=g.validations_count||0;
+      if(g.done)return '';
+      var today=new Date().toISOString().split('T')[0];
+      var canAdd=(g.last_star_date!==today)&&(valCount<5);
+      var h='<div class="mission-block"><div class="mission-block-title">Ma progression</div><div class="star-block">';
+      h+='<div class="star-block-stars">';
+      for(var si=0;si<5;si++)h+='<span class="obj-star '+(si<valCount?'on':'off')+'" style="font-size:1.6rem">★</span>';
+      h+='</div><div class="star-block-count">'+valCount+'/5 étoiles</div>';
+      if(canAdd)h+='<button class="btn-mission success" onclick="addStar(\''+detailKey+'\')">⭐ +1 étoile — J\'ai progressé !</button>';
+      else if(valCount<5)h+='<div class="star-daily-msg">Tu as déjà ajouté une étoile aujourd\'hui. Reviens demain !</div>';
+      h+='</div></div>';return h;
+    })()
+    +'<div class="mission-actions"><button class="btn-mission primary" onclick="saveDetail()">💾 Enregistrer</button><button class="btn-mission outline" onclick="showQRForGoal()">🔗 Option : faire valider par un adulte</button>'
+    +(g.done?'<button class="btn-mission outline" onclick="unmarkDone(\''+detailKey+'\');closeOv(\'detail-overlay\')">↩️ Remettre en cours</button>':'')
     +'<button class="btn-mission danger" onclick="deleteGoal()">Supprimer</button></div>';
   if(isStage)renderStageLieux(k);
   if(!skipShow)document.getElementById('detail-overlay').classList.add('show');
@@ -1182,7 +1252,7 @@ function renderRecapStep(c){
   h+='</div>';
   h+='<div class="recap-field"><div class="recap-field-label">📅 Je veux y arriver avant le…</div><input type="date" class="fi" id="r-date" value="'+(draft.date||new Date().toISOString().split('T')[0])+'"></div>';
   var nSel=draft.niveau_depart||0;
-  h+='<div class="recap-field"><div class="recap-field-label">📊 Où j\'en suis aujourd\'hui ?</div><div class="niveau-scale"><button type="button" class="niveau-btn'+(nSel==1?' active':'')+'" data-niveau="1" onclick="this.parentNode.querySelectorAll(\'.niveau-btn\').forEach(function(b){b.classList.remove(\'active\')});this.classList.add(\'active\')">😤 Je n\'y arrive pas encore</button><button type="button" class="niveau-btn'+(nSel==2?' active':'')+'" data-niveau="2" onclick="this.parentNode.querySelectorAll(\'.niveau-btn\').forEach(function(b){b.classList.remove(\'active\')});this.classList.add(\'active\')">😐 J\'y arrive parfois</button><button type="button" class="niveau-btn'+(nSel==3?' active':'')+'" data-niveau="3" onclick="this.parentNode.querySelectorAll(\'.niveau-btn\').forEach(function(b){b.classList.remove(\'active\')});this.classList.add(\'active\')">🙂 J\'y arrive souvent</button><button type="button" class="niveau-btn'+(nSel==4?' active':'')+'" data-niveau="4" onclick="this.parentNode.querySelectorAll(\'.niveau-btn\').forEach(function(b){b.classList.remove(\'active\')});this.classList.add(\'active\')">💪 C\'est devenu un réflexe</button></div></div>';
+  h+='<div class="recap-field"><div class="recap-field-label">📊 Où j\'en suis aujourd\'hui ?</div><div class="niveau-scale"><button type="button" class="niveau-btn'+(nSel==1?' active':'')+'" data-niveau="1" onclick="this.parentNode.querySelectorAll(\'.niveau-btn\').forEach(function(b){b.classList.remove(\'active\')});this.classList.add(\'active\')">😤 Je n\'y arrive pas encore</button><button type="button" class="niveau-btn'+(nSel==2?' active':'')+'" data-niveau="2" onclick="this.parentNode.querySelectorAll(\'.niveau-btn\').forEach(function(b){b.classList.remove(\'active\')});this.classList.add(\'active\')">😐 J\'y arrive parfois</button><button type="button" class="niveau-btn'+(nSel==3?' active':'')+'" data-niveau="3" onclick="this.parentNode.querySelectorAll(\'.niveau-btn\').forEach(function(b){b.classList.remove(\'active\')});this.classList.add(\'active\')">🙂 J\'y arrive souvent</button><button type="button" class="niveau-btn'+(nSel==4?' active':'')+'" data-niveau="4" onclick="this.parentNode.querySelectorAll(\'.niveau-btn\').forEach(function(b){b.classList.remove(\'active\')});this.classList.add(\'active\')">✨ C\'est devenu un réflexe</button></div></div>';
   if(!isStage){
     if(isScolaire){h+='<div class="recap-field"><div class="recap-field-label">📚 Matières / Disciplines</div>'+buildMatiereChipsHTML(draft.detail||'','r-matiere-autre')+'</div>'}
     else if(draft.context==='PFMP'){h+='<div class="recap-field"><div class="recap-field-label">🏢 Lieu / Activité</div><input type="text" class="fi" id="r-detail" value="'+(draft.detail||'').replace(/"/g,'&quot;')+'" placeholder="Atelier, chantier, service…"></div>'}
