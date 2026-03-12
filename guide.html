@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Guide eleve — monobjectif.fr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0f0f1a;--surface:#1a1a2e;--surface2:#252542;
+  --text:#f9fafb;--text2:#a5a5c0;
+  --primary:#6366f1;--cog:#3b82f6;--emo:#f43f5e;--soc:#8b5cf6;
+  --success:#10b981;--warn:#f59e0b;--accent:#06b6d4;
+  --glow:rgba(99,102,241,.15);
+}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* HEADER */
+.guide-header{text-align:center;padding:24px 16px 4px}
+.guide-header h1{font-size:1.3rem;font-weight:800}
+.guide-header h1 span{color:var(--primary)}
+.guide-header .sub{font-size:.82rem;color:var(--text2);margin-top:4px}
+
+/* PROGRESS */
+.progress{display:flex;justify-content:center;gap:6px;padding:12px 16px}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--surface2);transition:all .3s;cursor:pointer}
+.dot.active{background:var(--primary);transform:scale(1.3);box-shadow:0 0 8px rgba(99,102,241,.5)}
+.dot.done{background:var(--primary);opacity:.4}
+
+/* SLIDES */
+.slides{position:relative;max-width:460px;margin:0 auto;padding:0 16px}
+.slide{display:none;animation:slideIn .5s ease}
+.slide.active{display:block}
+@keyframes slideIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+.slide-num{font-size:.7rem;color:var(--text2);text-align:center;margin-bottom:4px;letter-spacing:1px;text-transform:uppercase}
+.slide-title{font-size:1.2rem;font-weight:800;text-align:center;margin-bottom:6px;line-height:1.3}
+.slide-desc{font-size:.85rem;color:var(--text2);text-align:center;margin-bottom:16px;line-height:1.5;padding:0 4px}
+
+/* HERO CARD */
+.hero{background:linear-gradient(135deg,var(--primary),var(--soc));border-radius:20px;padding:28px 20px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-30%;right:-20%;width:200px;height:200px;background:rgba(255,255,255,.05);border-radius:50%}
+.hero-emoji{font-size:3rem;margin-bottom:10px;display:block}
+.hero-title{font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:8px}
+.hero-text{font-size:.82rem;color:rgba(255,255,255,.85);line-height:1.5}
+.hero-badge{display:inline-block;background:rgba(255,255,255,.2);color:#fff;padding:6px 14px;border-radius:10px;font-size:.75rem;font-weight:700;margin-top:12px;backdrop-filter:blur(4px)}
+
+/* FEATURE CARDS */
+.feat-grid{display:grid;gap:10px}
+.feat-grid.cols2{grid-template-columns:1fr 1fr}
+.feat{background:var(--surface);border-radius:16px;padding:16px 14px;border:1px solid var(--surface2);position:relative;overflow:hidden}
+.feat.glow{box-shadow:0 0 20px var(--glow)}
+.feat-emoji{font-size:1.6rem;margin-bottom:8px;display:block}
+.feat-title{font-size:.82rem;font-weight:800;color:var(--text);margin-bottom:4px}
+.feat-text{font-size:.72rem;color:var(--text2);line-height:1.45}
+.feat.full{grid-column:1/-1}
+.feat-tag{display:inline-block;padding:3px 10px;border-radius:8px;font-size:.65rem;font-weight:700;margin-top:6px}
+
+/* PHONE MOCKUP */
+.phone{background:linear-gradient(180deg,#f0f0f5,#e8e8f0);border-radius:24px;padding:14px;box-shadow:0 8px 32px rgba(0,0,0,.4);border:3px solid var(--surface2);max-width:300px;margin:0 auto;position:relative;overflow:hidden;color:#1a1a2e}
+.phone-notch{width:80px;height:6px;background:#d1d5db;border-radius:4px;margin:0 auto 10px}
+
+/* MOCKUP ELEMENTS */
+.m-title{font-weight:800;font-size:.85rem;color:#1a1a2e}
+.m-text{font-size:.72rem;color:#64748b;line-height:1.4}
+.m-card{background:#fff;border-radius:12px;padding:10px;box-shadow:0 2px 8px rgba(0,0,0,.04);margin-bottom:8px}
+.m-btn{display:inline-block;padding:8px 16px;border-radius:10px;font-weight:700;font-size:.78rem;text-align:center}
+.m-btn-primary{background:var(--primary);color:#fff}
+.m-input{width:100%;padding:10px 12px;border:2px solid #e5e7eb;border-radius:10px;font-size:.82rem;background:#f9fafb;text-align:center;letter-spacing:2px;font-weight:700;text-transform:uppercase;color:#374151}
+.m-badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:.6rem;font-weight:700;color:#fff}
+
+/* CPS CIRCLES */
+.m-cps-row{display:flex;justify-content:space-around;margin:10px 0}
+.m-cps-item{text-align:center}
+.m-cps-circle{width:50px;height:50px;border-radius:50%;border:4px solid;display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin:0 auto 3px}
+.m-cps-label{font-size:.55rem;font-weight:700;color:#64748b}
+
+/* WIZARD OPTIONS */
+.m-wiz-option{display:block;width:100%;padding:10px 12px;border:2px solid #e5e7eb;border-radius:10px;margin-bottom:6px;font-size:.78rem;font-weight:600;color:#374151;background:#fff}
+.m-wiz-option.sel{border-color:var(--primary);background:rgba(99,102,241,.06)}
+.m-wiz-section{font-size:.62rem;font-weight:800;margin:8px 0 4px;text-transform:uppercase;letter-spacing:.5px}
+
+/* OBJECTIVE CARDS */
+.m-obj{display:flex;gap:8px;align-items:flex-start;padding:8px;border-radius:10px;background:#fff;margin-bottom:6px;border-left:4px solid var(--cog)}
+.m-obj-title{font-weight:700;font-size:.72rem;color:#1a1a2e}
+.m-obj-meta{font-size:.6rem;color:#94a3b8;margin-top:2px}
+.m-obj-stars{color:var(--warn);font-size:.65rem;margin-top:2px}
+
+/* STEP INDICATOR */
+.steps{display:flex;justify-content:center;gap:6px;margin:12px 0}
+.step{width:32px;height:4px;border-radius:2px;background:var(--surface2)}
+.step.active{background:var(--primary)}
+.step.done{background:var(--success)}
+
+/* BUBBLE TIPS */
+.tip{background:var(--surface);border:1px solid var(--surface2);border-radius:14px;padding:12px 14px;margin-top:12px;display:flex;gap:10px;align-items:flex-start}
+.tip-emoji{font-size:1.3rem;flex-shrink:0}
+.tip-text{font-size:.75rem;color:var(--text2);line-height:1.45}
+.tip-text strong{color:var(--text)}
+
+/* STAT GRID */
+.stat-row{display:flex;justify-content:center;gap:12px;margin:10px 0}
+.stat-item{text-align:center;background:var(--surface);border-radius:12px;padding:10px 16px;border:1px solid var(--surface2)}
+.stat-num{font-size:1.2rem;font-weight:800}
+.stat-label{font-size:.6rem;color:var(--text2);font-weight:600}
+
+/* CONFETTI (final slide) */
+.confetti{position:absolute;pointer-events:none;font-size:1.2rem;animation:fall 2s ease-in forwards;opacity:0}
+@keyframes fall{0%{opacity:1;transform:translateY(-20px) rotate(0)}100%{opacity:0;transform:translateY(60px) rotate(360deg)}}
+
+/* NAV */
+.nav{display:flex;justify-content:center;gap:12px;padding:16px;max-width:460px;margin:0 auto}
+.nav-btn{padding:10px 28px;border-radius:14px;font-weight:700;font-size:.9rem;border:none;cursor:pointer;transition:all .2s}
+.nav-btn:active{transform:scale(.95)}
+.nav-prev{background:var(--surface);color:var(--text);border:1px solid var(--surface2)}
+.nav-next{background:linear-gradient(135deg,var(--primary),var(--soc));color:#fff;box-shadow:0 4px 16px rgba(99,102,241,.3)}
+.nav-btn:disabled{opacity:.25;cursor:default;box-shadow:none}
+
+.guide-footer{text-align:center;padding:12px;font-size:.65rem;color:#4b5563}
+.guide-footer a{color:var(--primary);text-decoration:none}
+
+@media(max-width:400px){
+  .phone{padding:10px;border-radius:20px;max-width:280px}
+  .feat-grid.cols2{grid-template-columns:1fr}
+  .hero{padding:20px 16px}
+  .hero-emoji{font-size:2.5rem}
+}
+</style>
+</head>
+<body>
+
+<div class="guide-header">
+  <h1>&#9672; mon<span>objectif</span>.fr</h1>
+  <p class="sub">Ton guide pour bien demarrer &#128640;</p>
+</div>
+
+<div class="progress" id="progress"></div>
+
+<div class="slides" id="slides">
+
+  <!-- ===== SLIDE 1 : BIENVENUE ===== -->
+  <div class="slide" data-title="Bienvenue ! &#128075;" data-desc="">
+    <div class="hero">
+      <span class="hero-emoji">&#128640;</span>
+      <div class="hero-title">C'est ton espace a toi.</div>
+      <div class="hero-text">
+        monobjectif.fr va t'aider a te fixer des objectifs concrets, a les suivre et a progresser a ton rythme.<br><br>
+        <strong>Pas de note, pas de jugement.</strong><br>
+        Juste toi, tes objectifs et ta progression.
+      </div>
+      <div class="hero-badge">&#127919; Tu es le pilote de ta reussite</div>
+    </div>
+    <div class="tip">
+      <div class="tip-emoji">&#128272;</div>
+      <div class="tip-text"><strong>100% prive.</strong> Tu te connectes avec un code, c'est tout. Ton nom n'apparait nulle part sur l'application.</div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 2 : COMMENT CA MARCHE ===== -->
+  <div class="slide" data-title="Comment ca marche ? &#129300;" data-desc="">
+    <div class="feat-grid">
+      <div class="feat glow" style="grid-column:1/-1">
+        <span class="feat-emoji">&#128161;</span>
+        <div class="feat-title">Le principe est simple</div>
+        <div class="feat-text">Tu te fixes un objectif, tu le travailles au quotidien et tu demandes a un adulte de le valider quand tu es pret. C'est toi qui decides !</div>
+      </div>
+      <div class="feat">
+        <span class="feat-emoji">1&#65039;&#8419;</span>
+        <div class="feat-title">Choisis un objectif</div>
+        <div class="feat-text">Dans le referentiel CPS : communication, gestion des emotions, esprit critique...</div>
+      </div>
+      <div class="feat">
+        <span class="feat-emoji">2&#65039;&#8419;</span>
+        <div class="feat-title">Travaille-le</div>
+        <div class="feat-text">En classe, en stage, au quotidien. Chaque jour est une occasion de progresser.</div>
+      </div>
+      <div class="feat">
+        <span class="feat-emoji">3&#65039;&#8419;</span>
+        <div class="feat-title">Fais-le valider</div>
+        <div class="feat-text">Presente ton objectif a un enseignant. Il valide ce qu'il a observe.</div>
+      </div>
+      <div class="feat">
+        <span class="feat-emoji">4&#65039;&#8419;</span>
+        <div class="feat-title">Construis ton profil</div>
+        <div class="feat-text">Chaque competence validee enrichit ton profil. C'est ton passeport pour l'avenir !</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 3 : TON CODE ===== -->
+  <div class="slide" data-title="Ton code personnel &#128272;" data-desc="C'est ton enseignant qui te le donne. Garde-le bien !">
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div style="display:flex;flex-direction:column;align-items:center;padding:20px 0">
+        <div style="width:50px;height:50px;border-radius:14px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:#fff;margin-bottom:8px">&#9672;</div>
+        <div style="font-weight:800;font-size:1rem;color:#1a1a2e">mon<span style="color:var(--primary)">objectif</span>.fr</div>
+        <p class="m-text" style="margin:8px 0 14px">Bienvenue sur ton espace personnel</p>
+        <input class="m-input" type="text" value="AB34" readonly style="max-width:180px;margin-bottom:10px">
+        <div class="m-btn m-btn-primary" style="width:180px;font-size:.75rem">Acceder a mon espace</div>
+      </div>
+    </div>
+    <div class="tip">
+      <div class="tip-emoji">&#128373;</div>
+      <div class="tip-text"><strong>Ton identite est protegee.</strong> Personne ne voit ton nom. Le code c'est juste entre toi et ton enseignant.</div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 4 : TON DASHBOARD ===== -->
+  <div class="slide" data-title="Ton tableau de bord &#127968;" data-desc="C'est ta page d'accueil quand tu te connectes.">
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
+        <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--soc));display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:800;color:#fff">AB</div>
+        <div style="font-family:monospace;font-weight:800;font-size:.78rem;color:#1a1a2e">AB34</div>
+      </div>
+      <div class="m-cps-row">
+        <div class="m-cps-item">
+          <div class="m-cps-circle" style="border-color:var(--cog)">&#128173;</div>
+          <div class="m-cps-label">Cognitif</div>
+        </div>
+        <div class="m-cps-item">
+          <div class="m-cps-circle" style="border-color:var(--emo)">&#127775;</div>
+          <div class="m-cps-label">Emotions</div>
+        </div>
+        <div class="m-cps-item">
+          <div class="m-cps-circle" style="border-color:var(--soc)">&#128172;</div>
+          <div class="m-cps-label">Relations</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
+        <div class="m-card" style="text-align:center;padding:8px 4px">
+          <div style="font-size:1.1rem">&#128188;</div>
+          <div style="font-size:.6rem;font-weight:800;color:#1a1a2e">Mon Stage</div>
+        </div>
+        <div class="m-card" style="text-align:center;padding:8px 4px;box-shadow:0 0 0 2px var(--primary)">
+          <div style="font-size:1.1rem">&#127919;</div>
+          <div style="font-size:.6rem;font-weight:800;color:#1a1a2e">Mon Objectif</div>
+        </div>
+        <div class="m-card" style="text-align:center;padding:8px 4px">
+          <div style="font-size:1.1rem">&#128200;</div>
+          <div style="font-size:.6rem;font-weight:800;color:#1a1a2e">Mon Evolution</div>
+        </div>
+      </div>
+    </div>
+    <div class="tip">
+      <div class="tip-emoji">&#128161;</div>
+      <div class="tip-text">Les <strong>3 cercles</strong> en haut, ce sont les 3 domaines de competences : ce que tu penses (Cognitif), ce que tu ressens (Emotions), comment tu interagis (Relations).</div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 5 : CREER UN OBJECTIF ===== -->
+  <div class="slide" data-title="Cree ton objectif &#127919;" data-desc="C'est toi qui choisis. Personne ne t'oblige.">
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="m-card">
+        <div style="font-weight:800;font-size:.8rem;color:#1a1a2e;margin-bottom:8px">&#127919; Dans quel cadre ?</div>
+        <div class="m-wiz-option sel">&#128218; Scolaire</div>
+        <div class="m-wiz-option">&#127970; PFMP / Stage</div>
+      </div>
+      <div class="steps">
+        <div class="step active"></div>
+        <div class="step"></div>
+        <div class="step"></div>
+        <div class="step"></div>
+      </div>
+    </div>
+    <div class="feat-grid" style="margin-top:12px">
+      <div class="feat" style="grid-column:1/-1">
+        <div class="feat-text" style="text-align:center;font-size:.78rem">
+          <strong style="color:var(--text)">&#128274; Tu ne peux pas ecrire n'importe quoi.</strong><br>
+          Tu choisis parmi des objectifs concrets et utiles, issus d'un vrai referentiel de competences. C'est serieux mais accessible !
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 6 : LE REFERENTIEL ===== -->
+  <div class="slide" data-title="Des objectifs concrets &#128170;" data-desc="Pas du blabla. Des vrais savoir-faire pour la vie.">
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="m-wiz-section" style="color:var(--cog)">&#128173; Cognitif</div>
+      <div class="m-wiz-option sel" style="border-left:3px solid var(--cog)">
+        <div style="font-weight:700;font-size:.72rem">Analyser une situation avant d'agir</div>
+        <div style="font-size:.58rem;color:#94a3b8">Penser de facon critique</div>
+      </div>
+      <div class="m-wiz-section" style="color:var(--emo)">&#127775; Emotions</div>
+      <div class="m-wiz-option" style="border-left:3px solid var(--emo)">
+        <div style="font-weight:700;font-size:.72rem">Nommer ce que je ressens au quotidien</div>
+        <div style="font-size:.58rem;color:#94a3b8">Identifier ses emotions</div>
+      </div>
+      <div class="m-wiz-section" style="color:var(--soc)">&#128172; Relations</div>
+      <div class="m-wiz-option" style="border-left:3px solid var(--soc)">
+        <div style="font-weight:700;font-size:.72rem">Exprimer mon point de vue calmement</div>
+        <div style="font-size:.58rem;color:#94a3b8">Communiquer efficacement</div>
+      </div>
+    </div>
+    <div class="tip">
+      <div class="tip-emoji">&#128640;</div>
+      <div class="tip-text">Ces competences te serviront <strong>toute ta vie</strong> : en entretien, au travail, dans tes relations. C'est un vrai investissement pour ton avenir.</div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 7 : SUIS TES OBJECTIFS ===== -->
+  <div class="slide" data-title="Suis ta progression &#128200;" data-desc="Retrouve tous tes objectifs et vois ou tu en es.">
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div style="font-weight:800;font-size:.75rem;color:#1a1a2e;margin-bottom:6px">Mes objectifs <span class="m-badge" style="background:var(--primary)">3</span></div>
+      <div class="m-obj" style="border-left-color:var(--cog)">
+        <div>
+          <div class="m-obj-title">Analyser une situation avant d'agir</div>
+          <div class="m-obj-meta">&#128218; Scolaire · C1.2</div>
+          <div class="m-obj-stars">&#11088;&#11088;&#11088;&#9734;&#9734; 3/5</div>
+        </div>
+      </div>
+      <div class="m-obj" style="border-left-color:var(--emo)">
+        <div>
+          <div class="m-obj-title">Nommer ce que je ressens</div>
+          <div class="m-obj-meta">&#128218; Scolaire · E1.2</div>
+          <div class="m-obj-stars">&#11088;&#9734;&#9734;&#9734;&#9734; 1/5</div>
+        </div>
+      </div>
+      <div class="m-obj" style="border-left-color:var(--soc)">
+        <div>
+          <div class="m-obj-title">Exprimer mon point de vue</div>
+          <div class="m-obj-meta">&#127970; PFMP · S1.1</div>
+          <div class="m-obj-stars">&#9734;&#9734;&#9734;&#9734;&#9734; 0/5</div>
+        </div>
+      </div>
+    </div>
+    <div class="tip">
+      <div class="tip-emoji">&#11088;</div>
+      <div class="tip-text">Chaque etoile = <strong>une validation par un adulte</strong>. Quand tu atteins 5 etoiles, ta competence est validee ! Tu peux aller a ton rythme.</div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 8 : VALIDATION ===== -->
+  <div class="slide" data-title="Fais-toi valider &#10004;" data-desc="Quand tu sens que tu progresses, montre-le !">
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div style="text-align:center;padding:16px 0">
+        <div style="font-weight:800;font-size:.82rem;color:#1a1a2e;margin-bottom:6px">&#128279; Faire valider</div>
+        <div style="width:100px;height:100px;background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.1);margin:10px auto;display:flex;align-items:center;justify-content:center">
+          <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:2px;width:70px;height:70px" id="qr-mini"></div>
+        </div>
+        <p class="m-text" style="margin-top:8px">Presente ce code a ton enseignant</p>
+        <p class="m-text" style="font-size:.6rem;margin-top:6px">Il scanne depuis son <strong style="color:#1a1a2e">cockpit</strong></p>
+      </div>
+    </div>
+    <div class="feat-grid" style="margin-top:12px">
+      <div class="feat" style="grid-column:1/-1;text-align:center">
+        <span class="feat-emoji">&#128161;</span>
+        <div class="feat-text" style="font-size:.76rem">
+          <strong style="color:var(--text)">C'est toujours avec l'accord de ton prof.</strong><br>
+          Tu ne sors le telephone que quand il t'y autorise (en fin de cours par exemple). Le QR code est une option, pas une obligation.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 9 : LES REGLES ===== -->
+  <div class="slide" data-title="Les regles du jeu &#128220;" data-desc="">
+    <div class="feat-grid">
+      <div class="feat glow" style="grid-column:1/-1;text-align:center">
+        <span class="feat-emoji">&#129309;</span>
+        <div class="feat-title" style="font-size:.9rem">On se fait confiance</div>
+        <div class="feat-text" style="font-size:.76rem">Quelques regles simples pour que ca se passe bien pour tout le monde.</div>
+      </div>
+      <div class="feat">
+        <span class="feat-emoji">&#9200;</span>
+        <div class="feat-title">Horaires</div>
+        <div class="feat-text">L'app fonctionne <strong>du lundi au vendredi</strong> sur des creneaux precis. En dehors, c'est ferme.</div>
+      </div>
+      <div class="feat">
+        <span class="feat-emoji">&#128241;</span>
+        <div class="feat-title">Le telephone</div>
+        <div class="feat-text">Tu ne le sors <strong>que quand ton prof t'y autorise</strong>. C'est la regle numero 1.</div>
+      </div>
+      <div class="feat">
+        <span class="feat-emoji">&#128203;</span>
+        <div class="feat-title">Des bilans</div>
+        <div class="feat-text">On fera des <strong>points reguliers</strong> ensemble pour voir ou tu en es et t'aider.</div>
+      </div>
+      <div class="feat">
+        <span class="feat-emoji">&#128170;</span>
+        <div class="feat-title">C'est toi qui decides</div>
+        <div class="feat-text">Tu es <strong>libre de tes choix</strong>. Personne ne t'oblige. C'est ta responsabilite et ta fierte.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 10 : C'EST PARTI ! ===== -->
+  <div class="slide" data-title="" data-desc="">
+    <div class="hero" style="background:linear-gradient(135deg,var(--success),var(--accent));min-height:200px" id="final-hero">
+      <span class="hero-emoji">&#127881;</span>
+      <div class="hero-title" style="font-size:1.3rem">C'est parti !</div>
+      <div class="hero-text" style="font-size:.88rem">
+        Tu as compris comment ca marche.<br>
+        Maintenant, c'est a toi de jouer !<br><br>
+        Fixe-toi un premier objectif, travaille-le au quotidien et vois comme tu peux progresser.<br>
+      </div>
+      <div class="hero-badge" style="font-size:.82rem">&#127919; Acceder a monobjectif.fr</div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-item">
+        <div class="stat-num" style="color:var(--primary)">&#128170;</div>
+        <div class="stat-label">Autonomie</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" style="color:var(--success)">&#127919;</div>
+        <div class="stat-label">Objectifs</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" style="color:var(--soc)">&#128200;</div>
+        <div class="stat-label">Progression</div>
+      </div>
+    </div>
+    <div class="tip">
+      <div class="tip-emoji">&#128640;</div>
+      <div class="tip-text"><strong>Un conseil :</strong> commence par un seul objectif. Concentre-toi dessus. Quand tu le maitrises, tu en ajoutes un autre. Pas a pas, tu construis ton profil de competences.</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="nav">
+  <button class="nav-btn nav-prev" id="btn-prev" onclick="go(-1)">&#8592; Retour</button>
+  <button class="nav-btn nav-next" id="btn-next" onclick="go(1)">Suivant &#8594;</button>
+</div>
+
+<div class="guide-footer">
+  <p>monobjectif.fr — Ton espace de progression</p>
+  <p style="margin-top:4px"><a href="index.html">Ouvrir l'application &#8594;</a></p>
+</div>
+
+<script>
+(function () {
+  var slides = document.querySelectorAll('.slide');
+  var total = slides.length;
+  var current = 0;
+
+  // Build progress dots
+  var prog = document.getElementById('progress');
+  for (var i = 0; i < total; i++) {
+    var d = document.createElement('div');
+    d.className = 'dot';
+    d.setAttribute('data-i', i);
+    d.onclick = (function (idx) { return function () { goTo(idx); }; })(i);
+    prog.appendChild(d);
+  }
+
+  // Mini QR grid
+  var qr = document.getElementById('qr-mini');
+  if (qr) {
+    for (var j = 0; j < 36; j++) {
+      var c = document.createElement('div');
+      c.style.borderRadius = '1px';
+      c.style.background = Math.random() > 0.45 ? '#1a1a2e' : '#fff';
+      qr.appendChild(c);
+    }
+    var cells = qr.children;
+    [0,1,2,6,7,8,12,13,14, 3,4,5,9,10,11,15,16,17].forEach(function(idx){
+      if(cells[idx]) cells[idx].style.background = '#1a1a2e';
+    });
+  }
+
+  // Make final hero badge clickable
+  var finalBadge = document.querySelector('#final-hero .hero-badge');
+  if (finalBadge) {
+    finalBadge.style.cursor = 'pointer';
+    finalBadge.onclick = function () { window.location.href = 'index.html'; };
+  }
+
+  function goTo(idx) {
+    if (idx < 0 || idx >= total) return;
+    slides[current].classList.remove('active');
+    current = idx;
+    slides[current].classList.add('active');
+    updateUI();
+    window.scrollTo(0, 0);
+  }
+
+  function go(dir) { goTo(current + dir); }
+  window.go = go;
+
+  function updateUI() {
+    var dots = prog.children;
+    for (var i = 0; i < total; i++) {
+      dots[i].className = 'dot' + (i === current ? ' active' : (i < current ? ' done' : ''));
+    }
+    document.getElementById('btn-prev').disabled = (current === 0);
+    var nextBtn = document.getElementById('btn-next');
+    nextBtn.disabled = (current === total - 1);
+    if (current === total - 1) {
+      nextBtn.textContent = 'C\'est parti ! \uD83D\uDE80';
+    } else {
+      nextBtn.textContent = 'Suivant \u2192';
+    }
+
+    var slide = slides[current];
+    var titleEl = document.querySelector('.slide-title');
+    var numEl = document.querySelector('.slide-num');
+    var descEl = document.querySelector('.slide-desc');
+    if (!titleEl) {
+      numEl = document.createElement('div'); numEl.className = 'slide-num';
+      titleEl = document.createElement('div'); titleEl.className = 'slide-title';
+      descEl = document.createElement('div'); descEl.className = 'slide-desc';
+      var container = document.getElementById('slides');
+      container.insertBefore(descEl, container.firstChild);
+      container.insertBefore(titleEl, container.firstChild);
+      container.insertBefore(numEl, container.firstChild);
+    }
+    var t = slide.getAttribute('data-title') || '';
+    numEl.textContent = t ? (current + 1) + ' / ' + total : '';
+    titleEl.innerHTML = t;
+    descEl.textContent = slide.getAttribute('data-desc') || '';
+  }
+
+  // Keyboard nav
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); go(1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+  });
+
+  // Swipe nav
+  var startX = 0;
+  document.addEventListener('touchstart', function (e) { startX = e.touches[0].clientX; });
+  document.addEventListener('touchend', function (e) {
+    var diff = startX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) go(diff > 0 ? 1 : -1);
+  });
+
+  slides[0].classList.add('active');
+  updateUI();
+})();
+</script>
+</body>
+</html>
