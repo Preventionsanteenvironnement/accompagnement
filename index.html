@@ -1020,7 +1020,7 @@ function breathCycle(){
 // ══════════════════════════════════════════
 // MARK DONE
 // ══════════════════════════════════════════
-window.markDone=function(k){if(confirm("Objectif atteint ? 🎉")){db.ref('accompagnement/eleves/'+dataCode+'/objectifs/'+k).update({done:true,date_done:new Date().toISOString()});addHistory(k,'Marqué comme atteint');showToast('Objectif validé !')}}
+window.markDone=function(k){if(confirm("Objectif atteint ? 🎉")){db.ref('accompagnement/eleves/'+dataCode+'/objectifs/'+k).update({done:true,date_done:new Date().toISOString()}).then(function(){addHistory(k,'Marqué comme atteint');showToast('✅ Objectif validé !');var g=userData.objectifs[k];if(g)writeCycleToPassport(g);showCelebration(g&&g.titre||'Mon objectif')}).catch(function(e){showToast('❌ Erreur : impossible de valider. Réessaie.',4000);console.error('markDone error',e)})}}
 window.unmarkDone=function(k){if(confirm("Remettre cet objectif en cours ?")){db.ref('accompagnement/eleves/'+dataCode+'/objectifs/'+k).update({done:false,date_done:null,validations_count:0,last_star_date:null});addHistory(k,'Remis en cours')}}
 
 // ══════════════════════════════════════════
@@ -1055,7 +1055,7 @@ window.addStar=function(k){
   var newCount=valCount+1;
   var patch={validations_count:newCount,last_star_date:today};
   if(newCount>=5){patch.done=true;patch.date_done=new Date().toISOString()}
-  db.ref('accompagnement/eleves/'+dataCode+'/objectifs/'+k).update(patch);
+  db.ref('accompagnement/eleves/'+dataCode+'/objectifs/'+k).update(patch).catch(function(e){showToast('❌ Erreur : étoile non enregistrée',4000);console.error('addStar error',e)});
   addHistory(k,'Auto-évaluation : +1 étoile ('+newCount+'/5)');
   if(newCount>=5){
     writeCycleToPassport(g);
@@ -1139,7 +1139,9 @@ window.openDetail=function(k,skipShow){
       h+='</div></div>';return h;
     })()
     +(dl!==null&&dl<0&&!g.done?'<div style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:12px;padding:14px;margin-bottom:12px"><div style="font-weight:800;color:var(--danger);margin-bottom:6px">⏰ Cet objectif est dépassé de '+Math.abs(dl)+' jour(s)</div><div style="font-size:.82rem;color:var(--text2);margin-bottom:10px">Tu peux renouveler l\'échéance ou supprimer cet objectif.</div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn-mission outline" onclick="renewGoal(\''+detailKey+'\');closeOv(\'detail-overlay\')">🔄 Nouvelle échéance</button><button class="btn-mission danger" onclick="deleteExpiredGoal(\''+detailKey+'\');closeOv(\'detail-overlay\')">🗑 Supprimer</button></div></div>':'')
-    +'<div class="mission-actions"><button class="btn-mission primary" onclick="saveDetail()">💾 Enregistrer</button><button class="btn-mission outline" onclick="showQRForGoal()">🔗 Option : faire valider par un adulte</button>'
+    +'<div class="mission-actions"><button class="btn-mission primary" onclick="saveDetail()">💾 Enregistrer</button>'
+    +(!g.done?'<button class="btn-mission success" onclick="markDone(\''+detailKey+'\');closeOv(\'detail-overlay\')" style="background:var(--soc);color:#fff;font-weight:800">✅ Objectif atteint !</button>':'')
+    +'<button class="btn-mission outline" onclick="showQRForGoal()">🔗 Faire valider par un adulte</button>'
     +(g.done?'<button class="btn-mission outline" onclick="unmarkDone(\''+detailKey+'\');closeOv(\'detail-overlay\')">↩️ Remettre en cours</button>':'')
     +'<button class="btn-mission danger" onclick="deleteGoal()">Supprimer</button></div>';
   if(isStage)renderStageLieux(k);
