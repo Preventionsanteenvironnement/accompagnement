@@ -1138,6 +1138,7 @@ window.openDetail=function(k,skipShow){
       else if(valCount<5)h+='<div class="star-daily-msg">Tu as déjà ajouté une étoile aujourd\'hui. Reviens demain !</div>';
       h+='</div></div>';return h;
     })()
+    +(dl!==null&&dl<0&&!g.done?'<div style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:12px;padding:14px;margin-bottom:12px"><div style="font-weight:800;color:var(--danger);margin-bottom:6px">⏰ Cet objectif est dépassé de '+Math.abs(dl)+' jour(s)</div><div style="font-size:.82rem;color:var(--text2);margin-bottom:10px">Tu peux renouveler l\'échéance ou supprimer cet objectif.</div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn-mission outline" onclick="renewGoal(\''+detailKey+'\');closeOv(\'detail-overlay\')">🔄 Nouvelle échéance</button><button class="btn-mission danger" onclick="deleteExpiredGoal(\''+detailKey+'\');closeOv(\'detail-overlay\')">🗑 Supprimer</button></div></div>':'')
     +'<div class="mission-actions"><button class="btn-mission primary" onclick="saveDetail()">💾 Enregistrer</button><button class="btn-mission outline" onclick="showQRForGoal()">🔗 Option : faire valider par un adulte</button>'
     +(g.done?'<button class="btn-mission outline" onclick="unmarkDone(\''+detailKey+'\');closeOv(\'detail-overlay\')">↩️ Remettre en cours</button>':'')
     +'<button class="btn-mission danger" onclick="deleteGoal()">Supprimer</button></div>';

@@ -624,6 +624,7 @@ function renderEntCard(k,e){
   // Buttons
   h+='<div class="ent-actions-row">';
   h+='<button class="ent-btn primary" onclick="openActionForm(\''+k+'\')">+ Action</button>';
+  h+='<button class="ent-btn" onclick="editEnt(\''+k+'\')">✏️ Modifier</button>';
   if(e.statut!=='accepte')h+='<button class="ent-btn" onclick="planRelance(\''+k+'\')">Planifier relance</button>';
   h+='<button class="ent-btn danger" onclick="deleteEnt(\''+k+'\')">Supprimer</button>';
   h+='</div>';
@@ -655,16 +656,7 @@ function renderStep3(){
   if(contacted.length){
     h+='<div style="font-size:.75rem;font-weight:800;text-transform:uppercase;color:var(--success);margin:12px 0 8px">Déjà contactées ('+contacted.length+')</div>';
     contacted.forEach(function(k){
-      var e=ents[k];var statusLabels={contacte:'Contacté',en_attente:'En attente',relance:'Relancée',accepte:'Accepté',refuse:'Refusé'};
-      h+='<div class="ent-card"><div class="ent-head" onclick="toggleEnt(\''+k+'\')">';
-      h+='<div class="ent-icon">🏢</div>';
-      h+='<div class="ent-info"><div class="ent-name">'+escHtml(e.nom)+'</div><div class="ent-meta">'+escHtml(e.ville||'')+'</div></div>';
-      h+='<select class="status-select" style="flex-shrink:0;font-size:.72rem;padding:4px 6px;border-radius:6px" onclick="event.stopPropagation()" onchange="updateEntStatus(\''+k+'\',this.value)">';
-      ['contacte','en_attente','relance','accepte','refuse'].forEach(function(s){
-        h+='<option value="'+s+'"'+(s===e.statut?' selected':'')+'>'+statusLabels[s]+'</option>';
-      });
-      h+='</select>';
-      h+='</div></div>';
+      h+=renderEntCard(k,ents[k]);
     });
   }
   if(!keys.length)h='<div class="empty">Ajoute d\'abord des entreprises dans l\'étape 2</div>';
@@ -760,7 +752,7 @@ function goStep(s){
   if(target)target.classList.add('active');
   // Show FAB only on step 2
   var fab=document.getElementById('fab-add');
-  if(fab)fab.style.display=(s===2)?'block':'none';
+  if(fab)fab.style.display='block';
   // Update dots visually (current view, not saved step)
   document.querySelectorAll('.step-dot').forEach(function(d){
     var ds=parseInt(d.dataset.step);
@@ -822,7 +814,10 @@ function saveSecteur(){
 /* ════════════════════════════════════════════
    STEP 2 HANDLERS — ENTREPRISES
    ════════════════════════════════════════════ */
+var _editingEntId=null;
+
 function openAddForm(){
+  _editingEntId=null;
   document.getElementById('form-add-ent').classList.add('show');
   document.getElementById('f-nom').value='';
   document.getElementById('f-ville').value='';
@@ -835,6 +830,24 @@ function openAddForm(){
   setTimeout(function(){document.getElementById('f-nom').focus()},100);
 }
 
+function editEnt(k){
+  var e=stageData.entreprises&&stageData.entreprises[k];
+  if(!e)return;
+  _editingEntId=k;
+  document.getElementById('f-nom').value=e.nom||'';
+  document.getElementById('f-ville').value=e.ville||'';
+  var sectSel=document.getElementById('f-secteur');
+  var found=false;
+  for(var i=0;i<sectSel.options.length;i++){if(sectSel.options[i].value===e.secteur||sectSel.options[i].text===e.secteur){sectSel.selectedIndex=i;found=true;break}}
+  if(!found&&e.secteur){sectSel.value='__autre';document.getElementById('f-secteur-autre').value=e.secteur;document.getElementById('f-secteur-autre').style.display='block'}
+  else{document.getElementById('f-secteur-autre').style.display='none'}
+  document.getElementById('f-contact').value=e.contact_nom||'';
+  document.getElementById('f-tel').value=e.telephone||'';
+  document.getElementById('f-email').value=e.email||'';
+  document.getElementById('f-notes').value=e.notes||'';
+  document.getElementById('form-add-ent').classList.add('show');
+}
+
 function saveEntreprise(){
   var nom=document.getElementById('f-nom').value.trim();
   var ville=document.getElementById('f-ville').value.trim();
@@ -842,16 +855,24 @@ function saveEntreprise(){
   if(!ville){showDialog({title:'Champ manquant',msg:'La ville est obligatoire',okLabel:'OK'});return}
   var sectSel=document.getElementById('f-secteur');
   var secteur=sectSel.value==='__autre'?document.getElementById('f-secteur-autre').value.trim():sectSel.value;
-  REF.child('entreprises').push({
+  var data={
     nom:nom,ville:ville,secteur:secteur||'',
     contact_nom:document.getElementById('f-contact').value.trim(),
     telephone:document.getElementById('f-tel').value.trim(),
     email:document.getElementById('f-email').value.trim(),
-    statut:'a_contacter',
-    notes:document.getElementById('f-notes').value.trim(),
-    date_premier_contact:'',date_relance:'',
-    created:new Date().toISOString()
-  });
+    notes:document.getElementById('f-notes').value.trim()
+  };
+  if(_editingEntId){
+    data.updated=new Date().toISOString();
+    REF.child('entreprises/'+_editingEntId).update(data);
+    _editingEntId=null;
+  }else{
+    data.statut='a_contacter';
+    data.date_premier_contact='';
+    data.date_relance='';
+    data.created=new Date().toISOString();
+    REF.child('entreprises').push(data);
+  }
   closeForm('form-add-ent');
   autoAdvanceStep();
 }
