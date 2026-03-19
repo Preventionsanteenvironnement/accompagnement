@@ -184,6 +184,7 @@ textarea.form-input{resize:vertical;min-height:60px}
 <header class="page-header">
   <button class="back-btn" onclick="goBack()">←</button>
   <span class="page-title">🔍 Ma Recherche de Stage</span>
+  <button class="ent-btn" style="font-size:.72rem;padding:5px 10px;flex-shrink:0" onclick="openBilan()">📊 Bilan</button>
   <span class="page-code" id="page-code">—</span>
 </header>
 
@@ -436,6 +437,14 @@ textarea.form-input{resize:vertical;min-height:60px}
   </div>
 </div>
 
+<!-- ════ BILAN OVERLAY ════ -->
+<div class="form-overlay" id="bilan-overlay">
+  <div class="form-sheet" style="max-height:90vh;overflow-y:auto">
+    <div class="form-title">📊 Bilan de recherche <button class="form-close" onclick="closeForm('bilan-overlay')">✕</button></div>
+    <div id="bilan-content" style="font-size:.85rem"></div>
+  </div>
+</div>
+
 <script src="js/data_eleves.js"></script>
 <script>
 /* ════════════════════════════════════════════
@@ -577,7 +586,8 @@ function renderStep2(){
 
 function renderEntCard(k,e){
   var statusLabels={a_contacter:'À contacter',contacte:'Contacté',en_attente:'En attente',relance:'Relancée',accepte:'Accepté',refuse:'Refusé'};
-  var actions=e.actions?Object.values(e.actions).sort(function(a,b){return(b.date||'').localeCompare(a.date||'')}):[];
+  var actionEntries=e.actions?Object.entries(e.actions).sort(function(a,b){return(b[1].date||'').localeCompare(a[1].date||'')}):[];
+  var actions=actionEntries.map(function(ae){return ae[1]});
   var lastAction=actions.length?actions[0]:null;
   var metaParts=[e.secteur,e.ville].filter(Boolean);
   if(lastAction)metaParts.push(lastAction.type+' le '+dateFr(lastAction.date));
@@ -601,11 +611,13 @@ function renderEntCard(k,e){
   h+='</select></div>';
   if(e.notes)h+='<div class="ent-field"><div class="ent-field-label">Notes</div><div class="ent-field-value">'+escHtml(e.notes)+'</div></div>';
   // Actions timeline
-  if(actions.length){
+  if(actionEntries.length){
     h+='<div class="ent-field"><div class="ent-field-label">Historique</div><div class="action-timeline">';
-    actions.forEach(function(a){
+    actionEntries.forEach(function(ae){
+      var aKey=ae[0],a=ae[1];
       var typeIcons={appel:'📞',visite:'🚶',email:'📧',courrier:'✉️',relance:'🔄',autre:'📝'};
-      h+='<div class="action-item"><div class="action-date">'+dateFr(a.date)+'</div><div class="action-type">'+(typeIcons[a.type]||'📝')+'</div><div class="action-result">'+escHtml(a.resultat||'—')+'</div></div>';
+      h+='<div class="action-item"><div class="action-date">'+dateFr(a.date)+'</div><div class="action-type">'+(typeIcons[a.type]||'📝')+'</div><div class="action-result">'+escHtml(a.resultat||'—')+'</div>';
+      h+='<button class="ent-btn" style="font-size:.68rem;padding:2px 8px;flex-shrink:0" onclick="event.stopPropagation();editAction(\''+k+'\',\''+aKey+'\')">✏️</button></div>';
     });
     h+='</div></div>';
   }
@@ -647,7 +659,11 @@ function renderStep3(){
       h+='<div class="ent-card"><div class="ent-head" onclick="toggleEnt(\''+k+'\')">';
       h+='<div class="ent-icon">🏢</div>';
       h+='<div class="ent-info"><div class="ent-name">'+escHtml(e.nom)+'</div><div class="ent-meta">'+escHtml(e.ville||'')+'</div></div>';
-      h+='<span class="ent-status '+escHtml(e.statut)+'">'+(statusLabels[e.statut]||e.statut)+'</span>';
+      h+='<select class="status-select" style="flex-shrink:0;font-size:.72rem;padding:4px 6px;border-radius:6px" onclick="event.stopPropagation()" onchange="updateEntStatus(\''+k+'\',this.value)">';
+      ['contacte','en_attente','relance','accepte','refuse'].forEach(function(s){
+        h+='<option value="'+s+'"'+(s===e.statut?' selected':'')+'>'+statusLabels[s]+'</option>';
+      });
+      h+='</select>';
       h+='</div></div>';
     });
   }
@@ -876,11 +892,28 @@ function planRelance(k){
 /* ════════════════════════════════════════════
    ACTIONS
    ════════════════════════════════════════════ */
+var _editingActionId=null;
+
 function openActionForm(k){
+  _editingActionId=null;
   document.getElementById('fa-ent-id').value=k;
   document.getElementById('fa-date').value=new Date().toISOString().split('T')[0];
   document.getElementById('fa-resultat').value='';
   document.querySelectorAll('#fa-type-chips .contact-chip').forEach(function(c){c.classList.remove('active')});
+  document.getElementById('form-add-action').classList.add('show');
+}
+
+function editAction(entId,actId){
+  var e=stageData.entreprises&&stageData.entreprises[entId];
+  if(!e||!e.actions||!e.actions[actId])return;
+  var a=e.actions[actId];
+  _editingActionId=actId;
+  document.getElementById('fa-ent-id').value=entId;
+  document.getElementById('fa-date').value=a.date||'';
+  document.getElementById('fa-resultat').value=a.resultat||'';
+  document.querySelectorAll('#fa-type-chips .contact-chip').forEach(function(c){
+    c.classList.toggle('active',c.dataset.v===a.type);
+  });
   document.getElementById('form-add-action').classList.add('show');
 }
 
@@ -895,16 +928,21 @@ function saveAction(){
   var type=typeEl?typeEl.dataset.v:'autre';
   var date=document.getElementById('fa-date').value;
   var resultat=document.getElementById('fa-resultat').value.trim();
+  var actionData={type:type,date:date||new Date().toISOString().split('T')[0],resultat:resultat};
 
-  REF.child('entreprises/'+k+'/actions').push({
-    type:type,date:date||new Date().toISOString().split('T')[0],
-    resultat:resultat,created:new Date().toISOString()
-  });
-  // Auto-update status if still a_contacter
-  var e=stageData.entreprises&&stageData.entreprises[k];
-  if(e&&e.statut==='a_contacter'){
-    REF.child('entreprises/'+k+'/statut').set('contacte');
-    REF.child('entreprises/'+k+'/date_premier_contact').set(date||new Date().toISOString().split('T')[0]);
+  if(_editingActionId){
+    actionData.updated=new Date().toISOString();
+    REF.child('entreprises/'+k+'/actions/'+_editingActionId).update(actionData);
+    _editingActionId=null;
+  }else{
+    actionData.created=new Date().toISOString();
+    REF.child('entreprises/'+k+'/actions').push(actionData);
+    // Auto-update status if still a_contacter
+    var e=stageData.entreprises&&stageData.entreprises[k];
+    if(e&&e.statut==='a_contacter'){
+      REF.child('entreprises/'+k+'/statut').set('contacte');
+      REF.child('entreprises/'+k+'/date_premier_contact').set(date||new Date().toISOString().split('T')[0]);
+    }
   }
   closeForm('form-add-action');
   autoAdvanceStep();
@@ -943,6 +981,56 @@ function toggleAide(btn){btn.classList.toggle('open');var body=btn.nextElementSi
 document.getElementById('f-secteur').addEventListener('change',function(){
   document.getElementById('f-secteur-autre').style.display=this.value==='__autre'?'block':'none';
 });
+
+// ════════════════════════════════════════════
+// BILAN
+// ════════════════════════════════════════════
+function openBilan(){
+  var ents=stageData.entreprises||{};
+  var keys=Object.keys(ents);
+  var statusLabels={a_contacter:'À contacter',contacte:'Contacté',en_attente:'En attente',relance:'Relancée',accepte:'Accepté',refuse:'Refusé'};
+  var counts={};
+  ['a_contacter','contacte','en_attente','relance','accepte','refuse'].forEach(function(s){counts[s]=0});
+  var totalActions=0;var allActions=[];
+  keys.forEach(function(k){
+    var e=ents[k];
+    counts[e.statut||'a_contacter']=(counts[e.statut||'a_contacter']||0)+1;
+    if(e.actions){
+      Object.values(e.actions).forEach(function(a){
+        totalActions++;
+        allActions.push({entreprise:e.nom,type:a.type,date:a.date,resultat:a.resultat||''});
+      });
+    }
+  });
+  allActions.sort(function(a,b){return(b.date||'').localeCompare(a.date||'')});
+
+  var h='<div style="margin-bottom:16px"><strong>'+keys.length+'</strong> entreprise(s) au total</div>';
+  h+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px">';
+  Object.keys(counts).forEach(function(s){
+    if(counts[s])h+='<span class="ent-status '+s+'" style="font-size:.72rem">'+statusLabels[s]+' : '+counts[s]+'</span>';
+  });
+  h+='</div>';
+  h+='<div style="margin-bottom:12px"><strong>'+totalActions+'</strong> action(s) au total</div>';
+  if(allActions.length){
+    var typeIcons={appel:'📞',visite:'🚶',email:'📧',courrier:'✉️',relance:'🔄',autre:'📝'};
+    h+='<div class="action-timeline" style="max-height:300px;overflow-y:auto">';
+    allActions.forEach(function(a){
+      h+='<div class="action-item"><div class="action-date">'+dateFr(a.date)+'</div><div class="action-type">'+(typeIcons[a.type]||'📝')+'</div><div class="action-result"><strong>'+escHtml(a.entreprise)+'</strong> — '+escHtml(a.resultat||'—')+'</div></div>';
+    });
+    h+='</div>';
+  }else{
+    h+='<div class="empty">Aucune action enregistrée</div>';
+  }
+  // Preparation checklist summary
+  var prep=stageData.preparation||{};
+  var prepItems=['cv','lettre','oral','dates','secteur'];
+  var prepLabels={cv:'CV',lettre:'Lettre',oral:'Préparation orale',dates:'Dates',secteur:'Secteur'};
+  var prepDone=prepItems.filter(function(p){return prep[p]}).length;
+  h+='<div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--border)"><strong>Préparation :</strong> '+prepDone+'/'+prepItems.length+'</div>';
+
+  document.getElementById('bilan-content').innerHTML=h;
+  document.getElementById('bilan-overlay').classList.add('show');
+}
 </script>
 </body>
 </html>

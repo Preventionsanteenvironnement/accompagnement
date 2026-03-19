@@ -203,9 +203,14 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .obj-stars{display:flex;gap:2px;align-items:center}
 .obj-star{font-size:.9rem}.obj-star.on{color:#fbbf24}.obj-star.off{color:#e2e8f0}
 .obj-valid{font-size:0.8rem;color:var(--text3);margin-left:4px;font-weight:700}
-.obj-card.done{opacity:.75;cursor:pointer}
-.obj-card.done .obj-title{text-decoration:line-through;color:var(--text3)}
+.obj-card.done{cursor:pointer;background:rgba(16,185,129,.04)}
+.obj-card.done .obj-title{color:var(--text)}
+.obj-badge-accompli{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:8px;background:rgba(16,185,129,.12);color:#065f46;font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
 .obj-card.done .obj-check{background:var(--success);border-color:var(--success)}
+.obj-expired-actions{display:flex;gap:6px;margin-top:6px}
+.obj-expired-btn{padding:5px 12px;border-radius:8px;border:1px solid var(--border);font-family:var(--font);font-size:0.75rem;font-weight:700;cursor:pointer;background:var(--surface);color:var(--text2);transition:all .15s}
+.obj-expired-btn:hover{background:var(--primary-light);color:var(--primary);border-color:rgba(99,102,241,.2)}
+.obj-expired-btn.danger:hover{background:rgba(239,68,68,.08);color:var(--danger);border-color:rgba(239,68,68,.2)}
 
 /* ── WIZARD STYLES ── */
 .wiz-title{font-size:1rem;font-weight:800;margin-bottom:14px}
@@ -501,6 +506,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 </div>
 
 <a href="guide.html" class="guide-link-mini" id="guide-btn" style="display:none">📖 Guide</a>
+<a href="#" class="guide-link-mini" id="suggest-btn" style="display:none;right:auto;left:16px" onclick="event.preventDefault();openSuggestion()">💬 Suggestion</a>
 
 <!-- ═══ OVERLAYS ═══ -->
 
@@ -580,6 +586,15 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
     <div class="attest-card cog"><h4 style="color:var(--cog)">💭 Cognitif</h4><p id="syn-cog">—</p></div>
     <div class="attest-card emo"><h4 style="color:var(--emo)">🌟 Mes émotions</h4><p id="syn-emo">—</p></div>
     <div class="attest-card soc"><h4 style="color:var(--soc)">💬 Mes relations</h4><p id="syn-soc">—</p></div>
+  </div></div>
+</div>
+
+<div class="overlay" id="suggestion-overlay">
+  <div class="overlay-header"><span class="overlay-title">💬 Suggestion</span><button class="overlay-close" onclick="closeOv('suggestion-overlay')">✕</button></div>
+  <div class="overlay-body"><div class="oc">
+    <p style="font-size:.85rem;color:var(--text2);margin-bottom:14px">Tu as une idée ou un retour pour améliorer l'appli ? Écris-le ici.</p>
+    <textarea class="fi" id="suggestion-text" placeholder="Écris ta suggestion..." style="min-height:120px;width:100%;resize:vertical;margin-bottom:12px"></textarea>
+    <button class="add-btn" onclick="sendSuggestion()" style="width:100%">Envoyer</button>
   </div></div>
 </div>
 
@@ -746,6 +761,7 @@ function submitCode(){
       document.getElementById('welcome').style.display='none';
       document.getElementById('access-denied').style.display='none';
       document.getElementById('guide-btn').style.display='block';
+      document.getElementById('suggest-btn').style.display='block';
       document.getElementById('display-code').textContent=code;
       document.getElementById('tb-avatar').textContent=code.substring(0,2);
       showApp();loadData();
@@ -767,7 +783,7 @@ function checkSchedule(code,auth,callback){
 }
 function isWithinSchedule(horaires){var joursRef=['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];var now=new Date();var jour=joursRef[now.getDay()];var schedule=horaires[jour];if(!schedule||!schedule.actif)return false;var currentMinutes=now.getHours()*60+now.getMinutes();var parts=schedule.debut.split(':');var debutMinutes=parseInt(parts[0])*60+parseInt(parts[1]);parts=schedule.fin.split(':');var finMinutes=parseInt(parts[0])*60+parseInt(parts[1]);return currentMinutes>=debutMinutes&&currentMinutes<=finMinutes}
 function showDenied(reason){var icon=document.getElementById('denied-icon');var title=document.getElementById('denied-title');var msg=document.getElementById('denied-msg');if(reason==='unknown'){icon.textContent='🔐';title.textContent='Code non reconnu';msg.textContent='Vérifie ton code et réessaie. Il t\u2019a été donné par ton enseignant.'}else if(reason==='outside-hours'){icon.textContent='🕐';title.textContent='Accès fermé pour le moment';msg.textContent='L\u2019espace est disponible uniquement pendant les horaires définis par ton enseignant. Reviens plus tard\u00a0!'}else{icon.textContent='⏳';title.textContent='Ton espace n\u2019est pas encore actif';msg.textContent='Ton enseignant doit d\u2019abord activer ton accès.'}document.getElementById('welcome').style.display='none';document.getElementById('access-denied').style.display='flex';document.getElementById('guide-btn').style.display='block'}
-function backToWelcome(){clearSessionCode();customBiblioCache={};document.getElementById('access-denied').style.display='none';document.getElementById('guide-btn').style.display='none';document.getElementById('welcome').style.display='flex';document.getElementById('code-input').value='';document.getElementById('code-input').focus();document.getElementById('welcome-error').textContent='';window.history.replaceState({},'',window.location.pathname)}
+function backToWelcome(){clearSessionCode();customBiblioCache={};document.getElementById('access-denied').style.display='none';document.getElementById('guide-btn').style.display='none';document.getElementById('suggest-btn').style.display='none';document.getElementById('welcome').style.display='flex';document.getElementById('code-input').value='';document.getElementById('code-input').focus();document.getElementById('welcome-error').textContent='';window.history.replaceState({},'',window.location.pathname)}
 function showApp(){var a=document.getElementById('app');a.style.display='block';
   // Restore overlay if returning from a sub-page (formation, stage, synthese)
   var navReturn=sessionStorage.getItem('nav_return_overlay');
@@ -899,9 +915,11 @@ function renderObjCard(g,isDone){
   var stars='';for(var i=0;i<5;i++)stars+='<span class="obj-star '+(i<valCount?'on':'off')+'">★</span>';
 
   if(isDone){
-    return '<div class="obj-card done '+cls+'" onclick="openDetail(\''+gKey+'\')"><div class="obj-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div><div class="obj-body"><div class="obj-title">'+gTitle+'</div><div class="obj-meta"><span>Validé le '+dateFr(g.date_done)+'</span></div></div></div>';
+    return '<div class="obj-card done '+cls+'" onclick="openDetail(\''+gKey+'\')"><div class="obj-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div><div class="obj-body"><div class="obj-title">'+gTitle+'</div><span class="obj-badge-accompli">&#10003; Accompli</span><div class="obj-meta"><span>Validé le '+dateFr(g.date_done)+'</span></div></div></div>';
   }
-  return '<div class="obj-card '+cls+'" onclick="openDetail(\''+gKey+'\')"><div class="obj-check" onclick="event.stopPropagation();addStar(\''+gKey+'\')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div><div class="obj-body"><div class="obj-title">'+gTitle+'</div><div class="obj-meta"><span class="obj-badge">'+gContext+'</span><span>'+gDetail+'</span>'+(timeStr?'<span class="obj-time '+urgCls+'">'+timeStr+'</span>':'')+'</div><div class="obj-stars">'+stars+'<span class="obj-valid">'+valCount+'/5</span></div></div></div>';
+  var expiredBtns='';
+  if(dl!==null&&dl<0&&!isDone){expiredBtns='<div class="obj-expired-actions"><button class="obj-expired-btn" onclick="event.stopPropagation();renewGoal(\''+gKey+'\')">&#128260; Renouveler</button><button class="obj-expired-btn danger" onclick="event.stopPropagation();deleteExpiredGoal(\''+gKey+'\')">&#128465; Supprimer</button></div>';}
+  return '<div class="obj-card '+cls+'" onclick="openDetail(\''+gKey+'\')"><div class="obj-check" onclick="event.stopPropagation();addStar(\''+gKey+'\')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div><div class="obj-body"><div class="obj-title">'+gTitle+'</div><div class="obj-meta"><span class="obj-badge">'+gContext+'</span><span>'+gDetail+'</span>'+(timeStr?'<span class="obj-time '+urgCls+'">'+timeStr+'</span>':'')+'</div><div class="obj-stars">'+stars+'<span class="obj-valid">'+valCount+'/5</span></div>'+expiredBtns+'</div></div>';
 }
 
 // ══════════════════════════════════════════
@@ -1008,6 +1026,26 @@ window.unmarkDone=function(k){if(confirm("Remettre cet objectif en cours ?")){db
 // ══════════════════════════════════════════
 // AUTO-EVALUATION — ETOILES
 // ══════════════════════════════════════════
+window.renewGoal=function(k){
+  var inp=document.createElement('input');inp.type='date';inp.style.cssText='position:fixed;top:-9999px';
+  document.body.appendChild(inp);
+  inp.addEventListener('change',function(){
+    if(inp.value){
+      db.ref('accompagnement/eleves/'+dataCode+'/objectifs/'+k).update({date_cible:inp.value,updated_at:Date.now()});
+      addHistory(k,'Renouvelé — nouvelle échéance : '+inp.value);
+      showToast('Objectif renouvelé !');
+    }
+    document.body.removeChild(inp);
+  });
+  if(inp.showPicker){inp.showPicker()}else{inp.click()}
+};
+window.deleteExpiredGoal=function(k){
+  if(confirm('Supprimer cet objectif expiré ?')){
+    db.ref('accompagnement/eleves/'+dataCode+'/objectifs/'+k).remove();
+    showToast('Objectif supprimé');
+  }
+};
+
 window.addStar=function(k){
   var g=userData.objectifs[k];if(!g)return;
   var valCount=g.validations_count||0;
@@ -1300,6 +1338,21 @@ window.saveWizard=function(){
   var pushData={context:draft.context||'Autre',type:dom,titre:draft.titre||'',date_cible:draft.date,detail:(draft.detail&&draft.detail.trim())||'Non précisé',done:false,created:new Date().toISOString(),ref_source:"Santé publique France",cat_code:(draft.cps&&draft.cps.cat_code)||"",cat_label:(draft.cps&&draft.cps.cat_label)||"",gen_code:(draft.cps&&draft.cps.gen_code)||"",gen_label:(draft.cps&&draft.cps.gen_label)||"",spe_code:(draft.cps&&draft.cps.spe_code)||"",spe_label:(draft.cps&&draft.cps.spe_label)||"",code_ref:draft.code_ref||"",domaine:dom,critere_reussite:draft.critere||"",niveau_depart:draft.niveau_depart||1};
   if(draft.context==='Recherche'&&draft.demarches&&draft.demarches.length){var dems={};draft.demarches.forEach(function(d,i){if(d.entreprise)dems['d'+i]=d});if(Object.keys(dems).length)pushData.demarches=dems}
   db.ref('accompagnement/eleves/'+dataCode+'/objectifs').push(pushData);closeOv('wizard-overlay');showToast('Objectif enregistré !')}
+
+// ══════════════════════════════════════════
+// SUGGESTIONS
+// ══════════════════════════════════════════
+window.openSuggestion=function(){
+  document.getElementById('suggestion-text').value='';
+  document.getElementById('suggestion-overlay').classList.add('show');
+};
+window.sendSuggestion=function(){
+  var text=document.getElementById('suggestion-text').value.trim();
+  if(!text){showToast('Écris quelque chose !');return}
+  db.ref('accompagnement/suggestions').push({code:userCode,text:text,timestamp:new Date().toISOString()});
+  closeOv('suggestion-overlay');
+  showToast('Merci pour ta suggestion !');
+};
 </script>
 <div class="app-toast" id="app-toast"></div>
 </body>

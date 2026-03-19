@@ -17,6 +17,9 @@
 }
 body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
 
+/* BACK BUTTON */
+.guide-back{position:fixed;top:12px;left:12px;z-index:999;width:36px;height:36px;border-radius:10px;background:var(--surface2);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.1rem;color:var(--text);text-decoration:none;transition:all .15s}
+.guide-back:hover{background:var(--primary);border-color:var(--primary)}
 /* HEADER */
 .guide-header{text-align:center;padding:24px 16px 4px}
 .guide-header h1{font-size:1.3rem;font-weight:800}
@@ -132,6 +135,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 </style>
 </head>
 <body>
+<a href="index.html" class="guide-back" title="Retour">&#8592;</a>
 
 <div class="guide-header">
   <h1>&#9672; mon<span>objectif</span>.fr</h1>
