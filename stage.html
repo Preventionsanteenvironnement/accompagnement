@@ -287,7 +287,6 @@ textarea.form-input{resize:vertical;min-height:60px}
     <div class="step-sub">Liste au moins 10 entreprises à contacter. Plus tu en as, plus tu as de chances !</div>
     <div class="ent-counter" id="ent-counter">Chargement...</div>
     <div id="ent-list"></div>
-    <button class="fab" id="fab-add" onclick="openAddForm()" style="display:none">+ Nouvelle entreprise</button>
   </div>
 
   <!-- ════ STEP 3: CONTACTER ════ -->
@@ -374,6 +373,9 @@ textarea.form-input{resize:vertical;min-height:60px}
 
   <div class="ref-footer">monobjectif.fr — Ma Recherche de Stage</div>
 </div>
+
+<!-- FAB global (visible sur toutes les étapes) -->
+<button class="fab" id="fab-add" onclick="openAddForm()">+ Nouvelle entreprise</button>
 
 <!-- ════ FORM: Ajouter entreprise ════ -->
 <div class="form-overlay" id="form-add-ent">
@@ -548,14 +550,18 @@ function renderBanner(){
     b.className='status-banner found';
     b.textContent='Stage trouvé !';
   }else{
-    var deb=conf.pfmp_debut;
-    if(deb){
-      var jours=daysLeft(deb);
-      b.className='status-banner searching';
-      b.textContent=jours>0?'PFMP dans '+jours+' jours — Recherche en cours':'Recherche en cours...';
+    var ents=stageData.entreprises||{};
+    var total=Object.keys(ents).length;
+    var contacted=Object.values(ents).filter(function(e){return e.statut&&e.statut!=='a_contacter'}).length;
+    var deb=(conf||{}).pfmp_debut;
+    var joursStr=deb?function(){var j=daysLeft(deb);return j>0?' — PFMP dans '+j+' jours':''}():'';
+    b.className='status-banner searching';
+    if(total===0){
+      b.textContent='Commence par lister des entreprises'+joursStr;
+    }else if(contacted===0){
+      b.textContent=total+' entreprise(s) listée(s) — Contacte-les !'+joursStr;
     }else{
-      b.className='status-banner searching';
-      b.textContent='Recherche en cours...';
+      b.textContent=contacted+'/'+total+' contactée(s)'+joursStr;
     }
   }
 }
@@ -752,7 +758,7 @@ function goStep(s){
   if(target)target.classList.add('active');
   // Show FAB only on step 2
   var fab=document.getElementById('fab-add');
-  if(fab)fab.style.display='block';
+  // FAB is now always visible (outside step sections)
   // Update dots visually (current view, not saved step)
   document.querySelectorAll('.step-dot').forEach(function(d){
     var ds=parseInt(d.dataset.step);
