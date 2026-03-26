@@ -36,7 +36,7 @@ function initApp() {
     if(displayElement) displayElement.innerText = `Code : ${userCode}`;
 
     // ÉCOUTEUR PRINCIPAL : On surveille l'autorisation donnée par le prof
-    const authRef = firebase.database().ref(`accompagnement/autorisations/${userCode}`);
+    const authRef = firebase.database().ref(`accompagnement/config/student_registry/${userCode}`);
     
     authRef.on('value', (snapshot) => {
         const data = snapshot.val();

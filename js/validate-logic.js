@@ -26,7 +26,7 @@ window.onload = async function() {
     try {
         // 2. Vérifier si l'élève existe dans les autorisations Firebase
         // (Optionnel mais recommandé pour éviter de valider des codes fantômes)
-        const snapshot = await firebase.database().ref(`accompagnement/autorisations/${currentEleveId}`).once('value');
+        const snapshot = await firebase.database().ref(`accompagnement/config/student_registry/${currentEleveId}`).once('value');
         
         if (!snapshot.exists()) {
             throw new Error("Élève non trouvé ou non autorisé.");

@@ -744,7 +744,7 @@ function submitCode(){
   if(!/^[A-Z0-9]{4,16}$/.test(code)){err.textContent='Code secret invalide.';return}
   err.textContent='';btn.disabled=true;btn.innerHTML='<span class="btn-spinner"></span> Vérification…';
   var submitTimeout=setTimeout(function(){btn.disabled=false;btn.textContent='Accéder à mon espace';err.textContent='Erreur réseau — vérifie ta connexion.'},8000);
-  db.ref('accompagnement/autorisations/'+code).once('value',function(snap){
+  db.ref('accompagnement/config/student_registry/'+code).once('value',function(snap){
     clearTimeout(submitTimeout);
     var auth=snap.val();
     if(!auth&&isSpecial){
@@ -766,8 +766,8 @@ function submitCode(){
       document.getElementById('display-code').textContent=code;
       document.getElementById('tb-avatar').textContent=code.substring(0,2);
       showApp();loadData();
-      if(authListener)db.ref('accompagnement/autorisations/'+code).off('value',authListener);
-      authListener=db.ref('accompagnement/autorisations/'+code).on('value',function(s){var d=s.val();if(!d||d.autorise!==true){document.getElementById('app').style.display='none';showDenied('not-authorized')}});
+      if(authListener)db.ref('accompagnement/config/student_registry/'+code).off('value',authListener);
+      authListener=db.ref('accompagnement/config/student_registry/'+code).on('value',function(s){var d=s.val();if(!d||d.autorise!==true){document.getElementById('app').style.display='none';showDenied('not-authorized')}});
     });
   },function(error){
     clearTimeout(submitTimeout);
