@@ -1,0 +1,676 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#f6f4f0">
+<meta name="description" content="Comment chacun perçoit, réagit et communique. Et comment lui parler.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Les neuf profils au travail">
+<meta property="og:description" content="Comment chacun perçoit, réagit et communique. Et comment lui parler.">
+<meta property="og:url" content="https://monobjectif.fr/profils/">
+<meta property="og:image" content="https://monobjectif.fr/profils/apercu.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="fr_FR">
+<meta name="twitter:card" content="summary_large_image">
+<title>Les neuf profils au travail</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --fond:#f6f4f0; --carte:#ffffff; --encre:#1d1b19; --doux:#5f5a54; --pale:#8b857d; --trait:#e7e2da; --trait2:#d8d1c6;
+  --coeur:#c2185b; --coeur-f:#fbe9f0; --ventre:#b26a00; --ventre-f:#fdf1df; --tete:#1f5fbf; --tete-f:#e6eefb;
+  --vert:#2e7d4f; --vert-f:#e5f3ea; --rouge:#b3261e; --rouge-f:#fbe7e5; --ambre:#9a6700; --ambre-f:#fbf1d9;
+  --ombre:0 1px 2px rgba(30,25,20,.05),0 6px 24px rgba(30,25,20,.06);
+  --r:18px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --fond:#141312; --carte:#1e1c1a; --encre:#f1ede7; --doux:#b9b2a8; --pale:#8d867d; --trait:#2e2b28; --trait2:#3b3733;
+    --coeur:#f06292; --coeur-f:#3a1d29; --ventre:#f0a43a; --ventre-f:#38291a; --tete:#6fa3f0; --tete-f:#1b2638;
+    --vert:#6cc48f; --vert-f:#1a2e22; --rouge:#f28b82; --rouge-f:#3a1f1d; --ambre:#e8b84a; --ambre-f:#342a14;
+    --ombre:0 1px 2px rgba(0,0,0,.3),0 6px 24px rgba(0,0,0,.25);
+  }
+}
+:root[data-theme="dark"]{
+    --fond:#141312; --carte:#1e1c1a; --encre:#f1ede7; --doux:#b9b2a8; --pale:#8d867d; --trait:#2e2b28; --trait2:#3b3733;
+    --coeur:#f06292; --coeur-f:#3a1d29; --ventre:#f0a43a; --ventre-f:#38291a; --tete:#6fa3f0; --tete-f:#1b2638;
+    --vert:#6cc48f; --vert-f:#1a2e22; --rouge:#f28b82; --rouge-f:#3a1f1d; --ambre:#e8b84a; --ambre-f:#342a14;
+    --ombre:0 1px 2px rgba(0,0,0,.3),0 6px 24px rgba(0,0,0,.25);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--fond);color:var(--encre);font:16px/1.55 Inter,system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit}
+a{color:inherit}
+.barre{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:10px;padding:calc(10px + env(safe-area-inset-top)) 16px 10px;background:color-mix(in srgb,var(--fond) 86%,transparent);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid var(--trait)}
+.retour{display:none;align-items:center;gap:6px;border:0;background:var(--carte);box-shadow:var(--ombre);border-radius:999px;padding:7px 14px 7px 10px;font-weight:600;font-size:15px;cursor:pointer}
+.retour.vu{display:inline-flex}
+.barre .titre{font-weight:600;font-size:15px;color:var(--doux);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
+.accueil-btn{border:0;background:none;cursor:pointer;padding:6px;border-radius:10px;color:var(--doux)}
+main{max-width:760px;margin:0 auto;padding:18px 16px 80px}
+.vue{animation:entre .32s cubic-bezier(.2,.7,.2,1)}
+@media (prefers-reduced-motion: reduce){.vue{animation:none}}
+@keyframes entre{from{transform:translateY(10px)}to{transform:none}}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:650;letter-spacing:-.01em;line-height:1.15;margin:0}
+h1{font-size:clamp(30px,8vw,44px)}
+h2{font-size:24px;margin:34px 0 12px}
+h3{font-size:19px;margin:0 0 8px}
+p{margin:0 0 10px}
+.sur{font-size:12.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--pale);margin-bottom:8px}
+.lead{font-size:18px;color:var(--doux)}
+.carte{background:var(--carte);border-radius:var(--r);box-shadow:var(--ombre);padding:18px;margin:12px 0}
+.grille{display:grid;gap:12px}
+@media(min-width:620px){.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr 1fr}}
+.puce{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;font-weight:700;color:#fff;flex:none;font-size:15px}
+.c-coeur{--c:var(--coeur);--cf:var(--coeur-f)} .c-ventre{--c:var(--ventre);--cf:var(--ventre-f)} .c-tete{--c:var(--tete);--cf:var(--tete-f)}
+.puce{background:var(--c,#555)}
+ul.l{margin:0;padding:0;list-style:none}
+ul.l li{position:relative;padding:5px 0 5px 22px}
+ul.l li::before{content:"";position:absolute;left:4px;top:14px;width:7px;height:7px;border-radius:50%;background:var(--c,var(--pale))}
+ul.ok li::before{background:var(--vert)} ul.ko li::before{background:var(--rouge)}
+.plus{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;margin-top:12px;padding:11px 14px;border:1px solid var(--trait2);border-radius:12px;background:transparent;cursor:pointer;font-weight:600;font-size:15px;color:var(--c,var(--encre));text-align:left}
+.plus:hover{background:var(--cf,var(--trait))}
+.plus span.f{font-size:18px;transition:transform .2s}
+.plus:hover span.f{transform:translateX(3px)}
+.lien{display:flex;align-items:center;gap:14px;cursor:pointer;border:0;width:100%;text-align:left}
+.note{font-size:13.5px;color:var(--pale)}
+.bandeau{border-radius:var(--r);padding:16px 18px;background:var(--ambre-f);color:var(--encre);margin:14px 0;font-size:15px}
+.bandeau b{color:var(--ambre)}
+.etiq{display:inline-block;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--cf,var(--trait));color:var(--c,var(--doux));letter-spacing:.02em}
+/* Accueil */
+.scene-accueil .msg{display:inline-flex;gap:8px;align-items:center;background:var(--encre);color:var(--fond);border-radius:14px;padding:9px 14px;font-weight:600;font-size:15px;margin:10px 0 14px}
+.reac{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-top:1px solid var(--trait)}
+.reac:first-of-type{border-top:0}
+.reac p{margin:0}
+.reac .qui{font-weight:600}
+.cercle{max-width:420px;margin:0 auto;display:block}
+.cercle .noeud{cursor:pointer}
+.cercle .noeud:hover circle{filter:brightness(1.1)}
+.carte-centre{border-top:5px solid var(--c);cursor:pointer;transition:transform .15s}
+.carte-centre:hover{transform:translateY(-2px)}
+.carte-centre .mot{font-family:Fraunces,serif;font-size:22px;color:var(--c)}
+.menu-outils .lien{padding:14px 16px;background:var(--carte);border-radius:14px;box-shadow:var(--ombre);margin:10px 0}
+.menu-outils .ic{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--trait);font-size:19px;flex:none}
+.menu-outils b{display:block}
+.menu-outils small{color:var(--pale);font-size:13.5px}
+/* Fiche */
+.tete-fiche{border-radius:22px;padding:22px 20px;background:var(--cf);margin-bottom:14px;position:relative;overflow:hidden}
+.tete-fiche .gros{font-family:Fraunces,serif;font-size:96px;line-height:.8;color:var(--c);opacity:.18;position:absolute;right:14px;top:10px}
+.tete-fiche .sur{padding-right:64px}
+.tete-fiche .devise{font-family:Fraunces,serif;font-size:19px;margin:10px 0 6px;font-style:italic}
+.dyn{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.dyn .d{border-radius:16px;padding:14px;background:var(--carte);box-shadow:var(--ombre)}
+.dyn .d .k{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.07em}
+.dyn .stress .k{color:var(--rouge)} .dyn .conf .k{color:var(--vert)}
+.dyn .vers{display:flex;align-items:center;gap:8px;margin:6px 0;font-weight:600}
+.dyn .vers .puce{width:28px;height:28px;font-size:13px}
+.dyn p{font-size:14.5px;margin:0;color:var(--doux)}
+.jauge{display:grid;gap:8px}
+.jauge .n{display:grid;grid-template-columns:96px 1fr;gap:10px;align-items:start;padding:10px 12px;border-radius:12px}
+.jauge .n b{font-size:13px}
+.jauge .n p{margin:0;font-size:14.5px}
+.n.bien{background:var(--vert-f)} .n.bien b{color:var(--vert)}
+.n.moyen{background:var(--ambre-f)} .n.moyen b{color:var(--ambre)}
+.n.mal{background:var(--rouge-f)} .n.mal b{color:var(--rouge)}
+.scene{border-left:4px solid var(--c);padding:4px 0 4px 16px;margin:6px 0}
+.scene .t{font-weight:700;margin-bottom:4px}
+.scene p{font-style:italic;color:var(--doux)}
+.deux{display:grid;gap:12px}
+@media(min-width:620px){.deux{grid-template-columns:1fr 1fr}}
+.duo-mini{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.duo-mini button{border:0;cursor:pointer;padding:0;background:none}
+/* tableau */
+.tab{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px}
+.tab td,.tab th{padding:10px;border-bottom:1px solid var(--trait);vertical-align:top;text-align:left}
+.tab th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--pale)}
+.ligne-type{cursor:pointer}
+.mat{display:grid;grid-template-columns:28px repeat(9,1fr);gap:4px;max-width:520px;margin:0 auto}
+.mat .h{display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:var(--pale)}
+.mat button{aspect-ratio:1;border:0;border-radius:8px;cursor:pointer;font-size:11px;font-weight:600;background:var(--trait);color:var(--doux)}
+.mat button:hover{background:var(--encre);color:var(--fond)}
+.mat button.sel{background:var(--encre);color:var(--fond)}
+/* test */
+.q{padding:14px 0;border-top:1px solid var(--trait)}
+.q p{margin:0 0 10px;font-weight:500}
+.echelle{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.echelle button{border:1px solid var(--trait2);background:var(--carte);border-radius:10px;padding:9px 0;cursor:pointer;font-weight:600;font-size:14px}
+.echelle button.on{background:var(--encre);color:var(--fond);border-color:var(--encre)}
+.echelle-leg{display:flex;justify-content:space-between;font-size:12px;color:var(--pale);margin-top:4px}
+.progress{height:6px;border-radius:9px;background:var(--trait);overflow:hidden;margin:10px 0}
+.progress i{display:block;height:100%;background:var(--encre);transition:width .3s}
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:12px;padding:12px 18px;background:var(--encre);color:var(--fond);font-weight:600;cursor:pointer}
+.btn.sec{background:var(--trait);color:var(--encre)}
+.barre-res{display:grid;grid-template-columns:150px 1fr 34px;gap:10px;align-items:center;margin:6px 0;font-size:14px}
+.barre-res .b{height:10px;border-radius:9px;background:var(--trait);overflow:hidden}
+.barre-res .b i{display:block;height:100%;background:var(--c)}
+.pied{margin-top:40px;padding-top:16px;border-top:1px solid var(--trait);font-size:13px;color:var(--pale)}
+.theme{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom));border:0;width:42px;height:42px;border-radius:50%;background:var(--carte);box-shadow:var(--ombre);cursor:pointer;font-size:18px}
+@media (max-width:480px){
+  .jauge .n{grid-template-columns:1fr;gap:2px}
+  .dyn .vers span:last-child{font-size:14px;line-height:1.2}
+  .dyn .d{padding:12px}
+  .carte{padding:16px}
+  .carte-centre{padding:14px 16px}
+  .carte-centre .mot{font-size:20px}
+  .tab{font-size:13.5px}.tab td,.tab th{padding:8px 6px}
+  .barre-res{grid-template-columns:118px 1fr 30px;font-size:13px}
+}
+.chev{font-size:22px;color:var(--pale);line-height:1}
+.ic-c{width:10px;height:38px;border-radius:6px;flex:none}
+.mini{display:flex;align-items:center;gap:16px;padding:12px 16px}
+.mini svg{width:150px;flex:none}
+.mini .leg{display:grid;gap:8px;font-size:14px;font-weight:600}
+.mini .leg i{display:inline-block;width:18px;height:4px;border-radius:2px;margin-right:8px;vertical-align:middle}
+.intro{text-align:center;padding-top:6px}
+.intro .sur{margin-bottom:6px}
+.grand-cercle{display:block;width:100%;max-width:460px;margin:4px auto 0;touch-action:manipulation}
+.grand-cercle .noeud{cursor:pointer;transition:opacity .25s}
+.grand-cercle .trace{stroke-dasharray:240;stroke-dashoffset:240;animation:trace .5s ease-out forwards}
+@keyframes trace{to{stroke-dashoffset:0}}
+@media (prefers-reduced-motion: reduce){.grand-cercle .trace{animation:none;stroke-dashoffset:0}}
+.legende{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;font-size:13.5px;font-weight:600;color:var(--doux)}
+.legende i,.fl2 i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.fl2 i{width:18px;height:4px;border-radius:2px}
+.choix{animation:entre .3s cubic-bezier(.2,.7,.2,1)}
+.fl2{display:grid;gap:6px;margin-top:14px;padding-top:12px;border-top:1px solid var(--trait);font-size:14.5px}
+.bandeau.court{margin-top:22px}
+.menu-btn{display:inline-flex;align-items:center;gap:7px;border:0;background:var(--carte);box-shadow:var(--ombre);border-radius:999px;padding:8px 14px;font-weight:600;font-size:15px;cursor:pointer}
+.voile{position:fixed;inset:0;background:rgba(20,16,12,.32);opacity:0;pointer-events:none;transition:opacity .25s;z-index:20}
+.feuille{position:fixed;left:0;right:0;bottom:0;z-index:21;max-height:86vh;overflow:auto;background:var(--fond);border-radius:22px 22px 0 0;padding:10px 16px calc(22px + env(safe-area-inset-bottom));transform:translateY(105%);transition:transform .3s cubic-bezier(.2,.7,.2,1);box-shadow:0 -10px 40px rgba(0,0,0,.18)}
+@media(min-width:700px){.feuille{left:auto;top:0;bottom:0;width:380px;max-height:none;border-radius:0;transform:translateX(105%);padding-top:calc(18px + env(safe-area-inset-top))}}
+.menu-ouvert .voile{opacity:1;pointer-events:auto}
+.menu-ouvert .feuille{transform:none}
+.poignee{width:42px;height:5px;border-radius:9px;background:var(--trait2);margin:2px auto 12px}
+@media(min-width:700px){.poignee{display:none}}
+.m-lien{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:0;background:var(--carte);border-radius:14px;padding:13px 16px;margin:6px 0;cursor:pointer;box-shadow:var(--ombre)}
+.m-lien span:first-child{flex:1}.m-lien small{display:block;color:var(--pale);font-size:13px}
+.m-lien.ici{outline:2px solid var(--encre)}
+.grille-types{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.pastille{display:flex;align-items:center;gap:8px;width:100%;border:0;background:var(--carte);box-shadow:var(--ombre);border-radius:14px;padding:9px 10px;margin:0 0 8px;cursor:pointer;font-weight:600;font-size:14px;text-align:left;transition:transform .15s}
+.pastille:hover{transform:translateY(-1px)}
+.pastille .puce{width:28px;height:28px;font-size:13px}
+.pastille span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pastille.ici{outline:2px solid var(--c)}
+.grille-types .pastille{margin:0;flex-direction:column;gap:5px;padding:10px 4px;font-size:12.5px}
+.trois-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.trois-col .sur{font-size:11px}
+@media(max-width:480px){.trois-col .pastille{flex-direction:column;gap:5px;padding:10px 4px;font-size:12.5px;text-align:center}.trois-col .pastille span:last-child{white-space:normal}}
+.fil{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:13px;color:var(--pale);margin:0 0 10px}
+.fil a{color:var(--doux);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--trait2);cursor:pointer}
+.fil b{color:var(--encre);font-weight:600}
+.choix-type{display:flex;gap:5px;overflow-x:auto;padding:2px 0 12px;margin-bottom:4px;scrollbar-width:none}
+.choix-type::-webkit-scrollbar{display:none}
+.choix-type button{flex:none;width:32px;height:32px;border-radius:50%;border:1.5px solid var(--c);background:transparent;color:var(--c);font-weight:700;font-size:14px;cursor:pointer}
+.choix-type button.ici{background:var(--c);color:#fff}
+.grand-cercle .halo{opacity:0;transform-box:fill-box;transform-origin:center;animation:halo 1.6s ease-out 2}
+@keyframes halo{0%{opacity:.5;transform:scale(1)}100%{opacity:0;transform:scale(2.1)}}
+.grand-cercle .noeud:hover .pastille-c{transform:scale(1.12)}
+.grand-cercle .pastille-c{transition:transform .18s}
+.grand-cercle .invite{animation:invite 2.4s ease-in-out infinite}
+@keyframes invite{0%,100%{opacity:1}50%{opacity:.55}}
+@media (prefers-reduced-motion: reduce){.grand-cercle .halo,.grand-cercle .invite{animation:none}}
+@media(max-width:480px){.retour.vu ~ .titre{visibility:hidden}}
+@media print{.barre,.theme,.plus{display:none}}
+</style>
+</head>
+<body>
+<header class="barre">
+  <button class="retour" id="retour" aria-label="Retour">‹ Retour</button>
+  <div class="titre" id="titre">Les neuf profils au travail</div>
+  <button class="menu-btn" id="menu" aria-label="Menu" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span>Menu</span></button>
+</header>
+<div class="voile" id="voile"></div>
+<nav class="feuille" id="feuille" aria-label="Navigation"></nav>
+<main id="app"></main>
+<button class="theme" id="theme" aria-label="Changer de thème">◐</button>
+<script>
+const TYPES = [];
+const DUOS = {};
+</script>
+<script>
+"use strict";
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const T = n => TYPES.find(t => t.n === +n);
+const CENTRE_DE = {1:"ventre",2:"coeur",3:"coeur",4:"coeur",5:"tete",6:"tete",7:"tete",8:"ventre",9:"ventre"};
+const STRESS = {1:4,2:8,3:9,4:2,5:7,6:3,7:1,8:5,9:6};
+const CONF   = {1:7,2:4,3:6,4:1,5:8,6:9,7:5,8:2,9:3};
+const puce = (n, cls="") => `<span class="puce c-${CENTRE_DE[n]} ${cls}">${n}</span>`;
+const nomT = n => T(n) ? T(n).nom : "Type " + n;
+
+const CENTRES = {
+  coeur: {
+    nom: "L'intelligence émotionnelle", court: "émotionnelle", types: [3,2,4], mot: "L'image et le lien",
+    emotion: "Sous la surface : la honte ou la tristesse",
+    cherche: "Ils cherchent l'attention : être vus, reconnus, appréciés pour ce qu'ils apportent.",
+    capte: "En entrant en réunion, ils captent l'ambiance, les regards, ce que l'on attend d'eux.",
+    besoin: "D'un responsable, ils attendent d'abord de la considération : une reconnaissance précise, personnelle, sincère.",
+    annonce: "Présentez le changement par ce qu'il permet de réussir et par la place que chacun y tiendra. Remerciez nommément.",
+    trois: [[2,"Tourné vers les autres : leurs besoins passent avant les siens."],[3,"Tourné vers le résultat : il met ses émotions de côté pour réussir."],[4,"Tourné vers son ressenti : il cherche l'authentique et le sens."]],
+    scene: ["Une entreprise annonce une réorganisation des équipes.", "Léa, assistante, cherche aussitôt comment soutenir le collègue dont le poste change. Antoine, chef de projet, voit déjà le calendrier et ce qu'il pourra présenter à la direction. Sarah, rédactrice, se demande si cette réorganisation a vraiment du sens, ou si c'est une vitrine de plus."]
+  },
+  ventre: {
+    nom: "L'intelligence instinctive", court: "instinctive", types: [8,9,1], mot: "L'autonomie et le cadre",
+    emotion: "Sous la surface : la colère, exprimée, endormie ou retenue",
+    cherche: "Ils cherchent l'autonomie : garder la maîtrise de leur territoire, ne pas se laisser imposer.",
+    capte: "En entrant en réunion, ils sentent d'instinct qui décide, ce qui est juste et ce qui est imposé.",
+    besoin: "D'un responsable, ils attendent d'abord du respect et de la clarté : des règles nettes, une parole tenue, une marge d'action.",
+    annonce: "Annoncez le changement franchement, avec le cadre, les raisons et ce qui reste négociable. Évitez le flou et la manœuvre.",
+    trois: [[8,"La colère sort : il prend position, protège, s'oppose de front."],[9,"La colère s'endort : il apaise, temporise, résiste en silence."],[1,"La colère se retient : elle devient exigence, correction, irritation contenue."]],
+    scene: ["Le planning des congés change la veille, sans concertation.", "Hugo, chef d'équipe, va droit au bureau : « Qui a décidé ça ? » Paul dit « pas de souci » en réunion… puis ne change rien de son côté. Anne relève trois incohérences dans le nouveau planning et le fait savoir, poliment mais fermement."]
+  },
+  tete: {
+    nom: "L'intelligence mentale", court: "mentale", types: [5,6,7], mot: "La sécurité et les repères",
+    emotion: "Sous la surface : la peur, l'anxiété",
+    cherche: "Ils cherchent la sécurité : comprendre, anticiper, garder des options et des repères fiables.",
+    capte: "En entrant en réunion, ils analysent : les informations qui manquent, les risques, les possibilités.",
+    besoin: "D'un responsable, ils attendent d'abord de la visibilité : des informations complètes, de la cohérence, un cap tenu.",
+    annonce: "Donnez le changement avec ses raisons, son calendrier, les risques prévus et les marges de manœuvre. Laissez un temps pour les questions.",
+    trois: [[7,"Il fonce vers l'avant : idées, projets, options, pour ne pas sentir l'inquiétude."],[5,"Il se retire pour comprendre : observer, réduire les sollicitations, garder son énergie."],[6,"Il vit l'inquiétude à plein : il doute, vérifie, cherche des garanties et des alliés."]],
+    scene: ["La direction annonce un nouvel outil de travail pour tout le service.", "Éric demande la documentation et la lit seul, de près, avant d'en dire un mot. Julie liste ce qui peut mal tourner et veut savoir qui sera responsable en cas de problème. Malik voit déjà trois usages nouveaux à tester."]
+  }
+};
+
+const ROUTES = [];
+function route(re, fn){ ROUTES.push([re, fn]); }
+let premier = true;
+function aller(h){ location.hash = h; }
+function rendre(){
+  const h = location.hash.replace(/^#/, "") || "/";
+  for (const [re, fn] of ROUTES){
+    const m = h.match(re);
+    if (m){
+      const r = fn(...m.slice(1));
+      fermerMenu();
+      $("#app").innerHTML = `${fil(h)}<div class="vue">${r.html}</div>${pied()}`;
+      $("#titre").textContent = r.titre || "Les neuf profils au travail";
+      document.title = (r.titre ? r.titre + " · " : "") + "Les neuf profils au travail";
+      $("#retour").classList.toggle("vu", h !== "/");
+      const y = lireScroll(h);
+      window.scrollTo(0, y);
+      if (r.apres) r.apres();
+      return;
+    }
+  }
+  aller("/");
+}
+const memo = {};
+function lireScroll(h){ try { return +(sessionStorage.getItem("sc:" + h) || memo[h] || 0); } catch(e){ return memo[h] || 0; } }
+function noterScroll(){ const h = location.hash.replace(/^#/, "") || "/"; memo[h] = window.scrollY; try { sessionStorage.setItem("sc:" + h, window.scrollY); } catch(e){} }
+let profondeur = 0;
+window.addEventListener("hashchange", () => { rendre(); });
+window.addEventListener("scroll", () => { clearTimeout(window._st); window._st = setTimeout(noterScroll, 120); }, {passive:true});
+document.addEventListener("click", e => {
+  const a = e.target.closest("[data-go]");
+  if (a){ e.preventDefault(); const cur = location.hash.replace(/^#/, "") || "/"; if (a.dataset.go === cur){ fermerMenu(); return; } noterScroll(); profondeur++; aller(a.dataset.go); }
+});
+$("#retour").onclick = () => { noterScroll(); if (profondeur > 0){ profondeur--; history.back(); } else { aller("/"); } };
+function fil(h){
+  if (h === "/") return "";
+  const p = [`<a data-go="/">Accueil</a>`];
+  let m;
+  const SOUS = {communication:"Communication",progresser:"Mieux communiquer",stress:"Stress et confiance",variantes:"Variantes",manager:"Diriger",energie:"Énergie",confusions:"Confusions"};
+  if ((m = h.match(/^\/type\/([1-9])(?:\/(\w+))?$/))){
+    p.push(m[2] ? `<a data-go="/type/${m[1]}">${m[1]} · ${esc(nomT(m[1]))}</a>` : `<b>${m[1]} · ${esc(nomT(m[1]))}</b>`);
+    if (m[2]) p.push(`<b>${SOUS[m[2]]||""}</b>`);
+    const s = m[2] ? "/" + m[2] : "";
+    return `<div class="fil">${p.join('<span>›</span>')}</div><div class="choix-type" aria-label="Changer de profil">${[3,2,4,5,6,7,8,9,1].map(k => `<button data-go="/type/${k}${s}" class="${k==m[1]?"ici":""}" style="--c:var(--${CENTRE_DE[k]})" aria-label="Profil ${k}">${k}</button>`).join("")}</div>`;
+  }
+  if ((m = h.match(/^\/duo\/(\d)-(\d)$/))){ p.push(`<a data-go="/ententes">Ententes</a>`, `<b>Duo ${m[1]} · ${m[2]}</b>`); }
+  else if ((m = h.match(/^\/centre\/(\w+)$/))) p.push(`<b>${CENTRES[m[1]].nom}</b>`);
+  else { const L = {"/communiquer":"Communiquer","/etats":"Quand ça va, quand ça ne va pas","/ententes":"Ententes","/dynamique":"Ce qui fait bouger un profil","/test":"Se situer"}; p.push(`<b>${L[h]||""}</b>`); }
+  return `<div class="fil">${p.join('<span>›</span>')}</div>`;
+}
+function remplirMenu(){
+  const h = location.hash.replace(/^#/, "") || "/";
+  const lien = (go, txt, sous="") => `<button class="m-lien${h===go?" ici":""}" data-go="${go}"><span><b>${txt}</b>${sous?`<small>${sous}</small>`:""}</span><span class="chev">›</span></button>`;
+  $("#feuille").innerHTML = `<div class="poignee"></div>
+    ${lien("/", "Accueil", "Le cercle des neuf profils")}
+    <div class="sur" style="margin:16px 4px 8px">Les neuf profils</div>
+    <div class="grille-types">${[3,2,4,5,6,7,8,9,1].map(k => `<button data-go="/type/${k}" class="pastille c-${CENTRE_DE[k]}${h.startsWith("/type/"+k)?" ici":""}">${puce(k)}<span>${esc(nomT(k).replace(/^(Le |L')/,""))}</span></button>`).join("")}</div>
+    <div class="sur" style="margin:18px 4px 8px">Outils</div>
+    ${lien("/communiquer","Communiquer avec les neuf")}
+    ${lien("/etats","Quand ça va, quand ça ne va pas")}
+    ${lien("/ententes","Les ententes au travail")}
+    ${lien("/dynamique","Ce qui fait bouger un profil")}
+    ${lien("/test","Se situer")}`;
+}
+function ouvrirMenu(){ remplirMenu(); document.body.classList.add("menu-ouvert"); $("#menu").setAttribute("aria-expanded","true"); }
+function fermerMenu(){ document.body.classList.remove("menu-ouvert"); $("#menu").setAttribute("aria-expanded","false"); }
+$("#menu").onclick = () => document.body.classList.contains("menu-ouvert") ? fermerMenu() : ouvrirMenu();
+$("#voile").onclick = fermerMenu;
+document.addEventListener("keydown", e => { if (e.key === "Escape") fermerMenu(); });
+$("#theme").onclick = () => {
+  const r = document.documentElement;
+  const sombre = r.dataset.theme ? r.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  r.dataset.theme = sombre ? "light" : "dark";
+  try { localStorage.setItem("theme", r.dataset.theme); } catch(e){}
+};
+try { const th = localStorage.getItem("theme"); if (th) document.documentElement.dataset.theme = th; } catch(e){}
+
+const plus = (go, txt) => `<button class="plus" data-go="${go}"><span>${esc(txt)}</span><span class="f">›</span></button>`;
+const liste = (arr, cls="") => `<ul class="l ${cls}">${(arr||[]).map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
+const pied = () => `<div class="pied">Rien n'est figé. Ce guide décrit des tendances et des motivations souvent inconscientes, en mouvement permanent. Il ne rend compte ni de la psychologie d'une personne, ni de sa culture, ni de son histoire. On ne devine pas le type d'un collègue : seule la personne peut reconnaître le sien.<br><br>Synthèse des ouvrages d'H. Palmer, D. Riso et R. Hudson, P. et F. Chabreuil, G. Lapid-Bogda, B. Chestnut, D. Daniels et V. Price.</div>`;
+
+/* ---------- Cercle ---------- */
+function cercle(opts={}){
+  const R = 140, cx = 180, cy = 180;
+  const pos = n => { const a = (n % 9) * 40 * Math.PI / 180; return [cx + R * Math.sin(a), cy - R * Math.cos(a)]; };
+  let fl = "";
+  if (opts.fleches){
+    const seq = [[1,4],[4,2],[2,8],[8,5],[5,7],[7,1],[3,9],[9,6],[6,3]];
+    fl = seq.map(([a,b]) => { const [x1,y1]=pos(a),[x2,y2]=pos(b); const k=0.83; const xe=x1+(x2-x1)*k, ye=y1+(y2-y1)*k; const xs=x1+(x2-x1)*0.17, ys=y1+(y2-y1)*0.17; return `<line x1="${xs}" y1="${ys}" x2="${xe}" y2="${ye}" stroke="var(--rouge)" stroke-width="1.6" marker-end="url(#fl)" opacity=".75"/>`; }).join("");
+  } else {
+    const seq = [[1,4],[4,2],[2,8],[8,5],[5,7],[7,1],[3,9],[9,6],[6,3]];
+    fl = seq.map(([a,b]) => { const [x1,y1]=pos(a),[x2,y2]=pos(b); return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--trait2)" stroke-width="1.2"/>`; }).join("");
+  }
+  const noeuds = [1,2,3,4,5,6,7,8,9].map(n => { const [x,y]=pos(n); const t=T(n); const lx = cx + (R+0) * Math.sin((n%9)*40*Math.PI/180); return `<g class="noeud" data-go="/type/${n}" role="link" aria-label="Type ${n}"><circle cx="${x}" cy="${y}" r="21" fill="var(--${CENTRE_DE[n]})"/><text x="${x}" y="${y+6}" text-anchor="middle" font-family="Inter" font-weight="700" font-size="17" fill="#fff">${n}</text></g>`; }).join("");
+  const noms = opts.noms ? [1,2,3,4,5,6,7,8,9].map(n => { const a=(n%9)*40*Math.PI/180; const x=cx+(R+38)*Math.sin(a), y=cy-(R+38)*Math.cos(a)+4; const anc = Math.abs(Math.sin(a))<.2?"middle":(Math.sin(a)>0?"start":"end"); return `<text x="${x}" y="${y}" text-anchor="${anc}" font-size="11.5" font-weight="600" fill="var(--doux)">${esc((T(n)||{}).nom||"").replace(/^(Le |L')/,"")}</text>`; }).join("") : "";
+  return `<svg class="cercle" viewBox="-40 -10 440 380" aria-label="Le cercle des neuf types"><defs><marker id="fl" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--rouge)"/></marker></defs><circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="var(--trait2)" stroke-width="1.5"/>${fl}${noeuds}${noms}</svg>`;
+}
+
+function miniFleches(n, t){
+  const R = 70, cx = 100, cy = 92;
+  const pos = k => { const a = (k % 9) * 40 * Math.PI / 180; return [cx + R * Math.sin(a), cy - R * Math.cos(a)]; };
+  const fl = (a, b, col, id) => { const [x1,y1]=pos(a),[x2,y2]=pos(b); const d=Math.hypot(x2-x1,y2-y1); const ux=(x2-x1)/d, uy=(y2-y1)/d; return `<line x1="${x1+ux*15}" y1="${y1+uy*15}" x2="${x2-ux*17}" y2="${y2-uy*17}" stroke="${col}" stroke-width="2.4" marker-end="url(#${id})"/>`; };
+  const s = t.stress.vers, k = t.confiance.vers;
+  const nds = [1,2,3,4,5,6,7,8,9].map(m => { const [x,y]=pos(m); const actif = m===n||m===s||m===k; const fill = m===n ? `var(--${CENTRE_DE[m]})` : m===s ? "var(--rouge)" : m===k ? "var(--vert)" : "var(--carte)"; return `<circle cx="${x}" cy="${y}" r="${m===n?14:12}" fill="${fill}" stroke="${actif?"none":"var(--trait2)"}"/><text x="${x}" y="${y+4.5}" text-anchor="middle" font-family="Inter" font-weight="700" font-size="${m===n?14:12}" fill="${actif?"#fff":"var(--pale)"}">${m}</text>`; }).join("");
+  return `<div class="carte mini"><svg viewBox="0 0 200 184" aria-label="Directions de stress et de confiance du ${n}"><defs><marker id="mr${n}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--rouge)"/></marker><marker id="mv${n}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--vert)"/></marker></defs><circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="var(--trait)" stroke-width="1.2"/>${fl(n,s,"var(--rouge)","mr"+n)}${fl(n,k,"var(--vert)","mv"+n)}${nds}</svg><div class="leg"><span><i style="background:var(--rouge)"></i>Sous stress → ${s}</span><span><i style="background:var(--vert)"></i>En confiance → ${k}</span></div></div>`;
+}
+
+/* ---------- Accueil ---------- */
+function grandCercle(sel){
+  const R = 128, cx = 180, cy = 168;
+  const pos = (n, r=R) => { const a = (n % 9) * 40 * Math.PI / 180; return [cx + r * Math.sin(a), cy - r * Math.cos(a)]; };
+  const seq = [[1,4],[4,2],[2,8],[8,5],[5,7],[7,1],[3,9],[9,6],[6,3]];
+  const lignes = seq.map(([a,b]) => { const [x1,y1]=pos(a),[x2,y2]=pos(b); return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--trait2)" stroke-width="1" opacity="${sel?.35:1}"/>`; }).join("");
+  let fl = "";
+  if (sel){
+    const t = T(sel); const f = (a, b, col, id) => { const [x1,y1]=pos(a),[x2,y2]=pos(b); const d=Math.hypot(x2-x1,y2-y1); const ux=(x2-x1)/d, uy=(y2-y1)/d; return `<line class="trace" x1="${x1+ux*25}" y1="${y1+uy*25}" x2="${x2-ux*27}" y2="${y2-uy*27}" stroke="${col}" stroke-width="2.6" stroke-linecap="round" marker-end="url(#${id})"/>`; };
+    fl = f(sel, t.stress.vers, "var(--rouge)", "gr") + f(sel, t.confiance.vers, "var(--vert)", "gv");
+  }
+  const nds = [1,2,3,4,5,6,7,8,9].map(n => { const [x,y]=pos(n); const on = n===sel; const dim = sel && !on && n!==T(sel).stress.vers && n!==T(sel).confiance.vers; const nm = esc((T(n)||{}).nom||"").replace(/^(Le |L')/,""); const delai = ((n % 9) * 0.12).toFixed(2); const a=(n%9)*40*Math.PI/180; const [lx,ly]=pos(n,R+40); const anc=Math.abs(Math.sin(a))<.2?"middle":(Math.sin(a)>0?"start":"end");
+    return `<g class="noeud${on?" on":""}" data-sel="${n}" role="button" aria-label="Type ${n}, ${nm}" style="opacity:${dim?.45:1}"><circle cx="${x}" cy="${y}" r="30" fill="transparent"/>${sel?"":`<circle class="halo" cx="${x}" cy="${y}" r="21" fill="var(--${CENTRE_DE[n]})" style="animation-delay:${delai}s"/>`}${on?`<circle cx="${x}" cy="${y}" r="29" fill="none" stroke="var(--${CENTRE_DE[n]})" stroke-width="2" opacity=".35"/>`:""}<circle class="pastille-c" cx="${x}" cy="${y}" r="${on?24:21}" fill="var(--${CENTRE_DE[n]})" style="transform-origin:${x}px ${y}px"/><text x="${x}" y="${y+6}" text-anchor="middle" font-family="Inter" font-weight="700" font-size="${on?19:17}" fill="#fff">${n}</text><text x="${lx}" y="${ly+4}" text-anchor="${anc}" font-size="13.5" font-weight="${on?700:600}" fill="var(--encre)" class="nom-c">${nm}</text></g>`; }).join("");
+  const centre = sel ? "" : `<g class="invite"><g transform="translate(${cx-11} ${cy-46}) scale(.92)" fill="none" stroke="var(--encre)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11V4.5a2 2 0 0 1 4 0V10"/><path d="M13 9.5a2 2 0 0 1 4 0V11"/><path d="M17 10.5a2 2 0 0 1 4 0V15a7 7 0 0 1-7 7h-1.2a6 6 0 0 1-4.6-2.2L4.4 16a1.9 1.9 0 0 1 2.8-2.6L9 15"/></g><text x="${cx}" y="${cy+8}" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-size="19" font-weight="650" fill="var(--encre)">Touchez</text><text x="${cx}" y="${cy+30}" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-size="19" font-weight="650" fill="var(--encre)">un profil</text></g>`;
+  return `<svg class="grand-cercle" viewBox="-50 -12 460 360"><defs><marker id="gr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--rouge)"/></marker><marker id="gv" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--vert)"/></marker></defs><circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="var(--trait2)" stroke-width="1.4"/>${lignes}${fl}${centre}${nds}</svg>`;
+}
+function panneau(sel){
+  if (!sel) return `<div class="legende"><span><i style="background:var(--coeur)"></i>Émotionnelle</span><span><i style="background:var(--tete)"></i>Mentale</span><span><i style="background:var(--ventre)"></i>Instinctive</span></div><p class="note" style="text-align:center;margin-top:6px">La couleur indique l'intelligence que chaque profil utilise en premier.</p>`;
+  const t = T(sel), c = CENTRE_DE[sel];
+  return `<div class="carte choix c-${c}"><div class="lien" style="align-items:flex-start">${puce(sel)}<div style="flex:1"><div class="sur" style="color:var(--c);margin:0 0 2px">Intelligence ${CENTRES[c].court}</div><h3 style="margin:0">${esc(t.nom)}</h3><p class="note" style="margin:4px 0 0;font-style:italic">« ${esc(t.devise)} »</p></div></div>
+    <div class="fl2"><div><i style="background:var(--rouge)"></i>Sous stress → <b>${t.stress.vers}</b> ${esc(nomT(t.stress.vers))}</div><div><i style="background:var(--vert)"></i>En confiance → <b>${t.confiance.vers}</b> ${esc(nomT(t.confiance.vers))}</div></div>
+    <button class="btn" data-go="/type/${sel}" style="width:100%;justify-content:center;margin-top:14px">Ouvrir le profil</button></div>`;
+}
+let SEL = 0;
+try { SEL = +(sessionStorage.getItem("sel") || 0); } catch(e){}
+
+route(/^\/$/, () => ({ titre: "", html: `
+  <div class="intro">
+    <div class="sur">Ennéagramme · relations professionnelles</div>
+    <h1>Les neuf profils au travail</h1>
+    <p class="lead" style="margin-top:8px">Comment chacun perçoit, réagit, communique. Et comment lui parler.</p>
+  </div>
+  <div id="zone-cercle">${grandCercle(SEL)}</div>
+  <div id="zone-panneau">${panneau(SEL)}</div>
+
+  <div class="bandeau court"><b>En mouvement, jamais figé.</b> Un profil de base, qui bouge sans cesse avec le stress, la confiance et le moment. Et chacun peut se relier à ses qualités essentielles.</div>
+  ${plus("/dynamique", "Ce qui fait bouger un profil")}
+
+  <h2>Les neuf profils</h2>
+  <div class="trois-col">
+  ${["coeur","tete","ventre"].map(c => `<div class="c-${c}"><div class="sur" style="color:var(--c);margin:0 0 8px">${CENTRES[c].court}</div>
+    ${CENTRES[c].types.map(n => `<button class="pastille c-${c}" data-go="/type/${n}">${puce(n)}<span>${esc(nomT(n).replace(/^(Le |L')/,""))}</span></button>`).join("")}</div>`).join("")}
+  </div>
+
+  <h2>Outils</h2>
+  <div class="menu-outils">
+    <button class="lien" data-go="/communiquer"><span style="flex:1"><b>Communiquer avec les neuf</b><small>Le style de chacun, ce qu'il faut dire et éviter</small></span><span class="chev">›</span></button>
+    <button class="lien" data-go="/etats"><span style="flex:1"><b>Les neuf, quand ça va… et quand ça ne va pas</b><small>Niveaux de développement et directions de stress</small></span><span class="chev">›</span></button>
+    <button class="lien" data-go="/ententes"><span style="flex:1"><b>Les ententes au travail</b><small>Les 45 duos, et qui dirige qui</small></span><span class="chev">›</span></button>
+    <button class="lien" data-go="/test"><span style="flex:1"><b>Se situer</b><small>Un questionnaire professionnel, 5 minutes</small></span><span class="chev">›</span></button>
+  </div>
+`, apres(){
+  $("#zone-cercle").addEventListener("click", e => {
+    const g = e.target.closest("[data-sel]"); if (!g) return;
+    const n = +g.dataset.sel; SEL = (SEL === n) ? 0 : n;
+    try { sessionStorage.setItem("sel", SEL); } catch(err){}
+    $("#zone-cercle").innerHTML = grandCercle(SEL);
+    $("#zone-panneau").innerHTML = panneau(SEL);
+  });
+}}));
+
+/* ---------- Centre ---------- */
+route(/^\/centre\/(coeur|ventre|tete)$/, c => { const C = CENTRES[c]; return { titre: C.nom, html: `
+  <div class="c-${c}">
+  <div class="tete-fiche"><div class="sur" style="color:var(--c)">Centre d'intelligence</div><h1>${C.nom}</h1><div class="devise">${C.mot}</div><p class="note">${C.emotion}</p></div>
+  <div class="carte"><h3>Ce qu'ils cherchent</h3><p>${C.cherche}</p><p>${C.capte}</p></div>
+  <div class="carte"><h3>Ce qu'ils attendent d'un responsable</h3><p>${C.besoin}</p></div>
+  <div class="carte"><h3>Annoncer un changement à ce centre</h3><p>${C.annonce}</p></div>
+  <div class="carte"><h3>Trois façons de vivre la même chose</h3>
+    ${C.trois.map(([n,t]) => `<div class="reac">${puce(n)}<p><b>${esc(nomT(n))}</b><br>${t}</p></div>`).join("")}
+  </div>
+  <div class="carte"><div class="sur">Sur le terrain</div><div class="scene"><div class="t">${C.scene[0]}</div><p>${C.scene[1]}</p></div></div>
+  <h2>Les trois profils de ce centre</h2>
+  ${C.types.map(n => `<button class="carte lien" data-go="/type/${n}">${puce(n)}<span style="flex:1"><b style="display:block">${esc(nomT(n))}</b><small class="note">${esc((T(n)||{}).enUnMot||"")}</small></span><span style="font-size:20px;color:var(--pale)">›</span></button>`).join("")}
+  <h2>Les deux autres intelligences</h2>
+  <p class="note">Chacun dispose des trois ; chacun en utilise une en premier.</p>
+  ${["coeur","tete","ventre"].filter(x => x !== c).map(x => `<button class="carte lien c-${x}" data-go="/centre/${x}"><span style="flex:1"><b style="display:block;color:var(--c)">${CENTRES[x].nom}</b><small class="note">${CENTRES[x].mot} · ${CENTRES[x].types.join(" · ")}</small></span><span class="chev">›</span></button>`).join("")}
+  </div>`}; });
+
+/* ---------- Fiche type ---------- */
+route(/^\/type\/([1-9])$/, n => { const t = T(n); if (!t) return {html:"<p>Fiche en préparation.</p>"}; const c = CENTRE_DE[n]; return { titre: `Type ${n} · ${t.nom}`, html: `
+  <div class="c-${c}">
+  <div class="tete-fiche"><div class="gros">${n}</div><div class="sur" style="color:var(--c)">Type ${n} · intelligence ${CENTRES[c].court}</div><h1>${esc(t.nom)}</h1><p class="note" style="margin:4px 0 0">${esc(t.alias)}</p><div class="devise">« ${esc(t.devise)} »</div><p style="margin:0">${esc(t.enUnMot)}</p></div>
+
+  <button class="carte lien" data-go="/centre/${c}" style="margin:0 0 6px"><span class="ic-c" style="background:var(--c)"></span><span style="flex:1"><b style="display:block">Il utilise en premier l'intelligence ${CENTRES[c].court}</b><small class="note">${CENTRES[c].mot}. Approfondir, et voir les deux autres intelligences</small></span><span class="chev">›</span></button>
+
+  <div class="sur" style="margin-top:18px">Sa dynamique</div>
+  ${miniFleches(+n, t)}
+  <div class="dyn">
+    <div class="d stress"><div class="k">Sous stress</div><div class="vers">→ ${puce(t.stress.vers)} <span>${esc(nomT(t.stress.vers))}</span></div><p>${esc(t.stress.resume)}</p></div>
+    <div class="d conf"><div class="k">En confiance</div><div class="vers">→ ${puce(t.confiance.vers)} <span>${esc(nomT(t.confiance.vers))}</span></div><p>${esc(t.confiance.resume)}</p></div>
+  </div>
+  ${plus(`/type/${n}/stress`, "Approfondir : l'escalier du stress, et comment revenir")}
+
+  <div class="carte"><h3>Communiquer avec lui</h3><p>${esc(t.communiquer.style)}</p>
+    <div class="deux" style="margin-top:8px"><div><div class="etiq" style="background:var(--vert-f);color:var(--vert)">Ce qui marche</div>${liste(t.communiquer.faire,"ok")}</div><div><div class="etiq" style="background:var(--rouge-f);color:var(--rouge)">Ce qui le braque</div>${liste(t.communiquer.eviter,"ko")}</div></div>
+    ${plus(`/type/${n}/communication`, "Approfondir : son mode de communication")}
+    ${plus(`/type/${n}/progresser`, "Approfondir : mieux communiquer, quand on est un " + n)}
+  </div>
+
+  <div class="carte"><h3>Quand il va bien… et moins bien</h3>
+    <div class="jauge"><div class="n bien"><b>Quand ça va</b><p>${esc(t.niveaux.bien)}</p></div><div class="n moyen"><b>Au quotidien</b><p>${esc(t.niveaux.moyen)}</p></div><div class="n mal"><b>Quand ça ne va pas</b><p>${esc(t.niveaux.mal)}</p></div></div>
+    ${plus(`/type/${n}/variantes`, "Approfondir : ailes et instincts, ses variantes")}
+  </div>
+
+  <div class="carte"><h3>Au travail</h3><p><b>Ce qu'il voit en premier.</b> ${esc(t.voit)}</p>
+    <div class="deux"><div><div class="etiq">Ce qu'il apporte</div>${liste(t.apporte)}</div><div><div class="etiq">Ses pièges</div>${liste(t.pieges)}</div></div>
+    ${plus(`/type/${n}/manager`, "Approfondir : quand il dirige, quand on le dirige")}
+    ${plus(`/type/${n}/energie`, "Approfondir : ce qui lui donne de l'énergie, ce qui la lui prend")}
+  </div>
+
+  <div class="carte"><div class="sur">Sur le terrain</div><div class="scene"><div class="t">${esc(t.scene.titre)}</div><p>${esc(t.scene.texte)}</p></div></div>
+
+  <div class="carte"><h3>Ses ententes</h3><p class="note">Le ${n} avec chacun des neuf, au travail et dans la hiérarchie.</p>
+    <div class="duo-mini">${[1,2,3,4,5,6,7,8,9].map(m => `<button data-go="/duo/${Math.min(n,m)}-${Math.max(n,m)}" aria-label="Duo ${n} et ${m}">${puce(m)}</button>`).join("")}</div>
+  </div>
+  ${plus(`/type/${n}/confusions`, "Ne pas le confondre avec…")}
+  <p class="note" style="margin-top:14px">Sources : ${esc(t.sources)}.</p>
+  </div>`}; });
+
+const sous = (n, titre, corps) => { const t = T(n); const c = CENTRE_DE[n]; return { titre: `${n} · ${titre}`, html: `<div class="c-${c}"><div class="lien" style="margin-bottom:14px">${puce(n)}<div><div class="sur" style="margin:0;color:var(--c)">${esc(t.nom)}</div><h1 style="font-size:28px">${titre}</h1></div></div>${corps(t)}</div>` }; };
+
+route(/^\/type\/([1-9])\/communication$/, n => sous(n, "Son mode de communication", t => { const a = t.approfondir.communication; return `
+  <div class="carte"><h3>Comment il s'exprime</h3><p>${esc(a.parle)}</p></div>
+  <div class="carte"><h3>Ce qu'il entend vraiment</h3><p>${esc(a.ecoute)}</p></div>
+  <div class="deux"><div class="carte" style="margin:0"><div class="etiq" style="background:var(--vert-f);color:var(--vert)">Signaux positifs</div>${liste(a.signauxPositifs,"ok")}</div><div class="carte" style="margin:0"><div class="etiq" style="background:var(--rouge-f);color:var(--rouge)">Signaux négatifs</div>${liste(a.signauxNegatifs,"ko")}</div></div>
+  <p class="note" style="margin-top:8px">Les « signaux » sont l'effet que son style produit sur les autres (H. Palmer).</p>
+  <div class="carte"><h3>Lui faire un retour, une critique</h3>${liste(a.retour)}</div>
+  <div class="carte"><h3>Désamorcer une tension</h3>${liste(a.tension)}</div>
+  <div class="carte"><h3>Le bon canal</h3><p>${esc(a.canal)}</p></div>
+  ${plus(`/type/${n}/progresser`, "Mieux communiquer, quand on est un " + n)}`; }));
+
+route(/^\/type\/([1-9])\/progresser$/, n => sous(n, "Mieux communiquer", t => { const a = t.approfondir.progresser; return `
+  <div class="carte"><h3>Ses forces de communicant</h3>${liste(a.forces,"ok")}</div>
+  <div class="carte"><h3>Pistes pour aller plus loin</h3>${liste(a.pistes)}</div>
+  <div class="carte"><h3>Ce qui l'aide en confiance</h3><p>En confiance, il prend les qualités du ${puce(t.confiance.vers)} : ${esc(t.confiance.resume)}</p>${liste(t.confiance.signes,"ok")}</div>`; }));
+
+route(/^\/type\/([1-9])\/stress$/, n => sous(n, "Stress et confiance", t => { const a = t.approfondir.stressDetail; return `
+  <div class="carte"><h3>L'escalier du stress au travail</h3>
+    ${a.paliers.map((p,i) => `<div class="reac"><span class="puce" style="background:color-mix(in srgb,var(--rouge) ${30+i*17}%,#999)">${i+1}</span><p>${esc(p)}</p></div>`).join("")}
+  </div>
+  <div class="carte"><h3>Sous stress, il prend les travers du ${puce(t.stress.vers)}</h3><p>${esc(t.stress.resume)}</p>${liste(t.stress.signes,"ko")}</div>
+  <div class="carte"><h3>Ce qui l'aide à revenir</h3>${liste(a.revenir,"ok")}</div>
+  <div class="carte"><h3>En confiance, il prend les qualités du ${puce(t.confiance.vers)}</h3><p>${esc(t.confiance.resume)}</p>${liste(t.confiance.signes,"ok")}</div>
+  <p class="note">Ces mouvements se vivent au niveau où l'on se trouve : on ne bascule pas d'un coup. Les auteurs les lisent parfois autrement ; ils restent des tendances.</p>`; }));
+
+route(/^\/type\/([1-9])\/variantes$/, n => sous(n, "Ses variantes", t => { const a = t.approfondir; const I = a.instincts; return `
+  <div class="carte"><h3>Les ailes : ses voisins sur le cercle</h3><p class="note">Les deux types voisins colorent le style ; l'un domine souvent.</p>
+    ${a.ailes.map(x => `<div class="reac">${puce(x.aile)}<p><b>${n} aile ${x.aile} · ${esc(x.nom)}</b><br>${esc(x.texte)}</p></div>`).join("")}</div>
+  <div class="carte"><h3>L'instinct dominant</h3><p class="note">Trois instincts vivent en chacun ; l'un domine et oriente le profil.</p>
+    <div class="reac"><span class="etiq">Conservation</span><p><b>${esc(I.conservation.nom)}</b><br>${esc(I.conservation.texte)}</p></div>
+    <div class="reac"><span class="etiq">Social</span><p><b>${esc(I.social.nom)}</b><br>${esc(I.social.texte)}</p></div>
+    <div class="reac"><span class="etiq">Tête-à-tête</span><p><b>${esc(I.teteATete.nom)}</b><br>${esc(I.teteATete.texte)}</p></div>
+  </div>
+  ${plus("/dynamique", "Ailes, flèches, niveaux, instincts : le principe")}`; }));
+
+route(/^\/type\/([1-9])\/manager$/, n => sous(n, "Diriger, être dirigé", t => { const M = t.approfondir.manager; const L = {planifier:"Planifier",decider:"Décider",deleguer:"Déléguer",retour:"Faire un retour",conflit:"Gérer un conflit"}; return `
+  <div class="carte"><h3>Quand il dirige</h3><table class="tab"><tr><th></th><th>Sa force</th><th>Son angle mort</th></tr>
+    ${Object.keys(L).map(k => M[k] ? `<tr><td><b>${L[k]}</b></td><td>${esc(M[k].force)}</td><td>${esc(M[k].angle)}</td></tr>` : "").join("")}</table></div>
+  <div class="carte"><h3>Quand on l'encadre</h3>${liste(t.approfondir.diriger,"ok")}</div>`; }));
+
+route(/^\/type\/([1-9])\/energie$/, n => sous(n, "Son énergie", t => { const B = t.approfondir.besoins; return `
+  <div class="deux"><div class="carte" style="margin:0"><div class="etiq" style="background:var(--vert-f);color:var(--vert)">Ce qui la lui donne</div>${liste(B.donne,"ok")}</div><div class="carte" style="margin:0"><div class="etiq" style="background:var(--rouge-f);color:var(--rouge)">Ce qui la lui prend</div>${liste(B.prend,"ko")}</div></div>`; }));
+
+route(/^\/type\/([1-9])\/confusions$/, n => sous(n, "Ne pas le confondre", t => `
+  <p class="note">Un même comportement peut venir de motivations différentes. C'est la motivation qui compte.</p>
+  ${t.approfondir.confusions.map(x => `<div class="carte lien" data-go="/type/${x.avec}">${puce(x.avec)}<p style="margin:0;flex:1"><b>Avec le ${x.avec}, ${esc(nomT(x.avec))}</b><br>${esc(x.distinguer)}</p></div>`).join("")}`));
+
+/* ---------- Duo ---------- */
+route(/^\/duo\/([1-9])-([1-9])$/, (a, b) => { const d = DUOS[`${a}-${b}`]; if (!d) return {html:"<p>Duo en préparation.</p>"}; return { titre: `Duo ${a} · ${b}`, html: `
+  <div class="lien" style="gap:6px;margin-bottom:10px">${puce(a)}${puce(b)}<div style="margin-left:8px"><div class="sur" style="margin:0">Entente au travail</div><h1 style="font-size:26px">${esc(nomT(a))} et ${esc(nomT(b).replace(/^Le /,"le ").replace(/^L'/,"l'"))}</h1></div></div>
+  <p class="lead">${esc(d.accroche)}</p>
+  <div class="carte"><h3>Ce qui marche</h3><p>${esc(d.force)}</p></div>
+  <div class="carte"><h3>Le point de frottement</h3><p>${esc(d.friction)}</p></div>
+  <div class="carte"><h3>Dans la hiérarchie</h3>
+    <div class="reac">${puce(a)}<p><b>Le ${a} dirige${a===b?"":" le "+b}</b><br>${esc(d.aDirige)}</p></div>
+    ${a!==b ? `<div class="reac">${puce(b)}<p><b>Le ${b} dirige le ${a}</b><br>${esc(d.bDirige)}</p></div>` : (d.bDirige ? `<div class="reac"><span class="etiq">Entre pairs</span><p>${esc(d.bDirige)}</p></div>` : "")}
+  </div>
+  <div class="bandeau"><b>Pour que ça marche.</b> ${esc(d.conseil)}</div>
+  <p class="note">D'après H. Palmer. Ce sont des tendances : deux personnes réelles ne se résument jamais à leurs types.</p>
+  <div class="deux">${plus(`/type/${a}`, "Fiche du " + a)}${a!==b?plus(`/type/${b}`, "Fiche du " + b):""}</div>
+  ${plus("/ententes", "Toutes les ententes")}`}; });
+
+route(/^\/ententes$/, () => ({ titre: "Les ententes", html: `
+  <div class="sur">D'après H. Palmer</div><h1>Les ententes au travail</h1>
+  <p class="lead" style="margin-top:10px">Choisissez deux profils : ce qui marche entre eux, ce qui frotte, et ce qui se passe quand l'un dirige l'autre.</p>
+  <div class="carte"><div class="mat">
+    <div></div>${[1,2,3,4,5,6,7,8,9].map(n=>`<div class="h" style="color:var(--${CENTRE_DE[n]})">${n}</div>`).join("")}
+    ${[1,2,3,4,5,6,7,8,9].map(r => `<div class="h" style="color:var(--${CENTRE_DE[r]})">${r}</div>` + [1,2,3,4,5,6,7,8,9].map(c => `<button data-go="/duo/${Math.min(r,c)}-${Math.max(r,c)}" aria-label="Duo ${r} et ${c}">${r}·${c}</button>`).join("")).join("")}
+  </div></div>
+  <div class="carte"><h3>Toutes les ententes, en une ligne</h3>
+  ${Object.keys(DUOS).sort().map(k => { const [a,b]=k.split("-"); return `<div class="reac lien" data-go="/duo/${k}" style="cursor:pointer">${puce(a)}${puce(b)}<p style="flex:1">${esc(DUOS[k].accroche)}</p></div>`; }).join("")}
+  </div>`}));
+
+/* ---------- Communiquer avec les neuf ---------- */
+route(/^\/communiquer$/, () => ({ titre: "Communiquer avec les neuf", html: `
+  <h1>Communiquer avec les neuf</h1>
+  <p class="lead" style="margin-top:10px">Le style de chacun, ce qui passe, ce qui braque.</p>
+  ${[3,2,4,8,9,1,5,6,7].map(n => { const t=T(n); if(!t) return ""; return `<div class="carte c-${CENTRE_DE[n]}"><div class="lien" style="margin-bottom:8px">${puce(n)}<b>${esc(t.nom)}</b></div><p class="note" style="margin-bottom:6px">${esc(t.communiquer.style)}</p><div class="deux"><div>${liste(t.communiquer.faire.slice(0,3),"ok")}</div><div>${liste(t.communiquer.eviter.slice(0,2),"ko")}</div></div>${plus(`/type/${n}/communication`, "Approfondir")}</div>`; }).join("")}`}));
+
+/* ---------- Les neuf, quand ça va ---------- */
+route(/^\/etats$/, () => ({ titre: "Quand ça va, quand ça ne va pas", html: `
+  <h1>Les neuf, quand ça va… et quand ça ne va pas</h1>
+  <p class="lead" style="margin-top:10px">Chacun se déplace sans cesse entre ces états, parfois plusieurs fois dans une journée.</p>
+  ${[3,2,4,8,9,1,5,6,7].map(n => { const t=T(n); if(!t) return ""; return `<div class="carte c-${CENTRE_DE[n]}"><div class="lien" style="margin-bottom:10px">${puce(n)}<b style="flex:1">${esc(t.nom)}</b><span class="note">stress → ${t.stress.vers} · confiance → ${t.confiance.vers}</span></div><div class="jauge"><div class="n bien"><b>Quand ça va</b><p>${esc(t.niveaux.bien)}</p></div><div class="n moyen"><b>Au quotidien</b><p>${esc(t.niveaux.moyen)}</p></div><div class="n mal"><b>Quand ça ne va pas</b><p>${esc(t.niveaux.mal)}</p></div></div>${plus(`/type/${n}/stress`, "Approfondir : stress et confiance")}</div>`; }).join("")}`}));
+
+/* ---------- Dynamique ---------- */
+route(/^\/dynamique$/, () => ({ titre: "Ce qui fait bouger un profil", html: `
+  <h1>Ce qui fait bouger un profil</h1>
+  <p class="lead" style="margin-top:10px">Le profil de base reste le même ; tout le reste est en mouvement.</p>
+  <div class="carte"><h3>1 · Les flèches : stress et confiance</h3><p>Sous stress, chacun prend certains travers d'un autre type ; en confiance, certaines qualités d'un autre encore. Les flèches rouges montrent la direction du stress ; la confiance suit le sens inverse.</p>${cercle({fleches:true})}
+  <table class="tab"><tr><th>Type</th><th style="color:var(--rouge)">Sous stress</th><th style="color:var(--vert)">En confiance</th></tr>${[1,2,3,4,5,6,7,8,9].map(n=>`<tr class="ligne-type" data-go="/type/${n}/stress"><td>${puce(n)}</td><td>→ ${STRESS[n]} · ${esc(nomT(STRESS[n]))}</td><td>→ ${CONF[n]} · ${esc(nomT(CONF[n]))}</td></tr>`).join("")}</table>
+  <p class="note">D'après D. Riso et R. Hudson, H. Palmer. Certains auteurs lisent ces lignes autrement.</p></div>
+  <div class="carte"><h3>2 · Les niveaux : du meilleur au plus tendu</h3><p>Chaque type se vit à différents niveaux de liberté : sain, moyen, tendu. La plupart des gens vivent dans la zone moyenne. Chacun a un niveau habituel et une marge de variation : une journée difficile peut faire descendre de plusieurs crans, un succès faire remonter.</p><p class="note">Les niveaux mesurent la liberté intérieure du moment, pas l'intelligence ni la valeur. L'humeur n'est pas le niveau. (D. Riso et R. Hudson)</p>${plus("/etats","Les neuf, quand ça va et quand ça ne va pas")}</div>
+  <div class="carte"><h3>3 · Les ailes : les voisins</h3><p>Chaque type est coloré par l'un de ses deux voisins sur le cercle. Un 3 « aile 2 » est plus chaleureux et tourné vers les gens ; un 3 « aile 4 » plus soucieux de son style, plus en retenue.</p></div>
+  <div class="carte"><h3>4 · Les instincts : où se joue l'essentiel</h3>
+    <div class="reac"><span class="etiq">Conservation</span><p>Sécurité, ressources, conditions de travail. En entrant dans une salle, il remarque le confort, l'organisation, la charge à venir.</p></div>
+    <div class="reac"><span class="etiq">Social</span><p>La place dans le groupe, l'institution, les réseaux. En entrant, il perçoit qui a de l'influence, qui parle avec qui.</p></div>
+    <div class="reac"><span class="etiq">Tête-à-tête</span><p>La relation directe, choisie, intense avec une personne. En entrant, il va vers l'interlocuteur qui compte.</p></div>
+    <p class="note" style="margin-top:8px">Les trois vivent en chacun ; l'un domine, et il peut changer selon les périodes de la vie (B. Chestnut ; D. Riso et R. Hudson).</p></div>
+  <div class="bandeau"><b>Ce que l'ennéagramme ne dit pas.</b> Il éclaire des motivations, souvent inconscientes. Il ne remplace ni la connaissance de la personne, ni sa psychologie, ni sa culture, ni son histoire. Il sert à mieux se comprendre et à mieux s'adresser aux autres, jamais à les classer.</div>`}));
+
+/* ---------- Test ---------- */
+const ITEMS = [
+ [1,"Je repère vite ce qui n'est pas fait correctement, dans un document ou une procédure."],
+ [2,"Je sens ce dont un collègue a besoin avant même qu'il le demande."],
+ [3,"Un objectif clair et un résultat visible me mettent en mouvement."],
+ [4,"J'ai besoin que mon travail ait du sens pour moi, pas seulement qu'il soit fait."],
+ [5,"Avant de prendre position en réunion, je préfère d'abord comprendre seul, à tête reposée."],
+ [6,"Face à une décision, je pense d'abord à ce qui pourrait mal tourner."],
+ [7,"Une nouvelle idée de projet me donne immédiatement de l'énergie."],
+ [8,"Quand une situation est injuste ou floue, je préfère la prendre de front."],
+ [9,"En réunion, je cherche ce qui peut mettre tout le monde d'accord."],
+ [1,"Il m'est difficile de laisser passer un travail que je juge bâclé."],
+ [2,"On vient souvent me voir pour un conseil ou un coup de main, et j'aime ça."],
+ [3,"J'adapte naturellement ma présentation à ce que mon public attend."],
+ [4,"Je remarque ce que les autres ne voient pas : une nuance, un malaise, une incohérence de fond."],
+ [5,"Les sollicitations continues m'épuisent ; j'ai besoin de plages sans interruption."],
+ [6,"Je fais confiance à une hiérarchie quand elle est cohérente et tient sa parole."],
+ [7,"Les réunions longues et répétitives me font décrocher."],
+ [8,"Je dis les choses franchement, même quand ça dérange."],
+ [9,"Je peux remettre à plus tard une tâche importante, sans vraiment savoir pourquoi."],
+ [1,"Je me sens responsable de la qualité, même quand ce n'est pas mon rôle."],
+ [2,"Je suis touché quand mon aide passe inaperçue."],
+ [3,"Il m'est difficile de montrer un échec ou de dire « je ne sais pas »."],
+ [4,"Une critique sur mon travail me touche personnellement, au-delà du travail."],
+ [5,"Je donne mon avis quand je maîtrise vraiment le sujet, pas avant."],
+ [6,"Je pose beaucoup de questions avant d'adhérer à un changement."],
+ [7,"J'ai toujours plusieurs options en tête, au cas où."],
+ [8,"Je protège mon équipe face à ce qui vient d'en haut ou de l'extérieur."],
+ [9,"Les conflits ouverts me coûtent beaucoup ; je préfère arrondir les angles."]
+];
+let REP = {};
+try { REP = JSON.parse(localStorage.getItem("test-rep") || "{}"); } catch(e){ REP = {}; }
+function sauverRep(){ try { localStorage.setItem("test-rep", JSON.stringify(REP)); } catch(e){} }
+route(/^\/test$/, () => ({ titre: "Se situer", html: `
+  <h1>Se situer</h1>
+  <p class="lead" style="margin-top:10px">27 situations de travail. Répondez spontanément, en pensant à votre façon habituelle d'être, pas à celle que vous aimeriez avoir.</p>
+  <div class="bandeau"><b>Une piste, pas un verdict.</b> Un questionnaire ne détermine pas un type : il suggère des profils à lire. C'est en lisant les fiches, et surtout les motivations, que l'on se reconnaît… ou pas.</div>
+  <div class="progress"><i id="prog" style="width:0"></i></div>
+  <div class="carte" id="qs">
+    ${ITEMS.map(([t,s],i) => `<div class="q"><p>${i+1}. ${esc(s)}</p><div class="echelle" data-i="${i}">${[1,2,3,4,5].map(v=>`<button data-v="${v}" class="${REP[i]==v?"on":""}">${v}</button>`).join("")}</div><div class="echelle-leg"><span>Pas du tout</span><span>Tout à fait</span></div></div>`).join("")}
+  </div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="voir">Voir mes pistes</button><button class="btn sec" id="raz">Recommencer</button></div>
+  <div id="res"></div>`,
+  apres(){
+    const maj = () => { $("#prog").style.width = (Object.keys(REP).length / ITEMS.length * 100) + "%"; };
+    maj();
+    $("#qs").addEventListener("click", e => { const b = e.target.closest("button[data-v]"); if(!b) return; const g = b.parentElement; REP[g.dataset.i] = +b.dataset.v; g.querySelectorAll("button").forEach(x => x.classList.toggle("on", x===b)); sauverRep(); maj(); });
+    $("#raz").onclick = () => { REP = {}; sauverRep(); rendre(); };
+    $("#voir").onclick = () => {
+      const nb = Object.keys(REP).length;
+      if (nb < 20){ $("#res").innerHTML = `<p class="note" style="margin-top:12px">Répondez à au moins 20 situations (${nb} pour l'instant).</p>`; return; }
+      const sc = {}; for (let n=1;n<=9;n++) sc[n]=[0,0];
+      ITEMS.forEach(([t],i) => { if (REP[i]) { sc[t][0]+=REP[i]; sc[t][1]++; } });
+      const moy = Object.entries(sc).map(([n,[s,c]]) => [+n, c ? s/c : 0]).sort((a,b)=>b[1]-a[1]);
+      const cen = {coeur:0,ventre:0,tete:0}; moy.forEach(([n,v]) => cen[CENTRE_DE[n]] += v);
+      const cmax = Object.entries(cen).sort((a,b)=>b[1]-a[1])[0][0];
+      $("#res").innerHTML = `<div class="carte" style="margin-top:16px"><h3>Vos pistes de lecture</h3><p class="note">Les trois profils qui ressortent le plus. Lisez-les, et surtout leur motivation : c'est elle qui permet de se reconnaître.</p>
+        ${moy.slice(0,3).map(([n]) => `<button class="carte lien c-${CENTRE_DE[n]}" data-go="/type/${n}" style="margin:8px 0">${puce(n)}<span style="flex:1"><b>${esc(nomT(n))}</b><br><small class="note">${esc((T(n)||{}).enUnMot||"")}</small></span><span>›</span></button>`).join("")}
+        <p style="margin-top:12px">Intelligence la plus marquée : <b>${CENTRES[cmax].nom}</b> · ${CENTRES[cmax].mot}.</p>
+        <div style="margin-top:12px">${moy.map(([n,v]) => `<div class="barre-res c-${CENTRE_DE[n]}"><span>${n} · ${esc(nomT(n))}</span><div class="b"><i style="width:${(v-1)/4*100}%"></i></div><span class="note">${v.toFixed(1)}</span></div>`).join("")}</div>
+        <p class="note" style="margin-top:12px">Vos réponses restent sur cet appareil ; elles ne sont envoyées nulle part.</p></div>`;
+      $("#res").scrollIntoView({behavior:"smooth"});
+    };
+  }
+}));
+
+rendre();
+</script>
+</body>
+</html>
